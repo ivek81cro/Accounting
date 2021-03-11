@@ -28,9 +28,9 @@ namespace Accounting.Api.Controllers
 
         // GET api/<CompanyController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public PartnersModel Get(int id)
         {
-            return "value";
+            return _partnersData.GetPartnersById(id);
         }
 
         // POST api/<CompanyController>

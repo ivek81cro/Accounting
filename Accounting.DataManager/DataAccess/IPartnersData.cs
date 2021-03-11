@@ -6,5 +6,6 @@ namespace Accounting.DataManager.DataAccess
     public interface IPartnersData
     {
         List<PartnersModel> GetPartners();
+        PartnersModel GetPartnersById(int id);
     }
 }

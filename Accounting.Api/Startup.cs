@@ -46,6 +46,7 @@ namespace Accounting.Api
 
             services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
             services.AddSingleton<IPartnersData, PartnersData>();
+            services.AddSingleton<ICompanyData, CompanyData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,16 @@
+﻿CREATE TABLE [dbo].[Company](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Oib] [nvarchar](11) NOT NULL,
+	[Naziv] [nvarchar](50) NOT NULL,
+	[Ulica] [nvarchar](50) NULL,
+	[Broj] [nvarchar](50) NULL,
+	[Posta] [nvarchar](5) NULL,
+	[Mjesto] [nvarchar](25) NULL,
+	[Telefon] [nvarchar](15) NULL,
+	[Fax] [nvarchar](15) NULL,
+	[Email] [nvarchar](70) NULL,
+	[Iban] [nvarchar](21) NULL,
+	[VrstaDjelatnosti] [nvarchar](50) NULL,
+	[SifraDjelatnosti] [nvarchar](5) NULL,
+	[NazivDjelatnosti] [nvarchar](70) NULL,
+	[Mbo] [nvarchar](8) NULL)

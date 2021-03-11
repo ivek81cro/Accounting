@@ -6,8 +6,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Accounting.Api\Accounting.Api.csproj" />
-  </ItemGroup>
-
 </Project>

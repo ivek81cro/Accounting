@@ -1,0 +1,15 @@
+﻿CREATE TABLE [dbo].[Partners](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Oib] [nvarchar](11) NOT NULL,
+	[Naziv] [nvarchar](50) NOT NULL,
+	[Ulica] [nvarchar](50) NULL,
+	[Broj] [nvarchar](50) NULL,
+	[Posta] [nvarchar](5) NULL,
+	[Mjesto] [nvarchar](50) NULL,
+	[Telefon] [nvarchar](15) NULL,
+	[Fax] [nvarchar](15) NULL,
+	[Email] [nvarchar](70) NULL,
+	[Iban] [nvarchar](21) NULL,
+	[Mbo] [nvarchar](10) NULL,
+	[KontoK] [nvarchar](50) NULL,
+	[KontoD] [nvarchar](50) NULL)

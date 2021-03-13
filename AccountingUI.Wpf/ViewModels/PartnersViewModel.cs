@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AccountingUI.Wpf.ViewModels
 {
-    public class PartnersViewModel : ViewModelBase
+    public class PartnersViewModel
     {
     }
 }

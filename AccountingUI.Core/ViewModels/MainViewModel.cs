@@ -1,9 +1,8 @@
 ﻿using MvvmCross.ViewModels;
 
-namespace AccountingUI.Wpf.ViewModels
+namespace AccountingUI.Core.ViewModels
 {
     public class MainViewModel : MvxViewModel
     {
-
     }
 }

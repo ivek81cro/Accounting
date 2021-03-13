@@ -13,9 +13,37 @@
             <RowDefinition Height="*"/>            
         </Grid.RowDefinitions>
         
-        <controls:NavigationBar FontSize="14" Grid.Row="0"
-                                DataContext="{Binding Navigator}"/>
+        <!--Navigation Bar-->
+        <Menu Grid.Row="0" FontSize="14">
+            <MenuItem Header="Postavke" Margin="5">
+                <MenuItem Header="Komitent"/>
+                <MenuItem Header="Partneri"/>
+                <MenuItem Header="Zaposlenici"/>
+                <MenuItem Header="Porezne stope"/>
+                <MenuItem Header="Gradovi"/>
+            </MenuItem>
+            <MenuItem Header="Knjige" Margin="5">
+                <MenuItem Header="URA">
+                    <MenuItem Header="Primke robe"/>
+                    <MenuItem Header="Primke repro materijala"/>
+                    <MenuItem Header="Ostali ulazni računi"/>
+                </MenuItem>
+                <MenuItem Header="IRA">
+                    <MenuItem Header="Izlazni račun"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Plaće" Margin="5">
+                <MenuItem Header="Pregled"/>
+                <MenuItem Header="Obračun"/>
+            </MenuItem>
+            <MenuItem Header="Izvodi" Margin="5">
 
-        <ContentControl Content="{Binding Navigator.CurrentViewModel}" Grid.Row="1"/>
+            </MenuItem>
+            <MenuItem Header="Financijsko" Margin="5">
+
+            </MenuItem>
+        </Menu>
+
+        <ContentControl Grid.Row="1"/>
     </Grid>
 </Window>

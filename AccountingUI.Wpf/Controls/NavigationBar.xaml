@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:AccountingUI.Wpf.Controls"
-             xmlns:nav="clr-namespace:AccountingUI.Wpf.States.Navigators"
              mc:Ignorable="d">
 
     <Grid>
@@ -14,47 +13,25 @@
 
         <Menu Grid.Row="0" FontSize="14">
             <MenuItem Header="Postavke" Margin="5">
-                <MenuItem Header="Komitent" 
-                          Command="{Binding UpdateCurrentViewModelCommand}"
-                          CommandParameter="{x:Static nav:ViewType.Company}"/>
-                <MenuItem Header="Partneri"
-                             Command="{Binding UpdateCurrentViewModelCommand}"
-                             CommandParameter="{x:Static nav:ViewType.Partners}"/>
-                <MenuItem Header="Zaposlenici"
-                             Command="{Binding UpdateCurrentViewModelCommand}"
-                             CommandParameter="{x:Static nav:ViewType.Employees}"/>
-                <MenuItem Header="Porezne stope"
-                             Command="{Binding UpdateCurrentViewModelCommand}"
-                             CommandParameter="{x:Static nav:ViewType.TaxRates}"/>
-                <MenuItem Header="Gradovi"
-                             Command="{Binding UpdateCurrentViewModelCommand}"
-                             CommandParameter="{x:Static nav:ViewType.Cities}"/>
+                <MenuItem Header="Komitent"/>
+                <MenuItem Header="Partneri"/>
+                <MenuItem Header="Zaposlenici"/>
+                <MenuItem Header="Porezne stope"/>
+                <MenuItem Header="Gradovi"/>
             </MenuItem>
             <MenuItem Header="Knjige" Margin="5">
                 <MenuItem Header="URA">
-                    <MenuItem Header="Primke robe"
-                             Command="{Binding UpdateCurrentViewModelCommand}"
-                             CommandParameter="{x:Static nav:ViewType.StockInvoice}"/>
-                    <MenuItem Header="Primke repro materijala"
-                             Command="{Binding UpdateCurrentViewModelCommand}"
-                             CommandParameter="{x:Static nav:ViewType.MaterialsInvoice}"/>
-                    <MenuItem Header="Ostali ulazni računi"
-                             Command="{Binding UpdateCurrentViewModelCommand}"
-                             CommandParameter="{x:Static nav:ViewType.UndefinedInvoice}"/>
+                    <MenuItem Header="Primke robe"/>
+                    <MenuItem Header="Primke repro materijala"/>
+                    <MenuItem Header="Ostali ulazni računi"/>
                 </MenuItem>
                 <MenuItem Header="IRA">
-                    <MenuItem Header="Izlazni račun"
-                              Command="{Binding UpdateCurrentViewModelCommand}"
-                              CommandParameter="{x:Static nav:ViewType.SalesInvoice}"/>
+                    <MenuItem Header="Izlazni račun"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Plaće" Margin="5">
-                <MenuItem Header="Pregled"
-                              Command="{Binding UpdateCurrentViewModelCommand}"
-                              CommandParameter="{x:Static nav:ViewType.SalesInvoice}"/>
-                <MenuItem Header="Obračun"
-                              Command="{Binding UpdateCurrentViewModelCommand}"
-                              CommandParameter="{x:Static nav:ViewType.SalesInvoice}"/>
+                <MenuItem Header="Pregled"/>
+                <MenuItem Header="Obračun"/>
             </MenuItem>
             <MenuItem Header="Izvodi" Margin="5">
                 

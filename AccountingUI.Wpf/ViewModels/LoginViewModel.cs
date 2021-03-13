@@ -1,6 +1,6 @@
 ﻿namespace AccountingUI.Wpf.ViewModels
 {
-    public class CompanyViewModel
+    public class LoginViewModel
     {
     }
 }

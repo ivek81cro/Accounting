@@ -2,16 +2,23 @@
 using MvvmCross.ViewModels;
 using AccountingUI.Core.Models;
 using System.Collections.ObjectModel;
+using AccountingUI.Core.Helpers;
+using System;
+using System.Threading.Tasks;
 
 namespace AccountingUI.Core.ViewModels
 {
     class LoginViewModel : MvxViewModel
     {
         public IMvxCommand AddUserCommand { get; set; }
+
         private ObservableCollection<UserModel> _user = new();
 
-        public LoginViewModel()
+        private IApiHelper _apiHelper;
+        public LoginViewModel(IApiHelper apiHelper)
         {
+            _apiHelper = apiHelper;
+
             AddUserCommand = new MvxCommand(AddUser);
         }
 
@@ -59,6 +66,20 @@ namespace AccountingUI.Core.ViewModels
             Password = string.Empty;
 
             User.Add(user);
+
+            _ = LogIn(user);
+        }
+
+        private async Task LogIn(UserModel user)
+        {
+            try
+            {
+                var result = await _apiHelper.Authenticate(user.UserName, user.Password);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

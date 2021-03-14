@@ -1,8 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace MvxStarter.Wpf.Helpers
+namespace MvxStarter.AccountingUI.Wpf.Helpers
 {
+    /// <summary>
+    /// Passwordbox binding helper class
+    /// </summary>
     public class BoundPasswordBox
     {
         private static bool _updating = false;

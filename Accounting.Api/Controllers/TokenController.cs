@@ -1,7 +1,7 @@
-﻿using Accounting.Api.Authentication;
-using Accounting.Api.Data;
+﻿using Accounting.Api.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -18,10 +18,13 @@ namespace Accounting.Api.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public TokenController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        private IConfiguration _config { get; }
+
+        public TokenController(ApplicationDbContext context, UserManager<IdentityUser> userManager, IConfiguration config)
         {
             _context = context;
             _userManager = userManager;
+            _config = config;
         }
 
         [Route("/Token")]
@@ -65,7 +68,7 @@ namespace Accounting.Api.Controllers
             var token = new JwtSecurityToken(
                 new JwtHeader(
                     new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MojTajniKljučJeTajanJakoJakoPuno")),
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetValue<string>("Secret:SecurityKey"))),
                         SecurityAlgorithms.HmacSha256)),
                 new JwtPayload(claims));
 

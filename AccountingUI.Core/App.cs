@@ -1,4 +1,6 @@
-﻿using AccountingUI.Core.ViewModels;
+﻿using AccountingUI.Core.Helpers;
+using AccountingUI.Core.ViewModels;
+using MvvmCross;
 using MvvmCross.ViewModels;
 
 namespace AccountingUI.Core
@@ -7,6 +9,8 @@ namespace AccountingUI.Core
     {
         public override void Initialize()
         {
+            Mvx.IoCProvider.RegisterType<IApiHelper, ApiHelper>();
+
             RegisterAppStart<LoginViewModel>();
         }
     }

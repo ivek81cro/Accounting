@@ -18,7 +18,7 @@ namespace Accounting.DataManager.DataAccess
 
         public CompanyModel GetCompany()
         {
-            var output = _sql.LoadData<CompanyModel, dynamic>("dbo.spCompany_Get", new { }, "DefaultConnection")
+            var output = _sql.LoadData<CompanyModel, dynamic>("dbo.spCompany_Get", new { }, "AccountingConnStr")
                 .FirstOrDefault();
 
             return output;

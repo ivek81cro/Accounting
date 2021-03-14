@@ -1,4 +1,5 @@
-﻿using Accounting.Api.Data;
+﻿using Accounting.Api.Authentication;
+using Accounting.Api.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -37,6 +38,8 @@ namespace Accounting.Api.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("GenerateToken")]
         private async Task<dynamic> GenerateToken(string username)
         {
             var user = await _userManager.FindByEmailAsync(username);
@@ -62,7 +65,7 @@ namespace Accounting.Api.Controllers
             var token = new JwtSecurityToken(
                 new JwtHeader(
                     new SigningCredentials(
-                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MojTajniKljuč")),
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes("MojTajniKljučJeTajanJakoJakoPuno")),
                         SecurityAlgorithms.HmacSha256)),
                 new JwtPayload(claims));
 

@@ -15,7 +15,7 @@ namespace Accounting.DataManager.DataAccess
 
         public PartnersModel GetPartnersById(int id)
         {
-            var output = _sql.LoadData<PartnersModel, dynamic>("dbo.spPartners_GetById", new { Id=id }, "DefaultConnection")
+            var output = _sql.LoadData<PartnersModel, dynamic>("dbo.spPartners_GetById", new { Id=id }, "AccountingConnStr")
                 .FirstOrDefault();
 
             return output;
@@ -23,7 +23,7 @@ namespace Accounting.DataManager.DataAccess
 
         public List<PartnersModel> GetPartners()
         {
-            var output = _sql.LoadData<PartnersModel, dynamic>("dbo.spPartners_GetAll", new { }, "DefaultConnection");
+            var output = _sql.LoadData<PartnersModel, dynamic>("dbo.spPartners_GetAll", new { }, "AccountingConnStr");
 
             return output;
         }

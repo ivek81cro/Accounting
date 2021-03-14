@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace MvxStarter.AccountingUI.Wpf.Helpers
+namespace AccountingUI.Wpf.Helpers
 {
     /// <summary>
     /// Passwordbox binding helper class

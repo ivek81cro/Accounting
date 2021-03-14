@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MvvmCross.Platforms.Wpf" Version="7.1.2" />
+    <PackageReference Include="MvvmCross.Plugin.Visibility" Version="7.1.2" />
   </ItemGroup>
 
   <ItemGroup>

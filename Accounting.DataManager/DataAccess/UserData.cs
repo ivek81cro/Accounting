@@ -1,5 +1,4 @@
-﻿using Accounting.DataManager.DataAccess;
-using Accounting.DataManager.Models;
+﻿using Accounting.DataManager.Models;
 using System.Collections.Generic;
 
 namespace Accounting.DataManager.DataAccess

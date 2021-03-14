@@ -52,6 +52,34 @@ namespace AccountingUI.Core.ViewModels
             }
         }
 
+        public bool IsErrorVisible
+        {
+            get 
+            {
+                bool output = false;
+                if(ErrorMessage?.Length > 0)
+                {
+                    output = true;
+                }
+
+                return output;
+            }
+        }
+
+        private string _errorMessage;
+
+        public string ErrorMessage
+        {
+            get { return _errorMessage; }
+            set 
+            {
+                SetProperty(ref _errorMessage, value);
+                RaisePropertyChanged(() => IsErrorVisible);
+                RaisePropertyChanged(() => ErrorMessage);
+            }
+        }
+
+
         public bool CanAddUser => UserName?.Length > 0 && Password?.Length > 0;
 
         public void AddUser()
@@ -74,11 +102,12 @@ namespace AccountingUI.Core.ViewModels
         {
             try
             {
+                ErrorMessage = "";
                 var result = await _apiHelper.Authenticate(user.UserName, user.Password);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                ErrorMessage = ex.Message;
             }
         }
     }

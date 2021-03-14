@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.31025.194
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountingUI.Wpf", "AccountingUI.Wpf\AccountingUI.Wpf.csproj", "{E0F3576F-0FB3-41BC-95AC-FD3671A285D8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B8BD1143-E358-408D-8F0E-DF1CB5618410} = {B8BD1143-E358-408D-8F0E-DF1CB5618410}
+		{3BF214EC-65C7-440A-82A8-CD07BF5CFF2F} = {3BF214EC-65C7-440A-82A8-CD07BF5CFF2F}
+	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Accounting.Data", "Accounting.Data\Accounting.Data.sqlproj", "{C1956CA6-2A53-44A6-8C57-259FED23E241}"
 EndProject
@@ -17,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{0E92B5F6-312
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountingUI.Core", "AccountingUI.Core\AccountingUI.Core.csproj", "{F14FF839-8E89-4599-8176-4F072895F70E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Accounting.Api", "Accounting.Api\Accounting.Api.csproj", "{B8BD1143-E358-408D-8F0E-DF1CB5618410}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accounting.Api", "Accounting.Api\Accounting.Api.csproj", "{B8BD1143-E358-408D-8F0E-DF1CB5618410}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

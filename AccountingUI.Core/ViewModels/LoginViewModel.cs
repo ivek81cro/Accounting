@@ -104,6 +104,9 @@ namespace AccountingUI.Core.ViewModels
             {
                 ErrorMessage = "";
                 var result = await _apiHelper.Authenticate(user.UserName, user.Password);
+
+                //capture user info
+                await _apiHelper.GetLoggedInUserInfo(result.Access_Token);
             }
             catch (Exception ex)
             {

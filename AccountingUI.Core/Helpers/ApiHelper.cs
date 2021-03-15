@@ -11,10 +11,12 @@ namespace AccountingUI.Core.Helpers
     public class ApiHelper : IApiHelper
     {
         private HttpClient _apiClient { get; set; }
+        private ILoggedInUserModel _loggedInUserModel;
 
-        public ApiHelper()
+        public ApiHelper(ILoggedInUserModel loggedInUserModel)
         {
             InitializeClient();
+            _loggedInUserModel = loggedInUserModel;
         }
 
         private void InitializeClient()
@@ -45,6 +47,33 @@ namespace AccountingUI.Core.Helpers
                 {
                     var result = await response.Content.ReadAsAsync<AuthenticatedUser>();
                     return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task GetLoggedInUserInfo(string token)
+        {
+            _apiClient.DefaultRequestHeaders.Clear();
+            _apiClient.DefaultRequestHeaders.Accept.Clear();
+            _apiClient.DefaultRequestHeaders.Accept
+                .Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            _apiClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+
+            using (HttpResponseMessage response = await _apiClient.GetAsync("/api/User"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<LoggedInUserModel>();
+                    _loggedInUserModel.CreatedDate = result.CreatedDate;
+                    _loggedInUserModel.EmailAddress = result.EmailAddress;
+                    _loggedInUserModel.FirstName = result.FirstName;
+                    _loggedInUserModel.Id = result.Id;
+                    _loggedInUserModel.LastName = result.LastName;
+                    _loggedInUserModel.Token = token;
                 }
                 else
                 {

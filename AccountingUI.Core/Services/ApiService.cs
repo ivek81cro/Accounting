@@ -1,19 +1,18 @@
 ﻿using AccountingUI.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace AccountingUI.Core.Helpers
+namespace AccountingUI.Core.Service
 {
-    public class ApiHelper : IApiHelper
+    public class ApiService : IApiService
     {
         private HttpClient _apiClient { get; set; }
         private ILoggedInUserModel _loggedInUserModel;
 
-        public ApiHelper(ILoggedInUserModel loggedInUserModel)
+        public ApiService(ILoggedInUserModel loggedInUserModel)
         {
             InitializeClient();
             _loggedInUserModel = loggedInUserModel;

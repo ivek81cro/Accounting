@@ -1,11 +1,11 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
+﻿using System.Windows.Controls;
 
-namespace AccountingUI.Wpf.Views
+namespace PartnersModule.Views
 {
     /// <summary>
     /// Interaction logic for PartnersView.xaml
     /// </summary>
-    public partial class PartnersView : MvxWpfView
+    public partial class PartnersView : UserControl
     {
         public PartnersView()
         {

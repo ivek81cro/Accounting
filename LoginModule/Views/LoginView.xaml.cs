@@ -1,11 +1,11 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
+﻿using System.Windows.Controls;
 
-namespace AccountingUI.Wpf.Views
+namespace LoginModule.Views
 {
     /// <summary>
     /// Interaction logic for LoginView.xaml
     /// </summary>
-    public partial class LoginView : MvxWpfView
+    public partial class LoginView : UserControl
     {
         public LoginView()
         {

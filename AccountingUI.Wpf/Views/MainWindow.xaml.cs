@@ -1,11 +1,11 @@
-﻿using MvvmCross.Platforms.Wpf.Views;
+﻿using System.Windows;
 
-namespace AccountingUI.Wpf
+namespace AccountingUI.Wpf.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : MvxWindow
+    public partial class MainWindow : Window
     {
         public MainWindow()
         {

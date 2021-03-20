@@ -31,7 +31,7 @@ namespace Accounting.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(string username, string password, string grant_type)
         {
-            if(await ISValidUsernameAndPassword(username, password))
+            if(await IsValidUsernameAndPassword(username, password))
             {
                 return new ObjectResult(await GenerateToken(username));
             }
@@ -81,7 +81,7 @@ namespace Accounting.Api.Controllers
             return output;
         }
 
-        private async Task<bool> ISValidUsernameAndPassword(string username, string password)
+        private async Task<bool> IsValidUsernameAndPassword(string username, string password)
         {
             var user = await _userManager.FindByEmailAsync(username);
             

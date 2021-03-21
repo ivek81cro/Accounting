@@ -8,6 +8,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>        
         <TextBlock Text="{Binding TodayDate}" HorizontalAlignment="Center" 
-                   VerticalAlignment="Center" FontSize="24"/>
+                   VerticalAlignment="Bottom" FontSize="48"
+                   FontFamily="Verdana"/>
     </Grid>
 </UserControl>

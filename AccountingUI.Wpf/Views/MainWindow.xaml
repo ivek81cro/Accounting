@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:AccountingUI.Wpf.Views"
         xmlns:prism="http://prismlibrary.com/"
         mc:Ignorable="d"
-        Title="Knjigovodstvo" Height="450" Width="800">
+        Title="Knjigovodstvo" Height="650" Width="1050" 
+        WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisConv"/>
     </Window.Resources>

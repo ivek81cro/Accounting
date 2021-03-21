@@ -1,7 +1,8 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
-using AccountingUI.Core.ViewModels;
+using AccountingUI.Core.Services;
 using AccountingUI.Wpf.Views;
+using AutoMapper;
 using LoginModule;
 using PartnersModule;
 using Prism.DryIoc;
@@ -23,8 +24,10 @@ namespace AccountingUI.WPF
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IApiService, ApiService>();
             containerRegistry.RegisterSingleton<ILoggedInUserModel, LoggedInUserModel>();
+
+            containerRegistry.RegisterScoped<IApiService, ApiService>();
+            containerRegistry.RegisterScoped<IPartnersEndpoint, PartnersEndpoint>();
 
             containerRegistry.RegisterForNavigation<StartView>();
         }
@@ -34,5 +37,12 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleLogin>();
             moduleCatalog.AddModule<ModulePartners>();
         }
+
+        //private IMapper ConfigureAutoMapper()
+        //{
+        //    var config = new MapperConfiguration(cfg =>
+        //    {
+        //    });
+        //}
     }
 }

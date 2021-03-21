@@ -1,5 +1,7 @@
-﻿using AccountingUI.Core.Models;
+﻿using AccountingUI.Core.Events;
+using AccountingUI.Core.Models;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 
@@ -9,18 +11,27 @@ namespace AccountingUI.Wpf.ViewModels
     {
         private readonly IRegionManager _regionManager;
         private readonly ILoggedInUserModel _loggedInUser;
-        public MainWindowViewModel(ILoggedInUserModel loggedInUser, IRegionManager regionManager)
+        private readonly IEventAggregator _eventAggregator;
+        public MainWindowViewModel(ILoggedInUserModel loggedInUser, IRegionManager regionManager, 
+            IEventAggregator eventAggregator)
         {
             _loggedInUser = loggedInUser;
             _regionManager = regionManager;
+            _eventAggregator = eventAggregator;
 
             ShowPartnersCommand = new DelegateCommand<string>(Navigate);
+            _eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(EventIsUserLoggedIn);
         }
 
         public DelegateCommand<string> ShowPartnersCommand { get; set; }
         private void Navigate(string param)
         {
             _regionManager.RequestNavigate("ContentRegion", param);
+        }
+
+        private void EventIsUserLoggedIn(bool value)
+        {
+            IsUserLoggedIn = value;
         }
 
         private bool _isUserLoggedIn = false;
@@ -30,8 +41,10 @@ namespace AccountingUI.Wpf.ViewModels
             set 
             { 
                 SetProperty(ref _isUserLoggedIn, value);
-                RaisePropertyChanged(nameof(IsUserLoggedIn));//TODO reise event from other view
+                RaisePropertyChanged(nameof(IsUserLoggedIn));
             }
         }
+
+
     }
 }

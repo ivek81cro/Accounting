@@ -37,6 +37,7 @@ namespace LoginModule.ViewModels
             set
             {
                 SetProperty(ref _userName, value);
+                RaisePropertyChanged(nameof(CanAddUser));
             }
         }
 
@@ -47,6 +48,7 @@ namespace LoginModule.ViewModels
             set
             {
                 SetProperty(ref _password, value);
+                RaisePropertyChanged(nameof(CanAddUser));
             }
         }
 
@@ -114,7 +116,7 @@ namespace LoginModule.ViewModels
             }
             catch (Exception ex)
             {
-                ErrorMessage = ex.Message;
+                ErrorMessage = "Prijava neuspješna.\n" + ex.Message;
             }
         }
     }

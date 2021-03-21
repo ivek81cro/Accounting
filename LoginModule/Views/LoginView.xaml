@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:prism="http://prismlibrary.com/"
+             xmlns:prism="http://prismlibrary.com/" 
+             xmlns:comp="clr-namespace:LoginModule.Components"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -37,12 +38,13 @@
         <TextBlock Grid.Row="2" Grid.Column="1" Margin="0 0 10 10" Text="Username:"/>
         <TextBox Text="{Binding UserName, Mode=TwoWay, 
                  UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.Column="2" 
-                 MinWidth="250" Margin="0 0 0 10"  />
+                 MinWidth="250" Margin="0 0 0 10"/>
 
         <!--Password row-->
         <TextBlock Grid.Row="3" Grid.Column="1" Margin="0 0 10 10" Text="Password:"/>
-        <PasswordBox x:Name="Password" Grid.Row="3" Grid.Column="2" 
-                 MinWidth="250" Margin="0 0 0 10"/>
+        <comp:PBoxBindable Password="{Binding Password, 
+            UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Grid.Row="3" Grid.Column="2"
+                          MinWidth="250" Margin="0 0 0 10" />
 
         <!--Login row-->
         <Button Command="{Binding LoginUser}" IsEnabled="{Binding CanAddUser}"

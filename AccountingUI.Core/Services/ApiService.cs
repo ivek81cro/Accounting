@@ -1,4 +1,6 @@
-﻿using AccountingUI.Core.Models;
+﻿using AccountingUI.Core.Events;
+using AccountingUI.Core.Models;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -9,13 +11,23 @@ namespace AccountingUI.Core.Service
 {
     public class ApiService : IApiService
     {
-        private HttpClient _apiClient { get; set; }
+        private HttpClient _apiClient;
         private ILoggedInUserModel _loggedInUserModel;
+        private IEventAggregator _eventAggregator;
 
-        public ApiService(ILoggedInUserModel loggedInUserModel)
+        public ApiService(ILoggedInUserModel loggedInUserModel, IEventAggregator eventAggregator)
         {
             InitializeClient();
             _loggedInUserModel = loggedInUserModel;
+            _eventAggregator = eventAggregator;
+        }
+
+        public HttpClient ApiClient
+        {
+            get
+            {
+                return _apiClient;
+            }
         }
 
         private void InitializeClient()
@@ -73,12 +85,24 @@ namespace AccountingUI.Core.Service
                     _loggedInUserModel.Id = result.Id;
                     _loggedInUserModel.LastName = result.LastName;
                     _loggedInUserModel.Token = token;
+
+                    SendUserStatusMessage();
                 }
                 else
                 {
                     throw new Exception(response.ReasonPhrase);
                 }
             }
+        }
+
+        private void SendUserStatusMessage()
+        {
+            bool message = false;
+            if(_loggedInUserModel.Id != null)
+            {
+                message = true;
+            }
+            _eventAggregator.GetEvent<UserLoggedInEvent>().Publish(message);
         }
     }
 }

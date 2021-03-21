@@ -4,7 +4,7 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT Id, Naziv, Ulica, Broj, Mjesto, Telefon, Fax, Email, Iban, Mbo, KontoK, KontoD
+	SELECT Id, Oib, Naziv, Ulica, Broj, Posta, Mjesto, Telefon, Fax, Email, Iban, Mbo, KontoK, KontoD
 	FROM Partners
 	WHERE Id=@Id;
 END

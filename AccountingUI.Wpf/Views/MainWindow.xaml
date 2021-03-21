@@ -21,7 +21,7 @@
         <Menu Grid.Row="0" FontSize="14" Visibility="{Binding IsUserLoggedIn, Converter={StaticResource boolToVisConv}}">
             <MenuItem Header="Postavke" Margin="5">
                 <MenuItem Header="Komitent"/>
-                <MenuItem Header="Partneri" Command="{Binding ShowPartnersCommand}"
+                <MenuItem Header="Partneri" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="PartnersView"/>
                 <MenuItem Header="Zaposlenici"/>
                 <MenuItem Header="Porezne stope"/>

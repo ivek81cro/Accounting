@@ -7,7 +7,7 @@ using Prism.Regions;
 
 namespace AccountingUI.Wpf.ViewModels
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : BindableBase, INavigationAware
     {
         private readonly IRegionManager _regionManager;
         private readonly ILoggedInUserModel _loggedInUser;
@@ -19,11 +19,11 @@ namespace AccountingUI.Wpf.ViewModels
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
 
-            ShowPartnersCommand = new DelegateCommand<string>(Navigate);
+            ShowMenuSelectedViewCommand = new DelegateCommand<string>(Navigate);
             _eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(EventIsUserLoggedIn);
         }
 
-        public DelegateCommand<string> ShowPartnersCommand { get; set; }
+        public DelegateCommand<string> ShowMenuSelectedViewCommand { get; set; }
         private void Navigate(string param)
         {
             _regionManager.RequestNavigate("ContentRegion", param);
@@ -32,6 +32,21 @@ namespace AccountingUI.Wpf.ViewModels
         private void EventIsUserLoggedIn(bool value)
         {
             IsUserLoggedIn = value;
+        }
+
+        public void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool IsNavigationTarget(NavigationContext navigationContext)
+        {
+            return true;
+        }
+
+        public void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            throw new System.NotImplementedException();
         }
 
         private bool _isUserLoggedIn = false;

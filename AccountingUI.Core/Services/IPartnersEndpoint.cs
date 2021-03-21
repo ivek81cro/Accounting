@@ -7,5 +7,6 @@ namespace AccountingUI.Core.Services
     public interface IPartnersEndpoint
     {
         Task<List<PartnersModel>> GetAll();
+        Task<PartnersModel> GetById(int id);
     }
 }

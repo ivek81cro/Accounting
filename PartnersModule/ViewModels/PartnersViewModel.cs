@@ -1,5 +1,4 @@
 ﻿using AccountingUI.Core.Models;
-using AccountingUI.Core.Service;
 using AccountingUI.Core.Services;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -12,23 +11,16 @@ namespace PartnersModule.ViewModels
     public class PartnersViewModel : BindableBase, INavigationAware
     {
         public DelegateCommand<PartnersModel> PartnerSelectedCommand { get; private set; }
-        public DelegateCommand<object> CloseTabCommand { get; set; }
 
-        private IApiService _apiService;
-        private ILoggedInUserModel _loggedInUserModel;
         private IPartnersEndpoint _partnersEndpoint;
         private IRegionManager _regionManager;
 
-        public PartnersViewModel(IApiService apiService, ILoggedInUserModel loggedInUserModel,
-            IPartnersEndpoint partnersEndpoint, IRegionManager regionManager)
+        public PartnersViewModel(IPartnersEndpoint partnersEndpoint, IRegionManager regionManager)
         {
-            _apiService = apiService;
-            _loggedInUserModel = loggedInUserModel;
             _partnersEndpoint = partnersEndpoint;
             _regionManager = regionManager;
 
             PartnerSelectedCommand = new DelegateCommand<PartnersModel>(PartnerSelected);
-            CloseTabCommand = new DelegateCommand<object>(OnExecuteCloseCommand);
         }
 
         private ObservableCollection<PartnersModel> _partners = new();
@@ -72,11 +64,6 @@ namespace PartnersModule.ViewModels
             {
                 _regionManager.RequestNavigate("PartnerDetailsRegion", "PartnerDetails", param);
             }
-        }
-        //TODO: resolve closing dynymically created tabitem's
-        private void OnExecuteCloseCommand(object tabItem)
-        {
-        //    _regionManager.Regions["PartnerDetailsRegion"].Remove(tabItem);
         }
     }
 }

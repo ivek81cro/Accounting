@@ -37,12 +37,5 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleLogin>();
             moduleCatalog.AddModule<ModulePartners>();
         }
-
-        //private IMapper ConfigureAutoMapper()
-        //{
-        //    var config = new MapperConfiguration(cfg =>
-        //    {
-        //    });
-        //}
     }
 }

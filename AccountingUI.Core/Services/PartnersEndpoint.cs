@@ -31,5 +31,21 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<PartnersModel> GetById(int id)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Partners/{id}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<PartnersModel>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

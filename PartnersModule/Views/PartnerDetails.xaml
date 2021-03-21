@@ -6,9 +6,12 @@
              xmlns:local="clr-namespace:PartnersModule.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             FontSize="16">
+             FontSize="14">
     <Grid x:Name="LayoutRoot">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
@@ -19,24 +22,37 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Naziv:" Margin="5" Grid.Column="0" Grid.Row="0"/>
         <TextBlock Text="{Binding SelectedPartner.Naziv}" Margin="5"
-                   Grid.Row="0" Grid.Column="1"/>
+                   Grid.Row="0" Grid.Column="1" MinWidth="200"/>
         <TextBlock Text="Oib:" Margin="5" Grid.Column="0" Grid.Row="1"/>
         <TextBlock Text="{Binding SelectedPartner.Oib}" Margin="5"
                    Grid.Row="1" Grid.Column="1"/>
         <TextBlock Text="Ulica:" Margin="5" Grid.Column="0" Grid.Row="2"/>
         <TextBlock Text="{Binding SelectedPartner.Ulica}" Margin="5"
                    Grid.Row="2" Grid.Column="1"/>
-        <TextBlock Text="Mjesto:" Margin="5" Grid.Column="0" Grid.Row="3"/>
-        <TextBlock Text="{Binding SelectedPartner.Mjesto}" Margin="5"
+        <TextBlock Text="Kućni broj:" Margin="5" Grid.Column="0" Grid.Row="3"/>
+        <TextBlock Text="{Binding SelectedPartner.Broj}" Margin="5"
                    Grid.Row="3" Grid.Column="1"/>
-        <Button Content="X" Cursor="Hand" DockPanel.Dock="Right"
-            Focusable="False" FontFamily="Courier" FontWeight="Bold"
-            Margin="4,0,0,0" FontSize="10" VerticalContentAlignment="Center"
-            Width="15" Height="15" Grid.Column="2" Grid.Row="0"/>
+        
+        <TextBlock Text="Mjesto:" Margin="5" Grid.Column="2" Grid.Row="0"/>
+        <TextBlock Text="{Binding SelectedPartner.Mjesto}" Margin="5"
+                   Grid.Row="0" Grid.Column="3" MinWidth="200"/>
+        <TextBlock Text="Telefon:" Margin="5" Grid.Column="2" Grid.Row="1"/>
+        <TextBlock Text="{Binding SelectedPartner.Telefon}" Margin="5"
+                   Grid.Row="1" Grid.Column="3"/>
+        <TextBlock Text="Email:" Margin="5" Grid.Column="2" Grid.Row="2"/>
+        <TextBlock Text="{Binding SelectedPartner.Email}" Margin="5"
+                   Grid.Row="2" Grid.Column="3"/>
+        <TextBlock Text="IBAN:" Margin="5" Grid.Column="2" Grid.Row="3"/>
+        <TextBlock Text="{Binding SelectedPartner.Iban}" Margin="5"
+                   Grid.Row="3" Grid.Column="3"/>
+        
+        <Button Content="Izmjeni podatke" Command="{Binding ShowDialogCommand}"
+                Grid.Row="4" Margin="5"/>
     </Grid>
 </UserControl>

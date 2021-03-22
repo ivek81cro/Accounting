@@ -35,8 +35,16 @@ namespace Accounting.Api.Controllers
 
         // POST api/<CompanyController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] PartnersModel partner)
         {
+            if (partner.Id == 0)
+            {
+                _partnersData.SavePartnerToDatabase(partner);
+            }
+            else
+            {
+                _partnersData.UpdatePartner(partner);
+            }
         }
 
         // PUT api/<CompanyController>/5

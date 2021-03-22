@@ -36,7 +36,28 @@ namespace AccountingUI.Core.Events
 
             if (region.Views.Contains(tabItem.Content))
             {
+                var navigationContext = new NavigationContext(region.NavigationService, null);
+                InvokeOnNavigatedFrom(tabItem.Content, navigationContext);
                 region.Remove(tabItem.Content);
+            }
+        }
+
+        private void InvokeOnNavigatedFrom(object item, NavigationContext navigationContext)
+        {
+            var navigationAwareItem = item as INavigationAware;
+            if(navigationAwareItem != null)
+            {
+                navigationAwareItem.OnNavigatedFrom(navigationContext);
+            }
+
+            var frameworkElement = item as FrameworkElement;
+            if(frameworkElement != null)
+            {
+                INavigationAware navigationAwareDataContext = frameworkElement.DataContext as INavigationAware;
+                if(navigationAwareDataContext != null)
+                {
+                    navigationAwareDataContext.OnNavigatedFrom(navigationContext);
+                }
             }
         }
 

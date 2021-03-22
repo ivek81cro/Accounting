@@ -8,6 +8,7 @@ using PartnersModule;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Regions;
 using System.Windows;
 
 namespace AccountingUI.WPF

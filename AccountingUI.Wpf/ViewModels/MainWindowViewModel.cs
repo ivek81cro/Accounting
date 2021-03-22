@@ -26,7 +26,9 @@ namespace AccountingUI.Wpf.ViewModels
         public DelegateCommand<string> ShowMenuSelectedViewCommand { get; set; }
         private void Navigate(string param)
         {
-            _regionManager.RequestNavigate("ContentRegion", param);
+            var p = new NavigationParameters();
+            p.Add("identifier", param);
+            _regionManager.RequestNavigate("ContentRegion", param, p);
         }
 
         private void EventIsUserLoggedIn(bool value)

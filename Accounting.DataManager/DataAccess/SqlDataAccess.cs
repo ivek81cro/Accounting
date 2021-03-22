@@ -34,6 +34,14 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
+        public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
+        {
+            List<T> rows = _connection.Query<T>(storedProcedure, parameters,
+                commandType:CommandType.StoredProcedure, transaction: _transaction).ToList();
+
+            return rows;
+        }
+
         private IDbConnection _connection;
         private IDbTransaction _transaction;
         private bool isClosed = false;
@@ -45,7 +53,11 @@ namespace Accounting.DataManager.DataAccess
 
         public void SaveData<T>(string storedProcedure, T parameters, string conectionStringName)
         {
-            throw new NotImplementedException();
+            string connString = GetConnectionString(conectionStringName);
+            using (IDbConnection conn = new SqlConnection(connString))
+            {
+                conn.Execute(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
+            }
         }
 
         public void SaveDataInTransaction<T>(string storedProcedure, T parameters)
@@ -98,11 +110,6 @@ namespace Accounting.DataManager.DataAccess
 
             _transaction = null;
             _connection = null;
-        }
-
-        public List<T> LoadDataInTransaction<T, U>(string storedProcedure, U parameters)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -47,5 +47,20 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task PostPartner(PartnersModel partner)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/Partners", partner))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

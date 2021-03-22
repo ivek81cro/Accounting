@@ -1,11 +1,9 @@
 ﻿using AccountingUI.Core.Models;
-using AccountingUI.Core.Services;
 using PartnersModule.Dialogs;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using System;
 
 namespace PartnersModule.ViewModels
 {

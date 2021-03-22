@@ -15,17 +15,65 @@ namespace Accounting.DataManager.DataAccess
 
         public PartnersModel GetPartnersById(int id)
         {
-            var output = _sql.LoadData<PartnersModel, dynamic>("dbo.spPartners_GetById", new { Id=id }, "AccountingConnStr")
-                .FirstOrDefault();
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+                var output = _sql.LoadDataInTransaction<PartnersModel, dynamic>("dbo.spPartners_GetById", new { Id = id })
+                        .FirstOrDefault();
 
-            return output;
+                return output;
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
         }
 
         public List<PartnersModel> GetPartners()
         {
-            var output = _sql.LoadData<PartnersModel, dynamic>("dbo.spPartners_GetAll", new { }, "AccountingConnStr");
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+                var output = _sql.LoadDataInTransaction<PartnersModel, dynamic>("dbo.spPartners_GetAll", new { });
 
-            return output;
+                return output;
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
+        public void SavePartnerToDatabase(PartnersModel partner)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spPartners_AddNew", partner);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
+        public void UpdatePartner(PartnersModel partner)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spPartners_Update", partner);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
         }
     }
 }

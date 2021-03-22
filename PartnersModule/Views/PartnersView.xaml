@@ -7,33 +7,7 @@
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
-    <UserControl.Resources>
-        <Style TargetType="TabItem">
-            <Setter Property="Header" Value="{Binding DataContext.SelectedPartner.Naziv}"/>
-            <Setter Property="HeaderTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <ContentControl VerticalAlignment="Top" HorizontalAlignment="Center"
-                                            Margin="0 0 7 0" Content="{Binding}"/>
-                            <Button Grid.Column="1" Content="X" BorderThickness="0" Background="Transparent"
-                                    Foreground="Red">
-                                <i:Interaction.Triggers>
-                                    <i:EventTrigger EventName="Click">
-                                        <local:CloseTabAction/>
-                                    </i:EventTrigger>
-                                </i:Interaction.Triggers>
-                            </Button>
-                        </Grid>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
+    
 
     <Grid>
         <Grid.RowDefinitions>
@@ -41,20 +15,22 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
         <!--Custom Menu-->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="10 0 0 0">
-            <Button Height="50" Width="50" Command="{Binding NewPartnerCommand}">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0" Background="White">
+            <Button Height="50" Width="50" Margin="10 5 0 5" Command="{Binding NewPartnerCommand}">
                 <StackPanel>
                     <Image Source="images\folder.png" Height="30"/>
                     <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
+            <Button Height="50" Width="50" Command="{Binding EditPartnerCommand}">
+                <StackPanel>
+                    <Image Source="images\edit.png" Height="30"/>
+                    <TextBlock Text="Uredi"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
-        
-
-        <TabControl Grid.Row="1" Margin="10" prism:RegionManager.RegionName="PartnerDetailsRegion"
-                    MinHeight="200">            
-        </TabControl>
 
         <DataGrid ItemsSource="{Binding Partners}" x:Name="_listOfPartners" Grid.Row="2"
                   IsReadOnly="True" CanUserAddRows="False">

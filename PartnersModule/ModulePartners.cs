@@ -1,8 +1,8 @@
-﻿using PartnersModule.Dialogs;
+﻿using AccountingUI.Core.Services;
+using PartnersModule.Dialogs;
 using PartnersModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Regions;
 
 namespace PartnersModule
 {
@@ -10,14 +10,16 @@ namespace PartnersModule
     {
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            var regionManager = containerProvider.Resolve<IRegionManager>();
-            regionManager.RegisterViewWithRegion("ContentRegion", typeof(PartnersView));
+
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterForNavigation<PartnerDetails>();
+            containerRegistry.RegisterForNavigation<PartnersView>();
+
             containerRegistry.RegisterDialog<PartnerEdit, PartnerEditViewModel>();
+
+            containerRegistry.RegisterScoped<IPartnersEndpoint, PartnersEndpoint>();
         }
     }
 }

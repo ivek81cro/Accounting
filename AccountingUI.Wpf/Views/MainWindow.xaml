@@ -5,13 +5,41 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AccountingUI.Wpf.Views"
+        xmlns:events="clr-namespace:AccountingUI.Core.Events;assembly=AccountingUI.Core"
         xmlns:prism="http://prismlibrary.com/"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="Knjigovodstvo" Height="650" Width="1050" 
         WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisConv"/>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <ContentControl VerticalAlignment="Top" HorizontalAlignment="Center"
+                                            Margin="0 0 7 0" Content="{Binding}"/>
+                            <Button Grid.Column="1" Content="X" BorderThickness="0" Background="Transparent"
+                                    Foreground="Red">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <events:CloseTabAction />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -47,6 +75,14 @@
             <MenuItem Header="Financijsko" Margin="5">
             </MenuItem>
         </Menu>
-        <ContentControl prism:RegionManager.RegionName="ContentRegion" Grid.Row="1"/>
+
+        <TabControl Grid.Row="1" Margin="10" prism:RegionManager.RegionName="ContentRegion"
+                    MinHeight="200" BorderThickness="0">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Loaded" >
+                    <prism:InvokeCommandAction Command="{Binding TabControlLoadedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </TabControl>
     </Grid>
 </Window>

@@ -3,11 +3,12 @@ using AccountingUI.Core.Service;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 using System;
 
 namespace LoginModule.ViewModels 
 { 
-    public class LoginViewModel : BindableBase
+    public class LoginViewModel : BindableBase, IDialogAware
     {
         private IApiService _apiService;
         private ILoggedInUserModel _loggedInUserModel;
@@ -68,6 +69,8 @@ namespace LoginModule.ViewModels
 
         private string _errorMessage;
 
+        public event Action<IDialogResult> RequestClose;
+
         public string ErrorMessage
         {
             get { return _errorMessage; }
@@ -79,6 +82,8 @@ namespace LoginModule.ViewModels
 
 
         public bool CanAddUser => UserName?.Length > 0 && Password?.Length > 0;
+
+        public string Title => "Prijava Korisnika";
 
         public void AddUser()
         {
@@ -107,7 +112,7 @@ namespace LoginModule.ViewModels
 
                 if (_loggedInUserModel.Id != null)
                 {
-                    _regionManager.RequestNavigate("ContentRegion", "StartView");
+                    RaiseRequestClose(new DialogResult());
                 }
                 else
                 {
@@ -118,6 +123,25 @@ namespace LoginModule.ViewModels
             {
                 ErrorMessage = "Prijava neuspješna.\n" + ex.Message;
             }
+        }
+        public virtual void RaiseRequestClose(IDialogResult dialogResult)
+        {
+            RequestClose?.Invoke(dialogResult);
+        }
+
+        public bool CanCloseDialog()
+        {
+            return true;
+        }
+
+        public void OnDialogClosed()
+        {
+
+        }
+
+        public void OnDialogOpened(IDialogParameters parameters)
+        {
+
         }
     }
 }

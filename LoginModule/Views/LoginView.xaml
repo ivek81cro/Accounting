@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:prism="http://prismlibrary.com/" 
              xmlns:comp="clr-namespace:LoginModule.Components"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Width="450" Height="250">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

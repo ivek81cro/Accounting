@@ -5,7 +5,6 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -13,8 +12,6 @@ namespace PartnersModule.ViewModels
 {
     public class PartnersViewModel : BindableBase, INavigationAware
     {
-        public DelegateCommand<PartnersModel> PartnerSelectedCommand { get; private set; }
-        public DelegateCommand NewPartnerCommand { get; private set; }
 
         private IPartnersEndpoint _partnersEndpoint;
         private IRegionManager _regionManager;
@@ -26,16 +23,20 @@ namespace PartnersModule.ViewModels
             _partnersEndpoint = partnersEndpoint;
             _regionManager = regionManager;
             _showDialog = showDialog;
-
+            
             PartnerSelectedCommand = new DelegateCommand<PartnersModel>(PartnerSelected);
-            NewPartnerCommand = new DelegateCommand(SavePartner);
+            NewPartnerCommand = new DelegateCommand(AddPartner);
+            EditPartnerCommand = new DelegateCommand(EditPartner);
         }
+        public DelegateCommand<PartnersModel> PartnerSelectedCommand { get; private set; }
+        public DelegateCommand NewPartnerCommand { get; private set; }
+        public DelegateCommand EditPartnerCommand { get; private set; }
 
-        private string _isActive;
-        public string IsActive
+        private string _title = "Partneri";
+        public string Title
         {
-            get { return _isActive; }
-            set { SetProperty(ref _isActive, value); }
+            get { return _title = "Partneri"; }
+            set { SetProperty(ref _title, value); }
         }
 
         private ObservableCollection<PartnersModel> _partners = new();
@@ -47,6 +48,12 @@ namespace PartnersModule.ViewModels
                 SetProperty(ref _partners, value);
                 RaisePropertyChanged(nameof(Partners));
             }
+        }
+
+        private PartnersModel _partner = new();
+        private void PartnerSelected(PartnersModel partner)
+        {
+            _partner = partner;
         }
 
         private async Task LoadPartners()
@@ -70,22 +77,24 @@ namespace PartnersModule.ViewModels
 
         }
 
-        private void PartnerSelected(PartnersModel partner)
+        private void AddPartner()
         {
-            var param = new NavigationParameters();
-            param.Add("partner", partner);
+            _partner = new PartnersModel();
+            SavePartnerToDatabase();
+        }
 
-            if(partner != null)
+        private void EditPartner()
+        {
+            if (_partner.Id != 0)
             {
-                _regionManager.RequestNavigate("PartnerDetailsRegion", "PartnerDetails", param);
+                SavePartnerToDatabase(); 
             }
         }
 
-        private void SavePartner()
+        private void SavePartnerToDatabase()
         {
-            PartnersModel partner = new PartnersModel();
             var parameters = new DialogParameters();
-            parameters.Add("partner", partner);
+            parameters.Add("partner", _partner);
             _showDialog.ShowDialog(nameof(PartnerEdit), parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)

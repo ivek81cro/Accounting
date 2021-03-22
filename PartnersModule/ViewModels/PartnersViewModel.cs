@@ -5,7 +5,9 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using System.Collections.Generic;
+using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace PartnersModule.ViewModels
 {
@@ -36,8 +38,8 @@ namespace PartnersModule.ViewModels
             set { SetProperty(ref _isActive, value); }
         }
 
-        private List<PartnersModel> _partners = new();
-        public List<PartnersModel> Partners
+        private ObservableCollection<PartnersModel> _partners = new();
+        public ObservableCollection<PartnersModel> Partners
         {
             get { return _partners; }
             set 
@@ -47,17 +49,15 @@ namespace PartnersModule.ViewModels
             }
         }
 
-        public bool CreateRegionManagerScope => true;
-
-        private async void LoadPartners()
+        private async Task LoadPartners()
         {
             var partnersList = await _partnersEndpoint.GetAll();
-            Partners = partnersList;
+            Partners = new ObservableCollection<PartnersModel>(partnersList);
         }
 
-        public  void OnNavigatedTo(NavigationContext navigationContext)
+        public async void OnNavigatedTo(NavigationContext navigationContext)
         {
-            LoadPartners();
+            await LoadPartners();
         }
 
         public bool IsNavigationTarget(NavigationContext navigationContext)

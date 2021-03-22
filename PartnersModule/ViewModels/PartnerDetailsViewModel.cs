@@ -67,7 +67,7 @@ namespace PartnersModule.ViewModels
                 if(result.Result == ButtonResult.OK)
                 {
                     PartnersModel partner = result.Parameters.GetValue<PartnersModel>("partner");
-                    //TODO: update partner data
+                    //TODO: updated/added partner(except id), delete if nod needed
                 }
             });
         }

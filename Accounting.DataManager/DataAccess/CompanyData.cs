@@ -1,9 +1,5 @@
 ﻿using Accounting.DataManager.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Accounting.DataManager.DataAccess
 {
@@ -16,12 +12,51 @@ namespace Accounting.DataManager.DataAccess
             _sql = sql;
         }
 
+        public void InsertCompany(CompanyModel company)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spCompany_Insert", company);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
         public CompanyModel GetCompany()
         {
-            var output = _sql.LoadData<CompanyModel, dynamic>("dbo.spCompany_Get", new { }, "AccountingConnStr")
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+                var output = _sql.LoadDataInTransaction<CompanyModel, dynamic>("dbo.spCompany_Get", new { })
                 .FirstOrDefault();
 
-            return output;
+                return output;
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
+        public void UpdateCompany(CompanyModel company)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spCompany_Update", company);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Accounting.DataManager.DataAccess;
 using Accounting.DataManager.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,9 +26,16 @@ namespace Accounting.Api.Controllers
         
         // POST api/<CompanyController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] CompanyModel company)
         {
-
+            if (company.Id == 0)
+            {
+                _company.InsertCompany(company);
+            }
+            else
+            {
+                _company.UpdateCompany(company);
+            }
         }
 
         // PUT api/<CompanyController>/5

@@ -7,7 +7,7 @@ namespace Accounting.DataManager.DataAccess
     {
         List<PartnersModel> GetPartners();
         PartnersModel GetPartnersById(int id);
-        void SavePartnerToDatabase(PartnersModel partner);
+        void InsertPartner(PartnersModel partner);
         void UpdatePartner(PartnersModel partner);
     }
 }

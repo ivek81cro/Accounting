@@ -1,5 +1,6 @@
 ﻿using AccountingUI.Core.Service;
 using AccountingUI.Wpf.Views;
+using CompanyModule;
 using LoginModule;
 using PartnersModule;
 using Prism.DryIoc;
@@ -30,6 +31,7 @@ namespace AccountingUI.WPF
         {
             moduleCatalog.AddModule<ModuleLogin>();
             moduleCatalog.AddModule<ModulePartners>();
+            moduleCatalog.AddModule<ModuleCompany>();
         }
     }
 }

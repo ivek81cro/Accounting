@@ -11,10 +11,16 @@ namespace PartnersModule.Dialogs
     {
         private readonly IPartnersEndpoint _partnersEndpoint;
 
+
+        public PartnerEditViewModel(IPartnersEndpoint partnersEndpoint)
+        {
+            SavePartnerCommand = new DelegateCommand(CloseDialog);
+            _partnersEndpoint = partnersEndpoint;
+        }
+
         public event Action<IDialogResult> RequestClose;
         public DelegateCommand SavePartnerCommand { get; }
         public string Title => "Izmjena Podataka Partnera";
-
 
         private PartnersModel _partner;
         public PartnersModel Partner
@@ -119,12 +125,6 @@ namespace PartnersModule.Dialogs
         {
             get { return _kontoD; }
             set { SetProperty(ref _kontoD, value); }
-        }
-
-        public PartnerEditViewModel(IPartnersEndpoint partnersEndpoint)
-        {
-            SavePartnerCommand = new DelegateCommand(CloseDialog);
-            _partnersEndpoint = partnersEndpoint;
         }
 
         private void CloseDialog()

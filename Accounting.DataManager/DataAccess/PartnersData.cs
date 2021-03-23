@@ -46,7 +46,7 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
-        public void SavePartnerToDatabase(PartnersModel partner)
+        public void InsertPartner(PartnersModel partner)
         {
             try
             {

@@ -39,7 +39,7 @@ namespace Accounting.Api.Controllers
         {
             if (partner.Id == 0)
             {
-                _partnersData.SavePartnerToDatabase(partner);
+                _partnersData.InsertPartner(partner);
             }
             else
             {

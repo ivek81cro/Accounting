@@ -1,16 +1,15 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
+using AccountingUI.Core.TabControlRegion;
 using PartnersModule.Dialogs;
 using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 
 namespace PartnersModule.ViewModels
 {
-    public class PartnersViewModel : BindableBase, INavigationAware
+    public class PartnersViewModel : ViewModelBase
     {
 
         private IPartnersEndpoint _partnersEndpoint;
@@ -27,17 +26,12 @@ namespace PartnersModule.ViewModels
             PartnerSelectedCommand = new DelegateCommand<PartnersModel>(PartnerSelected);
             NewPartnerCommand = new DelegateCommand(AddPartner);
             EditPartnerCommand = new DelegateCommand(EditPartner);
+
+            LoadPartners();
         }
         public DelegateCommand<PartnersModel> PartnerSelectedCommand { get; private set; }
         public DelegateCommand NewPartnerCommand { get; private set; }
         public DelegateCommand EditPartnerCommand { get; private set; }
-
-        private string _title = "Partneri";
-        public string Title
-        {
-            get { return _title = "Partneri"; }
-            set { SetProperty(ref _title, value); }
-        }
 
         private ObservableCollection<PartnersModel> _partners = new();
         public ObservableCollection<PartnersModel> Partners
@@ -56,25 +50,10 @@ namespace PartnersModule.ViewModels
             _partner = partner;
         }
 
-        private async Task LoadPartners()
+        private async void LoadPartners()
         {
             var partnersList = await _partnersEndpoint.GetAll();
             Partners = new ObservableCollection<PartnersModel>(partnersList);
-        }
-
-        public async void OnNavigatedTo(NavigationContext navigationContext)
-        {
-            await LoadPartners();
-        }
-
-        public bool IsNavigationTarget(NavigationContext navigationContext)
-        {
-            return true;
-        }
-
-        public void OnNavigatedFrom(NavigationContext navigationContext)
-        {
-
         }
 
         private void AddPartner()

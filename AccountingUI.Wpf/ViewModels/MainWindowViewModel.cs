@@ -1,4 +1,5 @@
 ﻿using AccountingUI.Core.Events;
+using AccountingUI.Core.TabControlRegion;
 using LoginModule.Views;
 using Prism.Commands;
 using Prism.Events;
@@ -43,9 +44,10 @@ namespace AccountingUI.Wpf.ViewModels
         }
 
         private void Navigate(string param)
-        {
+        {            
             var p = new NavigationParameters();
-            p.Add("identifier", param);
+            string tabTitle = TabHeaderTitles.GetHeadreTitle(param);
+            p.Add("title", tabTitle);
             _regionManager.RequestNavigate("ContentRegion", param, p);
         }
 

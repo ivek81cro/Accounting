@@ -75,6 +75,8 @@
     <Build Include="dbo\Stored Procedures\spUserLookup.sql" />
     <Build Include="dbo\Stored Procedures\spPartners_AddNew.sql" />
     <Build Include="dbo\Stored Procedures\spPartners_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spCompany_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spCompany_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

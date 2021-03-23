@@ -15,6 +15,7 @@
         <BooleanToVisibilityConverter x:Key="boolToVisConv"/>
         <Style TargetType="TabItem">
             <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+            <Setter Property="FontSize" Value="16"/>
             <Setter Property="HeaderTemplate">
                 <Setter.Value>
                     <DataTemplate>
@@ -48,7 +49,8 @@
 
         <Menu Grid.Row="0" FontSize="14" Visibility="{Binding IsUserLoggedIn, Converter={StaticResource boolToVisConv}}">
             <MenuItem Header="Postavke" Margin="5">
-                <MenuItem Header="Komitent"/>
+                <MenuItem Header="Komitent" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="CompanyView"/>
                 <MenuItem Header="Partneri" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="PartnersView"/>
                 <MenuItem Header="Zaposlenici"/>
@@ -77,7 +79,7 @@
         </Menu>
 
         <TabControl Grid.Row="1" Margin="10" prism:RegionManager.RegionName="ContentRegion"
-                    MinHeight="200" BorderThickness="0">
+                    MinHeight="200" BorderThickness="1" BorderBrush="LightGray">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded" >
                     <prism:InvokeCommandAction Command="{Binding TabControlLoadedCommand}"/>

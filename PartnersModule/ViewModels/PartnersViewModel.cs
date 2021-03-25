@@ -23,14 +23,12 @@ namespace PartnersModule.ViewModels
             _regionManager = regionManager;
             _showDialog = showDialog;
             
-            PartnerSelectedCommand = new DelegateCommand<PartnersModel>(PartnerSelected);
-            NewPartnerCommand = new DelegateCommand(AddPartner);
-            EditPartnerCommand = new DelegateCommand(EditPartner);
+            NewPartnerCommand = new DelegateCommand(SavePartnerToDatabase);
+            DeletePartnerCommand = new DelegateCommand(DeletePartner, CanDelete);
         }
 
-        public DelegateCommand<PartnersModel> PartnerSelectedCommand { get; private set; }
         public DelegateCommand NewPartnerCommand { get; private set; }
-        public DelegateCommand EditPartnerCommand { get; private set; }
+        public DelegateCommand DeletePartnerCommand { get; private set; }
 
         private ObservableCollection<PartnersModel> _partners = new();
         public ObservableCollection<PartnersModel> Partners
@@ -43,10 +41,15 @@ namespace PartnersModule.ViewModels
             }
         }
 
-        private PartnersModel _partner = new();
-        private void PartnerSelected(PartnersModel partner)
+        private PartnersModel _selectedPartner;
+        public PartnersModel SelectedPartner
         {
-            _partner = partner;
+            get { return _selectedPartner; }
+            set 
+            { 
+                SetProperty(ref _selectedPartner, value);
+                DeletePartnerCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public async void LoadPartners()
@@ -55,24 +58,10 @@ namespace PartnersModule.ViewModels
             Partners = new ObservableCollection<PartnersModel>(partnersList);
         }
 
-        private void AddPartner()
-        {
-            _partner = new PartnersModel();
-            SavePartnerToDatabase();
-        }
-
-        private void EditPartner()
-        {
-            if (_partner.Id != 0)
-            {
-                SavePartnerToDatabase(); 
-            }
-        }
-
         private void SavePartnerToDatabase()
         {
             var parameters = new DialogParameters();
-            parameters.Add("partner", _partner);
+            parameters.Add("partner", SelectedPartner);
             _showDialog.ShowDialog(nameof(PartnerEdit), parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
@@ -81,6 +70,17 @@ namespace PartnersModule.ViewModels
                     _partnersEndpoint.PostPartner(partner);
                 }
             });
+        }
+
+        private bool CanDelete()
+        {
+            return SelectedPartner != null;
+        }
+
+        private void DeletePartner()
+        {
+            _partnersEndpoint.DeletePartner(SelectedPartner.Id);
+            _partners.Remove(SelectedPartner);
         }
     }
 }

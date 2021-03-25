@@ -9,5 +9,6 @@ namespace Accounting.DataManager.DataAccess
         PartnersModel GetPartnersById(int id);
         void InsertPartner(PartnersModel partner);
         void UpdatePartner(PartnersModel partner);
+        void DeletePartner(int id);
     }
 }

@@ -49,7 +49,7 @@ namespace AccountingUI.Core.Validation
             var results = new List<ValidationResult>();
             ValidationContext context = new ValidationContext(this);
             context.MemberName = propertyName;
-            Validator.TryValidateProperty(value, context, results);
+            Validator.TryValidateProperty(value, context, results);//TODO: customise validation
 
             if(results.Any())
             {

@@ -75,5 +75,20 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void DeletePartner(int id)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.LoadDataInTransaction<PartnersModel, dynamic>("dbo.spPartners_Delete", new { Id = id });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

@@ -58,7 +58,7 @@ namespace PartnersModule.Dialogs
         public void OnDialogOpened(IDialogParameters parameters)
         {
             Partner = parameters.GetValue<PartnersModel>("partner");
-            if (Partner.Id != 0)
+            if (Partner != null)
             {
                 GetPartnerFromDatabase(Partner.Id);
             }

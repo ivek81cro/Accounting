@@ -62,5 +62,20 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task DeletePartner(int id)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.DeleteAsync($"/api/Partners/{id}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

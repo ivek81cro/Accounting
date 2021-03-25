@@ -31,22 +31,22 @@
                     <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
-            <Button Height="50" Width="50" Command="{Binding EditPartnerCommand}">
+            <Button Height="50" Width="50" Command="{Binding NewPartnerCommand}">
                 <StackPanel>
                     <Image Source="images\edit.png" Height="30"/>
                     <TextBlock Text="Uredi"/>
                 </StackPanel>
             </Button>
+            <Button Height="50" Width="50" Command="{Binding DeletePartnerCommand}">
+                <StackPanel>
+                    <Image Source="images\kanta.png" Height="30"/>
+                    <TextBlock Text="Briši"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
-        <DataGrid ItemsSource="{Binding Partners}" x:Name="_listOfPartners" Grid.Row="2"
-                  IsReadOnly="True" CanUserAddRows="False">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <prism:InvokeCommandAction Command="{Binding PartnerSelectedCommand}"
-                                               CommandParameter="{Binding SelectedItem, ElementName=_listOfPartners}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+        <DataGrid ItemsSource="{Binding Partners}" Grid.Row="2" IsReadOnly="True" 
+                  CanUserAddRows="False" SelectedItem="{Binding SelectedPartner}">            
         </DataGrid>
         
     </Grid>

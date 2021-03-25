@@ -9,5 +9,6 @@ namespace AccountingUI.Core.Services
         Task<List<PartnersModel>> GetAll();
         Task<PartnersModel> GetById(int id);
         Task PostPartner(PartnersModel partner);
+        Task DeletePartner(int id);
     }
 }

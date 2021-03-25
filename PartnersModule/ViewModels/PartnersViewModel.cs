@@ -26,9 +26,8 @@ namespace PartnersModule.ViewModels
             PartnerSelectedCommand = new DelegateCommand<PartnersModel>(PartnerSelected);
             NewPartnerCommand = new DelegateCommand(AddPartner);
             EditPartnerCommand = new DelegateCommand(EditPartner);
-
-            LoadPartners();
         }
+
         public DelegateCommand<PartnersModel> PartnerSelectedCommand { get; private set; }
         public DelegateCommand NewPartnerCommand { get; private set; }
         public DelegateCommand EditPartnerCommand { get; private set; }
@@ -50,7 +49,7 @@ namespace PartnersModule.ViewModels
             _partner = partner;
         }
 
-        private async void LoadPartners()
+        public async void LoadPartners()
         {
             var partnersList = await _partnersEndpoint.GetAll();
             Partners = new ObservableCollection<PartnersModel>(partnersList);

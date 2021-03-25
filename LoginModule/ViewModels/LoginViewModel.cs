@@ -12,12 +12,10 @@ namespace LoginModule.ViewModels
     {
         private IApiService _apiService;
         private ILoggedInUserModel _loggedInUserModel;
-        private readonly IRegionManager _regionManager;
         public LoginViewModel(IApiService apiService, ILoggedInUserModel loggedInUserModel, IRegionManager regionManager)
         {
             _apiService = apiService;
             _loggedInUserModel = loggedInUserModel;
-            _regionManager = regionManager;
 
             LoginUser = new DelegateCommand(LogInAsync);
         }

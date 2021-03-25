@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PartnersModule.Dialogs"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:validate="clr-namespace:PartnersModule.Validation"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              prism:ViewModelLocator.AutoWireViewModel="True"
              FontSize="14">
@@ -40,81 +41,67 @@
        
         <TextBlock Text="Oib:" Grid.Row="1"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Grid.Row="1" Grid.Column="1" MinWidth="250" Margin="5 5 5 15" MinHeight="30">
-            <Validation.ErrorTemplate>
-                <ControlTemplate>
-                    <StackPanel>
-                        <!-- Placeholder for the TextBox itself -->
-                        <AdornedElementPlaceholder x:Name="textBox"/>
-                        <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-                    </StackPanel>
-                </ControlTemplate>
-            </Validation.ErrorTemplate>
-            <TextBox.Text>
-                <Binding Path="Oib" UpdateSourceTrigger="PropertyChanged">
-                    <Binding.ValidationRules>
-                        <validate:OibValidationRule ValidationStep="RawProposedValue"/>
-                    </Binding.ValidationRules>
-                </Binding>
-            </TextBox.Text>
-        </TextBox>
+        <TextBox Grid.Row="1" Grid.Column="1" MinWidth="250" Margin="5 5 5 15" MinHeight="30"
+                 Text="{Binding Partner.Oib, Mode=TwoWay,
+            ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
         
         <TextBlock Text="Naziv:" Grid.Row="2" Grid.Column="0" Margin="10"/>
-        <TextBox Text="{Binding Naziv, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Naziv, Mode=TwoWay, 
+            ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="2" Grid.Column="1" MinWidth="250"
                  Margin="5 5 5 15" MinHeight="30"/>
         
         <TextBlock Text="Ulica:" Grid.Row="3"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Text="{Binding Ulica, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Ulica, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="3" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
         
         <TextBlock Text="Broj:" Grid.Row="4"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Text="{Binding Broj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Broj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="4" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
         
         <TextBlock Text="Pošta:" Grid.Row="5"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Text="{Binding Posta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Posta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="5" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
         
         <TextBlock Text="Mjesto:" Grid.Row="6"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Text="{Binding Mjesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Mjesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="6" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
         
         <TextBlock Text="Telefon:" Grid.Row="1"
                    Grid.Column="2" Margin="10"/>
-        <TextBox Text="{Binding Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="1" Grid.Column="3"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
         
         <TextBlock Text="Fax:" Grid.Row="2"
                    Grid.Column="2" Margin="10"/>
-        <TextBox Text="{Binding Fax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Fax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="2" Grid.Column="3"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
         
         <TextBlock Text="Email:" Grid.Row="3"
                    Grid.Column="2" Margin="10"/>
-        <TextBox Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="3" Grid.Column="3"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
         
         <TextBlock Text="Iban:" Grid.Row="4"
                    Grid.Column="2" Margin="10"/>
-        <TextBox Text="{Binding Iban, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Iban, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="4" Grid.Column="3"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
         
         <TextBlock Text="Mbo:" Grid.Row="5"
                    Grid.Column="2" Margin="10"/>
-        <TextBox Text="{Binding Mbo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Partner.Mbo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="5" Grid.Column="3" 
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
 

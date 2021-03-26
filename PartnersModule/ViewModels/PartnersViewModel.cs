@@ -6,6 +6,8 @@ using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace PartnersModule.ViewModels
 {
@@ -15,6 +17,8 @@ namespace PartnersModule.ViewModels
         private IPartnersEndpoint _partnersEndpoint;
         private IRegionManager _regionManager;
         private IDialogService _showDialog;
+
+        private ICollectionView _partnersView;
 
         public PartnersViewModel(IPartnersEndpoint partnersEndpoint, IRegionManager regionManager, 
             IDialogService showDialog)
@@ -32,7 +36,7 @@ namespace PartnersModule.ViewModels
         public DelegateCommand EditPartnerCommand { get; private set; }
         public DelegateCommand DeletePartnerCommand { get; private set; }
 
-        private ObservableCollection<PartnersModel> _partners = new();
+        private ObservableCollection<PartnersModel> _partners;
         public ObservableCollection<PartnersModel> Partners
         {
             get { return _partners; }
@@ -54,10 +58,23 @@ namespace PartnersModule.ViewModels
             }
         }
 
+        private string _filterPartners;
+        public string FilterPartners
+        {
+            get { return _filterPartners; }
+            set 
+            { 
+                SetProperty(ref _filterPartners, value.ToUpper());
+                _partnersView.Refresh();
+            }
+        }
+
         public async void LoadPartners()
         {
             var partnersList = await _partnersEndpoint.GetAll();
             Partners = new ObservableCollection<PartnersModel>(partnersList);
+            _partnersView = CollectionViewSource.GetDefaultView(Partners);
+            _partnersView.Filter = o => string.IsNullOrEmpty(FilterPartners) ? true : ((PartnersModel)o).Naziv.Contains(FilterPartners);
         }
 
         private bool CanDelete()
@@ -101,6 +118,8 @@ namespace PartnersModule.ViewModels
                 {
                     PartnersModel partner = result.Parameters.GetValue<PartnersModel>("partner");
                     _partnersEndpoint.PostPartner(partner);
+                    _partners.Add(partner);
+                    LoadPartners();
                 }
             });
         }

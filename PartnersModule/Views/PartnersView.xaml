@@ -45,6 +45,12 @@
             </Button>
         </StackPanel>
 
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBlock Text="Filter Naziv" Margin="5"/>
+            <TextBox Margin="5" Text="{Binding FilterPartners, UpdateSourceTrigger=PropertyChanged}"
+                 MinWidth="150"/>
+        </StackPanel>
+
         <DataGrid ItemsSource="{Binding Partners}" Grid.Row="2" IsReadOnly="True" 
                   CanUserAddRows="False" SelectedItem="{Binding SelectedPartner}"
                   AutoGenerateColumns="False">

@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Dialogs\Images\questionmark.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
   </ItemGroup>
@@ -16,6 +20,10 @@
     <ProjectReference Include="..\CompanyModule\CompanyModule.csproj" />
     <ProjectReference Include="..\LoginModule\LoginModule.csproj" />
     <ProjectReference Include="..\PartnersModule\PartnersModule.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Dialogs\Images\questionmark.PNG" />
   </ItemGroup>
 
 </Project>

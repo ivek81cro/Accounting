@@ -24,7 +24,7 @@ namespace AccountingUI.Core.Models
             get { return _naziv; }
             set 
             { 
-                SetProperty(ref _naziv, value);
+                SetProperty(ref _naziv, value.ToUpper());
             }
         }
         public string Ulica { get; set; }
@@ -33,7 +33,6 @@ namespace AccountingUI.Core.Models
 		public string Mjesto { get; set; }
 		public string Telefon { get; set; }
 		public string Fax { get; set; }
-        private string _email;
         public string Email { get; set; }
         public string Iban { get; set; }
 		public string Mbo { get; set; }

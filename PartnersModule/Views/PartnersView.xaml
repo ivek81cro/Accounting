@@ -31,7 +31,7 @@
                     <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
-            <Button Height="50" Width="50" Command="{Binding NewPartnerCommand}">
+            <Button Height="50" Width="50" Command="{Binding EditPartnerCommand}">
                 <StackPanel>
                     <Image Source="images\edit.png" Height="30"/>
                     <TextBlock Text="Uredi"/>
@@ -46,7 +46,22 @@
         </StackPanel>
 
         <DataGrid ItemsSource="{Binding Partners}" Grid.Row="2" IsReadOnly="True" 
-                  CanUserAddRows="False" SelectedItem="{Binding SelectedPartner}">            
+                  CanUserAddRows="False" SelectedItem="{Binding SelectedPartner}"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
+                <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"/>
+                <DataGridTextColumn Header="Pošta" Binding="{Binding Posta}"/>
+                <DataGridTextColumn Header="Grad" Binding="{Binding Mjesto}"/>
+                <DataGridTextColumn Header="Ulica" Binding="{Binding Ulica}"/>
+                <DataGridTextColumn Header="Broj" Binding="{Binding Broj}"/>
+                <DataGridTextColumn Header="Telefon" Binding="{Binding Telefon}"/>
+                <DataGridTextColumn Header="Faks" Binding="{Binding Fax}"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                <DataGridTextColumn Header="Iban" Binding="{Binding Iban}"/>
+                <DataGridTextColumn Header="Mbo" Binding="{Binding Mbo}"/>
+            </DataGrid.Columns>
         </DataGrid>
         
     </Grid>

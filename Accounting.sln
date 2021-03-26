@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginModule", "LoginModule\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartnersModule", "PartnersModule\PartnersModule.csproj", "{C5BF2409-D229-40EE-9679-00823282E1E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyModule", "CompanyModule\CompanyModule.csproj", "{783E9DDC-69F7-490F-8814-C0CA390ADA44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyModule", "CompanyModule\CompanyModule.csproj", "{783E9DDC-69F7-490F-8814-C0CA390ADA44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,6 @@
 using Accounting.DataManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 
 namespace Accounting.Api.Controllers
@@ -51,6 +50,7 @@ namespace Accounting.Api.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+
         }
 
         // DELETE api/<CompanyController>/5

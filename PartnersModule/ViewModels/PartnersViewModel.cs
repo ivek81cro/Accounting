@@ -23,11 +23,13 @@ namespace PartnersModule.ViewModels
             _regionManager = regionManager;
             _showDialog = showDialog;
             
-            NewPartnerCommand = new DelegateCommand(SavePartnerToDatabase);
+            NewPartnerCommand = new DelegateCommand(AddNewPartner);
+            EditPartnerCommand = new DelegateCommand(EditPartner);
             DeletePartnerCommand = new DelegateCommand(DeletePartner, CanDelete);
         }
 
         public DelegateCommand NewPartnerCommand { get; private set; }
+        public DelegateCommand EditPartnerCommand { get; private set; }
         public DelegateCommand DeletePartnerCommand { get; private set; }
 
         private ObservableCollection<PartnersModel> _partners = new();
@@ -58,6 +60,37 @@ namespace PartnersModule.ViewModels
             Partners = new ObservableCollection<PartnersModel>(partnersList);
         }
 
+        private bool CanDelete()
+        {
+            return SelectedPartner != null;
+        }
+
+        private void DeletePartner()
+        {
+            _showDialog.ShowDialog("AreYouSureView", null, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    _partnersEndpoint.DeletePartner(SelectedPartner.Id);
+                    _partners.Remove(SelectedPartner);
+                }
+            });
+        }
+
+        private void EditPartner()
+        {
+            SavePartnerToDatabase();
+        }
+
+        private void AddNewPartner()
+        {
+            if(SelectedPartner != null)
+            {
+                SelectedPartner = null;
+            }
+            SavePartnerToDatabase();
+        }
+
         private void SavePartnerToDatabase()
         {
             var parameters = new DialogParameters();
@@ -70,17 +103,6 @@ namespace PartnersModule.ViewModels
                     _partnersEndpoint.PostPartner(partner);
                 }
             });
-        }
-
-        private bool CanDelete()
-        {
-            return SelectedPartner != null;
-        }
-
-        private void DeletePartner()
-        {
-            _partnersEndpoint.DeletePartner(SelectedPartner.Id);
-            _partners.Remove(SelectedPartner);
         }
     }
 }

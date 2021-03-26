@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Partners](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Oib] [nvarchar](11) NOT NULL,
+	[Oib] [nvarchar](11) NOT NULL UNIQUE,
 	[Naziv] [nvarchar](50) NOT NULL,
 	[Ulica] [nvarchar](50) NULL,
 	[Broj] [nvarchar](50) NULL,

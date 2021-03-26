@@ -1,4 +1,5 @@
-﻿using AccountingUI.Core.Service;
+﻿using Accounting.MainModule.Dialogs.AreYouSure;
+using AccountingUI.Core.Service;
 using AccountingUI.Wpf.Views;
 using CompanyModule;
 using LoginModule;
@@ -25,6 +26,8 @@ namespace AccountingUI.WPF
             containerRegistry.RegisterScoped<IApiService, ApiService>();
 
             containerRegistry.RegisterForNavigation<StartView>();
+
+            containerRegistry.RegisterDialog<AreYouSureView, AreYouSureViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

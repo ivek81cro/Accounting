@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Views\PartnersView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -34,6 +30,10 @@
 
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,7 +3,6 @@ using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using Prism.Commands;
 using Prism.Regions;
-using System;
 
 namespace CompanyModule.ViewModels
 {

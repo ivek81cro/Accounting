@@ -1,4 +1,5 @@
 ﻿using AccountingUI.Core.Validation;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace AccountingUI.Core.Models
@@ -33,18 +34,28 @@ namespace AccountingUI.Core.Models
 		public string Telefon { get; set; }
 		public string Fax { get; set; }
         private string _email;
-        [EmailAddress]
-        public string Email
-        {
-            get { return _email; }
-            set 
-            { 
-                SetProperty(ref _email, value);
-            }
-        }
+        public string Email { get; set; }
         public string Iban { get; set; }
 		public string Mbo { get; set; }
 		public string KontoK { get; set; }
 		public string KontoD { get; set; }
-	}
+
+        public void Reset()
+        {
+            Id = 0;
+            Oib = "";
+            Naziv = "";
+            Posta = "";
+            Mjesto = "";
+            Broj = "";
+            Ulica = "";
+            Telefon = "";
+            Fax = "";
+            Email = "";
+            Mbo = "";
+            KontoD = "";
+            KontoK = "";
+            Iban = "";
+        }
+    }
 }

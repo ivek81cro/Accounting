@@ -14,8 +14,8 @@ namespace PartnersModule.Dialogs
 
         public PartnerEditViewModel(IPartnersEndpoint partnersEndpoint)
         {
-            SavePartnerCommand = new DelegateCommand(CloseDialog);
             _partnersEndpoint = partnersEndpoint;
+            SavePartnerCommand = new DelegateCommand(CloseDialog);
         }
 
         public event Action<IDialogResult> RequestClose;
@@ -34,7 +34,7 @@ namespace PartnersModule.Dialogs
 
         private void CloseDialog()
         {
-            if (!Partner.HasErrors)
+            if (Partner != null && !Partner.HasErrors)
             {
                 _partnersEndpoint.PostPartner(Partner);
                 var result = ButtonResult.OK;
@@ -61,6 +61,11 @@ namespace PartnersModule.Dialogs
             if (Partner != null)
             {
                 GetPartnerFromDatabase(Partner.Id);
+            }
+            else 
+            {
+                Partner = new PartnersModel();
+                Partner.Reset();
             }
         }
 

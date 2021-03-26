@@ -6,24 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Images\edit.PNG" />
+    <None Remove="Views\Images\folder.PNG" />
+    <None Remove="Views\Images\kanta.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="Views\PartnersView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Views\PartnersView.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
   <ItemGroup>

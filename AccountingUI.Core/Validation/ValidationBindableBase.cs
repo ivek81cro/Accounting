@@ -11,7 +11,7 @@ namespace AccountingUI.Core.Validation
 {
     public class ValidationBindableBase : BindableBase, INotifyDataErrorInfo
     {
-        private Dictionary<string, List<string>> _errors = new Dictionary<string, List<string>>();
+        private Dictionary<string, List<string>> _errors = new();
 
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = delegate { };
 
@@ -47,8 +47,10 @@ namespace AccountingUI.Core.Validation
         private void ValidateProperty<T>(string propertyName, T value)
         {
             var results = new List<ValidationResult>();
-            ValidationContext context = new ValidationContext(this);
-            context.MemberName = propertyName;
+            ValidationContext context = new(this)
+            {
+                MemberName = propertyName
+            };
             Validator.TryValidateProperty(value, context, results);//TODO: customise validation
 
             if(results.Any())

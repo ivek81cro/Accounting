@@ -1,5 +1,4 @@
 ﻿using AccountingUI.Core.Validation;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace AccountingUI.Core.Models

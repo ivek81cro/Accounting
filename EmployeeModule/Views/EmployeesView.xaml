@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="EmployeeModule.Views.EmployeesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--Custom Menu-->
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0" Background="White">
+            <Button Height="50" Width="50" Margin="10 5 0 5" Command="{Binding NewEmployeeCommand}">
+                <StackPanel>
+                    <Image Source="images\folder.png" Height="30"/>
+                    <TextBlock Text="Dodaj"/>
+                </StackPanel>
+            </Button>
+            <Button Height="50" Width="50" Command="{Binding EditEmployeeCommand}">
+                <StackPanel>
+                    <Image Source="images\edit.png" Height="30"/>
+                    <TextBlock Text="Uredi"/>
+                </StackPanel>
+            </Button>
+            <Button Height="50" Width="50" Command="{Binding DeleteEmployeeCommand}">
+                <StackPanel>
+                    <Image Source="images\kanta.png" Height="30"/>
+                    <TextBlock Text="Briši"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <TextBlock Text="Filter Naziv" Margin="5"/>
+            <TextBox Margin="5" Text="{Binding FilterEmployee, UpdateSourceTrigger=PropertyChanged}"
+                 MinWidth="150"/>
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding Employees}" Grid.Row="2" IsReadOnly="True" 
+                  CanUserAddRows="False" SelectedItem="{Binding SelectedEmployee}"
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
+                <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"/>
+                <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}"/>
+                <DataGridTextColumn Header="Ulica" Binding="{Binding Ulica}"/>
+                <DataGridTextColumn Header="Broj" Binding="{Binding Broj}"/>
+                <DataGridTextColumn Header="Grad" Binding="{Binding Mjesto}"/>
+                <DataGridTextColumn Header="Država" Binding="{Binding Drzava}"/>                
+                <DataGridTextColumn Header="Telefon" Binding="{Binding Telefon}"/>
+                <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                <DataGridTextColumn Header="Stručna sprema" Binding="{Binding StrucnaSprema}"/>
+                <DataGridTextColumn Header="Zvanje sprema" Binding="{Binding Zvanje}"/>
+                <DataGridTextColumn Header="Olakšica" Binding="{Binding Olaksica}"/>
+                <DataGridTextColumn Header="Datum dolaska" Binding="{Binding DatumDolaska}"/>
+                <DataGridTextColumn Header="Datum odlaska" Binding="{Binding DatumOdlaska}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

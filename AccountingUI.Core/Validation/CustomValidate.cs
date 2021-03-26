@@ -25,6 +25,14 @@ namespace Accounting.CoreModule.Validation
                 validationResults.Add(
                     new ValidationResult("Oib nema odgovarajući broj znamenki"));
             }
+
+            foreach (char c in data)
+            {
+                if (c < '0' || c > '9')
+                {
+                   validationResults.Add(new ValidationResult("Unos smije sadržavati samo brojeve"));
+                }
+            }
         }
     }
 }

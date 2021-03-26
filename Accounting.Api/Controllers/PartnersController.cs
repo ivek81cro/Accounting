@@ -25,14 +25,14 @@ namespace Accounting.Api.Controllers
             return _partnersData.GetPartners();
         }
 
-        // GET api/<CompanyController>/5
+        // GET api/<PartnersController>/5
         [HttpGet("{id}")]
         public PartnersModel Get(int id)
         {
             return _partnersData.GetPartnersById(id);
         }
 
-        // POST api/<CompanyController>
+        // POST api/<PartnersController>
         [HttpPost]
         public void Post([FromBody] PartnersModel partner)
         {
@@ -46,14 +46,14 @@ namespace Accounting.Api.Controllers
             }
         }
 
-        // PUT api/<CompanyController>/5
+        // PUT api/<PartnersController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
 
         }
 
-        // DELETE api/<CompanyController>/5
+        // DELETE api/<PartnersController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

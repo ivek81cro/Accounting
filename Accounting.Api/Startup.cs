@@ -1,6 +1,5 @@
 using Accounting.Api.Data;
 using Accounting.DataManager.DataAccess;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -86,6 +85,7 @@ namespace Accounting.Api
             services.AddTransient<ISqlDataAccess, SqlDataAccess>();
             services.AddTransient<IUserData, UserData>();
             services.AddTransient<IPartnersData, PartnersData>();
+            services.AddTransient<IEmployeeData, EmployeeData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

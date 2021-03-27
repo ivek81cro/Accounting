@@ -2,7 +2,6 @@
 using AccountingUI.Core.Service;
 using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 
@@ -12,7 +11,7 @@ namespace LoginModule.ViewModels
     {
         private IApiService _apiService;
         private ILoggedInUserModel _loggedInUserModel;
-        public LoginViewModel(IApiService apiService, ILoggedInUserModel loggedInUserModel, IRegionManager regionManager)
+        public LoginViewModel(IApiService apiService, ILoggedInUserModel loggedInUserModel)
         {
             _apiService = apiService;
             _loggedInUserModel = loggedInUserModel;
@@ -134,7 +133,7 @@ namespace LoginModule.ViewModels
 
         public void OnDialogClosed()
         {
-
+            
         }
 
         public void OnDialogOpened(IDialogParameters parameters)

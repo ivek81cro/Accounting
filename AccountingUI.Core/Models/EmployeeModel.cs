@@ -7,6 +7,7 @@ namespace AccountingUI.Core.Models
     public class EmployeeModel : ValidationBindableBase
     {
         public int Id { get; set; }
+
         private string _oib;
         [Required]
         public string Oib
@@ -14,6 +15,7 @@ namespace AccountingUI.Core.Models
             get { return _oib; }
             set { SetProperty(ref _oib, value); }
         }
+
         private string _ime;
         [Required]
         public string Ime
@@ -21,6 +23,7 @@ namespace AccountingUI.Core.Models
             get { return _ime; }
             set { SetProperty(ref _ime, value); }
         }
+
         private string _prezime;
         [Required]
         public string Prezime
@@ -28,6 +31,7 @@ namespace AccountingUI.Core.Models
             get { return _prezime; }
             set { SetProperty(ref _prezime, value); }
         }
+
         public string Ulica { get; set; }
         public string Broj { get; set; }
         public string Mjesto { get; set; }

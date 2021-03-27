@@ -5,7 +5,7 @@ namespace Accounting.CoreModule.Validation
 {
     public class CustomValidate
     {
-        public static void Validate(object? value, ValidationContext validationContext, ICollection<ValidationResult>? validationResults)
+        public static void Validate(object value, ValidationContext validationContext, ICollection<ValidationResult> validationResults)
         {
             string name = validationContext.DisplayName;
             var data = value;
@@ -14,7 +14,25 @@ namespace Accounting.CoreModule.Validation
             {
                 case "Oib":
                     ValidateOib((string)data, validationResults, name);
-                    return;
+                    break;
+                case "Naziv":
+                    ValidateMinLength((string)data, validationResults, name);
+                    break;
+                case "Ime":
+                    ValidateMinLength((string)data, validationResults, name);
+                    break;
+                case "Prezime":
+                    ValidateMinLength((string)data, validationResults, name);
+                    break;
+            }
+        }
+
+        private static void ValidateMinLength(string data, ICollection<ValidationResult> validationResults, string name)
+        {
+            if (data.Length < 3)
+            {
+                validationResults.Add(
+                    new ValidationResult("Naziv mora sadržavati najmanje 3 znaka."));
             }
         }
 

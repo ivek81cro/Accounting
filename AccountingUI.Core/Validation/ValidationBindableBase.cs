@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using Accounting.CoreModule.Validation;
+using Prism.Mvvm;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -51,7 +52,8 @@ namespace AccountingUI.Core.Validation
             {
                 MemberName = propertyName
             };
-            Validator.TryValidateProperty(value, context, results);//TODO: customise validation
+            Validator.TryValidateProperty(value, context, results);
+            CustomValidate.Validate(value, context, results);
 
             if(results.Any())
             {

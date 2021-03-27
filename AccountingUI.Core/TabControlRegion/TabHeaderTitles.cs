@@ -7,9 +7,10 @@ namespace AccountingUI.Core.TabControlRegion
         private enum ViewNames
         {
             PartnersView,
-            CompanyView
+            CompanyView,
+            EmployeesView
         }
-        public static string GetHeadreTitle(string viewName)
+        public static string GetHeaderTitle(string viewName)
         {
             switch (Enum.Parse(typeof(ViewNames), viewName))
             {
@@ -17,6 +18,8 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Partneri";
                 case ViewNames.CompanyView:
                     return "Komitent";
+                case ViewNames.EmployeesView:
+                    return "Zaposlenici";
                 default:
                     return "";
             }

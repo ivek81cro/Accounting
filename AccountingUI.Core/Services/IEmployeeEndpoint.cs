@@ -9,6 +9,6 @@ namespace AccountingUI.Core.Services
         Task DeleteEmployee(int id);
         Task<List<EmployeeModel>> GetAll();
         Task<EmployeeModel> GetById(int id);
-        Task PostEmployee(EmployeeModel partner);
+        Task<bool> PostEmployee(EmployeeModel partner);
     }
 }

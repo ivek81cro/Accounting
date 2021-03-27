@@ -1,4 +1,7 @@
-﻿using Prism.Ioc;
+﻿using AccountingUI.Core.Services;
+using EmployeeModule.Dialogs;
+using EmployeeModule.Views;
+using Prism.Ioc;
 using Prism.Modularity;
 
 namespace EmployeeModule
@@ -12,7 +15,11 @@ namespace EmployeeModule
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<EmployeesView>();
 
+            containerRegistry.RegisterDialog<EmployeeEdit, EmployeeEditViewModel>();
+
+            containerRegistry.RegisterScoped<IEmployeeEndpoint, EmployeeEndpoint>();
         }
     }
 }

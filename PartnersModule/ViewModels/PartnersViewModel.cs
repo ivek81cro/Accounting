@@ -18,8 +18,6 @@ namespace PartnersModule.ViewModels
         private IRegionManager _regionManager;
         private IDialogService _showDialog;
 
-        private ICollectionView _partnersView;
-
         public PartnersViewModel(IPartnersEndpoint partnersEndpoint, IRegionManager regionManager, 
             IDialogService showDialog)
         {
@@ -58,6 +56,7 @@ namespace PartnersModule.ViewModels
             }
         }
 
+        private ICollectionView _partnersView;
         private string _filterPartners;
         public string FilterPartners
         {

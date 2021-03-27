@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="EmployeeModule.Dialogs.EmployeeEdit"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EmployeeModule.Dialogs"
+             xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             mc:Ignorable="d" 
+             FontSize="14">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Uredi podatke" FontSize="20" Grid.Row="0"
+                   Grid.Column="0" Margin="10" Grid.ColumnSpan="2"/>
+
+        <TextBlock Text="Oib:" Grid.Row="1"
+                   Grid.Column="0" Margin="10"/>
+        <TextBox Grid.Row="1" Grid.Column="1" MinWidth="250" Margin="5 5 5 15" MinHeight="30"
+                 Text="{Binding Employee.Oib, Mode=TwoWay,
+            ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBlock Text="Ime:" Grid.Row="2" Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding Employee.Ime, Mode=TwoWay, 
+            ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Row="2" Grid.Column="1" MinWidth="250"
+                 Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Prezime:" Grid.Row="3" Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding Employee.Prezime, Mode=TwoWay, 
+            ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Row="3" Grid.Column="1" MinWidth="250"
+                 Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Ulica:" Grid.Row="4"
+                   Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding Employee.Ulica, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="4" Grid.Column="1"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Broj:" Grid.Row="5"
+                   Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding Employee.Broj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="5" Grid.Column="1"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Grad:" Grid.Row="6"
+                   Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding Employee.Mjesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="6" Grid.Column="1"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Telefon:" Grid.Row="1"
+                   Grid.Column="2" Margin="10"/>
+        <TextBox Text="{Binding Employee.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="1" Grid.Column="3"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Email:" Grid.Row="2"
+                   Grid.Column="2" Margin="10"/>
+        <TextBox Text="{Binding Employee.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="2" Grid.Column="3"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Država:" Grid.Row="3"
+                   Grid.Column="2" Margin="10"/>
+        <TextBox Text="{Binding Employee.Drzava, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="3" Grid.Column="3"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Iban:" Grid.Row="4"
+                   Grid.Column="2" Margin="10"/>
+        <TextBox Text="{Binding Employee.Iban, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="4" Grid.Column="3"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Stručna sprema:" Grid.Row="5"
+                   Grid.Column="2" Margin="10"/>
+        <TextBox Text="{Binding Employee.StrucnaSprema, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="5" Grid.Column="3" 
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Zvanje:" Grid.Row="6"
+                   Grid.Column="2" Margin="10"/>
+        <TextBox Text="{Binding Employee.Zvanje, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="6" Grid.Column="3" 
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Olakšica:" Grid.Row="7"
+                   Grid.Column="0" Margin="10"/>
+        <TextBox Text="{Binding Employee.Olaksica, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="7" Grid.Column="1"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <TextBlock Text="Datum dolaska:" Grid.Row="7"
+                   Grid.Column="2" Margin="10"/>
+        <DatePicker Text="{Binding Employee.DatumDolaska,
+            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Grid.Row="7" Grid.Column="3" SelectedDateFormat="Short"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"
+                 h:DatePickerHelper.Watermark="Odaberite datum"/>
+
+        <TextBlock Text="Datum odlaska:" Grid.Row="8"
+                   Grid.Column="2" Margin="10"/>
+        <DatePicker Text="{Binding Employee.DatumOdlaska, 
+            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Grid.Row="8" Grid.Column="3" SelectedDateFormat="Short"
+                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"
+                 h:DatePickerHelper.Watermark="Odaberite datum"/>
+
+        <Button Command="{Binding SaveEmployeeCommand}" Content="Spremi" Grid.Row="9"
+                Grid.Column="3" HorizontalAlignment="Right" Margin="10"
+                Padding="25 5 25 5"/>
+    </Grid>
+</UserControl>

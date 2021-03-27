@@ -37,7 +37,26 @@ namespace AccountingUI.Core.Models
         public string StrucnaSprema { get; set; }
         public string Zvanje { get; set; }
         public decimal Olaksica { get; set; }
-        public DateTime DatumDolaska { get; set; }
-        public DateTime DatumOdlaska { get; set; }
+        public DateTime? DatumDolaska { get; set; }
+        public DateTime? DatumOdlaska { get; set; }
+
+        public void Reset()
+        {
+            Id = 0;
+            Oib = "";
+            Ime = "";
+            Prezime = "";
+            Ulica = "";
+            Broj = "";
+            Mjesto = "";
+            Drzava = "";
+            Telefon = "";
+            Email = "";
+            StrucnaSprema="";
+            Zvanje = "";
+            Olaksica = 0;
+            DatumDolaska = null;
+            DatumDolaska = null;
+        }
     }
 }

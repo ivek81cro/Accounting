@@ -32,7 +32,7 @@ namespace AccountingUI.Core.Service
 
         private void InitializeClient()
         {
-            string api = "https://localhost:5001/";
+            string api = "https://localhost:44345/";
 
             _apiClient = new HttpClient
             {

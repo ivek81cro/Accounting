@@ -45,7 +45,7 @@ namespace AccountingUI.Wpf.ViewModels
         private void Navigate(string param)
         {            
             var p = new NavigationParameters();
-            string tabTitle = TabHeaderTitles.GetHeadreTitle(param);
+            string tabTitle = TabHeaderTitles.GetHeaderTitle(param);
             p.Add("title", tabTitle);
             _regionManager.RequestNavigate("ContentRegion", param, p);
         }

@@ -48,17 +48,18 @@ namespace AccountingUI.Core.Services
             }
         }
 
-        public async Task PostEmployee(EmployeeModel partner)
+        public async Task<bool> PostEmployee(EmployeeModel employee)
         {
-            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/Employee", partner))
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/Employee", employee))
             {
                 if (response.IsSuccessStatusCode)
                 {
-
+                    return true;
                 }
                 else
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    var error = response.ReasonPhrase;
+                    return false;
                 }
             }
         }

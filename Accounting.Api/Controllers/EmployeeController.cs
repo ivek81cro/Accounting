@@ -34,15 +34,15 @@ namespace Accounting.Api.Controllers
 
         // POST api/<EmployeeController>
         [HttpPost]
-        public void Post([FromBody] EmployeeModel partner)
+        public void Post([FromBody] EmployeeModel employee)
         {
-            if (partner.Id == 0)
+            if (employee.Id == 0)
             {
-                _employeeData.InsertEmployee(partner);
+                _employeeData.InsertEmployee(employee);
             }
             else
             {
-                _employeeData.UpdateEmployee(partner);
+                _employeeData.UpdateEmployee(employee);
             }
         }
 

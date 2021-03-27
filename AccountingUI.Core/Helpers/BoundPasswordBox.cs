@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace AccountingUI.Wpf.Helpers
+namespace AccountingUI.Core.Helpers
 {
     /// <summary>
     /// Passwordbox binding helper class

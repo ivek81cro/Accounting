@@ -53,7 +53,8 @@
                           CommandParameter="CompanyView"/>
                 <MenuItem Header="Partneri" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="PartnersView"/>
-                <MenuItem Header="Zaposlenici"/>
+                <MenuItem Header="Zaposlenici" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="EmployeesView"/>
                 <MenuItem Header="Porezne stope"/>
                 <MenuItem Header="Gradovi"/>
             </MenuItem>

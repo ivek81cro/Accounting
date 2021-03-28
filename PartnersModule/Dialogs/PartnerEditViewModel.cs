@@ -71,7 +71,7 @@ namespace PartnersModule.Dialogs
 
         private async void GetPartnerFromDatabase(int partnerId)
         {
-            Partner = await _partnersEndpoint.GetById(partnerId);            
+            Partner = await _partnersEndpoint.GetById(partnerId);
         }
     }
 }

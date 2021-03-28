@@ -6,11 +6,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Images\edit.PNG" />
+    <None Remove="Views\Images\folder.PNG" />
+    <None Remove="Views\Images\kanta.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Views\Images\edit.PNG" />
+    <Resource Include="Views\Images\folder.PNG" />
+    <Resource Include="Views\Images\kanta.PNG" />
   </ItemGroup>
 
 </Project>

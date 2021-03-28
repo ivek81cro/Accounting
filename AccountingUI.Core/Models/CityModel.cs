@@ -36,5 +36,15 @@ namespace AccountingUI.Core.Models
 
         public string Sifra { get; set; }
 
+        public void Reset()
+        {
+            Id = 0;
+            Mjesto = "";
+            Zupanija = "";
+            Posta = "";
+            Drzava = "";
+            Sifra = "";
+            Prirez = 0.00m;
+        }
     }
 }

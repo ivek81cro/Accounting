@@ -9,7 +9,16 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              FontSize="14">
-    <Grid>
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="Height" Value="550"/>
+            <Setter Property="Width" Value="800"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+    <Grid>        
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -70,9 +79,13 @@
 
         <TextBlock Text="Grad:" Grid.Row="6"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Text="{Binding Employee.Mjesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                 Grid.Row="6" Grid.Column="1"
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
+            <TextBox Text="{Binding Employee.Mjesto, Mode=TwoWay, 
+            UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+            <Button Content="Odaberi" Padding="5" Margin="5 5 5 15"
+                    Command="{Binding OpenCitySelectionCommand}"/>
+        </StackPanel>
 
         <TextBlock Text="Telefon:" Grid.Row="1"
                    Grid.Column="2" Margin="10"/>

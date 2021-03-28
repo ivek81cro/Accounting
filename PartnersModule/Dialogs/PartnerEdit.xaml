@@ -9,6 +9,15 @@
              mc:Ignorable="d"
              prism:ViewModelLocator.AutoWireViewModel="True"
              FontSize="14">
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="Height" Value="450"/>
+            <Setter Property="Width" Value="670"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

@@ -34,7 +34,12 @@ namespace AccountingUI.Core.Models
 
         public string Ulica { get; set; }
         public string Broj { get; set; }
-        public string Mjesto { get; set; }
+        private string _mjesto;
+        public string Mjesto
+        {
+            get { return _mjesto; }
+            set { SetProperty(ref _mjesto, value); }
+        }
         public string Drzava { get; set; }
         public string Telefon { get; set; }
         public string Email { get; set; }

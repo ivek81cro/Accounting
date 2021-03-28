@@ -20,7 +20,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	UPDATE Employee 
-	SET Oib=@Oib, Ime=@Ime, Prezime=@Prezime, Ulica=@Ulica, Broj=@Broj, Mjesto=@Mjesto, 
+	SET Oib=@Oib, Ime=@Ime, Prezime=@Prezime, Ulica=@Ulica, Broj=@Broj, Mjesto=@Mjesto, Drzava=@Drzava,
 	Telefon=@Telefon, Email=@Email, StrucnaSprema=@StrucnaSprema, Zvanje=@Zvanje, Olaksica=@Olaksica,
 	Iban=@Iban, DatumDolaska=@DatumDolaska,	DatumOdlaska=@DatumOdlaska
 	WHERE Id=@Id;

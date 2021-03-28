@@ -47,6 +47,8 @@
                 </StackPanel>
             </Button>
         </StackPanel>
+            
+        <!--Filter-->
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <TextBlock Text="Filter Naziv" Margin="5"/>
             <TextBox Margin="5" Text="{Binding FilterCities, UpdateSourceTrigger=PropertyChanged}"

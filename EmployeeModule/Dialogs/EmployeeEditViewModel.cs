@@ -11,14 +11,19 @@ namespace EmployeeModule.Dialogs
     public class EmployeeEditViewModel : BindableBase, IDialogAware
     {
         private readonly IEmployeeEndpoint _employeeEndpoint;
+        private IDialogService _showDialog;
 
-        public EmployeeEditViewModel(IEmployeeEndpoint employeeEndpoint)
+        public EmployeeEditViewModel(IEmployeeEndpoint employeeEndpoint, IDialogService showDialog)
         {
             _employeeEndpoint = employeeEndpoint;
+            _showDialog = showDialog;
+
             SaveEmployeeCommand = new DelegateCommand(CloseDialog);
+            OpenCitySelectionCommand = new DelegateCommand(OpenCitySelectDialog);
         }
 
-        public DelegateCommand SaveEmployeeCommand { get; }
+        public DelegateCommand SaveEmployeeCommand { get; private set; }
+        public DelegateCommand OpenCitySelectionCommand { get; private set; }
 
         public string Title => "Izmjena Podataka Zaposlenika";
 
@@ -77,5 +82,18 @@ namespace EmployeeModule.Dialogs
         {
             Employee = await _employeeEndpoint.GetById(id);
         }
+
+        private void OpenCitySelectDialog()
+        {
+            _showDialog.ShowDialog(nameof(CitySelectDialog), null, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    CityModel city = result.Parameters.GetValue<CityModel>("city");
+                    Employee.Mjesto = city.Mjesto;
+                }
+            });
+        }
+
     }
 }

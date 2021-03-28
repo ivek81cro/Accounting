@@ -5,6 +5,15 @@
              xmlns:comp="clr-namespace:LoginModule.Components"
              prism:ViewModelLocator.AutoWireViewModel="True"
              Width="450" Height="250">
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="Height" Value="300"/>
+            <Setter Property="Width" Value="450"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>

@@ -18,6 +18,7 @@ namespace EmployeeModule
             containerRegistry.RegisterForNavigation<EmployeesView>();
 
             containerRegistry.RegisterDialog<EmployeeEdit, EmployeeEditViewModel>();
+            containerRegistry.RegisterDialog<CitySelectDialog, CitySelectDialogViewModel>();
 
             containerRegistry.RegisterScoped<IEmployeeEndpoint, EmployeeEndpoint>();
         }

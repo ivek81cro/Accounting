@@ -56,7 +56,8 @@
                 <MenuItem Header="Zaposlenici" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="EmployeesView"/>
                 <MenuItem Header="Porezne stope"/>
-                <MenuItem Header="Gradovi"/>
+                <MenuItem Header="Gradovi i općine" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="CitiesView"/>
             </MenuItem>
             <MenuItem Header="Knjige" Margin="5">
                 <MenuItem Header="URA">

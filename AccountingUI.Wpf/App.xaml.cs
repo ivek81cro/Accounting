@@ -1,6 +1,7 @@
 ﻿using Accounting.MainModule.Dialogs.AreYouSure;
 using AccountingUI.Core.Service;
 using AccountingUI.Wpf.Views;
+using CitiesModule;
 using CompanyModule;
 using EmployeeModule;
 using LoginModule;
@@ -37,6 +38,7 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModulePartners>();
             moduleCatalog.AddModule<ModuleCompany>();
             moduleCatalog.AddModule<ModuleEmployee>();
+            moduleCatalog.AddModule<ModuleCities>();
         }
     }
 }

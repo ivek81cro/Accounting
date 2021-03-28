@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PartnersModule", "PartnersM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyModule", "CompanyModule\CompanyModule.csproj", "{783E9DDC-69F7-490F-8814-C0CA390ADA44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmployeeModule", "EmployeeModule\EmployeeModule.csproj", "{BCD8E828-C8DB-4E8D-8785-E8D3F7931E70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeModule", "EmployeeModule\EmployeeModule.csproj", "{BCD8E828-C8DB-4E8D-8785-E8D3F7931E70}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitiesModule", "Cities\CitiesModule.csproj", "{87B37203-0BED-447B-9233-F500A3C7EE8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{BCD8E828-C8DB-4E8D-8785-E8D3F7931E70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCD8E828-C8DB-4E8D-8785-E8D3F7931E70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCD8E828-C8DB-4E8D-8785-E8D3F7931E70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87B37203-0BED-447B-9233-F500A3C7EE8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87B37203-0BED-447B-9233-F500A3C7EE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87B37203-0BED-447B-9233-F500A3C7EE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87B37203-0BED-447B-9233-F500A3C7EE8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{C5BF2409-D229-40EE-9679-00823282E1E2} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{783E9DDC-69F7-490F-8814-C0CA390ADA44} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{BCD8E828-C8DB-4E8D-8785-E8D3F7931E70} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
+		{87B37203-0BED-447B-9233-F500A3C7EE8E} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C146DCE3-AE73-4C23-A973-F16BCE354B0B}

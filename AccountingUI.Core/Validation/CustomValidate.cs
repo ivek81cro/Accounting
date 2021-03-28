@@ -24,6 +24,12 @@ namespace Accounting.CoreModule.Validation
                 case "Prezime":
                     ValidateMinLength((string)data, validationResults, name);
                     break;
+                case "Mjesto":
+                    ValidateMinLength((string)data, validationResults, name);
+                    break;
+                case "Zupanija":
+                    ValidateMinLength((string)data, validationResults, name);
+                    break;
             }
         }
 

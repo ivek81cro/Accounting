@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
+    <ProjectReference Include="..\Cities\CitiesModule.csproj" />
     <ProjectReference Include="..\CompanyModule\CompanyModule.csproj" />
     <ProjectReference Include="..\EmployeeModule\EmployeeModule.csproj" />
     <ProjectReference Include="..\LoginModule\LoginModule.csproj" />

@@ -51,9 +51,10 @@
                  Grid.Row="4" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
 
-        <TextBlock Text="Prirez:" Grid.Row="5"
+        <TextBlock Text="Prirez(%):" Grid.Row="5"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Text="{Binding City.Prirez, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding City.Prirez, Mode=TwoWay, 
+            UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
                  Grid.Row="5" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
 

@@ -1,6 +1,7 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
+using CitiesModule.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -43,7 +44,11 @@ namespace CitiesModule.ViewModels
         public CityModel SelectedCity
         {
             get { return _selectedCity; }
-            set { SetProperty(ref _selectedCity, value); }
+            set 
+            { 
+                SetProperty(ref _selectedCity, value);
+                DeleteCityCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private ICollectionView _citiesView;
@@ -53,7 +58,7 @@ namespace CitiesModule.ViewModels
             get { return _filterCities; }
             set
             {
-                SetProperty(ref _filterCities, value.ToUpper());
+                SetProperty(ref _filterCities, value);
                 _citiesView.Refresh();
             }
         }
@@ -80,12 +85,12 @@ namespace CitiesModule.ViewModels
 
         private bool CanDelete()
         {
-            throw new NotImplementedException();
+            return SelectedCity != null;
         }
 
         private void EditCity()
         {
-            throw new NotImplementedException();
+            SaveCityToDatabase();
         }
 
         private void AddNewCity()
@@ -101,7 +106,7 @@ namespace CitiesModule.ViewModels
         {
             var parameters = new DialogParameters();
             parameters.Add("city", SelectedCity);
-            _showDialog.ShowDialog(nameof(CityModel), parameters, result =>
+            _showDialog.ShowDialog(nameof(CityEdit), parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {

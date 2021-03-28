@@ -1,0 +1,8 @@
+﻿CREATE PROCEDURE [dbo].[spCities_Delete]
+@Id int
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	DELETE FROM City WHERE Id=@Id;
+END

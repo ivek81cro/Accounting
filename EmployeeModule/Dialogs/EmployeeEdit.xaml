@@ -112,7 +112,8 @@
 
         <TextBlock Text="Olakšica:" Grid.Row="7"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Text="{Binding Employee.Olaksica, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding Employee.Olaksica, Mode=TwoWay, 
+            UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
                  Grid.Row="7" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
 

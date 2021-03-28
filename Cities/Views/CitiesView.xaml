@@ -16,7 +16,7 @@
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded">
                     <i:CallMethodAction TargetObject="{Binding}"
-                                    MethodName="LoadCitiess"/>
+                                    MethodName="LoadCities"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             
@@ -64,7 +64,6 @@
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Mjesto}"/>
                 <DataGridTextColumn Header="Županija" Binding="{Binding Zupanija}"/>
                 <DataGridTextColumn Header="Država" Binding="{Binding Drzava}"/>
-                <DataGridTextColumn Header="Telefon" Binding="{Binding Telefon}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

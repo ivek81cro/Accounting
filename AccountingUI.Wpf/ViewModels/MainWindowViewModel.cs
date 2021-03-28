@@ -6,6 +6,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Services.Dialogs;
+using System.Windows;
 
 namespace AccountingUI.Wpf.ViewModels
 {
@@ -53,6 +54,10 @@ namespace AccountingUI.Wpf.ViewModels
         private void OnTabControlLoaded()
         {
             _showDialog.ShowDialog(nameof(LoginView));
+            if (!IsUserLoggedIn)
+            {
+                Application.Current.Shutdown();
+            }
         }
 
         private void EventIsUserLoggedIn(bool value)

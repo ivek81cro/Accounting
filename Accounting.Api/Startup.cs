@@ -81,12 +81,14 @@ namespace Accounting.Api
                     };
                 });
 
+            //Data services
             services.AddTransient<ICompanyData, CompanyData>();
             services.AddTransient<ISqlDataAccess, SqlDataAccess>();
             services.AddTransient<IUserData, UserData>();
             services.AddTransient<IPartnersData, PartnersData>();
             services.AddTransient<IEmployeeData, EmployeeData>();
             services.AddTransient<ICityData, CityData>();
+            services.AddTransient<ICountyData, CountyData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

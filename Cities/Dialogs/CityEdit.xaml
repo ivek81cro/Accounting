@@ -11,7 +11,7 @@
             <Setter Property="ResizeMode" Value="NoResize"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
             <Setter Property="Height" Value="450"/>
-            <Setter Property="Width" Value="350"/>
+            <Setter Property="Width" Value="450"/>
         </Style>
     </prism:Dialog.WindowStyle>
     <Grid>        
@@ -68,12 +68,17 @@
 
         <TextBlock Text="Županija:" Grid.Row="6"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Text="{Binding City.Zupanija, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                 Grid.Row="6" Grid.Column="1"
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
+        <TextBox Text="{Binding City.Zupanija, Mode=TwoWay, 
+            UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+            <Button Content="Odaberi" Padding="5" Margin="5 5 5 15"
+                    Width="80" Height="30"
+                    Command="{Binding OpenCountyDialogCommand}"/>
+        </StackPanel>
 
         <Button Command="{Binding SaveCityCommand}" Content="Spremi" Grid.Row="7"
-         Grid.Column="1" HorizontalAlignment="Right" Margin="10"
-         Padding="25 5 25 5"/>
+                Grid.Column="1" HorizontalAlignment="Right" Margin="10"
+                Width="95" Height="30" Padding="25 5 25 5"/>
     </Grid>
 </UserControl>

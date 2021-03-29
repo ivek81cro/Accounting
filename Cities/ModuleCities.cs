@@ -18,8 +18,10 @@ namespace CitiesModule
             containerRegistry.RegisterForNavigation<CitiesView>();
 
             containerRegistry.RegisterDialog<CityEdit, CityEditViewModel>();
+            containerRegistry.RegisterDialog<CountySelectDialog, CountySelectDialogViewModel>();
 
             containerRegistry.RegisterScoped<ICityEndpoint, CityEndpoint>();
+            containerRegistry.RegisterScoped<ICountyEndpoint, CountyEndpoint>();
         }
     }
 }

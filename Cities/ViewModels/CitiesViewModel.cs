@@ -111,7 +111,6 @@ namespace CitiesModule.ViewModels
                 {
                     CityModel city = result.Parameters.GetValue<CityModel>("city");
                     _cityEndpoint.PostCity(city);
-                    _cities.Add(city);
                     LoadCities();
                 }
             });

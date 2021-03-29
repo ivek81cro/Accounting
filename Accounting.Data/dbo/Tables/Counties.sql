@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[Counties]
+(
+	[Id] INT NOT NULL IDENTITY,
+	[Naziv] NVARCHAR(100) NOT NULL
+)

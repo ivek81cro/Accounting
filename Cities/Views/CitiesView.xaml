@@ -61,7 +61,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
-                <DataGridTextColumn Header="Prirez" Binding="{Binding Prirez}"/>
+                <DataGridTextColumn Header="Prirez(%)" Binding="{Binding Prirez}"/>
                 <DataGridTextColumn Header="Pošta" Binding="{Binding Posta}"/>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Mjesto}"/>
                 <DataGridTextColumn Header="Županija" Binding="{Binding Zupanija}"/>

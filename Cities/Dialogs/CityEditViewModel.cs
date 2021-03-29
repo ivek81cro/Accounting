@@ -10,15 +10,19 @@ namespace CitiesModule.Dialogs
     class CityEditViewModel : BindableBase, IDialogAware
     {
         private ICityEndpoint _cityEndpoint;
+        private IDialogService _showDialog;
 
-        public CityEditViewModel(ICityEndpoint cityEndpoint)
+        public CityEditViewModel(ICityEndpoint cityEndpoint, IDialogService showDialog)
         {
             _cityEndpoint = cityEndpoint;
 
             SaveCityCommand = new DelegateCommand(CloseDialog);
+            OpenCountyDialogCommand = new DelegateCommand(OpenCountyDialog);
+            _showDialog = showDialog;
         }
 
-        public DelegateCommand SaveCityCommand { get; }
+        public DelegateCommand SaveCityCommand { get; private set; }
+        public DelegateCommand OpenCountyDialogCommand { get; private set; }
 
         public string Title => "Izmjena podataka";
 
@@ -71,6 +75,18 @@ namespace CitiesModule.Dialogs
         private async void GetCitiesFromDatabase(int id)
         {
             City = await _cityEndpoint.GetById(id);
+        }
+
+        private void OpenCountyDialog()
+        {
+            _showDialog.ShowDialog(nameof(CountySelectDialog), null, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    CountyModel county = result.Parameters.GetValue<CountyModel>("county");
+                    City.Zupanija = county.Naziv;
+                }
+            });
         }
     }
 }

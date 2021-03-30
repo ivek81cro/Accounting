@@ -34,7 +34,7 @@ namespace AccountingUI.WPF
 
             containerRegistry.RegisterDialog<AreYouSureView, AreYouSureViewModel>();
 
-            //containerRegistry.RegisterInstance(typeof(IConfiguration), AddConfiguration(), "IConfiguration");
+            containerRegistry.RegisterInstance(typeof(IConfiguration), AddConfiguration(), "IConfiguration");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -44,20 +44,20 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleCompany>();
             moduleCatalog.AddModule<ModuleEmployee>();
             moduleCatalog.AddModule<ModuleCities>();
-            //moduleCatalog.AddModule<ModulePayroll>();
+            moduleCatalog.AddModule<ModulePayroll>();
         }
 
-//        private IConfiguration AddConfiguration()
-//        {
-//            IConfigurationBuilder builder = new ConfigurationBuilder()
-//                .SetBasePath(Directory.GetCurrentDirectory())
-//                .AddJsonFile("appsettings.json");
-//#if DEBUG
-//            builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
-//#else
-//            builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
-//#endif        
-//            return builder.Build();
-//        }
+        private IConfiguration AddConfiguration()
+        {
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+#if DEBUG
+            builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
+#else
+            builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
+#endif        
+            return builder.Build();
+        }
     }
 }

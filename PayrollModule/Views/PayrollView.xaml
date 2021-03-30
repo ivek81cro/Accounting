@@ -28,7 +28,7 @@
             </Grid.RowDefinitions>
             <!--Custom Menu-->
             <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0">
-                <Button Height="50" Width="50" Margin="10 5 0 5" Command="{Binding NewPartnerCommand}">
+                <Button Height="50" Width="50" Margin="10 5 0 5" Command="{Binding CalculatePayrollCommand}">
                     <StackPanel>
                         <Image Source="images\calculate.png" Height="30"/>
                         <TextBlock Text="Izračun"/>

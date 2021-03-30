@@ -1,6 +1,5 @@
 ﻿using AccountingUI.Core.Events;
 using AccountingUI.Core.Models;
-using Microsoft.Extensions.Configuration;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -15,14 +14,12 @@ namespace AccountingUI.Core.Service
         private HttpClient _apiClient;
         private ILoggedInUserModel _loggedInUserModel;
         private IEventAggregator _eventAggregator;
-        private IConfiguration _config;
 
-        public ApiService(ILoggedInUserModel loggedInUserModel, IEventAggregator eventAggregator, IConfiguration config)
+        public ApiService(ILoggedInUserModel loggedInUserModel, IEventAggregator eventAggregator)
         {
             InitializeClient();
             _loggedInUserModel = loggedInUserModel;
             _eventAggregator = eventAggregator;
-            _config = config;
         }
 
         public HttpClient ApiClient
@@ -35,7 +32,7 @@ namespace AccountingUI.Core.Service
 
         private void InitializeClient()
         {
-            string api = _config.GetValue<string>("uri"); ;
+            string api = "https://localhost:44345" ;
 
             _apiClient = new HttpClient
             {

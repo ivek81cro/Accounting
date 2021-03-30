@@ -87,6 +87,7 @@ namespace PayrollModule.ViewModels
 
         private void OpenCalculationDialog()
         {
+            //TODO: Injection of IConfiguration now working in Dialogs.
             var parameters = new DialogParameters();
             parameters.Add("payroll", SelectedPayroll);
             _showDialog.ShowDialog(nameof(PayrollCalculationDialog), parameters, result =>

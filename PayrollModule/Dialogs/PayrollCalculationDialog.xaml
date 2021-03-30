@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PayrollModule.Dialogs">
+             xmlns:local="clr-namespace:PayrollModule.Dialogs"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -103,7 +106,7 @@
                 HorizontalAlignment="Left" Margin="5" Width="75"
                 Command="{Binding CalculateCommand}"/>
 
-        <Button Content="Spremi" Grid.Row="14" Grid.Column="1"
+        <Button Content="Spremi" Grid.Row="14" Grid.Column="2"
                 HorizontalAlignment="Right" Margin="5" Width="75"
                 Command="{Binding SaveAndCloseCommand}"/>
     </Grid>

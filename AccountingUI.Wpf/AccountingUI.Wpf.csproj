@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
   </ItemGroup>
 
@@ -22,10 +24,21 @@
     <ProjectReference Include="..\EmployeeModule\EmployeeModule.csproj" />
     <ProjectReference Include="..\LoginModule\LoginModule.csproj" />
     <ProjectReference Include="..\PartnersModule\PartnersModule.csproj" />
+    <ProjectReference Include="..\PayrollModule\PayrollModule.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Dialogs\Images\questionmark.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

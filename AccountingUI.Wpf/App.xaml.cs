@@ -5,10 +5,13 @@ using CitiesModule;
 using CompanyModule;
 using EmployeeModule;
 using LoginModule;
+using Microsoft.Extensions.Configuration;
 using PartnersModule;
+using PayrollModule;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
+using System.IO;
 using System.Windows;
 
 namespace AccountingUI.WPF
@@ -30,6 +33,8 @@ namespace AccountingUI.WPF
             containerRegistry.RegisterForNavigation<StartView>();
 
             containerRegistry.RegisterDialog<AreYouSureView, AreYouSureViewModel>();
+
+            containerRegistry.RegisterInstance(typeof(IConfiguration), AddConfiguration(), "IConfiguration");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -39,6 +44,20 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleCompany>();
             moduleCatalog.AddModule<ModuleEmployee>();
             moduleCatalog.AddModule<ModuleCities>();
+            moduleCatalog.AddModule<ModulePayroll>();
+        }
+
+        private IConfiguration AddConfiguration()
+        {
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+#if DEBUG
+            builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
+#else
+            builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
+#endif        
+            return builder.Build();
         }
     }
 }

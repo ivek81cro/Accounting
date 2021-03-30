@@ -1,0 +1,235 @@
+﻿<UserControl x:Class="PayrollModule.Views.PayrollView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PayrollModule.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+    <UserControl.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid MinHeight="750">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--Custom Menu-->
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0">
+                <Button Height="50" Width="50" Margin="10 5 0 5" Command="{Binding CalculatePayrollCommand}">
+                    <StackPanel>
+                        <Image Source="images\calculate.png" Height="30"/>
+                        <TextBlock Text="Izračun"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="50" Width="50" Command="{Binding EditPartnerCommand}">
+                    <StackPanel>
+                        <Image Source="images\edit.png" Height="30"/>
+                        <TextBlock Text="Uredi"/>
+                    </StackPanel>
+                </Button>
+                <Button Height="50" Width="50" Command="{Binding DeletePayrollCommand}">
+                    <StackPanel>
+                        <Image Source="images\kanta.png" Height="30"/>
+                        <TextBlock Text="Briši"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <Separator HorizontalAlignment="Stretch" Height="2" Grid.Row="1"
+                       Margin="0 5 0 5"/>
+        </Grid>
+
+        <Grid Grid.Row="1" MinHeight="200">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Loaded">
+                    <i:CallMethodAction TargetObject="{Binding}"
+                                    MethodName="LoadPayrolls"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <DataGrid Grid.Row="0" ItemsSource="{Binding Payrolls}" IsReadOnly="True" 
+                  CanUserAddRows="False" SelectedItem="{Binding SelectedPayroll}"
+                  AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
+                    <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"/>
+                    <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}"/>
+                    <DataGridTextColumn Header="Bruto" Binding="{Binding Bruto}"/>
+                    <DataGridTextColumn Header="MIO I." Binding="{Binding Mio1}"/>
+                    <DataGridTextColumn Header="MIO II." Binding="{Binding Mio2}"/>
+                    <DataGridTextColumn Header="Dohodak" Binding="{Binding Dohodak}"/>
+                    <DataGridTextColumn Header="Odbitak" Binding="{Binding Odbitak}"/>
+                    <DataGridTextColumn Header="Osnovica" Binding="{Binding PoreznaOsnovica}"/>
+                    <DataGridTextColumn Header="Por. stopa I." Binding="{Binding PoreznaStopa1}"/>
+                    <DataGridTextColumn Header="Por. stopa II." Binding="{Binding PoreznaStopa2}"/>
+                    <DataGridTextColumn Header="Ukupno porezi" Binding="{Binding UkupnoPorez}"/>
+                    <DataGridTextColumn Header="Prirez" Binding="{Binding Prirez}"/>
+                    <DataGridTextColumn Header="Por. i prirez" Binding="{Binding UkupnoPorezPrirez}"/>
+                    <DataGridTextColumn Header="Neto" Binding="{Binding Neto}"/>
+                    <DataGridTextColumn Header="Dop. zdravstvo" Binding="{Binding DoprinosZdravstvo}"/>
+                </DataGrid.Columns>                
+            </DataGrid>
+        </Grid>
+
+        <Separator HorizontalAlignment="Stretch" Height="2" Grid.Row="1"
+                       Margin="0 5 0 5"/>
+        
+        <!--Lower block-->
+        <Grid Grid.Row="2" MinHeight="500" HorizontalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <!--Individual employee-->
+            <Grid Grid.Column="0" Grid.Row="0" MinWidth="250"  HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Text="Odabrani zaposlenik" Grid.Row="0" Grid.Column="0"
+                           Grid.ColumnSpan="3" FontSize="18" Margin="5 5 0 10"/>
+                <TextBlock Text="Oib" Grid.Row="1"/>
+                <TextBox Text="{Binding Oib}" IsEnabled="False" Grid.Row="1"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="0">
+                    <TextBlock Text="Ime i "/>
+                    <TextBlock Text="Prezime"/>
+                </StackPanel>
+                <TextBox Text="{Binding FullName}" IsEnabled="False" Grid.Row="2"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Bruto" Grid.Row="3" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="3"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Mio I. stup" Grid.Row="4" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="4"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                <CheckBox Content="Samo 1. stup?" IsChecked="{Binding SamoPrviStupMio}"
+                          Grid.Row="4" Grid.Column="2" Margin="5"/>
+
+                <TextBlock Text="Mio II. stup" Grid.Row="5" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="5"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Osobni dohodak" Grid.Row="6" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="6"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Osobni odbitak" Grid.Row="7" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="7"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Porezna osnovica" Grid.Row="8" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="8"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Porezna stopa 1" Grid.Row="9" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="9"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Porezna stopa 2" Grid.Row="10" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="10"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Ukupno porez" Grid.Row="11" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="11"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Prirez" Grid.Row="12" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="12"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Ukupno porez i prirez" Grid.Row="13" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="13"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Neto" Grid.Row="14" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="14"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+                
+                <TextBlock Text="Doprinos za zdravstvo" Grid.Row="15" Grid.Column="0"/>
+                <TextBox Text="{Binding Bruto}" IsEnabled="False" Grid.Row="15"
+                         Grid.Column="1" MinWidth="100" Margin="5"/>
+            </Grid>
+
+            <Separator VerticalAlignment="Stretch" Height="2" Grid.Column="1"
+                       Margin="5 0 5 0"/>
+
+            <!--Individual employee supplements-->
+            <Grid Grid.Column="2"  Grid.Row="0" MinWidth="250" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="Dodaci" Grid.Row="0" FontSize="18" Margin="5 5 0 10"/>
+                
+                <DataGrid Grid.Row="1" ItemsSource="{Binding Supplements}" IsReadOnly="True" 
+                  CanUserAddRows="False" SelectedItem="{Binding SelectedSupplement}"
+                  AutoGenerateColumns="False" MinHeight="400">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
+                        <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
+                        <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
+                        <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"/>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Right">
+                    <Button Content="Dodaj" Command="{Binding DeleteSupplementCommand}"
+                            Margin="5" Padding="5" Width="75"/>
+                    <Button Content="Briši" Command="{Binding DeleteSupplementCommand}"
+                            Margin="5" Padding="5" Width="75"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

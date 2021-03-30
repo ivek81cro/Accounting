@@ -9,7 +9,8 @@ namespace AccountingUI.Core.TabControlRegion
             PartnersView,
             CompanyView,
             EmployeesView,
-            CitiesView
+            CitiesView,
+            PayrollView
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -23,6 +24,8 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Zaposlenici";
                 case ViewNames.CitiesView:
                     return "Pregled gradova i općina";
+                case ViewNames.PayrollView:
+                    return "Plaća";
                 default:
                     return "";
             }

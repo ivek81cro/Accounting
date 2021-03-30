@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CompanyModule", "CompanyMod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeModule", "EmployeeModule\EmployeeModule.csproj", "{BCD8E828-C8DB-4E8D-8785-E8D3F7931E70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CitiesModule", "Cities\CitiesModule.csproj", "{87B37203-0BED-447B-9233-F500A3C7EE8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesModule", "Cities\CitiesModule.csproj", "{87B37203-0BED-447B-9233-F500A3C7EE8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PayrollModule", "PayrollModule\PayrollModule.csproj", "{04AB84F3-B695-4960-AABC-2BE1E3061F7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{87B37203-0BED-447B-9233-F500A3C7EE8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87B37203-0BED-447B-9233-F500A3C7EE8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87B37203-0BED-447B-9233-F500A3C7EE8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04AB84F3-B695-4960-AABC-2BE1E3061F7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04AB84F3-B695-4960-AABC-2BE1E3061F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04AB84F3-B695-4960-AABC-2BE1E3061F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04AB84F3-B695-4960-AABC-2BE1E3061F7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{783E9DDC-69F7-490F-8814-C0CA390ADA44} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{BCD8E828-C8DB-4E8D-8785-E8D3F7931E70} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{87B37203-0BED-447B-9233-F500A3C7EE8E} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
+		{04AB84F3-B695-4960-AABC-2BE1E3061F7B} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C146DCE3-AE73-4C23-A973-F16BCE354B0B}

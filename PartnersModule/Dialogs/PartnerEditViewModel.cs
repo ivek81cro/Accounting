@@ -19,7 +19,7 @@ namespace PartnersModule.Dialogs
         }
 
         public event Action<IDialogResult> RequestClose;
-        public DelegateCommand SavePartnerCommand { get; }
+        public DelegateCommand SavePartnerCommand { get; private set; }
         public string Title => "Izmjena Podataka Partnera";
 
         private PartnersModel _partner;

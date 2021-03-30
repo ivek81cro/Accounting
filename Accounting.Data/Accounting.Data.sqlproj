@@ -96,6 +96,14 @@
     <Build Include="dbo\Stored Procedures\spCounties_GetById.sql" />
     <Build Include="dbo\Stored Procedures\spCounties_Update.sql" />
     <Build Include="dbo\Stored Procedures\spCounties_Delete.sql" />
+    <Build Include="dbo\Tables\Payroll.sql" />
+    <Build Include="dbo\Tables\PayrollSupplementEmployee.sql" />
+    <Build Include="dbo\Tables\PayrollSupplement.sql" />
+    <Build Include="dbo\Stored Procedures\spPayroll_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\spPayroll_GetByOib.sql" />
+    <Build Include="dbo\Stored Procedures\spPayroll_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spPayroll_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spPayroll_Delete.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

@@ -24,4 +24,8 @@ BEGIN
 	Telefon=@Telefon, Email=@Email, StrucnaSprema=@StrucnaSprema, Zvanje=@Zvanje, Olaksica=@Olaksica,
 	Iban=@Iban, DatumDolaska=@DatumDolaska,	DatumOdlaska=@DatumOdlaska
 	WHERE Id=@Id;
+
+	UPDATE Payroll
+	SET Ime = @Ime, Prezime=@Prezime
+	WHERE Oib=@Oib;
 END

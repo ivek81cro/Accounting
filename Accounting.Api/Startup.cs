@@ -89,6 +89,7 @@ namespace Accounting.Api
             services.AddTransient<IEmployeeData, EmployeeData>();
             services.AddTransient<ICityData, CityData>();
             services.AddTransient<ICountyData, CountyData>();
+            services.AddTransient<IPayrollData, PayrollData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

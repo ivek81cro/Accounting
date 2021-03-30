@@ -23,11 +23,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
         <!--Custom Menu-->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0" Background="White">
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0">
             <Button Height="50" Width="50" Margin="10 5 0 5" Command="{Binding NewCityCommand}">
                 <StackPanel>
                     <Image Source="images\folder.png" Height="30"/>
@@ -47,15 +48,17 @@
                 </StackPanel>
             </Button>
         </StackPanel>
+        <Separator HorizontalAlignment="Stretch" Height="2" Grid.Row="1"
+                       Margin="0 5 0 5"/>
             
         <!--Filter-->
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
             <TextBlock Text="Filter Naziv" Margin="5"/>
             <TextBox Margin="5" Text="{Binding FilterCities, UpdateSourceTrigger=PropertyChanged}"
                  MinWidth="150"/>
         </StackPanel>
 
-        <DataGrid ItemsSource="{Binding Cities}" Grid.Row="2" IsReadOnly="True" 
+        <DataGrid ItemsSource="{Binding Cities}" Grid.Row="3" IsReadOnly="True" 
                   CanUserAddRows="False" SelectedItem="{Binding SelectedCity}"
                   AutoGenerateColumns="False">
             <DataGrid.Columns>

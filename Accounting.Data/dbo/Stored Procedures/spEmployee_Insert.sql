@@ -21,4 +21,6 @@ BEGIN
 
 	INSERT INTO Employee (Oib, Ime, Prezime, Ulica, Broj, Mjesto, Drzava, Telefon, Email, StrucnaSprema, Zvanje, Olaksica, Iban, DatumDolaska, DatumOdlaska)
 	VALUES (@Oib, @Ime, @Prezime, @Ulica, @Broj, @Mjesto, @Drzava, @Telefon, @Email, @StrucnaSprema, @Zvanje, @Olaksica, @Iban, @DatumDolaska, @DatumOdlaska);
+
+	INSERT INTO Payroll (Oib, Ime, Prezime) VALUES(@Oib, @Ime, @Prezime);
 END

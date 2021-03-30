@@ -1,0 +1,8 @@
+﻿CREATE TABLE [dbo].[PayrollSupplementEmployee]
+(
+	[Id] INT NOT NULL PRIMARY KEY,
+	[Oib] NVARCHAR(11) NOT NULL,
+	[Sifra] NVARCHAR(10) NOT NULL,
+	[Naziv] NVARCHAR(MAX) NOT NULL,
+	[Iznos] DECIMAL(8,2) NOT NULL
+)

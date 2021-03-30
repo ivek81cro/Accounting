@@ -364,3 +364,6 @@ FodyWeavers.xsd
 /Accounting.Api/appsettings.Development.json
 /Accounting.Api/appsettings.json
 *.PNG
+/AccountingUI.Wpf/appsettings.Production.json
+/AccountingUI.Wpf/appsettings.json
+/AccountingUI.Wpf/appsettings.Development.json

@@ -6,9 +6,9 @@ namespace AccountingUI.Core.Services
 {
     public interface IPayrollEndpoint
     {
-        Task DeletePayroll(int oib);
+        Task DeletePayroll(string oib);
         Task<List<PayrollModel>> GetAll();
-        Task<PayrollModel> GetByOib(int oib);
+        Task<PayrollModel> GetByOib(string oib);
         Task<bool> PostPayroll(PayrollModel payroll);
     }
 }

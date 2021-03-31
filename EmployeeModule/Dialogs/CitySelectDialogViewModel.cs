@@ -6,6 +6,7 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace EmployeeModule.Dialogs
@@ -54,7 +55,7 @@ namespace EmployeeModule.Dialogs
             }
         }
 
-        public async void LoadCities()
+        public async Task LoadCities()
         {
             var citiesList = await _cityEndpoint.GetAll();
             Cities = new ObservableCollection<CityModel>(citiesList);
@@ -86,7 +87,7 @@ namespace EmployeeModule.Dialogs
 
         public async void OnDialogOpened(IDialogParameters parameters)
         {
-            LoadCities();
+            await LoadCities();
         }
     }
 }

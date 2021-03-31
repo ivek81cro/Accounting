@@ -28,10 +28,17 @@ namespace Accounting.Api.Controllers
         }
 
         // GET api/<CitiesController>/5
-        [HttpGet("{id}")]
+        [HttpGet("int/{id}")]
         public CityModel Get(int id)
         {
             return _cityData.GetCityById(id);
+        }
+
+        // GET api/<CitiesController>/Zagreb
+        [HttpGet("string/{mjesto}")]
+        public CityModel Get(string mjesto)
+        {
+            return _cityData.GetCityByName(mjesto);
         }
 
         // POST api/<CitiesController>

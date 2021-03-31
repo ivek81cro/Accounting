@@ -32,7 +32,7 @@ namespace AccountingUI.Core.Services
             }
         }
 
-        public async Task<PayrollModel> GetByOib(int oib)
+        public async Task<PayrollModel> GetByOib(string oib)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Payroll/{oib}"))
             {
@@ -64,7 +64,7 @@ namespace AccountingUI.Core.Services
             }
         }
 
-        public async Task DeletePayroll(int oib)
+        public async Task DeletePayroll(string oib)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.DeleteAsync($"/api/Payroll/{oib}"))
             {

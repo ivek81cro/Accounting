@@ -28,13 +28,13 @@ namespace AccountingUI.WPF
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterInstance<IConfiguration>(AddConfiguration());
+
             containerRegistry.RegisterScoped<IApiService, ApiService>();
 
             containerRegistry.RegisterForNavigation<StartView>();
 
             containerRegistry.RegisterDialog<AreYouSureView, AreYouSureViewModel>();
-
-            containerRegistry.RegisterInstance(typeof(IConfiguration), AddConfiguration(), "IConfiguration");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
@@ -55,7 +55,7 @@ namespace AccountingUI.WPF
 #if DEBUG
             builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
 #else
-            builder.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
+            builder.AddJsonFile("appsettings.Production.json", optional: true, reloadOnChange: true);
 #endif        
             return builder.Build();
         }

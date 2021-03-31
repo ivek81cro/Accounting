@@ -12,7 +12,7 @@ namespace PayrollModule.ServiceLocal
             _config = config;
         }
 
-        public void Calculate(PayrollModel p, decimal prirez)
+        public void Calculate(PayrollModel p, decimal prirez, decimal osobniOdbitak)
         {
             decimal iznos = p.Bruto;
             if (p.SamoPrviStupMio)
@@ -27,7 +27,8 @@ namespace PayrollModule.ServiceLocal
                 iznos -= p.Mio1 + p.Mio2;
             }
             p.Dohodak = iznos;
-            iznos -= p.Odbitak = _config.GetValue<decimal>("Odbitak") * _config.GetValue<decimal>("KoefOdbitka");
+            iznos -= p.Odbitak = (_config.GetValue<decimal>("Odbitak") * _config.GetValue<decimal>("KoefOdbitka")) + 
+                osobniOdbitak * _config.GetValue<decimal>("Odbitak");
             if (iznos < 0)
             {
                 iznos = 0;

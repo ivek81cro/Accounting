@@ -30,6 +30,23 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
+        public CityModel GetCityByName(string name)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+                var output = _sql.LoadDataInTransaction<CityModel, dynamic>("dbo.spCities_GetByName", new { Mjesto = name })
+                        .FirstOrDefault();
+
+                return output;
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
         public List<CityModel> GetCities()
         {
             try

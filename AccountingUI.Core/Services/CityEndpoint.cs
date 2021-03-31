@@ -34,7 +34,23 @@ namespace AccountingUI.Core.Services
 
         public async Task<CityModel> GetById(int id)
         {
-            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Cities/{id}"))
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Cities/int/{id}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<CityModel>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<CityModel> GetByName(string name)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Cities/string/{name}"))
             {
                 if (response.IsSuccessStatusCode)
                 {

@@ -5,9 +5,10 @@ using PayrollModule.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
 
 namespace PayrollModule.ViewModels
@@ -15,18 +16,21 @@ namespace PayrollModule.ViewModels
     public class PayrollViewModel : ViewModelBase
     {
         private IPayrollEndpoint _payrollEndpoint;
+        private IEmployeeEndpoint _employeeEndpoint;
         private IPayrollSupplementEmployeeEndpoint _payrollSupplementEmployeeEndpoint;
         private IPayrollSupplementEndpoint _payrollSupplementEndpoint;
         private IRegionManager _regionManager;
         private IDialogService _showDialog;
 
-        public PayrollViewModel(IPayrollEndpoint payrollEndpoint, 
-            IPayrollSupplementEmployeeEndpoint payrollSupplementEmployeeEndpoint, 
-            IPayrollSupplementEndpoint payrollSupplementEndpoint, 
-            IRegionManager regionManager, 
-            IDialogService showDialog)
+        public PayrollViewModel(IPayrollEndpoint payrollEndpoint,
+            IPayrollSupplementEmployeeEndpoint payrollSupplementEmployeeEndpoint,
+            IPayrollSupplementEndpoint payrollSupplementEndpoint,
+            IRegionManager regionManager,
+            IDialogService showDialog, 
+            IEmployeeEndpoint employeeEndpoint)
         {
             _payrollEndpoint = payrollEndpoint;
+            _employeeEndpoint = employeeEndpoint;
             _payrollSupplementEmployeeEndpoint = payrollSupplementEmployeeEndpoint;
             _payrollSupplementEndpoint = payrollSupplementEndpoint;
             _regionManager = regionManager;
@@ -48,7 +52,11 @@ namespace PayrollModule.ViewModels
         public PayrollModel SelectedPayroll
         {
             get { return _selectedPayroll; }
-            set { SetProperty(ref _selectedPayroll, value); }
+            set 
+            { 
+                SetProperty(ref _selectedPayroll, value);
+                RaisePropertyChanged(nameof(FullName));
+            }
         }
 
         private ObservableCollection<PayrollSupplementEmployeeModel> _supplements;
@@ -65,6 +73,13 @@ namespace PayrollModule.ViewModels
             set { SetProperty(ref _selectedSupplement, value); }
         }
 
+        private List<EmployeeModel> _employees;
+        public List<EmployeeModel> Employees
+        {
+            get { return _employees; }
+            set { SetProperty(ref _employees, value); }
+        }
+
         private ICollectionView _payrollsView;
         private string _filterPayrolls;
         public string FilterPartners
@@ -77,12 +92,21 @@ namespace PayrollModule.ViewModels
             }
         }
 
+        private string _fullName;
+        public string FullName
+        {
+            get { return $"{SelectedPayroll?.Ime}  {SelectedPayroll?.Prezime}"; }
+            set { SetProperty(ref _fullName, value); }
+        }
+
         public async void LoadPayrolls()
         {
             var payrollList = await _payrollEndpoint.GetAll();
             Payrolls = new ObservableCollection<PayrollModel>(payrollList);
             _payrollsView = CollectionViewSource.GetDefaultView(Payrolls);
             _payrollsView.Filter = o => string.IsNullOrEmpty(FilterPartners) ? true : ((PayrollModel)o).Prezime.Contains(FilterPartners);
+
+            Employees = await _employeeEndpoint.GetAll();
         }
 
         private void OpenCalculationDialog()
@@ -90,6 +114,7 @@ namespace PayrollModule.ViewModels
             //TODO: Injection of IConfiguration now working in Dialogs.
             var parameters = new DialogParameters();
             parameters.Add("payroll", SelectedPayroll);
+            parameters.Add("employee", Employees.Where(x => x.Oib == SelectedPayroll.Oib).FirstOrDefault());
             _showDialog.ShowDialog(nameof(PayrollCalculationDialog), parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)

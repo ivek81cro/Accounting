@@ -8,6 +8,7 @@ namespace Accounting.DataManager.DataAccess
         void DeleteCity(int id);
         List<CityModel> GetCities();
         CityModel GetCityById(int id);
+        CityModel GetCityByName(string name);
         void InsertCity(CityModel city);
         void UpdateCity(CityModel city);
     }

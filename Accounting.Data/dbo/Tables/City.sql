@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[City]
 (
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[Mjesto] [nvarchar](50) NOT NULL,
+	[Mjesto] [nvarchar](100) NOT NULL,
 	[Zupanija] [nvarchar](75) NOT NULL,
 	[Drzava] [nvarchar](75) NULL,
 	[Posta] [nvarchar](10) NULL,

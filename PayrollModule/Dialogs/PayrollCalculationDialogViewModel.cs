@@ -12,11 +12,15 @@ namespace PayrollModule.Dialogs
     {
         private readonly IPayrollEndpoint _payrollEndpoint;
         private readonly IPayrollCalculation _payrollCalculation;
+        private readonly ICityEndpoint _cityEndpoint;
 
-        public PayrollCalculationDialogViewModel(IPayrollEndpoint payrollEndpoint, IPayrollCalculation payrollCalculation)
+        public PayrollCalculationDialogViewModel(IPayrollEndpoint payrollEndpoint,
+            IPayrollCalculation payrollCalculation,
+            ICityEndpoint cityEndpoint)
         {
             _payrollEndpoint = payrollEndpoint;
             _payrollCalculation = payrollCalculation;
+            _cityEndpoint = cityEndpoint;
 
             CalculateCommand = new DelegateCommand(CalculatePayroll);
             SaveAndCloseCommand = new DelegateCommand(SaveAndCloseDialog);
@@ -36,6 +40,20 @@ namespace PayrollModule.Dialogs
             set { SetProperty(ref _payroll, value); }
         }
 
+        private EmployeeModel _employee;
+        public EmployeeModel Employee
+        {
+            get { return _employee; }
+            set { SetProperty(ref _employee, value); }
+        }
+
+        private CityModel _city;
+        public CityModel City
+        {
+            get { return _city; }
+            set { SetProperty(ref _city, value); }
+        }
+
         public bool CanCloseDialog()
         {
             return true;
@@ -46,20 +64,43 @@ namespace PayrollModule.Dialogs
 
         }
 
-        public void OnDialogOpened(IDialogParameters parameters)
+        public async void OnDialogOpened(IDialogParameters parameters)
         {
+            Payroll = parameters.GetValue<PayrollModel>("payroll");
+            Employee = parameters.GetValue<EmployeeModel>("employee");
+            if (Payroll != null)
+            {
+                GetPayrollFromDatabase(Payroll.Oib);
+            }
+            else
+            {
+                Payroll = new PayrollModel();
+            }
 
+            City = await _cityEndpoint.GetByName(Employee.Mjesto);
+        }
+
+        private void GetPayrollFromDatabase(string oib)
+        {
+            _payrollEndpoint.GetByOib(oib);
         }
 
         private void SaveAndCloseDialog()
         {
+            if (Payroll != null && !Payroll.HasErrors)
+            {
+                _payrollEndpoint.PostPayroll(Payroll);
+                var result = ButtonResult.OK;
+                var p = new DialogParameters();
+                p.Add("payroll", Payroll);
 
+                RequestClose?.Invoke(new DialogResult(result, p));
+            }
         }
 
         private void CalculatePayroll()
         {
-            //TODO: get prirez for selected employee
-            _payrollCalculation.Calculate(Payroll, 18);
+            _payrollCalculation.Calculate(Payroll, City.Prirez, Employee.Olaksica);
         }
     }
 }

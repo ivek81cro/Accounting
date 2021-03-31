@@ -18,5 +18,6 @@
         public decimal UkupnoPorezPrirez { get; set; }
         public decimal Neto { get; set; }
         public decimal DoprinosZdravstvo { get; set; }
+        public bool SamoPrviStupMio { get; set; }
     }
 }

@@ -28,9 +28,9 @@ namespace AccountingUI.WPF
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterInstance<IConfiguration>(AddConfiguration());
-
             containerRegistry.RegisterScoped<IApiService, ApiService>();
+
+            containerRegistry.RegisterInstance<IConfiguration>(AddConfiguration());
 
             containerRegistry.RegisterForNavigation<StartView>();
 

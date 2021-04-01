@@ -9,8 +9,9 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Knjigovodstvo" Height="650" Width="1050" 
+        Title="Knjigovodstvo" 
         WindowState="Maximized" WindowStartupLocation="CenterScreen">
+    
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="boolToVisConv"/>
         <Style TargetType="TabItem">
@@ -40,14 +41,10 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" FontSize="14" Visibility="{Binding IsUserLoggedIn, Converter={StaticResource boolToVisConv}}">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top" FontSize="14" Margin="5" Grid.Column="0"
+              Visibility="{Binding IsUserLoggedIn, Converter={StaticResource boolToVisConv}}">
             <MenuItem Header="Postavke" Margin="5">
                 <MenuItem Header="Komitent" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="CompanyView"/>
@@ -81,13 +78,15 @@
             </MenuItem>
         </Menu>
 
-        <TabControl Grid.Row="1" Margin="10" prism:RegionManager.RegionName="ContentRegion"
-                    MinHeight="200" BorderThickness="1" BorderBrush="LightGray">
+        <TabControl DockPanel.Dock="Top" Margin="5"
+                    prism:RegionManager.RegionName="ContentRegion" 
+                    BorderThickness="1" BorderBrush="LightGray"
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Loaded" >
                     <prism:InvokeCommandAction Command="{Binding TabControlLoadedCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </TabControl>
-    </Grid>
+    </DockPanel>
 </Window>

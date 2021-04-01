@@ -10,23 +10,16 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <DockPanel>
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <i:CallMethodAction TargetObject="{Binding}"
                                     MethodName="LoadPartners"/>
             </i:EventTrigger>
         </i:Interaction.Triggers>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
         
         <!--Custom Menu-->
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0" Background="White">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0" Background="White">
             <Button Height="50" Width="50" Margin="10 5 0 5" Command="{Binding NewPartnerCommand}">
                 <StackPanel>
                     <Image Source="images\folder.png" Height="30"/>
@@ -46,16 +39,16 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-        <Separator HorizontalAlignment="Stretch" Height="2" Grid.Row="1"
+        <Separator HorizontalAlignment="Stretch" Height="2" DockPanel.Dock="Top"
                        Margin="0 5 0 5"/>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <TextBlock Text="Filter Naziv" Margin="5"/>
             <TextBox Margin="5" Text="{Binding FilterPartners, UpdateSourceTrigger=PropertyChanged}"
                  MinWidth="150"/>
         </StackPanel>
 
-        <DataGrid ItemsSource="{Binding Partners}" Grid.Row="3" IsReadOnly="True" 
+        <DataGrid ItemsSource="{Binding Partners}" DockPanel.Dock="Top" IsReadOnly="True" 
                   CanUserAddRows="False" SelectedItem="{Binding SelectedPartner}"
                   AutoGenerateColumns="False">
             <DataGrid.Columns>
@@ -74,5 +67,5 @@
             </DataGrid.Columns>
         </DataGrid>
         
-    </Grid>
+    </DockPanel>
 </UserControl>

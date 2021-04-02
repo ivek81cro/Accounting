@@ -8,6 +8,7 @@ namespace AccountingUI.Core.Services
     {
         Task DeleteSupplement(int id);
         Task<List<PayrollSupplementEmployeeModel>> GetAll();
+        Task<List<PayrollSupplementEmployeeModel>> GetByOib(string oib);
         Task PostSupplement(PayrollSupplementEmployeeModel supplement);
     }
 }

@@ -15,9 +15,6 @@ namespace Accounting.Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                }).ConfigureWebHost(config =>
-                {
-                    config.UseUrls("http://*:5050");
-                }).UseWindowsService();
+                });
     }
 }

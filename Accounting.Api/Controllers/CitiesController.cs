@@ -55,12 +55,6 @@ namespace Accounting.Api.Controllers
             }
         }
 
-        // PUT api/<CitiesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         // DELETE api/<CitiesController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)

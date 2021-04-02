@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[PayrollSupplementEmployee]
 (
-	[Id] INT NOT NULL PRIMARY KEY,
+	[Id] INT NOT NULL IDENTITY,
 	[Oib] NVARCHAR(11) NOT NULL,
 	[Sifra] NVARCHAR(10) NOT NULL,
 	[Naziv] NVARCHAR(MAX) NOT NULL,

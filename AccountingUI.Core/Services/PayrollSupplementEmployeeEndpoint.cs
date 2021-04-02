@@ -32,6 +32,26 @@ namespace AccountingUI.Core.Services
             }
         }
 
+        public async Task<List<PayrollSupplementEmployeeModel>> GetByOib(string oib)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/EmployeeSupplement/{oib}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<PayrollSupplementEmployeeModel>>();
+                    return result;
+                }
+                else if(response.ReasonPhrase == "Not Found")
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task PostSupplement(PayrollSupplementEmployeeModel supplement)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/EmployeeSupplement", supplement))

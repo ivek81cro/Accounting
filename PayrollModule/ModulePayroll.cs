@@ -19,6 +19,7 @@ namespace PayrollModule
             containerRegistry.RegisterForNavigation<PayrollView>();
 
             containerRegistry.RegisterDialog<PayrollCalculationDialog>();
+            containerRegistry.RegisterDialog<SupplementsDialog>();
 
             containerRegistry.RegisterScoped<IPayrollEndpoint, PayrollEndpoint>();
             containerRegistry.RegisterScoped<IPayrollSupplementEndpoint, PayrollSupplementEndpoint>();

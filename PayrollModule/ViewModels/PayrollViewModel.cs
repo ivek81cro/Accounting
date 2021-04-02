@@ -5,6 +5,7 @@ using PayrollModule.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -37,9 +38,13 @@ namespace PayrollModule.ViewModels
             _showDialog = showDialog;
 
             CalculatePayrollCommand = new DelegateCommand(OpenCalculationDialog);
+            AddSupplementCommand = new DelegateCommand(OpenSupplementsDialog);
+            DeleteSupplementCommand = new DelegateCommand(DeleteSelectedSupplement);
         }
 
         public DelegateCommand CalculatePayrollCommand { get; private set; }
+        public DelegateCommand AddSupplementCommand { get; private set; }
+        public DelegateCommand DeleteSupplementCommand { get; private set; }
 
         private ObservableCollection<PayrollModel> _payrolls;
         public ObservableCollection<PayrollModel> Payrolls
@@ -56,6 +61,7 @@ namespace PayrollModule.ViewModels
             { 
                 SetProperty(ref _selectedPayroll, value);
                 RaisePropertyChanged(nameof(FullName));
+                LoadSupplements();
             }
         }
 
@@ -92,6 +98,13 @@ namespace PayrollModule.ViewModels
             }
         }
 
+        private decimal _sumOfSupplements;
+        public decimal SumOfSupplements
+        {
+            get { return _sumOfSupplements; }
+            set { SetProperty(ref _sumOfSupplements, value); }
+        }
+
         private string _fullName;
         public string FullName
         {
@@ -109,9 +122,20 @@ namespace PayrollModule.ViewModels
             Employees = await _employeeEndpoint.GetAll();
         }
 
+        private async void LoadSupplements()
+        {
+            var suppl = await _payrollSupplementEmployeeEndpoint.GetByOib(SelectedPayroll.Oib);
+
+            if (suppl != null)
+            {
+                Supplements = new ObservableCollection<PayrollSupplementEmployeeModel>(suppl);
+            }
+
+            SumOfSupplements = Supplements.Sum(x => x.Iznos);
+        }
+
         private void OpenCalculationDialog()
         {
-            //TODO: Injection of IConfiguration now working in Dialogs.
             var parameters = new DialogParameters();
             parameters.Add("payroll", SelectedPayroll);
             parameters.Add("employee", Employees.Where(x => x.Oib == SelectedPayroll.Oib).FirstOrDefault());
@@ -124,6 +148,28 @@ namespace PayrollModule.ViewModels
                     LoadPayrolls();
                 }
             });
+        }
+
+        private void OpenSupplementsDialog()
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("oib", SelectedPayroll?.Oib);
+            parameters.Add("fullname", FullName);
+            _showDialog.ShowDialog(nameof(SupplementsDialog), parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    LoadSupplements();
+                }
+            });
+        }
+
+        private async void DeleteSelectedSupplement()
+        {
+            if (SelectedSupplement != null)
+            {
+                await _payrollSupplementEmployeeEndpoint.DeleteSupplement(SelectedSupplement.Id);
+            }
         }
     }
 }

@@ -41,12 +41,6 @@ namespace Accounting.Api.Controllers
             _countyData.InsertCounty(county);
         }
 
-        // PUT api/<CountiesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] CountyModel county)
-        {
-        }
-
         // DELETE api/<CountiesController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)

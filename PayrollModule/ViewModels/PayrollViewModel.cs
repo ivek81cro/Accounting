@@ -169,6 +169,7 @@ namespace PayrollModule.ViewModels
             if (SelectedSupplement != null)
             {
                 await _payrollSupplementEmployeeEndpoint.DeleteSupplement(SelectedSupplement.Id);
+                Supplements.Remove(SelectedSupplement);
             }
         }
     }

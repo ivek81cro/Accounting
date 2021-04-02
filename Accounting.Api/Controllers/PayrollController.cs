@@ -52,12 +52,6 @@ namespace Accounting.Api.Controllers
             }
         }
 
-        // PUT api/<PayrollController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         // DELETE api/<PayrollController>/5
         [HttpDelete("{id}")]
         public void Delete(string oib)

@@ -37,11 +37,5 @@ namespace Accounting.Api.Controllers
                 _company.UpdateCompany(company);
             }
         }
-
-        // PUT api/<CompanyController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
     }
 }

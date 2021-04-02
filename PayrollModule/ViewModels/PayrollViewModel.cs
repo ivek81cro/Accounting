@@ -124,14 +124,14 @@ namespace PayrollModule.ViewModels
 
         private async void LoadSupplements()
         {
-            var suppl = await _payrollSupplementEmployeeEndpoint.GetByOib(SelectedPayroll.Oib);
-
-            if (suppl != null)
+            if (SelectedPayroll != null)
             {
+                var suppl = await _payrollSupplementEmployeeEndpoint.GetByOib(SelectedPayroll.Oib);
+
                 Supplements = new ObservableCollection<PayrollSupplementEmployeeModel>(suppl);
+                SumOfSupplements = Supplements.Sum(x => x.Iznos);
             }
 
-            SumOfSupplements = Supplements.Sum(x => x.Iznos);
         }
 
         private void OpenCalculationDialog()

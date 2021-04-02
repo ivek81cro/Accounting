@@ -38,10 +38,6 @@ namespace EmployeeModule.Dialogs
 
         private async void CloseDialog()
         {
-            if(Employee.DatumOdlaska == null)
-            {
-                Employee.DatumOdlaska = new DateTime(day:1, month:1, year:1900);
-            }
             if (Employee != null && !Employee.HasErrors &&
                 await _employeeEndpoint.PostEmployee(Employee))
             {
@@ -81,6 +77,11 @@ namespace EmployeeModule.Dialogs
         private async void GetEmployeeFromDatabase(int id)
         {
             Employee = await _employeeEndpoint.GetById(id);
+            var date = new DateTime(day: 1, month: 1, year: 1900);
+            if (Employee.DatumOdlaska == date)
+            {
+                Employee.DatumOdlaska = null;
+            }
         }
 
         private void OpenCitySelectDialog()

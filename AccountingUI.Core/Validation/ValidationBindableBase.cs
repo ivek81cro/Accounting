@@ -1,5 +1,4 @@
-﻿using Accounting.CoreModule.Validation;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using System;
 using System.Collections;
 using System.Collections.Generic;

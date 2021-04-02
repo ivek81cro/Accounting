@@ -12,49 +12,67 @@
             <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
             <Setter Property="ResizeMode" Value="NoResize"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
-            <Setter Property="Height" Value="500"/>
-            <Setter Property="Width" Value="900"/>
+            <Setter Property="Height" Value="550"/>
+            <Setter Property="Width" Value="1050"/>
         </Style>
     </prism:Dialog.WindowStyle>
     
     <DockPanel>
-        <TextBlock Text="{Binding FullName}" DockPanel.Dock="Top"/>
+        <TextBlock Text="{Binding FullName}" DockPanel.Dock="Top" FontSize="16" Margin="5"/>
         <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="5">
             <TextBlock Text="Dodaci zaposlenika" FontSize="16" Margin="0 0 0 27"/>
             <DataGrid ItemsSource="{Binding EmployeeSupplements, UpdateSourceTrigger=PropertyChanged}"
-                      AutoGenerateColumns="False"
-                      MaxHeight="400" MaxWidth="400">
+                      AutoGenerateColumns="False" CanUserAddRows="False"
+                      Height="400" Width="450">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
                     <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
-                    <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"/>
+                    <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"
+                                        MaxWidth="350">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style>
+                                <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
 
-        <StackPanel Orientation="Vertical" Margin="15 20 15 0">
-            <Button Content="Dodaj" Width="80" Height="30" Padding="5" Margin="10"
+        <Border CornerRadius="3" BorderBrush="Gray" BorderThickness="1"
+                Margin="15 20 15 0">
+            <StackPanel Orientation="Vertical">
+                <Button Content="Dodaj" Width="80" Height="30" Padding="5" 
+                        Margin="10 40 10 10"
                     Command="{Binding AddSupplementCommand}"/>
-            <TextBlock Text="Iznos:" Margin="5 15 5 5"/>
-            <TextBox Text="{Binding SupplementValue, UpdateSourceTrigger=PropertyChanged,
+                <TextBlock Text="Iznos:" Margin="5 15 5 5"/>
+                <TextBox Text="{Binding SupplementValue, UpdateSourceTrigger=PropertyChanged,
                 Mode=TwoWay}" 
                      Margin="5"/>
-        </StackPanel>
+            </StackPanel>
+        </Border>
 
         <StackPanel Orientation="Vertical" DockPanel.Dock="Left" Margin="5">
             <TextBlock Text="Odabir dodatka" FontSize="16"/>
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Filter po nazivu:" Margin="5"/>
-                <TextBox Margin="5" Text="{Binding FilterCities, UpdateSourceTrigger=PropertyChanged}"
+                <TextBlock Text="Filter po opisu:" Margin="5"/>
+                <TextBox Margin="5" Text="{Binding FilterSupplements, UpdateSourceTrigger=PropertyChanged}"
                  MinWidth="150"/>
             </StackPanel>
             <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <DataGrid ItemsSource="{Binding Supplements}" AutoGenerateColumns="False"
-                          MaxHeight="400" MaxWidth="400" 
+                          Height="400" Width="410" CanUserAddRows="False"
                           SelectedItem="{Binding SelectedSupplement}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
-                        <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"/>
+                        <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}" 
+                                            MaxWidth="350">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </ScrollViewer>

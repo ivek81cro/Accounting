@@ -43,11 +43,22 @@ namespace AccountingUI.Core.Models
         public string Drzava { get; set; }
         public string Telefon { get; set; }
         public string Email { get; set; }
+        private string _iban;
+        public string Iban
+        {
+            get { return _iban; }
+            set { SetProperty(ref _iban, value); }
+        }
         public string StrucnaSprema { get; set; }
         public string Zvanje { get; set; }
         public decimal Olaksica { get; set; }
         public DateTime? DatumDolaska { get; set; }
-        public DateTime? DatumOdlaska { get; set; }
+        private DateTime? _datumOdlaska;
+        public DateTime? DatumOdlaska
+        {
+            get { return _datumOdlaska; }
+            set { SetProperty(ref _datumOdlaska, value); }
+        }
 
         public void Reset()
         {
@@ -61,6 +72,7 @@ namespace AccountingUI.Core.Models
             Drzava = "";
             Telefon = "";
             Email = "";
+            Iban = "";
             StrucnaSprema="";
             Zvanje = "";
             Olaksica = 0;

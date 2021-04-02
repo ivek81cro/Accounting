@@ -50,6 +50,11 @@ namespace AccountingUI.Core.Services
 
         public async Task<bool> PostEmployee(EmployeeModel employee)
         {
+            if(employee.DatumOdlaska == null)
+            {
+                employee.DatumOdlaska = new DateTime(day: 1, month: 1, year: 1900);
+            }
+
             using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/Employee", employee))
             {
                 if (response.IsSuccessStatusCode)

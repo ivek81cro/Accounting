@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:PayrollModule.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             FontSize="14">
     
     <UserControl.Resources>
         <Style TargetType="TabItem">

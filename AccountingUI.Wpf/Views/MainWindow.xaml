@@ -52,7 +52,6 @@
                           CommandParameter="PartnersView"/>
                 <MenuItem Header="Zaposlenici" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="EmployeesView"/>
-                <MenuItem Header="Porezne stope"/>
                 <MenuItem Header="Gradovi i općine" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="CitiesView"/>
             </MenuItem>

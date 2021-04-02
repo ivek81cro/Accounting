@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Accounting.CoreModule.Validation
+namespace AccountingUI.Core.Validation
 {
     public class CustomValidate
     {
@@ -30,6 +30,18 @@ namespace Accounting.CoreModule.Validation
                 case "Zupanija":
                     ValidateMinLength((string)data, validationResults, name);
                     break;
+                case "Iban":
+                    ValidateIban((string)data, validationResults, name);
+                    break;
+            }
+        }
+
+        private static void ValidateIban(string data, ICollection<ValidationResult> validationResults, string name)
+        {
+            if (data != null && data.Length < 21)
+            {
+                validationResults.Add(
+                    new ValidationResult("Naziv mora sadržavati 21 znak."));
             }
         }
 

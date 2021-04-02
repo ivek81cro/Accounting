@@ -5,6 +5,7 @@ using EmployeeModule.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
@@ -65,7 +66,15 @@ namespace EmployeeModule.ViewModels
 
         public async void LoadEmployees()
         {
+            var date = new DateTime(day: 1, month: 1, year: 1900);
             var employeesList = await _employeeEndpoint.GetAll();
+            foreach(var e in employeesList)
+            {
+                if(e.DatumOdlaska == date)
+                {
+                    e.DatumOdlaska = null;
+                }
+            }
             Employees = new ObservableCollection<EmployeeModel>(employeesList);
             _employeesView = CollectionViewSource.GetDefaultView(Employees);
         }

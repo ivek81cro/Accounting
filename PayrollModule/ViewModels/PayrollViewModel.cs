@@ -38,8 +38,8 @@ namespace PayrollModule.ViewModels
             _showDialog = showDialog;
 
             CalculatePayrollCommand = new DelegateCommand(OpenCalculationDialog);
-            AddSupplementCommand = new DelegateCommand(OpenSupplementsDialog);
-            DeleteSupplementCommand = new DelegateCommand(DeleteSelectedSupplement);
+            AddSupplementCommand = new DelegateCommand(OpenSupplementsDialog, CanAddSupplement);
+            DeleteSupplementCommand = new DelegateCommand(DeleteSelectedSupplement, CanAddSupplement);
         }
 
         public DelegateCommand CalculatePayrollCommand { get; private set; }
@@ -61,6 +61,7 @@ namespace PayrollModule.ViewModels
             { 
                 SetProperty(ref _selectedPayroll, value);
                 RaisePropertyChanged(nameof(FullName));
+                AddSupplementCommand.RaiseCanExecuteChanged();
                 LoadSupplements();
             }
         }
@@ -149,6 +150,12 @@ namespace PayrollModule.ViewModels
                 }
             });
         }
+
+        private bool CanAddSupplement()
+        {
+            return SelectedPayroll != null;
+        }
+
 
         private void OpenSupplementsDialog()
         {

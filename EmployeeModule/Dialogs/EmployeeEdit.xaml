@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:EmployeeModule.Dialogs"
              xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
              xmlns:prism="http://prismlibrary.com/"
+             xmlns:date="clr-namespace:AccountingUI.Core.Validation;assembly=AccountingUI.Core"
              prism:ViewModelLocator.AutoWireViewModel="True"
              mc:Ignorable="d" 
              FontSize="14">
@@ -132,19 +133,33 @@
 
         <TextBlock Text="Datum dolaska:" Grid.Row="7"
                    Grid.Column="2" Margin="10"/>
-        <DatePicker Text="{Binding Employee.DatumDolaska,
-            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="7" Grid.Column="3" SelectedDateFormat="Short"
+        <DatePicker Grid.Row="7" Grid.Column="3" SelectedDateFormat="Short"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"
-                 h:DatePickerHelper.Watermark="Odaberite datum"/>
+                 h:DatePickerHelper.Watermark="Odaberite datum">
+            <DatePicker.SelectedDate>
+                <Binding Path="Employee.DatumDolaska"
+                         Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <date:DateValidate />
+                    </Binding.ValidationRules>
+                </Binding>
+            </DatePicker.SelectedDate>
+        </DatePicker>
 
         <TextBlock Text="Datum odlaska:" Grid.Row="8"
                    Grid.Column="2" Margin="10"/>
-        <DatePicker Text="{Binding Employee.DatumOdlaska, 
-            Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                 Grid.Row="8" Grid.Column="3" SelectedDateFormat="Short"
+        <DatePicker Grid.Row="8" Grid.Column="3" SelectedDateFormat="Short"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"
-                 h:DatePickerHelper.Watermark="Odaberite datum"/>
+                 h:DatePickerHelper.Watermark="Odaberite datum">
+            <DatePicker.SelectedDate>
+                <Binding Path="Employee.DatumOdlaska"
+                         Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <date:DateValidate />
+                    </Binding.ValidationRules>
+                </Binding>
+            </DatePicker.SelectedDate>
+        </DatePicker>
 
         <Button Command="{Binding SaveEmployeeCommand}" Content="Spremi" Grid.Row="9"
                 Grid.Column="3" HorizontalAlignment="Right" Margin="10"

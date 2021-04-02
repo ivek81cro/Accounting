@@ -5,6 +5,8 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 
 namespace PayrollModule.Dialogs
 {
@@ -75,6 +77,18 @@ namespace PayrollModule.Dialogs
             set { SetProperty(ref _employeeSupplements, value); }
         }
 
+        private ICollectionView _supplemetsView;
+        private string _filterSupplements;
+        public string FilterSupplements
+        {
+            get { return _filterSupplements; }
+            set
+            {
+                SetProperty(ref _filterSupplements, value);
+                _supplemetsView.Refresh();
+            }
+        }
+
         public event Action<IDialogResult> RequestClose;
 
         public bool CanCloseDialog()
@@ -111,6 +125,10 @@ namespace PayrollModule.Dialogs
         {
             var sup = await _supplementsEndpoint.GetAll();
             Supplements = new ObservableCollection<PayrollSupplementModel>(sup);
+            var suppList = await _supplementsEndpoint.GetAll();
+            Supplements = new ObservableCollection<PayrollSupplementModel>(suppList);
+            _supplemetsView = CollectionViewSource.GetDefaultView(Supplements);
+            _supplemetsView.Filter = o => string.IsNullOrEmpty(FilterSupplements) ? true : ((PayrollSupplementModel)o).Naziv.Contains(FilterSupplements);
         }
 
         private async void AddSupplement()

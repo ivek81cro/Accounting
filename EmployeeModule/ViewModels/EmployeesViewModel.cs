@@ -54,12 +54,12 @@ namespace EmployeeModule.ViewModels
 
         private ICollectionView _employeesView;
         private string _filterEmployees;
-        public string FilterEmployees
+        public string FilterEmployee
         {
             get { return _filterEmployees; }
             set
             {
-                SetProperty(ref _filterEmployees, value.ToUpper());
+                SetProperty(ref _filterEmployees, value);
                 _employeesView.Refresh();
             }
         }
@@ -77,6 +77,8 @@ namespace EmployeeModule.ViewModels
             }
             Employees = new ObservableCollection<EmployeeModel>(employeesList);
             _employeesView = CollectionViewSource.GetDefaultView(Employees);
+            _employeesView.Filter = o=> string.IsNullOrEmpty(FilterEmployee) ? 
+                true : ((EmployeeModel)o).Prezime.ToLower().Contains(FilterEmployee.ToLower());
         }
 
         private bool CanDelete()

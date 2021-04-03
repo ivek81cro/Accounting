@@ -37,7 +37,7 @@ namespace PayrollModule.ViewModels
             _regionManager = regionManager;
             _showDialog = showDialog;
 
-            CalculatePayrollCommand = new DelegateCommand(OpenCalculationDialog);
+            CalculatePayrollCommand = new DelegateCommand(OpenCalculationDialog, CanCalculate);
             AddSupplementCommand = new DelegateCommand(OpenSupplementsDialog, CanAddSupplement);
             DeleteSupplementCommand = new DelegateCommand(DeleteSelectedSupplement, CanAddSupplement);
         }
@@ -57,12 +57,13 @@ namespace PayrollModule.ViewModels
         public PayrollModel SelectedPayroll
         {
             get { return _selectedPayroll; }
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _selectedPayroll, value);
                 RaisePropertyChanged(nameof(FullName));
                 AddSupplementCommand.RaiseCanExecuteChanged();
                 DeleteSupplementCommand.RaiseCanExecuteChanged();
+                CalculatePayrollCommand.RaiseCanExecuteChanged();
                 LoadSupplements();
             }
         }
@@ -90,12 +91,12 @@ namespace PayrollModule.ViewModels
 
         private ICollectionView _payrollsView;
         private string _filterPayrolls;
-        public string FilterPartners
+        public string FilterPayroll
         {
             get { return _filterPayrolls; }
             set
             {
-                SetProperty(ref _filterPayrolls, value.ToUpper());
+                SetProperty(ref _filterPayrolls, value);
                 _payrollsView.Refresh();
             }
         }
@@ -110,7 +111,17 @@ namespace PayrollModule.ViewModels
         private string _fullName;
         public string FullName
         {
-            get { return $"{SelectedPayroll?.Ime}  {SelectedPayroll?.Prezime}"; }
+            get 
+            { 
+                var result = $"{SelectedPayroll?.Ime}  {SelectedPayroll?.Prezime}";
+                if (result == "  UKUPNO:")
+                {
+                    SumOfSupplements = 0;
+                    return "";
+                }
+
+                return result;
+            }
             set { SetProperty(ref _fullName, value); }
         }
 
@@ -123,13 +134,11 @@ namespace PayrollModule.ViewModels
 
         public async void LoadPayrolls()
         {
-            var payrollList = await _payrollEndpoint.GetAll();
-            Payrolls = new ObservableCollection<PayrollModel>(payrollList);
-            _payrollsView = CollectionViewSource.GetDefaultView(Payrolls);
-            _payrollsView.Filter = o => string.IsNullOrEmpty(FilterPartners) ? true : ((PayrollModel)o).Prezime.Contains(FilterPartners);
-
+            List<PayrollModel> payrollList = await _payrollEndpoint.GetAll();
+            payrollList.Sort((x, y)=> (x.Prezime).CompareTo(y.Prezime));
             Employees = await _employeeEndpoint.GetAll();
 
+            PayrollSum.Prezime = "UKUPNO:";
             PayrollSum.Bruto = payrollList.Sum(x => x.Bruto);
             PayrollSum.Mio1 = payrollList.Sum(x => x.Mio1);
             PayrollSum.Mio2 = payrollList.Sum(x => x.Mio2);
@@ -143,18 +152,37 @@ namespace PayrollModule.ViewModels
             PayrollSum.DoprinosZdravstvo = payrollList.Sum(x => x.DoprinosZdravstvo);
             PayrollSum.Dohodak = payrollList.Sum(x => x.Dohodak);
             PayrollSum.Neto = payrollList.Sum(x => x.Neto);
+
+            payrollList.Add(PayrollSum);
+
+            Payrolls = new ObservableCollection<PayrollModel>(payrollList);
+            _payrollsView = CollectionViewSource.GetDefaultView(Payrolls);
+            _payrollsView.Filter = o => string.IsNullOrEmpty(FilterPayroll) ? 
+                true : ((PayrollModel)o).Prezime.ToLower().Contains(FilterPayroll.ToLower());
         }
 
         private async void LoadSupplements()
         {
             if (SelectedPayroll != null)
             {
-                var suppl = await _payrollSupplementEmployeeEndpoint.GetByOib(SelectedPayroll.Oib);
+                if (SelectedPayroll.Oib == null)
+                {
+                    Supplements = null;
+                }
+                else
+                {
+                    var suppl = await _payrollSupplementEmployeeEndpoint.GetByOib(SelectedPayroll.Oib);
 
-                Supplements = new ObservableCollection<PayrollSupplementEmployeeModel>(suppl);
-                SumOfSupplements = Supplements.Sum(x => x.Iznos);
+                    Supplements = new ObservableCollection<PayrollSupplementEmployeeModel>(suppl);
+                    SumOfSupplements = Supplements.Sum(x => x.Iznos);
+                }
             }
 
+        }
+
+        private bool CanCalculate()
+        {
+            return SelectedPayroll != null && SelectedPayroll.Oib != null;
         }
 
         private void OpenCalculationDialog()
@@ -175,7 +203,7 @@ namespace PayrollModule.ViewModels
 
         private bool CanAddSupplement()
         {
-            return SelectedPayroll != null;
+            return SelectedPayroll != null && SelectedPayroll.Oib != null;
         }
 
 

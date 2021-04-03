@@ -37,7 +37,7 @@
         <StackPanel Orientation="Vertical" Grid.Row="0" Margin="0" Background="White"
                     Grid.Column="0" Grid.ColumnSpan="5">
             <StackPanel Orientation="Horizontal">
-                <Button Height="50" Width="50" Command="{Binding SaveCompanyCommand}">
+                <Button Height="60" Width="60" Command="{Binding SaveCompanyCommand}">
                     <StackPanel>
                         <Image Source="images\edit.png" Height="30"/>
                         <TextBlock Text="Spremi"/>

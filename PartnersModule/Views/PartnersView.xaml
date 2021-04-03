@@ -20,19 +20,21 @@
         
         <!--Custom Menu-->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0" Background="White">
-            <Button Height="50" Width="50" Margin="10 5 0 5" Command="{Binding NewPartnerCommand}">
+            <Button Height="60" Width="60" Margin="10 5 5 5" Command="{Binding NewPartnerCommand}">
                 <StackPanel>
                     <Image Source="images\folder.png" Height="30"/>
                     <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
-            <Button Height="50" Width="50" Command="{Binding EditPartnerCommand}">
+            <Button Height="60" Width="60" Command="{Binding EditPartnerCommand}"
+                    Margin="5">
                 <StackPanel>
                     <Image Source="images\edit.png" Height="30"/>
                     <TextBlock Text="Uredi"/>
                 </StackPanel>
             </Button>
-            <Button Height="50" Width="50" Command="{Binding DeletePartnerCommand}">
+            <Button Height="60" Width="60" Command="{Binding DeletePartnerCommand}"
+                    Margin="5">
                 <StackPanel>
                     <Image Source="images\kanta.png" Height="30"/>
                     <TextBlock Text="Briši"/>

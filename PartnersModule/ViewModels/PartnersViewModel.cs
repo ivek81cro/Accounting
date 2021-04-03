@@ -73,7 +73,8 @@ namespace PartnersModule.ViewModels
             var partnersList = await _partnersEndpoint.GetAll();
             Partners = new ObservableCollection<PartnersModel>(partnersList);
             _partnersView = CollectionViewSource.GetDefaultView(Partners);
-            _partnersView.Filter = o => string.IsNullOrEmpty(FilterPartners) ? true : ((PartnersModel)o).Naziv.Contains(FilterPartners);
+            _partnersView.Filter = o => string.IsNullOrEmpty(FilterPartners) ? 
+                true : ((PartnersModel)o).Naziv.ToLower().Contains(FilterPartners.ToLower());
         }
 
         private bool CanDelete()

@@ -56,6 +56,11 @@ namespace AccountingUI.Core.Validation
 
         private static void ValidateOib(string data, ICollection<ValidationResult> validationResults, string name)
         {
+            if (data == null)
+            {
+                return;
+            }
+
             if(data.Length != 11)
             {
                 validationResults.Add(

@@ -14,32 +14,27 @@
     </UserControl.Resources>
     
     <DockPanel>
-
         <DockPanel DockPanel.Dock="Top">
             <!--Custom Menu-->
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0">
-                <Button Height="50" Width="50" Margin="10 5 0 5" Command="{Binding CalculatePayrollCommand}">
+                <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding CalculatePayrollCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
                     <StackPanel>
                         <Image Source="images\calculate.png" Height="30"/>
                         <TextBlock Text="Izračun"/>
-                    </StackPanel>
-                </Button>
-                <Button Height="50" Width="50" Command="{Binding EditPartnerCommand}">
-                    <StackPanel>
-                        <Image Source="images\edit.png" Height="30"/>
-                        <TextBlock Text="Uredi"/>
-                    </StackPanel>
-                </Button>
-                <Button Height="50" Width="50" Command="{Binding DeletePayrollCommand}">
-                    <StackPanel>
-                        <Image Source="images\kanta.png" Height="30"/>
-                        <TextBlock Text="Briši"/>
                     </StackPanel>
                 </Button>
             </StackPanel>
             <Separator HorizontalAlignment="Stretch" Height="2" 
                        DockPanel.Dock="Top" Margin="0 5 0 5"/>
         </DockPanel>
+
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+            <TextBlock Text="Filter Prezime" Margin="5"/>
+            <TextBox Margin="5" Text="{Binding FilterPayroll, UpdateSourceTrigger=PropertyChanged}"
+                 MinWidth="150"/>
+        </StackPanel>
 
         <Grid DockPanel.Dock="Top">
             <i:Interaction.Triggers>
@@ -56,8 +51,8 @@
             </Grid.RowDefinitions>
 
             <DataGrid Grid.Row="0" ItemsSource="{Binding Payrolls}" IsReadOnly="True" 
-                  CanUserAddRows="False" SelectedItem="{Binding SelectedPayroll}"
-                  AutoGenerateColumns="False">
+                      CanUserAddRows="False" SelectedItem="{Binding SelectedPayroll}"
+                      AutoGenerateColumns="False" CanUserSortColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Oib" 
                                         Binding="{Binding Oib}" MinWidth="100"/>
@@ -93,36 +88,6 @@
                                         Binding="{Binding DoprinosZdravstvo}"  MinWidth="80"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <StackPanel Orientation="Horizontal" Grid.Row="1">
-                <TextBlock Text="UKUPNO:" Width="70" 
-                           Margin="230 2 6 2" Padding="2" FontWeight="Bold"/>
-                <TextBox Text="{Binding PayrollSum.Bruto}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold" MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.Mio1}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.Mio2}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.Dohodak}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.Odbitak}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.PoreznaOsnovica}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.PoreznaStopa1}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.PoreznaStopa2}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.UkupnoPorez}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.Prirez}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.UkupnoPorezPrirez}" 
-                         Margin="0 2 1 2" FontWeight="Bold" Padding="2"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.Neto}" 
-                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
-                <TextBox Text="{Binding PayrollSum.DoprinosZdravstvo}" 
-                         Margin="0 2 1 2" FontWeight="Bold" Padding="2"  MinWidth="89"/>
-            </StackPanel>
         </Grid>
 
         <Separator VerticalAlignment="Stretch" DockPanel.Dock="Top"
@@ -140,13 +105,15 @@
                     
                     <TextBlock Text="Ime i Prezime:" Margin="5" Padding="5"/>
                     <TextBox Text="{Binding FullName}" IsEnabled="False" 
-                         MinWidth="200" Margin="5" Padding="5"/>
+                             MinWidth="200" Margin="5" Padding="5"
+                             FontWeight="DemiBold"/>
                     
                     <TextBlock Text="Dodaci ukupno" Margin="5" Padding="5"/>
                     <TextBox Text="{Binding SumOfSupplements, Mode=TwoWay, 
-                        UpdateSourceTrigger=PropertyChanged}" 
-                             IsEnabled="False" Padding="5"
-                             MinWidth="100" Margin="5"/>
+                              UpdateSourceTrigger=PropertyChanged}" 
+                              IsEnabled="False" Padding="5"
+                              MinWidth="100" Margin="5"
+                              FontWeight="DemiBold"/>
 
                     <Button Content="Dodaj" Command="{Binding AddSupplementCommand}"
                             Margin="5" Padding="5" Width="75"/>

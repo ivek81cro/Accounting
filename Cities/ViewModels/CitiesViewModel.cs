@@ -67,7 +67,8 @@ namespace CitiesModule.ViewModels
             var citiesList = await _cityEndpoint.GetAll();
             Cities = new ObservableCollection<CityModel>(citiesList);
             _citiesView = CollectionViewSource.GetDefaultView(Cities);
-            _citiesView.Filter = o => string.IsNullOrEmpty(FilterCities) ? true : ((CityModel)o).Mjesto.Contains(FilterCities);
+            _citiesView.Filter = o => string.IsNullOrEmpty(FilterCities) ? 
+                true : ((CityModel)o).Mjesto.ToLower().Contains(FilterCities.ToLower());
         }
 
         private void DeleteCity()

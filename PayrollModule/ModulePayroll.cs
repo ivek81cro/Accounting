@@ -17,6 +17,7 @@ namespace PayrollModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<PayrollView>();
+            containerRegistry.RegisterForNavigation<PayrollProcessing>();
 
             containerRegistry.RegisterDialog<PayrollCalculationDialog>();
             containerRegistry.RegisterDialog<SupplementsDialog>();

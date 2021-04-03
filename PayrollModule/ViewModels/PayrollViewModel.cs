@@ -3,9 +3,7 @@ using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using PayrollModule.Dialogs;
 using Prism.Commands;
-using Prism.Regions;
 using Prism.Services.Dialogs;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,22 +17,16 @@ namespace PayrollModule.ViewModels
         private IPayrollEndpoint _payrollEndpoint;
         private IEmployeeEndpoint _employeeEndpoint;
         private IPayrollSupplementEmployeeEndpoint _payrollSupplementEmployeeEndpoint;
-        private IPayrollSupplementEndpoint _payrollSupplementEndpoint;
-        private IRegionManager _regionManager;
         private IDialogService _showDialog;
 
         public PayrollViewModel(IPayrollEndpoint payrollEndpoint,
             IPayrollSupplementEmployeeEndpoint payrollSupplementEmployeeEndpoint,
-            IPayrollSupplementEndpoint payrollSupplementEndpoint,
-            IRegionManager regionManager,
             IDialogService showDialog, 
             IEmployeeEndpoint employeeEndpoint)
         {
             _payrollEndpoint = payrollEndpoint;
             _employeeEndpoint = employeeEndpoint;
             _payrollSupplementEmployeeEndpoint = payrollSupplementEmployeeEndpoint;
-            _payrollSupplementEndpoint = payrollSupplementEndpoint;
-            _regionManager = regionManager;
             _showDialog = showDialog;
 
             CalculatePayrollCommand = new DelegateCommand(OpenCalculationDialog, CanCalculate);

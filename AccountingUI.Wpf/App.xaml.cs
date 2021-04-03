@@ -1,6 +1,8 @@
 ﻿using Accounting.MainModule.Dialogs.AreYouSure;
+using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
 using AccountingUI.Wpf.Views;
+using AutoMapper;
 using CitiesModule;
 using CompanyModule;
 using EmployeeModule;
@@ -11,6 +13,7 @@ using PayrollModule;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
+using System;
 using System.IO;
 using System.Windows;
 
@@ -31,10 +34,23 @@ namespace AccountingUI.WPF
             containerRegistry.RegisterScoped<IApiService, ApiService>();
 
             containerRegistry.RegisterInstance<IConfiguration>(AddConfiguration());
+            containerRegistry.RegisterInstance<IMapper>(ConfigureAutomapper());
 
             containerRegistry.RegisterForNavigation<StartView>();
 
             containerRegistry.RegisterDialog<AreYouSureView, AreYouSureViewModel>();
+        }
+
+        private IMapper ConfigureAutomapper()
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<PayrollModel, PayrollCalculationModel>();
+            });
+
+            var mapper = config.CreateMapper();
+
+            return mapper;
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

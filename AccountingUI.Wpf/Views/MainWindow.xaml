@@ -68,7 +68,9 @@
             <MenuItem Header="Plaće" Margin="5">
                 <MenuItem Header="Pregled"  Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="PayrollView"/>
-                <MenuItem Header="Obračun"/>
+                <MenuItem Header="Obračun" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="PayrollProcessing"/>
+                <MenuItem Header="Arhiva"/>
             </MenuItem>
             <MenuItem Header="Izvodi" Margin="5">
 

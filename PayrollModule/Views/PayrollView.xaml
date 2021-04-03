@@ -6,9 +6,7 @@
              xmlns:local="clr-namespace:PayrollModule.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-             prism:ViewModelLocator.AutoWireViewModel="True"
-             FontSize="14">
-    
+             prism:ViewModelLocator.AutoWireViewModel="True">    
     <UserControl.Resources>
         <Style TargetType="TabItem">
             <Setter Property="Header" Value="{Binding DataContext.Title}"/>
@@ -61,24 +59,70 @@
                   CanUserAddRows="False" SelectedItem="{Binding SelectedPayroll}"
                   AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
-                    <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"/>
-                    <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}"/>
-                    <DataGridTextColumn Header="Bruto" Binding="{Binding Bruto}"/>
-                    <DataGridTextColumn Header="MIO I." Binding="{Binding Mio1}"/>
-                    <DataGridTextColumn Header="MIO II." Binding="{Binding Mio2}"/>
-                    <DataGridTextColumn Header="Dohodak" Binding="{Binding Dohodak}"/>
-                    <DataGridTextColumn Header="Odbitak" Binding="{Binding Odbitak}"/>
-                    <DataGridTextColumn Header="Osnovica" Binding="{Binding PoreznaOsnovica}"/>
-                    <DataGridTextColumn Header="Por. stopa I." Binding="{Binding PoreznaStopa1}"/>
-                    <DataGridTextColumn Header="Por. stopa II." Binding="{Binding PoreznaStopa2}"/>
-                    <DataGridTextColumn Header="Ukupno porezi" Binding="{Binding UkupnoPorez}"/>
-                    <DataGridTextColumn Header="Prirez" Binding="{Binding Prirez}"/>
-                    <DataGridTextColumn Header="Por. i prirez" Binding="{Binding UkupnoPorezPrirez}"/>
-                    <DataGridTextColumn Header="Neto" Binding="{Binding Neto}"/>
-                    <DataGridTextColumn Header="Dop. zdravstvo" Binding="{Binding DoprinosZdravstvo}"/>
+                    <DataGridTextColumn Header="Oib" 
+                                        Binding="{Binding Oib}" MinWidth="100"/>
+                    <DataGridTextColumn Header="Ime" 
+                                        Binding="{Binding Ime}" MinWidth="100"/>
+                    <DataGridTextColumn Header="Prezime" 
+                                        Binding="{Binding Prezime}" MinWidth="100"/>
+                    <DataGridTextColumn Header="Bruto" 
+                                        Binding="{Binding Bruto}" MinWidth="90"/>
+                    <DataGridTextColumn Header="MIO I." 
+                                        Binding="{Binding Mio1}" MinWidth="90"/>
+                    <DataGridTextColumn Header="MIO II." 
+                                        Binding="{Binding Mio2}" MinWidth="90"/>
+                    <DataGridTextColumn Header="Dohodak" 
+                                        Binding="{Binding Dohodak}" MinWidth="90"/>
+                    <DataGridTextColumn Header="Odbitak" 
+                                        Binding="{Binding Odbitak}" MinWidth="90"/>
+                    <DataGridTextColumn Header="Osnovica" 
+                                        Binding="{Binding PoreznaOsnovica}" MinWidth="90"/>
+                    <DataGridTextColumn Header="Por. stopa I." 
+                                        Binding="{Binding PoreznaStopa1}" MinWidth="90"/>
+                    <DataGridTextColumn Header="Por. stopa II." 
+                                        Binding="{Binding PoreznaStopa2}" MinWidth="90"/>
+                    <DataGridTextColumn Header="Ukupno porezi" 
+                                        Binding="{Binding UkupnoPorez}" MinWidth="90"/>
+                    <DataGridTextColumn Header="Prirez" 
+                                        Binding="{Binding Prirez}" MinWidth="90"/>
+                    <DataGridTextColumn Header="Por. i prirez" 
+                                        Binding="{Binding UkupnoPorezPrirez}"  MinWidth="90"/>
+                    <DataGridTextColumn Header="Neto" 
+                                        Binding="{Binding Neto}"  MinWidth="90"/>
+                    <DataGridTextColumn Header="Dop. zdravstvo" 
+                                        Binding="{Binding DoprinosZdravstvo}"  MinWidth="80"/>
                 </DataGrid.Columns>
-            </DataGrid>            
+            </DataGrid>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <TextBlock Text="UKUPNO:" Width="70" 
+                           Margin="230 2 6 2" Padding="2" FontWeight="Bold"/>
+                <TextBox Text="{Binding PayrollSum.Bruto}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold" MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.Mio1}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.Mio2}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.Dohodak}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.Odbitak}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.PoreznaOsnovica}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.PoreznaStopa1}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.PoreznaStopa2}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.UkupnoPorez}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.Prirez}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.UkupnoPorezPrirez}" 
+                         Margin="0 2 1 2" FontWeight="Bold" Padding="2"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.Neto}" 
+                         Margin="0 2 1 2" Padding="2" FontWeight="Bold"  MinWidth="89"/>
+                <TextBox Text="{Binding PayrollSum.DoprinosZdravstvo}" 
+                         Margin="0 2 1 2" FontWeight="Bold" Padding="2"  MinWidth="89"/>
+            </StackPanel>
         </Grid>
 
         <Separator VerticalAlignment="Stretch" DockPanel.Dock="Top"
@@ -96,12 +140,12 @@
                     
                     <TextBlock Text="Ime i Prezime:" Margin="5" Padding="5"/>
                     <TextBox Text="{Binding FullName}" IsEnabled="False" 
-                         MinWidth="100" Margin="5"/>
+                         MinWidth="200" Margin="5" Padding="5"/>
                     
                     <TextBlock Text="Dodaci ukupno" Margin="5" Padding="5"/>
                     <TextBox Text="{Binding SumOfSupplements, Mode=TwoWay, 
                         UpdateSourceTrigger=PropertyChanged}" 
-                             IsEnabled="False" 
+                             IsEnabled="False" Padding="5"
                              MinWidth="100" Margin="5"/>
 
                     <Button Content="Dodaj" Command="{Binding AddSupplementCommand}"

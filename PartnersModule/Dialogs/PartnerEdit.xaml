@@ -8,7 +8,7 @@
              xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             FontSize="14">
+             FontSize="12">
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
@@ -56,8 +56,8 @@
         <TextBlock Text="Naziv:" Grid.Row="2" Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Partner.Naziv, Mode=TwoWay, 
             ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="2" Grid.Column="1" MinWidth="250"
-                 Margin="5 5 5 15" MinHeight="30"/>
+                 Grid.Row="2" Grid.Column="1" MinWidth="250" MaxWidth="250"
+                 Margin="5 5 5 15" MinHeight="30" TextWrapping="Wrap"/>
         
         <TextBlock Text="Ulica:" Grid.Row="3"
                    Grid.Column="0" Margin="10"/>

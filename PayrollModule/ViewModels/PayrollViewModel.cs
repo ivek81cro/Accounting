@@ -62,6 +62,7 @@ namespace PayrollModule.ViewModels
                 SetProperty(ref _selectedPayroll, value);
                 RaisePropertyChanged(nameof(FullName));
                 AddSupplementCommand.RaiseCanExecuteChanged();
+                DeleteSupplementCommand.RaiseCanExecuteChanged();
                 LoadSupplements();
             }
         }
@@ -113,6 +114,13 @@ namespace PayrollModule.ViewModels
             set { SetProperty(ref _fullName, value); }
         }
 
+        private PayrollModel _payrollSum = new PayrollModel();
+        public PayrollModel PayrollSum
+        {
+            get { return _payrollSum; }
+            set { SetProperty(ref _payrollSum, value); }
+        }
+
         public async void LoadPayrolls()
         {
             var payrollList = await _payrollEndpoint.GetAll();
@@ -121,6 +129,20 @@ namespace PayrollModule.ViewModels
             _payrollsView.Filter = o => string.IsNullOrEmpty(FilterPartners) ? true : ((PayrollModel)o).Prezime.Contains(FilterPartners);
 
             Employees = await _employeeEndpoint.GetAll();
+
+            PayrollSum.Bruto = payrollList.Sum(x => x.Bruto);
+            PayrollSum.Mio1 = payrollList.Sum(x => x.Mio1);
+            PayrollSum.Mio2 = payrollList.Sum(x => x.Mio2);
+            PayrollSum.Odbitak = payrollList.Sum(x => x.Odbitak);
+            PayrollSum.PoreznaOsnovica = payrollList.Sum(x => x.PoreznaOsnovica);
+            PayrollSum.PoreznaStopa1 = payrollList.Sum(x => x.PoreznaStopa1);
+            PayrollSum.PoreznaStopa2 = payrollList.Sum(x => x.PoreznaStopa2);
+            PayrollSum.Prirez = payrollList.Sum(x => x.Prirez);
+            PayrollSum.UkupnoPorez = payrollList.Sum(x => x.UkupnoPorez);
+            PayrollSum.UkupnoPorezPrirez = payrollList.Sum(x => x.UkupnoPorezPrirez);
+            PayrollSum.DoprinosZdravstvo = payrollList.Sum(x => x.DoprinosZdravstvo);
+            PayrollSum.Dohodak = payrollList.Sum(x => x.Dohodak);
+            PayrollSum.Neto = payrollList.Sum(x => x.Neto);
         }
 
         private async void LoadSupplements()

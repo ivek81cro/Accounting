@@ -9,7 +9,7 @@
         xmlns:prism="http://prismlibrary.com/"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Knjigovodstvo" 
+        Title="Knjigovodstvo" FontSize="12"
         WindowState="Maximized" WindowStartupLocation="CenterScreen">
     
     <Window.Resources>

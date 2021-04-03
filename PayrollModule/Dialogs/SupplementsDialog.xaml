@@ -65,7 +65,7 @@
                           SelectedItem="{Binding SelectedSupplement}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
-                        <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}" 
+                        <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}" 
                                             MaxWidth="350">
                             <DataGridTextColumn.ElementStyle>
                                 <Style>

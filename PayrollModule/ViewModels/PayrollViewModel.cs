@@ -195,10 +195,15 @@ namespace PayrollModule.ViewModels
                 if (result.Result == ButtonResult.OK)
                 {
                     PayrollModel payroll = result.Parameters.GetValue<PayrollModel>("payroll");
-                    _payrollEndpoint.PostPayroll(payroll);
-                    LoadPayrolls();
+                    SaveNewCalculation(payroll);
                 }
             });
+        }
+
+        private async void SaveNewCalculation(PayrollModel payroll)
+        {
+            await _payrollEndpoint.PostPayroll(payroll);
+            LoadPayrolls();
         }
 
         private bool CanAddSupplement()

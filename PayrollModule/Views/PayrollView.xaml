@@ -137,10 +137,15 @@
                               CanUserAddRows="False" AutoGenerateColumns="False"
                               SelectedItem="{Binding SelectedSupplement}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                             <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
                             <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
-                            <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"/>
+                            <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style>
+                                        <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
                         </DataGrid.Columns>
 
                     </DataGrid>

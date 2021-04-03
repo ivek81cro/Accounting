@@ -120,7 +120,7 @@ namespace EmployeeModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    EmployeeModel employee = result.Parameters.GetValue<EmployeeModel>("employee");
+                    SelectedEmployee = parameters.GetValue<EmployeeModel>("employee");
                     LoadEmployees();
                 }
             });

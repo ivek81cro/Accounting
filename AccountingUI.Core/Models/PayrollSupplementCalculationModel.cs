@@ -1,6 +1,6 @@
 ﻿namespace AccountingUI.Core.Models
 {
-    public class PayrollCalculationModel : PayrollModel
+    public class PayrollSupplementCalculationModel : PayrollSupplementEmployeeModel
     {
         private bool _isChecked;
         public bool IsChecked

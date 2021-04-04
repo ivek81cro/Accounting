@@ -7,6 +7,7 @@ namespace Accounting.DataManager.DataAccess
     {
         void DeleteSupplement(int id);
         List<PayrollSupplementEmployeeModel> GetAll();
+        List<PayrollSupplementEmployeeModel> GetDistinct();
         List<PayrollSupplementEmployeeModel> GetByOib(string oib);
         void InsertSupplement(PayrollSupplementEmployeeModel supplement);
     }

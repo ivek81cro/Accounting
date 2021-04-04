@@ -32,6 +32,26 @@ namespace AccountingUI.Core.Services
             }
         }
 
+        public async Task<List<PayrollSupplementEmployeeModel>> GetDistinct()
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/EmployeeSupplement/distinct"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<PayrollSupplementEmployeeModel>>();
+                    return result;
+                }
+                else if (response.ReasonPhrase == "Not Found")
+                {
+                    return null;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task<List<PayrollSupplementEmployeeModel>> GetByOib(string oib)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/EmployeeSupplement/{oib}"))

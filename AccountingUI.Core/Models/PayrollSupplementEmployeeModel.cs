@@ -23,5 +23,12 @@
             get { return _iznos; }
             set { SetProperty(ref _iznos, value); }
         }
+
+        private bool _isChecked;
+        public bool IsChecked
+        {
+            get { return _isChecked; }
+            set { SetProperty(ref _isChecked, value); }
+        }
     }
 }

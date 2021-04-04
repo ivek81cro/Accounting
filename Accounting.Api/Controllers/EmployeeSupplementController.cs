@@ -30,6 +30,13 @@ namespace Accounting.Api.Controllers
             return _employeeSupp.GetAll();
         }
 
+        // GET: api/<EmployeeSupplementController>
+        [HttpGet("distinct/")]
+        public List<PayrollSupplementEmployeeModel> GetDistinct()
+        {
+            return _employeeSupp.GetDistinct();
+        }
+
         // GET api/<EmployeeSupplementController>/5
         [HttpGet("{oib}")]
         public List<PayrollSupplementEmployeeModel> Get(string oib)

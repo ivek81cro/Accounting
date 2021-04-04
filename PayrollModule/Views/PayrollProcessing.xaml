@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:date="clr-namespace:AccountingUI.Core.Validation;assembly=AccountingUI.Core"
+             xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
              xmlns:local="clr-namespace:PayrollModule.Views"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:prism="http://prismlibrary.com/"
@@ -13,13 +15,7 @@
         </Style>
     </UserControl.Resources>
     
-    <DockPanel>
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="Loaded">
-                <i:CallMethodAction TargetObject="{Binding}"
-                                    MethodName="LoadPayrolls"/>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
+    <DockPanel>        
         <DockPanel DockPanel.Dock="Top">
             <!--Custom Menu-->
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0">
@@ -36,21 +32,105 @@
                        DockPanel.Dock="Top" Margin="0 5 0 5"/>
         </DockPanel>
 
-        <DockPanel DockPanel.Dock="Top">
+        <!--Period selection-->
+        <DockPanel DockPanel.Dock="Top" Width="580" HorizontalAlignment="Left"
+                   VerticalAlignment="Top" Height="100">
+            <GroupBox Header="Odabir razdoblja" BorderBrush="Black">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Od:" Margin="5 10" Grid.Column="0" Grid.Row="1"/>
+                    <DatePicker Grid.Column="1" Grid.Row="1" Margin="5"
+                                h:DatePickerHelper.Watermark="Odaberite datum">
+                        <DatePicker.SelectedDate>
+                            <Binding Path="Accounting.DatumOd"
+                         Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <date:DateValidate />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </DatePicker.SelectedDate>
+                    </DatePicker>
+                    <TextBlock Text="Do:" Margin="5 10" Grid.Column="2" Grid.Row="1"/>
+                    <DatePicker Grid.Column="3" Grid.Row="1" Margin="5"
+                                h:DatePickerHelper.Watermark="Odaberite datum">
+                        <DatePicker.SelectedDate>
+                            <Binding Path="Accounting.DatumDo"
+                         Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <date:DateValidate />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </DatePicker.SelectedDate>
+                    </DatePicker>
+
+                    <TextBlock Text="Sati" Grid.Column="0" Grid.Row="2"
+                               Margin="5 10"/>
+                    <TextBox Text="{Binding Accounting.SatiRada}" Grid.Column="1" Grid.Row="2"
+                             Margin="5" Width="124" HorizontalAlignment="Left"/>
+                    <TextBlock Text="Neradno" Grid.Column="2" Grid.Row="2"
+                               Margin="5 10"/>
+                    <TextBox Text="{Binding Accounting.SatiPraznika}" Grid.Column="3" Grid.Row="2"
+                             Margin="5" Width="124" HorizontalAlignment="Left"/>
+
+                    <TextBlock Text="Dat.obračuna" Grid.Row="1" Grid.Column="4" 
+                               Margin="5 10"/>
+                    <DatePicker Margin="5" Grid.Row="1" Grid.Column="5"
+                                    h:DatePickerHelper.Watermark="Odaberite datum">
+                        <DatePicker.SelectedDate>
+                            <Binding Path="Accounting.DatumObracuna"
+                                         Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <date:DateValidate />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </DatePicker.SelectedDate>
+                    </DatePicker>
+                    
+                    <TextBlock Text="Opis" Grid.Column="4" Grid.Row="2"
+                               Margin="5 10"/>
+                    <TextBox Text="{Binding Accounting.Opis}" Grid.Column="5" 
+                             Grid.Row="2" Margin="5" Width="125"/>
+                </Grid>
+            </GroupBox>
+        </DockPanel>
+
+
+        <!--Payroll select section-->
+        <DockPanel DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left"
+                   VerticalAlignment="Top">
             
             <CheckBox Content="Obračun plaća?" IsChecked="{Binding IfPayrolls}" 
                       DockPanel.Dock="Top" Margin="5"/>
             <CheckBox Content="Odaberi sve?" IsChecked="{Binding SelectAllPayrolls}" 
-                      DockPanel.Dock="Top" Margin="5"/>
+                      DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfPayrolls}"/>
             
             <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                 <TextBlock Text="Filter Prezime" Margin="5"/>
-                <TextBox Margin="5" Text="{Binding FilterPayrollCalc, UpdateSourceTrigger=PropertyChanged}"
+                <TextBox Margin="5" Text="{Binding FilterPayrolls, UpdateSourceTrigger=PropertyChanged}"
                  MinWidth="150"/>
             </StackPanel>
             
             <DataGrid ItemsSource="{Binding PayrollCalculations}" AutoGenerateColumns="False"
-                      CanUserAddRows="False" CanUserSortColumns="False">
+                      CanUserAddRows="False" CanUserSortColumns="False" Width="250"
+                      Height="350" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Header="Odabir" Binding="{Binding IsChecked}"/>
                     <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"
@@ -61,5 +141,33 @@
             </DataGrid>
         </DockPanel>
 
+        <!--Supplement select section-->
+        <DockPanel DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left"
+                   VerticalAlignment="Top">
+
+            <CheckBox Content="Obračun dodataka?" IsChecked="{Binding IfSupplements}" 
+                      DockPanel.Dock="Top" Margin="5"/>
+            <CheckBox Content="Odaberi sve?" IsChecked="{Binding SelectAllSupplements}" 
+                      DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfSupplements}"/>
+
+            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                <TextBlock Text="Filter Opis" Margin="5"/>
+                <TextBox Margin="5" Text="{Binding FilterSupplementsDisplay, UpdateSourceTrigger=PropertyChanged}"
+                 MinWidth="150"/>
+            </StackPanel>
+
+            <DataGrid ItemsSource="{Binding SupplementSelectDisplay}" 
+                      AutoGenerateColumns="False" CanUserAddRows="False"
+                      CanUserSortColumns="False" Width="250" Height="350" 
+                      HorizontalAlignment="Left" VerticalAlignment="Top">
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header="Odabir" Binding="{Binding IsChecked}"/>
+                    <DataGridTextColumn Header="Sifra" Binding="{Binding Sifra}"/>
+                    <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}"
+                                        MinWidth="80"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>      
+        
     </DockPanel>
 </UserControl>

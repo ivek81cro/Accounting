@@ -29,5 +29,12 @@
             get { return _samoPrviStupMio; }
             set { SetProperty(ref _samoPrviStupMio, value); }
         }
+
+        private bool _isChecked;
+        public bool IsChecked
+        {
+            get { return _isChecked; }
+            set { SetProperty(ref _isChecked, value); }
+        }
     }
 }

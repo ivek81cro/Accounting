@@ -1,5 +1,6 @@
 ﻿using AccountingUI.Core.Validation;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AccountingUI.Core.Models
 {
@@ -13,6 +14,7 @@ namespace AccountingUI.Core.Models
         }
 
         private string _opis;
+        [Required]
         public string Opis
         {
             get { return _opis; }

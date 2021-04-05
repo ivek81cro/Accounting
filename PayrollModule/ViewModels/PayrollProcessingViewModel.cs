@@ -15,29 +15,28 @@ namespace PayrollModule.ViewModels
     {
         private readonly IMapper _mapper;
         private readonly IPayrollEndpoint _payrollEndpoint;
+        private readonly IPayrollArchivePrepare _processPayroll;
         private readonly IPayrollSupplementEmployeeEndpoint _supplementEndpoint;
         private PayrollArchiveModel _archive;
 
         public PayrollProcessingViewModel(IMapper mapper,
             IPayrollEndpoint payrollEndpoint,
-            IPayrollSupplementEmployeeEndpoint supplementEndpoint)
+            IPayrollSupplementEmployeeEndpoint supplementEndpoint, 
+            IPayrollArchivePrepare processPayroll)
         {
             _mapper = mapper;
             _payrollEndpoint = payrollEndpoint;
             _supplementEndpoint = supplementEndpoint;
+            _processPayroll = processPayroll;
 
             CalculatePayrollCommand = new DelegateCommand(Calculate, CanCalculate);
+            SaveToArchiveCommand = new DelegateCommand(SaveToArchive, CanSave);
         }
+
         public DelegateCommand CalculatePayrollCommand { get; set; }
+        public DelegateCommand SaveToArchiveCommand { get; set; }
 
-        #region Archive Preparation
-
-        private PayrollArchiveModel _payrollArchiveView;
-        public PayrollArchiveModel PayrollArchiveView
-        {
-            get { return _payrollArchiveView; }
-            set { SetProperty(ref _payrollArchiveView, value); }
-        }
+        #region Archive Preparation And Save
 
         private bool CanCalculate()
         {
@@ -66,7 +65,6 @@ namespace PayrollModule.ViewModels
         private void Calculate()
         {
             SelectSupplementsForProcessing();
-            PayrollArchivePrepare process = new PayrollArchivePrepare();
 
             if(OnlySupplements)
             {
@@ -76,9 +74,43 @@ namespace PayrollModule.ViewModels
                 }
             }
 
-            _archive = process.Process(PayrollCalculations, SupplementCalculations, Accounting);
+            _archive = _processPayroll.Process(PayrollCalculations, SupplementCalculations, Accounting);
 
             InitializeArchivePreparationDatagrid();
+
+            SaveToArchiveCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool CanSave()
+        {
+            var result = CanCalculate();
+            if(Accounting.Opis == null || Accounting.Opis == "")
+            {
+                result = false;
+            }
+
+            if(_archive == null)
+            {
+                result = false;
+            }
+            else
+            {
+                if(_archive.Payrolls.Count == 0)
+                {
+                    result = false;
+                }
+                if(_archive.Calculation==null)
+                {
+                    result = false;
+                }
+            }            
+
+            return result;
+        }
+
+        private void SaveToArchive()
+        {
+            _processPayroll.SaveToDatabase(_archive);
         }
 
         #endregion

@@ -26,6 +26,8 @@ namespace PayrollModule
             containerRegistry.RegisterScoped<IPayrollSupplementEndpoint, PayrollSupplementEndpoint>();
             containerRegistry.RegisterScoped<IPayrollSupplementEmployeeEndpoint, PayrollSupplementEmployeeEndpoint>();
             containerRegistry.RegisterScoped<IPayrollCalculation, PayrollCalculation>();
+            containerRegistry.RegisterScoped<IPayrollArchiveEndpoint, PayrollArchiveEndpoint>();
+            containerRegistry.RegisterScoped<IPayrollArchivePrepare, PayrollArchivePrepare>();
         }
     }
 }

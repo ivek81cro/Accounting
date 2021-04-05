@@ -1,11 +1,18 @@
 ﻿using AccountingUI.Core.Models;
-using System;
+using AccountingUI.Core.Services;
 using System.Collections.ObjectModel;
 
 namespace PayrollModule.ServiceLocal
 {
-    public class PayrollArchivePrepare
+    public class PayrollArchivePrepare : IPayrollArchivePrepare
     {
+        private readonly IPayrollArchiveEndpoint _archiveEndpoint;
+
+        public PayrollArchivePrepare(IPayrollArchiveEndpoint archiveEndpoint)
+        {
+            _archiveEndpoint = archiveEndpoint;
+        }
+
         private PayrollArchiveModel _archive = new();
         private ObservableCollection<PayrollCalculationModel> _payrolls;
         private ObservableCollection<PayrollSupplementCalculationModel> _supplements;
@@ -33,12 +40,12 @@ namespace PayrollModule.ServiceLocal
 
         private void AddPayrolls()
         {
-            foreach(var pay in _payrolls)
+            foreach (var pay in _payrolls)
             {
                 if (pay.IsChecked)
                 {
                     _archive.Payrolls.Add(pay);
-                    if(_supplements != null)
+                    if (_supplements != null)
                     {
                         AddSupplement(pay.Oib);
                     }
@@ -52,9 +59,9 @@ namespace PayrollModule.ServiceLocal
 
         private void AddSupplement(string oib)
         {
-            foreach(var sup in _supplements)
+            foreach (var sup in _supplements)
             {
-                if(sup.Oib==oib && sup.IsChecked)
+                if (sup.Oib == oib && sup.IsChecked)
                 {
                     _archive.Supplements.Add(sup);
                 }
@@ -70,6 +77,13 @@ namespace PayrollModule.ServiceLocal
                     _archive.Supplements.Add(sup);
                 }
             }
+        }
+
+        public void SaveToDatabase(PayrollArchiveModel archive)
+        {
+            _archive = archive;
+
+            _archiveEndpoint.PostToArchive(_archive);
         }
     }
 }

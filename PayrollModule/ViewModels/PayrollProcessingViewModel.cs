@@ -50,8 +50,7 @@ namespace PayrollModule.ViewModels
             {
                 if(Accounting.DatumDo == null 
                     || Accounting.DatumOd==null 
-                    || Accounting.DatumObracuna==null 
-                    || Accounting.SatiRada == 0)
+                    || Accounting.DatumObracuna==null)
                 {
                     return false;
                 }

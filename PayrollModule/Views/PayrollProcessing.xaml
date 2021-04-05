@@ -113,102 +113,106 @@
         </DockPanel>
 
         <!--Payroll select section-->
-        <DockPanel DockPanel.Dock="Top">
-            <DockPanel DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left"
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <DockPanel DockPanel.Dock="Top">
+                <DockPanel DockPanel.Dock="Top">
+                    <DockPanel DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left"
                    VerticalAlignment="Top">
 
-                <CheckBox Content="Odabir zaposlenika?" IsChecked="{Binding IfPayrolls}" 
+                        <CheckBox Content="Odabir zaposlenika?" IsChecked="{Binding IfPayrolls}" 
                       DockPanel.Dock="Top" Margin="5"/>
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                    <CheckBox Content="Odaberi sve?" IsChecked="{Binding SelectAllPayrolls}" 
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                            <CheckBox Content="Odaberi sve?" IsChecked="{Binding SelectAllPayrolls}" 
                       DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfPayrolls}"/>
-                    <CheckBox Content="Samo dodaci?" IsChecked="{Binding OnlySupplements}" 
+                            <CheckBox Content="Samo dodaci?" IsChecked="{Binding OnlySupplements}" 
                       DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfPayrolls}"/>
-                </StackPanel>
+                        </StackPanel>
 
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                    <TextBlock Text="Filter Prezime" Margin="5"/>
-                    <TextBox Margin="5" Text="{Binding FilterPayrolls, UpdateSourceTrigger=PropertyChanged}"
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                            <TextBlock Text="Filter Prezime" Margin="5"/>
+                            <TextBox Margin="5" Text="{Binding FilterPayrolls, UpdateSourceTrigger=PropertyChanged}"
                  MinWidth="150"/>
-                </StackPanel>
+                        </StackPanel>
 
-                <DataGrid ItemsSource="{Binding PayrollCalculations}" AutoGenerateColumns="False"
+                        <DataGrid ItemsSource="{Binding PayrollCalculations}" AutoGenerateColumns="False"
                       CanUserAddRows="False" CanUserSortColumns="False" Width="280"
                       Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Header="Odabir" Binding="{Binding IsChecked}"/>
-                        <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Header="Odabir" Binding="{Binding IsChecked}"/>
+                                <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"
                                         MinWidth="80"/>
-                        <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}"
+                                <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}"
                                         MinWidth="80"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </DockPanel>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
 
-            <!--Supplement select section-->
-            <DockPanel DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left"
+                    <!--Supplement select section-->
+                    <DockPanel DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left"
                    VerticalAlignment="Top">
 
-                <CheckBox Content="Obračun dodataka?" IsChecked="{Binding IfSupplements}" 
+                        <CheckBox Content="Obračun dodataka?" IsChecked="{Binding IfSupplements}" 
                       DockPanel.Dock="Top" Margin="5"/>
-                <CheckBox Content="Odaberi sve?" IsChecked="{Binding SelectAllSupplements}" 
+                        <CheckBox Content="Odaberi sve?" IsChecked="{Binding SelectAllSupplements}" 
                       DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfSupplements}"/>
 
-                <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
-                    <TextBlock Text="Filter Opis" Margin="5"/>
-                    <TextBox Margin="5" Text="{Binding FilterSupplementsDisplay, UpdateSourceTrigger=PropertyChanged}"
+                        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
+                            <TextBlock Text="Filter Opis" Margin="5"/>
+                            <TextBox Margin="5" Text="{Binding FilterSupplementsDisplay, UpdateSourceTrigger=PropertyChanged}"
                  MinWidth="150"/>
-                </StackPanel>
+                        </StackPanel>
 
-                <DataGrid ItemsSource="{Binding SupplementSelectDisplay}" 
+                        <DataGrid ItemsSource="{Binding SupplementSelectDisplay}" 
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       CanUserSortColumns="False" Width="280" Height="200" 
                       HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <DataGrid.Columns>
-                        <DataGridCheckBoxColumn Header="Odabir" Binding="{Binding IsChecked}"/>
-                        <DataGridTextColumn Header="Sifra" Binding="{Binding Sifra}"/>
-                        <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}"
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Header="Odabir" Binding="{Binding IsChecked}"/>
+                                <DataGridTextColumn Header="Sifra" Binding="{Binding Sifra}"/>
+                                <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}"
                                         MinWidth="80"/>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </DockPanel>
-        </DockPanel>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </DockPanel>
+                </DockPanel>
 
-        <!--Accounting display-->
-        <DockPanel DockPanel.Dock="Left">
-            <TextBlock Text="Obračun plaće i dodataka" DockPanel.Dock="Top"
+                <!--Accounting display-->
+                <DockPanel DockPanel.Dock="Left">
+                    <TextBlock Text="Obračun plaće i dodataka" DockPanel.Dock="Top"
                        Margin="5" FontSize="18"/>
-            <DataGrid ItemsSource="{Binding PayrollArchive}" DockPanel.Dock="Top"
+                    <DataGrid ItemsSource="{Binding PayrollArchive}" DockPanel.Dock="Top"
                       Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       AutoGenerateColumns="False" CanUserAddRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
-                    <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"/>
-                    <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}"/>
-                    <DataGridTextColumn Header="Bruto" Binding="{Binding Bruto}"/>
-                    <DataGridTextColumn Header="Mio1" Binding="{Binding Mio1}"/>
-                    <DataGridTextColumn Header="Mio2" Binding="{Binding Mio2}"/>
-                    <DataGridTextColumn Header="Dohodak" Binding="{Binding Dohodak}"/>
-                    <DataGridTextColumn Header="Odbitak" Binding="{Binding Odbitak}"/>
-                    <DataGridTextColumn Header="Porezna osnovica" Binding="{Binding PoreznaOsnovica}"/>
-                    <DataGridTextColumn Header="Porezna stopa 1" Binding="{Binding PoreznaStopa1}"/>
-                    <DataGridTextColumn Header="Porezna stopa 2" Binding="{Binding PoreznaStopa2}"/>
-                    <DataGridTextColumn Header="Ukupno porez" Binding="{Binding UkupnoPorez}"/>
-                    <DataGridTextColumn Header="Prirez" Binding="{Binding Prirez}"/>
-                    <DataGridTextColumn Header="Ukupno por. i prir." Binding="{Binding UkupnoPorezPrirez}"/>
-                    <DataGridTextColumn Header="Doprinos zdravstvo" Binding="{Binding DoprinosZdravstvo}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
+                            <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"/>
+                            <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}"/>
+                            <DataGridTextColumn Header="Bruto" Binding="{Binding Bruto}"/>
+                            <DataGridTextColumn Header="Mio1" Binding="{Binding Mio1}"/>
+                            <DataGridTextColumn Header="Mio2" Binding="{Binding Mio2}"/>
+                            <DataGridTextColumn Header="Dohodak" Binding="{Binding Dohodak}"/>
+                            <DataGridTextColumn Header="Odbitak" Binding="{Binding Odbitak}"/>
+                            <DataGridTextColumn Header="Porezna osnovica" Binding="{Binding PoreznaOsnovica}"/>
+                            <DataGridTextColumn Header="Porezna stopa 1" Binding="{Binding PoreznaStopa1}"/>
+                            <DataGridTextColumn Header="Porezna stopa 2" Binding="{Binding PoreznaStopa2}"/>
+                            <DataGridTextColumn Header="Ukupno porez" Binding="{Binding UkupnoPorez}"/>
+                            <DataGridTextColumn Header="Prirez" Binding="{Binding Prirez}"/>
+                            <DataGridTextColumn Header="Ukupno por. i prir." Binding="{Binding UkupnoPorezPrirez}"/>
+                            <DataGridTextColumn Header="Doprinos zdravstvo" Binding="{Binding DoprinosZdravstvo}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
 
-            <DataGrid ItemsSource="{Binding SupplementsArchive}" DockPanel.Dock="Top"
+                    <DataGrid ItemsSource="{Binding SupplementsArchive}" DockPanel.Dock="Top"
                       Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                       AutoGenerateColumns="False" CanUserAddRows="False">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
-                    <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
-                    <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
-                </DataGrid.Columns>
-            </DataGrid>
-        </DockPanel>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
+                            <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
+                            <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </DockPanel>
+        </ScrollViewer>
     </DockPanel>
 </UserControl>

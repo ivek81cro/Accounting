@@ -2,6 +2,6 @@
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT Id, Iznos, Sifra, Naziv
+	SELECT Id, Oib, Iznos, Sifra, Naziv
 	from PayrollSupplementEmployee;
 END

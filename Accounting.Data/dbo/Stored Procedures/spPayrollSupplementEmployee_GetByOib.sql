@@ -3,7 +3,7 @@
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT Id, Iznos, Naziv, Oib, Sifra
+	SELECT Id, Oib, Iznos, Naziv, Sifra
 	FROM PayrollSupplementEmployee
 	WHERE Oib=@Oib
 END

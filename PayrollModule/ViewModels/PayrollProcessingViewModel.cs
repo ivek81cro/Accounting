@@ -2,6 +2,7 @@
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using AutoMapper;
+using PayrollModule.ServiceLocal;
 using Prism.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,6 +16,7 @@ namespace PayrollModule.ViewModels
         private readonly IMapper _mapper;
         private readonly IPayrollEndpoint _payrollEndpoint;
         private readonly IPayrollSupplementEmployeeEndpoint _supplementEndpoint;
+        private PayrollArchiveModel _archive;
 
         public PayrollProcessingViewModel(IMapper mapper,
             IPayrollEndpoint payrollEndpoint,
@@ -25,6 +27,16 @@ namespace PayrollModule.ViewModels
             _supplementEndpoint = supplementEndpoint;
 
             CalculatePayrollCommand = new DelegateCommand(Calculate, CanCalculate);
+        }
+        public DelegateCommand CalculatePayrollCommand { get; set; }
+
+        #region Archive Preparation
+
+        private PayrollArchiveModel _payrollArchiveView;
+        public PayrollArchiveModel PayrollArchiveView
+        {
+            get { return _payrollArchiveView; }
+            set { SetProperty(ref _payrollArchiveView, value); }
         }
 
         private bool CanCalculate()
@@ -54,10 +66,23 @@ namespace PayrollModule.ViewModels
 
         private void Calculate()
         {
+            SelectSupplementsForProcessing();
+            PayrollArchivePrepare process = new PayrollArchivePrepare();
 
+            if(OnlySupplements)
+            {
+                foreach(var pay in PayrollCalculations)
+                {
+                    pay.ResetMoneyValues();
+                }
+            }
+
+            _archive = process.Process(PayrollCalculations, SupplementCalculations, Accounting);
+
+            InitializeArchivePreparationDatagrid();
         }
 
-        public DelegateCommand CalculatePayrollCommand { get; set; }
+        #endregion
 
         #region Payrolls
 
@@ -104,6 +129,13 @@ namespace PayrollModule.ViewModels
                     }
                 }
             }
+        }
+
+        private bool _onlySupplements;
+        public bool OnlySupplements
+        {
+            get { return _onlySupplements; }
+            set { SetProperty(ref _onlySupplements, value); }
         }
 
         private ICollectionView _payrollsView;
@@ -211,6 +243,27 @@ namespace PayrollModule.ViewModels
             _supplementsView.Filter = o => string.IsNullOrEmpty(FilterSupplementsDisplay) ?
                 true : ((PayrollSupplementEmployeeModel)o).Naziv.ToLower().Contains(FilterSupplementsDisplay.ToLower());
         }
+
+        private void SelectSupplementsForProcessing()
+        {
+            if (SupplementSelectDisplay != null)
+            {
+                foreach (var displayItem in SupplementSelectDisplay)
+                {
+                    if (displayItem.IsChecked)
+                    {
+                        foreach (var item in SupplementCalculations)
+                        {
+                            if (item.Sifra == displayItem.Sifra)
+                            {
+                                item.IsChecked = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region PayrollAccounting
@@ -223,6 +276,26 @@ namespace PayrollModule.ViewModels
             { 
                 SetProperty(ref _accounting, value);
             }
+        }
+
+        private ObservableCollection<PayrollCalculationModel> _payrollArchive;
+        public ObservableCollection<PayrollCalculationModel> PayrollArchive
+        {
+            get { return _payrollArchive; }
+            set { SetProperty(ref _payrollArchive, value); }
+        }
+
+        private ObservableCollection<PayrollSupplementEmployeeModel> _supplementArchive;
+        public ObservableCollection<PayrollSupplementEmployeeModel> SupplementsArchive
+        {
+            get { return _supplementArchive; }
+            set { SetProperty(ref _supplementArchive, value); }
+        }
+
+        private void InitializeArchivePreparationDatagrid()
+        {
+            PayrollArchive = new ObservableCollection<PayrollCalculationModel>(_archive.Payrolls);
+            SupplementsArchive = new ObservableCollection<PayrollSupplementEmployeeModel>(_archive.Supplements);
         }
 
         #endregion

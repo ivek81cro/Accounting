@@ -16,6 +16,21 @@ namespace AccountingUI.Core.Services
             _apiService = apiService;
         }
 
+        public async void DeleteRecord(int accountingId)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.DeleteAsync($"/api/PayrollArchive/{accountingId}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task<List<PayrollArchiveHeaderModel>> GetArchiveHeaders()
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/PayrollArchive/Headers"))

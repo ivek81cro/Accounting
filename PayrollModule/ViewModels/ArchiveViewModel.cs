@@ -1,6 +1,8 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
+using Prism.Commands;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,15 +11,22 @@ namespace PayrollModule.ViewModels
 {
     public class ArchiveViewModel : ViewModelBase
     {
-        private readonly IPayrollArchiveEndpoint _archiveEndpoint;
+        private readonly IPayrollArchiveEndpoint _archiveEndpoint; 
+        private readonly IDialogService _showDialog;
+
         private List<PayrollArchiveHeaderModel> _archiveHeaders;
         private List<PayrollArchivePayrollModel> _archivePayrolls;
         private List<PayrollArchiveSupplementModel> _archiveSupplements;
 
-        public ArchiveViewModel(IPayrollArchiveEndpoint archiveEndpoint)
+        public ArchiveViewModel(IPayrollArchiveEndpoint archiveEndpoint, IDialogService showDialog)
         {
             _archiveEndpoint = archiveEndpoint;
+            _showDialog = showDialog;
+
+            DeletePayrollCommand = new DelegateCommand(DeleteSelectedRecord, CanDelete);
         }
+
+        public DelegateCommand DeletePayrollCommand { get; private set; }
 
         private ObservableCollection<PayrollArchiveHeaderModel> _accountingHeaders;
         public ObservableCollection<PayrollArchiveHeaderModel> AccountingHeaders
@@ -33,7 +42,11 @@ namespace PayrollModule.ViewModels
             set 
             { 
                 SetProperty(ref _selectedArchive, value);
-                LoadDetails();
+                if (value != null)
+                {
+                    LoadDetails();
+                }
+                DeletePayrollCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -67,6 +80,29 @@ namespace PayrollModule.ViewModels
             _archiveSupplements = new();
             _archiveSupplements = await _archiveEndpoint.GetArchiveSupplements(SelectedArchive.Id);
             Supplements = new ObservableCollection<PayrollArchiveSupplementModel>(_archiveSupplements);
+        }
+
+        private void DeleteSelectedRecord()
+        {
+            if(SelectedArchive != null)
+            {
+                _showDialog.ShowDialog("AreYouSureView", null, result =>
+                {
+                    if (result.Result == ButtonResult.OK)
+                    {
+                        _archiveEndpoint.DeleteRecord(SelectedArchive.Id);
+                        AccountingHeaders.Remove(SelectedArchive);
+                        SelectedArchive = null;
+                        Payrolls = null;
+                        Supplements = null;
+                    }
+                });
+            }
+        }
+
+        private bool CanDelete()
+        {
+            return SelectedArchive != null;
         }
     }
 }

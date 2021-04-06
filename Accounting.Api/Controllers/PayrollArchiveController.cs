@@ -53,9 +53,10 @@ namespace Accounting.Api.Controllers
         }
 
         // DELETE api/<PayrollArchiveController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{accountingId}")]
+        public void Delete(int accountingId)
         {
+            _payrollArchive.DeleteRecord(accountingId);
         }
     }
 }

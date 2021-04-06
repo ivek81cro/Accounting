@@ -4,7 +4,6 @@ using AccountingUI.Core.TabControlRegion;
 using AutoMapper;
 using PayrollModule.ServiceLocal;
 using Prism.Commands;
-using Prism.Regions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -122,6 +121,14 @@ namespace PayrollModule.ViewModels
             if(await _processPayroll.SaveToDatabase(_archive))
             {
                 SaveStatusMessage = "Uspješno spremljeno u arhivu";
+                SelectAllPayrolls = false;
+                SelectAllPayrolls = false;
+                IfPayrolls = false;
+                IfSupplements = false;
+                SupplementCalculations = null;
+                PayrollCalculations = null;
+                PayrollArchive = null;
+                SupplementsArchive = null;
             }
             else
             {

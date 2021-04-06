@@ -164,5 +164,21 @@ namespace Accounting.DataManager.DataAccess
                 _sql.Dispose();
             }
         }
+
+        public void DeleteRecord(int accountingId)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.LoadDataInTransaction<PayrollArchiveHeaderModel, dynamic>("dbo.spPayrollArchive_Delete", new { Id = accountingId });
+            }
+            catch (Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+            _sql.Dispose();
+        }
     }
 }

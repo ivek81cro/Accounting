@@ -10,5 +10,6 @@ namespace Accounting.DataManager.DataAccess
         List<PayrollArchiveHeaderModel> GetHeaders();
         List<PayrollArchivePayrollModel> GetArchivePayrolls(int uniqueId);
         List<PayrollArchiveSupplementModel> GetArchiveSupplements(int accountingId);
+        void DeleteRecord(int accountingId);
     }
 }

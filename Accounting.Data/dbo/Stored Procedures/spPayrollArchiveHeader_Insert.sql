@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[spPayrollArchiveHeader_Insert]
 @Id INT,
+@UniqueIdentifier nvarchar(255),
 @Opis nvarchar(255),
 @DatumOd datetime2,
 @DatumDo datetime2,
@@ -10,6 +11,6 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO PayrollArchiveHeader (Opis, DatumOd, DatumDo, SatiRada, SatiPraznika, DatumObracuna) 
-	VALUES(@Opis, @DatumOd, @DatumDo, @SatiRada, @SatiPraznika, @DatumObracuna);
+	INSERT INTO PayrollArchiveHeader (Opis, UniqueIdentifier, DatumOd, DatumDo, SatiRada, SatiPraznika, DatumObracuna) 
+	VALUES(@Opis, @UniqueIdentifier, @DatumOd, @DatumDo, @SatiRada, @SatiPraznika, @DatumObracuna);
 END

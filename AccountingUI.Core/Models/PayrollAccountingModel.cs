@@ -13,6 +13,13 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _id, value); }
         }
 
+        private string _uniqueIdentifier;
+        public string UniqueIdentifier
+        {
+            get { return _uniqueIdentifier; }
+            set { SetProperty(ref _uniqueIdentifier, value); }
+        }
+
         private string _opis;
         [Required]
         public string Opis
@@ -54,6 +61,13 @@ namespace AccountingUI.Core.Models
         {
             get { return _datumObracuna; }
             set { SetProperty(ref _datumObracuna, value); }
+        }
+
+        public void CreateUniqueIdentifier()
+        {
+            UniqueIdentifier = DatumOd.ToString().Replace(".", "").Replace(":", "").Replace(" ","").Trim() + "-" +
+                DatumDo.ToString().Replace(".", "").Replace(":", "").Replace(" ", "").Trim() + "-" +
+                DatumObracuna.ToString().Replace(".", "").Replace(":", "").Replace(" ", "").Trim();
         }
     }
 }

@@ -4,6 +4,7 @@ using AccountingUI.Core.TabControlRegion;
 using AutoMapper;
 using PayrollModule.ServiceLocal;
 using Prism.Commands;
+using Prism.Regions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -38,9 +39,16 @@ namespace PayrollModule.ViewModels
 
         #region Archive Preparation And Save
 
+        private string _saveStatusMessage;
+        public string SaveStatusMessage
+        {
+            get { return  _saveStatusMessage; }
+            set { SetProperty(ref  _saveStatusMessage, value); }
+        }
+
         private bool CanCalculate()
         {
-            if(!IfPayrolls && !IfSupplements)
+            if (!IfPayrolls && !IfSupplements)
             {
                 return false;
             }
@@ -64,6 +72,7 @@ namespace PayrollModule.ViewModels
 
         private void Calculate()
         {
+            SaveStatusMessage = null;
             SelectSupplementsForProcessing();
 
             if(OnlySupplements)
@@ -108,9 +117,17 @@ namespace PayrollModule.ViewModels
             return result;
         }
 
-        private void SaveToArchive()
+        private async void SaveToArchive()
         {
-            _processPayroll.SaveToDatabase(_archive);
+            if(await _processPayroll.SaveToDatabase(_archive))
+            {
+                SaveStatusMessage = "Uspješno spremljeno u arhivu";
+            }
+            else
+            {
+                SaveStatusMessage = "Zapis za razdoblje več postoji u arhivi, ukoliko radite ispravak, " +
+                    "izbrišite prvo zapis za isto razdoblje, sa istim datumom obračuna.";
+            }
         }
 
         #endregion

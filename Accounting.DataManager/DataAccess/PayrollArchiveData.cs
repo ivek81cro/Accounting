@@ -14,6 +14,25 @@ namespace Accounting.DataManager.DataAccess
             _sql = sql;
         }
 
+        public bool IfExists(string identifier)
+        {
+            bool result;
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                result = _sql.LoadDataInTransaction<int, dynamic>("spPayrollArchive_IfExists", new { UniqueIdentifier = identifier }).Count() != 0;
+            }
+            catch (Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+            _sql.Dispose();
+
+            return result;
+        }
+
         public void Insert(PayrollArchiveModel archive)
         {
             InsertAccountingHeader(archive.Calculation);
@@ -34,7 +53,7 @@ namespace Accounting.DataManager.DataAccess
 
                 result = _sql.LoadDataInTransaction<int, dynamic>("spPayrollArchive_GetLatestId", new { }).First();
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _sql.RollBackTransaction();
                 throw;
@@ -53,7 +72,7 @@ namespace Accounting.DataManager.DataAccess
 
                 _sql.SaveDataInTransaction("dbo.spPayrollArchiveHeader_Insert", accounting);
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 _sql.RollBackTransaction();
                 throw;
@@ -72,7 +91,7 @@ namespace Accounting.DataManager.DataAccess
 
                     _sql.SaveDataInTransaction("dbo.spPayrollArchivePayroll_Insert", p);
                 }
-                catch (System.Exception)
+                catch (Exception)
                 {
                     _sql.RollBackTransaction();
                     throw;

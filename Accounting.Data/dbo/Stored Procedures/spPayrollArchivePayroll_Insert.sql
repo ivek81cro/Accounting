@@ -1,5 +1,4 @@
 ﻿CREATE PROCEDURE [dbo].[spPayrollArchivePayroll_Insert]
-@Id INT,
 @Oib NVARCHAR(11),
 @Ime NVARCHAR(75),
 @Prezime NVARCHAR(75),

@@ -6,6 +6,8 @@ namespace Accounting.DataManager.Models
     {
         public int Id { get; set; }
 
+        public string UniqueIdentifier { get; set; }
+
         public string Opis { get; set; }
 
         public DateTime DatumOd { get; set; }

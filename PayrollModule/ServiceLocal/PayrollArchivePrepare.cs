@@ -1,6 +1,7 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace PayrollModule.ServiceLocal
 {
@@ -13,7 +14,7 @@ namespace PayrollModule.ServiceLocal
             _archiveEndpoint = archiveEndpoint;
         }
 
-        private PayrollArchiveModel _archive = new();
+        private PayrollArchiveModel _archive;
         private ObservableCollection<PayrollCalculationModel> _payrolls;
         private ObservableCollection<PayrollSupplementCalculationModel> _supplements;
 
@@ -21,6 +22,7 @@ namespace PayrollModule.ServiceLocal
             ObservableCollection<PayrollSupplementCalculationModel> supplementCalculations,
             PayrollAccountingModel payrollAccounting)
         {
+            _archive = new();
             _payrolls = payrollCalculations;
             _supplements = supplementCalculations;
 
@@ -33,6 +35,7 @@ namespace PayrollModule.ServiceLocal
                 AddSupplementsOnly();
             }
 
+            payrollAccounting.CreateUniqueIdentifier();
             _archive.Calculation = payrollAccounting;
 
             return _archive;
@@ -79,11 +82,16 @@ namespace PayrollModule.ServiceLocal
             }
         }
 
-        public void SaveToDatabase(PayrollArchiveModel archive)
+        public async Task<bool> SaveToDatabase(PayrollArchiveModel archive)
         {
             _archive = archive;
-
-            _archiveEndpoint.PostToArchive(_archive);
+            bool result = await _archiveEndpoint.IfIdentifierExists(_archive.Calculation.UniqueIdentifier);
+            if (!result)
+            {
+                await _archiveEndpoint.PostToArchive(_archive);
+                return true;
+            }
+            return false;
         }
     }
 }

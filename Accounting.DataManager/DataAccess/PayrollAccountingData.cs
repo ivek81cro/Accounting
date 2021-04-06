@@ -13,12 +13,12 @@ namespace Accounting.DataManager.DataAccess
             _sql = sql;
         }
 
-        public List<PayrollAccountingModel> GetAll()
+        public List<PayrollArchiveHeaderModel> GetAll()
         {
             try
             {
                 _sql.StartTransaction("AccountingConnStr");
-                var output = _sql.LoadDataInTransaction<PayrollAccountingModel, dynamic>("dbo.spPayrollAccounting_GetById", new { });
+                var output = _sql.LoadDataInTransaction<PayrollArchiveHeaderModel, dynamic>("dbo.spPayrollAccounting_GetById", new { });
 
                 return output;
             }
@@ -29,12 +29,12 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
-        public PayrollAccountingModel GetById(int id)
+        public PayrollArchiveHeaderModel GetById(int id)
         {
             try
             {
                 _sql.StartTransaction("AccountingConnStr");
-                var output = _sql.LoadDataInTransaction<PayrollAccountingModel, dynamic>("dbo.spPayrollAccounting_GetById", new { Id = id })
+                var output = _sql.LoadDataInTransaction<PayrollArchiveHeaderModel, dynamic>("dbo.spPayrollAccounting_GetById", new { Id = id })
                         .FirstOrDefault();
 
                 return output;
@@ -46,7 +46,7 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
-        public void Insert(PayrollAccountingModel payroll)
+        public void Insert(PayrollArchiveHeaderModel payroll)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
-        public void Update(PayrollAccountingModel payroll)
+        public void Update(PayrollArchiveHeaderModel payroll)
         {
             try
             {
@@ -82,7 +82,7 @@ namespace Accounting.DataManager.DataAccess
             {
                 _sql.StartTransaction("AccountingConnStr");
 
-                _sql.LoadDataInTransaction<PayrollAccountingModel, dynamic>("dbo.spPayrollAccounting_Delete", new { Id = id });
+                _sql.LoadDataInTransaction<PayrollArchiveHeaderModel, dynamic>("dbo.spPayrollAccounting_Delete", new { Id = id });
             }
             catch (System.Exception)
             {

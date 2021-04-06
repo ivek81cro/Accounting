@@ -15,12 +15,12 @@ namespace PayrollModule.ServiceLocal
         }
 
         private PayrollArchiveModel _archive;
-        private ObservableCollection<PayrollCalculationModel> _payrolls;
-        private ObservableCollection<PayrollSupplementCalculationModel> _supplements;
+        private ObservableCollection<PayrollArchivePayrollModel> _payrolls;
+        private ObservableCollection<PayrollArchiveSupplementModel> _supplements;
 
-        public PayrollArchiveModel Process(ObservableCollection<PayrollCalculationModel> payrollCalculations,
-            ObservableCollection<PayrollSupplementCalculationModel> supplementCalculations,
-            PayrollAccountingModel payrollAccounting)
+        public PayrollArchiveModel Process(ObservableCollection<PayrollArchivePayrollModel> payrollCalculations,
+            ObservableCollection<PayrollArchiveSupplementModel> supplementCalculations,
+            PayrollArchiveHeaderModel payrollAccounting)
         {
             _archive = new();
             _payrolls = payrollCalculations;
@@ -85,7 +85,7 @@ namespace PayrollModule.ServiceLocal
         public async Task<bool> SaveToDatabase(PayrollArchiveModel archive)
         {
             _archive = archive;
-            bool result = await _archiveEndpoint.IfIdentifierExists(_archive.Calculation.UniqueIdentifier);
+            bool result = await _archiveEndpoint.IfIdentifierExists(_archive.Calculation.UniqueId);
             if (!result)
             {
                 await _archiveEndpoint.PostToArchive(_archive);

@@ -22,21 +22,21 @@ namespace Accounting.Api.Controllers
 
         // GET: api/<PayrollAccountingController>
         [HttpGet]
-        public List<PayrollAccountingModel> Get()
+        public List<PayrollArchiveHeaderModel> Get()
         {
             return _accounting.GetAll();
         }
 
         // GET api/<PayrollAccountingController>/5
         [HttpGet("{id}")]
-        public PayrollAccountingModel Get(int id)
+        public PayrollArchiveHeaderModel Get(int id)
         {
             return _accounting.GetById(id);
         }
 
         // POST api/<PayrollAccountingController>
         [HttpPost]
-        public void Post([FromBody] PayrollAccountingModel payroll)
+        public void Post([FromBody] PayrollArchiveHeaderModel payroll)
         {
             if (payroll.Id != 0)
             {

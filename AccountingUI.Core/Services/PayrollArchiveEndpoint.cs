@@ -1,6 +1,7 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -13,6 +14,54 @@ namespace AccountingUI.Core.Services
         public PayrollArchiveEndpoint(IApiService apiService)
         {
             _apiService = apiService;
+        }
+
+        public async Task<List<PayrollArchiveHeaderModel>> GetArchiveHeaders()
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/PayrollArchive/Headers"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<PayrollArchiveHeaderModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<List<PayrollArchivePayrollModel>> GetArchivePayrolls(int accountingId)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/PayrollArchive/Payrolls/{accountingId}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<PayrollArchivePayrollModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<List<PayrollArchiveSupplementModel>> GetArchiveSupplements(int accountingId)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/PayrollArchive/Supplements/{accountingId}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<PayrollArchiveSupplementModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
         }
 
         public async Task<bool> IfIdentifierExists(string identifier)

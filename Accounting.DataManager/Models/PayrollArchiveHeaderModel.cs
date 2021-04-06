@@ -2,11 +2,11 @@
 
 namespace Accounting.DataManager.Models
 {
-    public class PayrollAccountingModel
+    public class PayrollArchiveHeaderModel
     {
         public int Id { get; set; }
 
-        public string UniqueIdentifier { get; set; }
+        public string UniqueId { get; set; }
 
         public string Opis { get; set; }
 

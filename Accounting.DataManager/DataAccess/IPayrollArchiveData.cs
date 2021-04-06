@@ -7,5 +7,8 @@ namespace Accounting.DataManager.DataAccess
     {
         void Insert(PayrollArchiveModel archive);
         bool IfExists(string identifier);
+        List<PayrollArchiveHeaderModel> GetHeaders();
+        List<PayrollArchivePayrollModel> GetArchivePayrolls(int uniqueId);
+        List<PayrollArchiveSupplementModel> GetArchiveSupplements(int accountingId);
     }
 }

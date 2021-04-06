@@ -2,6 +2,7 @@
 using Accounting.DataManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,6 +20,12 @@ namespace Accounting.Api.Controllers
             _payrollArchive = payrollArchive;
         }
 
+        [HttpGet("Headers/")]
+        public List<PayrollArchiveHeaderModel> Get()
+        {
+            return _payrollArchive.GetHeaders();
+        }
+
         // GET: api/<PayrollArchiveController>
         [HttpGet("IfExists/{identifier}")]
         public bool Get(string identifier)
@@ -26,11 +33,16 @@ namespace Accounting.Api.Controllers
             return _payrollArchive.IfExists(identifier);
         }
 
-        // GET api/<PayrollArchiveController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("Payrolls/{accountingId}")]
+        public List<PayrollArchivePayrollModel> GetPayrolls(int accountingId)
         {
-            return "value";
+            return _payrollArchive.GetArchivePayrolls(accountingId);
+        }
+        
+        [HttpGet("Supplements/{accountingId}")]
+        public List<PayrollArchiveSupplementModel> GetSupplements(int accountingId)
+        {
+            return _payrollArchive.GetArchiveSupplements(accountingId);
         }
 
         // POST api/<PayrollArchiveController>

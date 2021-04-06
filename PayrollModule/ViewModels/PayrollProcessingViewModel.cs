@@ -155,8 +155,8 @@ namespace PayrollModule.ViewModels
             }
         }
 
-        private ObservableCollection<PayrollCalculationModel> _payrollCalculations;
-        public ObservableCollection<PayrollCalculationModel> PayrollCalculations
+        private ObservableCollection<PayrollArchivePayrollModel> _payrollCalculations;
+        public ObservableCollection<PayrollArchivePayrollModel> PayrollCalculations
         {
             get { return _payrollCalculations; }
             set { SetProperty(ref _payrollCalculations, value); }
@@ -201,12 +201,12 @@ namespace PayrollModule.ViewModels
         public async void LoadPayrolls()
         {
             var payrollList = await _payrollEndpoint.GetAll();
-            var cPayrollList = _mapper.Map<List<PayrollCalculationModel>>(payrollList);
-            PayrollCalculations = new ObservableCollection<PayrollCalculationModel>(cPayrollList);
+            var cPayrollList = _mapper.Map<List<PayrollArchivePayrollModel>>(payrollList);
+            PayrollCalculations = new ObservableCollection<PayrollArchivePayrollModel>(cPayrollList);
 
             _payrollsView = CollectionViewSource.GetDefaultView(PayrollCalculations);
             _payrollsView.Filter = o => string.IsNullOrEmpty(FilterPayrolls) ?
-                true : ((PayrollCalculationModel)o).Prezime.ToLower().Contains(FilterPayrolls.ToLower());
+                true : ((PayrollArchivePayrollModel)o).Prezime.ToLower().Contains(FilterPayrolls.ToLower());
         }
 
 
@@ -252,8 +252,8 @@ namespace PayrollModule.ViewModels
             }
         }
 
-        private ObservableCollection<PayrollSupplementCalculationModel> _supplementCalculations;
-        public ObservableCollection<PayrollSupplementCalculationModel> SupplementCalculations
+        private ObservableCollection<PayrollArchiveSupplementModel> _supplementCalculations;
+        public ObservableCollection<PayrollArchiveSupplementModel> SupplementCalculations
         {
             get { return _supplementCalculations; }
             set { SetProperty(ref _supplementCalculations, value); }
@@ -281,8 +281,8 @@ namespace PayrollModule.ViewModels
         private async void LoadSupplements()
         {
             var supplementList = await _supplementEndpoint.GetAll();
-            var cSupplementList = _mapper.Map<List<PayrollSupplementCalculationModel>>(supplementList);
-            SupplementCalculations = new ObservableCollection<PayrollSupplementCalculationModel>(cSupplementList);
+            var cSupplementList = _mapper.Map<List<PayrollArchiveSupplementModel>>(supplementList);
+            SupplementCalculations = new ObservableCollection<PayrollArchiveSupplementModel>(cSupplementList);
 
             var distinctSuppl = await _supplementEndpoint.GetDistinct();
             SupplementSelectDisplay = new ObservableCollection<PayrollSupplementEmployeeModel>(distinctSuppl);
@@ -316,8 +316,8 @@ namespace PayrollModule.ViewModels
 
         #region PayrollAccounting
 
-        private PayrollAccountingModel _accounting = new();
-        public PayrollAccountingModel Accounting
+        private PayrollArchiveHeaderModel _accounting = new();
+        public PayrollArchiveHeaderModel Accounting
         {
             get { return _accounting; }
             set 
@@ -326,8 +326,8 @@ namespace PayrollModule.ViewModels
             }
         }
 
-        private ObservableCollection<PayrollCalculationModel> _payrollArchive;
-        public ObservableCollection<PayrollCalculationModel> PayrollArchive
+        private ObservableCollection<PayrollArchivePayrollModel> _payrollArchive;
+        public ObservableCollection<PayrollArchivePayrollModel> PayrollArchive
         {
             get { return _payrollArchive; }
             set { SetProperty(ref _payrollArchive, value); }
@@ -342,7 +342,7 @@ namespace PayrollModule.ViewModels
 
         private void InitializeArchivePreparationDatagrid()
         {
-            PayrollArchive = new ObservableCollection<PayrollCalculationModel>(_archive.Payrolls);
+            PayrollArchive = new ObservableCollection<PayrollArchivePayrollModel>(_archive.Payrolls);
             SupplementsArchive = new ObservableCollection<PayrollSupplementEmployeeModel>(_archive.Supplements);
         }
 

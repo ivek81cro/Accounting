@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[PayrollArchivePayroll]
 (
 	[Id] INT NOT NULL IDENTITY,
-	[Oib] NVARCHAR(11) NOT NULL UNIQUE,
+	[Oib] NVARCHAR(11) NOT NULL,
 	[Ime] NVARCHAR(75) NOT NULL,
 	[Prezime] NVARCHAR(75) NOT NULL,
 	[Bruto] DECIMAL(8,2),

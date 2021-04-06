@@ -45,8 +45,8 @@ namespace AccountingUI.WPF
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<PayrollModel, PayrollCalculationModel>();
-                cfg.CreateMap<PayrollSupplementEmployeeModel, PayrollSupplementCalculationModel>();
+                cfg.CreateMap<PayrollModel, PayrollArchivePayrollModel>();
+                cfg.CreateMap<PayrollSupplementEmployeeModel, PayrollArchiveSupplementModel>();
             });
 
             var mapper = config.CreateMapper();

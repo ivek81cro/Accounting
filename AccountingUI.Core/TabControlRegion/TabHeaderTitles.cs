@@ -11,7 +11,8 @@ namespace AccountingUI.Core.TabControlRegion
             EmployeesView,
             CitiesView,
             PayrollView,
-            PayrollProcessing
+            PayrollProcessing,
+            ArchiveView
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -29,6 +30,8 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Plaća";
                 case ViewNames.PayrollProcessing:
                     return "Obračun plaće";
+                case ViewNames.ArchiveView:
+                    return "Arhiva obračuna";
                 default:
                     return "";
             }

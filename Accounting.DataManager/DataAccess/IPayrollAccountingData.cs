@@ -5,10 +5,10 @@ namespace Accounting.DataManager.DataAccess
 {
     public interface IPayrollAccountingData
     {
-        List<PayrollAccountingModel> GetAll();
-        PayrollAccountingModel GetById(int id);
-        void Insert(PayrollAccountingModel payroll);
-        void Update(PayrollAccountingModel payroll);
+        List<PayrollArchiveHeaderModel> GetAll();
+        PayrollArchiveHeaderModel GetById(int id);
+        void Insert(PayrollArchiveHeaderModel payroll);
+        void Update(PayrollArchiveHeaderModel payroll);
         void Delete(int id);
     }
 }

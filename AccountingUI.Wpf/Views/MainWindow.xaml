@@ -70,7 +70,8 @@
                           CommandParameter="PayrollView"/>
                 <MenuItem Header="Obračun" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="PayrollProcessing"/>
-                <MenuItem Header="Arhiva"/>
+                <MenuItem Header="Arhiva" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="ArchiveView"/>
             </MenuItem>
             <MenuItem Header="Izvodi" Margin="5">
 

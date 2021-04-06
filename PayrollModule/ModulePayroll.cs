@@ -18,6 +18,7 @@ namespace PayrollModule
         {
             containerRegistry.RegisterForNavigation<PayrollView>();
             containerRegistry.RegisterForNavigation<PayrollProcessing>();
+            containerRegistry.RegisterForNavigation<ArchiveView>();
 
             containerRegistry.RegisterDialog<PayrollCalculationDialog>();
             containerRegistry.RegisterDialog<SupplementsDialog>();

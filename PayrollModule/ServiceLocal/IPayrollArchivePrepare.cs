@@ -6,9 +6,9 @@ namespace PayrollModule.ServiceLocal
 {
     public interface IPayrollArchivePrepare
     {
-        PayrollArchiveModel Process(ObservableCollection<PayrollCalculationModel> payrollCalculations, 
-            ObservableCollection<PayrollSupplementCalculationModel> supplementCalculations, 
-            PayrollAccountingModel payrollAccounting);
+        PayrollArchiveModel Process(ObservableCollection<PayrollArchivePayrollModel> payrollCalculations, 
+            ObservableCollection<PayrollArchiveSupplementModel> supplementCalculations, 
+            PayrollArchiveHeaderModel payrollAccounting);
         Task<bool> SaveToDatabase(PayrollArchiveModel archive);
     }
 }

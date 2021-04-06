@@ -14,6 +14,51 @@ namespace Accounting.DataManager.DataAccess
             _sql = sql;
         }
 
+        public List<PayrollArchiveHeaderModel> GetHeaders()
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<PayrollArchiveHeaderModel, dynamic>("spPayrollArchive_GetHeaders", new { });
+            }
+            catch (Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
+        public List<PayrollArchivePayrollModel> GetArchivePayrolls(int accountingId)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<PayrollArchivePayrollModel, dynamic>("spPayrollArchive_GetPayrolls", new { AccountingId = accountingId });
+            }
+            catch (Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
+        public List<PayrollArchiveSupplementModel> GetArchiveSupplements(int accountingId)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<PayrollArchiveSupplementModel, dynamic>("spPayrollArchive_GetSupplements", new { AccountingId = accountingId });
+            }
+            catch (Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
         public bool IfExists(string identifier)
         {
             bool result;
@@ -21,7 +66,7 @@ namespace Accounting.DataManager.DataAccess
             {
                 _sql.StartTransaction("AccountingConnStr");
 
-                result = _sql.LoadDataInTransaction<int, dynamic>("spPayrollArchive_IfExists", new { UniqueIdentifier = identifier }).Count() != 0;
+                result = _sql.LoadDataInTransaction<int, dynamic>("spPayrollArchive_IfExists", new { UniqueId = identifier }).Count() != 0;
             }
             catch (Exception)
             {
@@ -64,7 +109,7 @@ namespace Accounting.DataManager.DataAccess
             
         }
 
-        private void InsertAccountingHeader(PayrollAccountingModel accounting)
+        private void InsertAccountingHeader(PayrollArchiveHeaderModel accounting)
         {
             try
             {
@@ -80,7 +125,7 @@ namespace Accounting.DataManager.DataAccess
             _sql.Dispose();
         }
 
-        private void InsertPayrollArchive(List<PayrollCalculationModel> payrolls, int id)
+        private void InsertPayrollArchive(List<PayrollArchivePayrollModel> payrolls, int id)
         {
             foreach (var p in payrolls)
             {
@@ -100,7 +145,7 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
-        private void InsertSupplementArchive(List<PayrollSupplementCalculationModel> supplements, int id)
+        private void InsertSupplementArchive(List<PayrollArchiveSupplementModel> supplements, int id)
         {
             foreach (var s in supplements)
             {

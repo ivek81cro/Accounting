@@ -124,7 +124,7 @@
         </DockPanel>
 
         <!--Payroll select section-->
-        <ScrollViewer VerticalScrollBarVisibility="Auto">            
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
             <DockPanel DockPanel.Dock="Top">
                 <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Left" Width="350">
                     <TextBlock Text="{Binding SaveStatusMessage, Mode=TwoWay, 
@@ -135,26 +135,26 @@
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Top">
                     <DockPanel DockPanel.Dock="Left" Width="300" HorizontalAlignment="Left"
-                   VerticalAlignment="Top">
+                               VerticalAlignment="Top">
 
-                        <CheckBox Content="Odabir zaposlenika?" IsChecked="{Binding IfPayrolls}" 
-                      DockPanel.Dock="Top" Margin="5"/>
+                        <CheckBox Content="Odabir zaposlenika?" IsChecked="{Binding IfPayrolls}"
+                                  DockPanel.Dock="Top" Margin="5"/>
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                             <CheckBox Content="Odaberi sve?" IsChecked="{Binding SelectAllPayrolls}" 
-                      DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfPayrolls}"/>
+                                      DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfPayrolls}"/>
                             <CheckBox Content="Samo dodaci?" IsChecked="{Binding OnlySupplements}" 
-                      DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfPayrolls}"/>
+                                      DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfPayrolls}"/>
                         </StackPanel>
 
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                             <TextBlock Text="Filter Prezime" Margin="5"/>
                             <TextBox Margin="5" Text="{Binding FilterPayrolls, UpdateSourceTrigger=PropertyChanged}"
-                 MinWidth="150"/>
+                                     MinWidth="150"/>
                         </StackPanel>
 
                         <DataGrid ItemsSource="{Binding PayrollCalculations}" AutoGenerateColumns="False"
-                      CanUserAddRows="False" CanUserSortColumns="False" Width="280"
-                      Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                  CanUserAddRows="False" CanUserSortColumns="False" Width="280"
+                                  Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn Header="Odabir" Binding="{Binding IsChecked}"/>
                                 <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"
@@ -170,25 +170,25 @@
                    VerticalAlignment="Top">
 
                         <CheckBox Content="Obračun dodataka?" IsChecked="{Binding IfSupplements}" 
-                      DockPanel.Dock="Top" Margin="5"/>
+                                  DockPanel.Dock="Top" Margin="5"/>
                         <CheckBox Content="Odaberi sve?" IsChecked="{Binding SelectAllSupplements}" 
-                      DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfSupplements}"/>
+                                  DockPanel.Dock="Top" Margin="5" IsEnabled="{Binding IfSupplements}"/>
 
                         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
                             <TextBlock Text="Filter Opis" Margin="5"/>
                             <TextBox Margin="5" Text="{Binding FilterSupplementsDisplay, UpdateSourceTrigger=PropertyChanged}"
-                 MinWidth="150"/>
+                                     MinWidth="150"/>
                         </StackPanel>
 
                         <DataGrid ItemsSource="{Binding SupplementSelectDisplay}" 
-                      AutoGenerateColumns="False" CanUserAddRows="False"
-                      CanUserSortColumns="False" Width="280" Height="200" 
-                      HorizontalAlignment="Left" VerticalAlignment="Top">
+                                  AutoGenerateColumns="False" CanUserAddRows="False"
+                                  CanUserSortColumns="False" Width="280" Height="200" 
+                                  HorizontalAlignment="Left" VerticalAlignment="Top">
                             <DataGrid.Columns>
                                 <DataGridCheckBoxColumn Header="Odabir" Binding="{Binding IsChecked}"/>
                                 <DataGridTextColumn Header="Sifra" Binding="{Binding Sifra}"/>
                                 <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}"
-                                        MinWidth="80"/>
+                                                    MinWidth="80"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </DockPanel>
@@ -197,10 +197,10 @@
                 <!--Accounting display-->
                 <DockPanel DockPanel.Dock="Left">
                     <TextBlock Text="Obračun plaće i dodataka" DockPanel.Dock="Top"
-                       Margin="5" FontSize="18"/>
+                               Margin="5" FontSize="18"/>
                     <DataGrid ItemsSource="{Binding PayrollArchive}" DockPanel.Dock="Top"
-                      Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                      AutoGenerateColumns="False" CanUserAddRows="False">
+                              Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                              AutoGenerateColumns="False" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
                             <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"/>
@@ -221,8 +221,8 @@
                     </DataGrid>
 
                     <DataGrid ItemsSource="{Binding SupplementsArchive}" DockPanel.Dock="Top"
-                      Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top"
-                      AutoGenerateColumns="False" CanUserAddRows="False">
+                              Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                              AutoGenerateColumns="False" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
                             <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>

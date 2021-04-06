@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[PayrollArchiveHeader]
 (
 	[Id] INT NOT NULL IDENTITY,
-	[UniqueIdentifier] NVARCHAR(255) NOT NULL UNIQUE,
+	[UniqueId] NVARCHAR(255) NOT NULL UNIQUE,
 	[Opis] NVARCHAR(255) NOT NULL,
 	[DatumOd] DATETIME2 NOT NULL,
 	[DatumDo] DATETIME2 NOT NULL,

@@ -1,6 +1,6 @@
 ﻿namespace AccountingUI.Core.Models
 {
-    public class PayrollSupplementCalculationModel : PayrollSupplementEmployeeModel
+    public class PayrollArchiveSupplementModel : PayrollSupplementEmployeeModel
     {
         private int _accountingId;
         public int AccountingId

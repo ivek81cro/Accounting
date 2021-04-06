@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AccountingUI.Core.Models
 {
-    public class PayrollAccountingModel : ValidationBindableBase
+    public class PayrollArchiveHeaderModel : ValidationBindableBase
     {
         private int _id;
         public int Id
@@ -13,11 +13,11 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _id, value); }
         }
 
-        private string _uniqueIdentifier;
-        public string UniqueIdentifier
+        private string _uniqueId;
+        public string UniqueId
         {
-            get { return _uniqueIdentifier; }
-            set { SetProperty(ref _uniqueIdentifier, value); }
+            get { return _uniqueId; }
+            set { SetProperty(ref _uniqueId, value); }
         }
 
         private string _opis;
@@ -65,7 +65,7 @@ namespace AccountingUI.Core.Models
 
         public void CreateUniqueIdentifier()
         {
-            UniqueIdentifier = DatumOd.ToString().Replace(".", "").Replace(":", "").Replace(" ","").Trim() + "-" +
+            UniqueId = DatumOd.ToString().Replace(".", "").Replace(":", "").Replace(" ","").Trim() + "-" +
                 DatumDo.ToString().Replace(".", "").Replace(":", "").Replace(" ", "").Trim() + "-" +
                 DatumObracuna.ToString().Replace(".", "").Replace(":", "").Replace(" ", "").Trim();
         }

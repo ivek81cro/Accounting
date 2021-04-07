@@ -33,8 +33,8 @@ namespace PayrollModule.ViewModels
             SaveToArchiveCommand = new DelegateCommand(SaveToArchive, CanSave);
         }
 
-        public DelegateCommand CalculatePayrollCommand { get; set; }
-        public DelegateCommand SaveToArchiveCommand { get; set; }
+        public DelegateCommand CalculatePayrollCommand { get; private set; }
+        public DelegateCommand SaveToArchiveCommand { get; private set; }
 
         #region Archive Preparation And Save
 

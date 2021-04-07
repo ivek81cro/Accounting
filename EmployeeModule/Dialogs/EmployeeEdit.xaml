@@ -50,40 +50,40 @@
 
         <TextBlock Text="Oib:" Grid.Row="1"
                    Grid.Column="0" Margin="10"/>
-        <TextBox Grid.Row="1" Grid.Column="1" MinWidth="250" Margin="5 5 5 15" MinHeight="30"
+        <TextBox Grid.Row="1" Grid.Column="1" MinWidth="200" Margin="5 5 5 15" MinHeight="30"
                  Text="{Binding Employee.Oib, Mode=TwoWay,
             ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Text="Ime:" Grid.Row="2" Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Employee.Ime, Mode=TwoWay, 
             ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="2" Grid.Column="1" MinWidth="250"
+                 Grid.Row="2" Grid.Column="1" MinWidth="200"
                  Margin="5 5 5 15" MinHeight="30"/>
 
         <TextBlock Text="Prezime:" Grid.Row="3" Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Employee.Prezime, Mode=TwoWay, 
             ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
-                 Grid.Row="3" Grid.Column="1" MinWidth="250"
+                 Grid.Row="3" Grid.Column="1" MinWidth="200"
                  Margin="5 5 5 15" MinHeight="30"/>
 
         <TextBlock Text="Ulica:" Grid.Row="4"
                    Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Employee.Ulica, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="4" Grid.Column="1"
-                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+                 MinWidth="200" Margin="5 5 5 15" MinHeight="30"/>
 
         <TextBlock Text="Broj:" Grid.Row="5"
                    Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Employee.Broj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="5" Grid.Column="1"
-                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+                 MinWidth="200" Margin="5 5 5 15" MinHeight="30"/>
 
         <TextBlock Text="Grad:" Grid.Row="6"
                    Grid.Column="0" Margin="10"/>
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
             <TextBox Text="{Binding Employee.Mjesto, Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"
-                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+                 MinWidth="150" Margin="5 5 5 15" MinHeight="30"/>
             <Button Content="Odaberi" Padding="5" Margin="5 5 5 15"
                     Command="{Binding OpenCitySelectionCommand}"/>
         </StackPanel>
@@ -129,7 +129,7 @@
         <TextBox Text="{Binding Employee.Olaksica, Mode=TwoWay, 
             UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" 
                  Grid.Row="7" Grid.Column="1"
-                 MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+                 MinWidth="200" Margin="5 5 5 15" MinHeight="30"/>
 
         <TextBlock Text="Datum dolaska:" Grid.Row="7"
                    Grid.Column="2" Margin="10"/>

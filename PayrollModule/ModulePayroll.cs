@@ -22,10 +22,12 @@ namespace PayrollModule
 
             containerRegistry.RegisterDialog<PayrollCalculationDialog>();
             containerRegistry.RegisterDialog<SupplementsDialog>();
+            containerRegistry.RegisterDialog<JoppdDialog>();
 
             containerRegistry.RegisterScoped<IPayrollEndpoint, PayrollEndpoint>();
             containerRegistry.RegisterScoped<IPayrollSupplementEndpoint, PayrollSupplementEndpoint>();
             containerRegistry.RegisterScoped<IPayrollSupplementEmployeeEndpoint, PayrollSupplementEmployeeEndpoint>();
+            containerRegistry.RegisterScoped<IJoppdEmployeeEndpoint, JoppdEmployeeEndpoint>();
             containerRegistry.RegisterScoped<IPayrollCalculation, PayrollCalculation>();
             containerRegistry.RegisterScoped<IPayrollArchiveEndpoint, PayrollArchiveEndpoint>();
             containerRegistry.RegisterScoped<IPayrollArchivePrepare, PayrollArchivePrepare>();

@@ -8,7 +8,7 @@ using System;
 
 namespace PayrollModule.Dialogs
 {
-    class PayrollCalculationDialogViewModel : BindableBase, IDialogAware
+    public class PayrollCalculationDialogViewModel : BindableBase, IDialogAware
     {
         private readonly IPayrollEndpoint _payrollEndpoint;
         private readonly IPayrollCalculation _payrollCalculation;

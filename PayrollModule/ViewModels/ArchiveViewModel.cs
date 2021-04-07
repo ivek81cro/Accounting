@@ -1,6 +1,7 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
+using PayrollModule.Dialogs;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
@@ -24,8 +25,10 @@ namespace PayrollModule.ViewModels
             _showDialog = showDialog;
 
             DeletePayrollCommand = new DelegateCommand(DeleteSelectedRecord, CanDelete);
+            CreateJoppdFormCommand = new DelegateCommand(CreateJoppdDialog, CanCreateJoppd);
         }
 
+        public DelegateCommand CreateJoppdFormCommand { get; private set; }
         public DelegateCommand DeletePayrollCommand { get; private set; }
 
         private ObservableCollection<PayrollArchiveHeaderModel> _accountingHeaders;
@@ -47,6 +50,7 @@ namespace PayrollModule.ViewModels
                     LoadDetails();
                 }
                 DeletePayrollCommand.RaiseCanExecuteChanged();
+                CreateJoppdFormCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -101,6 +105,31 @@ namespace PayrollModule.ViewModels
         }
 
         private bool CanDelete()
+        {
+            return SelectedArchive != null;
+        }
+
+        private void CreateJoppdDialog()
+        {
+            PayrollArchiveModel archive = new PayrollArchiveModel
+            {
+                Calculation = SelectedArchive,
+                Payrolls = _archivePayrolls,
+                Supplements = _archiveSupplements
+            };
+
+            var parameters = new DialogParameters();
+            parameters.Add("archive", archive);
+            _showDialog.ShowDialog(nameof(JoppdDialog), parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
+        }
+
+        private bool CanCreateJoppd()
         {
             return SelectedArchive != null;
         }

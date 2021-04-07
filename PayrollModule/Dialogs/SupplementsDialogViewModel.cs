@@ -142,7 +142,7 @@ namespace PayrollModule.Dialogs
             };
 
             await _payrollSupplementEmployeeEndpoint.PostSupplement(psm);
-            EmployeeSupplements.Add(psm);
+            LoadEmployeeSupplements();
         }
     }
 }

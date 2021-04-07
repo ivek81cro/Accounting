@@ -23,4 +23,7 @@ BEGIN
 	VALUES (@Oib, @Ime, @Prezime, @Ulica, @Broj, @Mjesto, @Drzava, @Telefon, @Email, @StrucnaSprema, @Zvanje, @Olaksica, @Iban, @DatumDolaska, @DatumOdlaska);
 
 	INSERT INTO Payroll (Oib, Ime, Prezime) VALUES(@Oib, @Ime, @Prezime);
+
+	INSERT INTO JoppdEmployee (Oib)
+	VALUES (@Oib);
 END

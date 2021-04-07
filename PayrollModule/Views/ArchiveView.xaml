@@ -25,9 +25,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -41,13 +38,22 @@
                     <TextBlock Text="Briši arhivu" TextWrapping="Wrap"/>
                 </StackPanel>
             </Button>
+            <Button Height="70" Width="70" Margin="10 5 0 5" Padding="0" 
+                        Command="{Binding CreateJoppdFormCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\epor.png" Height="40"/>
+                    <TextBlock Text="JOPPD" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <DataGrid ItemsSource="{Binding AccountingHeaders}" 
                   SelectedItem="{Binding SelectedArchive}"
                   AutoGenerateColumns="False" CanUserAddRows="False" 
                   CanUserDeleteRows="False" IsReadOnly="True"
-                  Grid.Row="3" Grid.Column="0" Width="400" HorizontalAlignment="Left">
+                  Grid.Row="1" Grid.Column="0" 
+                  Width="400" HorizontalAlignment="Left">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum Od" Binding="{Binding DatumOd, 
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
@@ -59,67 +65,68 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <StackPanel Width="auto" Grid.Row="4" Grid.Column="0">
-            <TextBlock Text="Detalji odabranog zapisa iz arhive" Margin="5"
-                       FontSize="16"/>
-            <TextBlock Text="Plaće" Margin="5" FontSize="14"/>
-            <DataGrid ItemsSource="{Binding Payrolls}"
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2">
+            <StackPanel>
+                <TextBlock Text="Detalji odabranog zapisa iz arhive" Margin="5"
+                       FontSize="16" Height="auto"/>
+                <TextBlock Text="Plaće" Margin="5" FontSize="14"/>
+                <DataGrid ItemsSource="{Binding Payrolls}"
                       AutoGenerateColumns="False" CanUserAddRows="False" 
                       CanUserDeleteRows="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Oib" 
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Oib" 
                                         Binding="{Binding Oib}" MinWidth="100"/>
-                    <DataGridTextColumn Header="Ime" 
+                        <DataGridTextColumn Header="Ime" 
                                         Binding="{Binding Ime}" MinWidth="100"/>
-                    <DataGridTextColumn Header="Prezime" 
+                        <DataGridTextColumn Header="Prezime" 
                                         Binding="{Binding Prezime}" MinWidth="100"/>
-                    <DataGridTextColumn Header="Bruto" 
+                        <DataGridTextColumn Header="Bruto" 
                                         Binding="{Binding Bruto}" MinWidth="90"/>
-                    <DataGridTextColumn Header="MIO I." 
+                        <DataGridTextColumn Header="MIO I." 
                                         Binding="{Binding Mio1}" MinWidth="90"/>
-                    <DataGridTextColumn Header="MIO II." 
+                        <DataGridTextColumn Header="MIO II." 
                                         Binding="{Binding Mio2}" MinWidth="90"/>
-                    <DataGridTextColumn Header="Dohodak" 
+                        <DataGridTextColumn Header="Dohodak" 
                                         Binding="{Binding Dohodak}" MinWidth="90"/>
-                    <DataGridTextColumn Header="Odbitak" 
+                        <DataGridTextColumn Header="Odbitak" 
                                         Binding="{Binding Odbitak}" MinWidth="90"/>
-                    <DataGridTextColumn Header="Osnovica" 
+                        <DataGridTextColumn Header="Osnovica" 
                                         Binding="{Binding PoreznaOsnovica}" MinWidth="90"/>
-                    <DataGridTextColumn Header="Por. stopa I." 
+                        <DataGridTextColumn Header="Por. stopa I." 
                                         Binding="{Binding PoreznaStopa1}" MinWidth="90"/>
-                    <DataGridTextColumn Header="Por. stopa II." 
+                        <DataGridTextColumn Header="Por. stopa II." 
                                         Binding="{Binding PoreznaStopa2}" MinWidth="90"/>
-                    <DataGridTextColumn Header="Ukupno porezi" 
+                        <DataGridTextColumn Header="Ukupno porezi" 
                                         Binding="{Binding UkupnoPorez}" MinWidth="90"/>
-                    <DataGridTextColumn Header="Prirez" 
+                        <DataGridTextColumn Header="Prirez" 
                                         Binding="{Binding Prirez}" MinWidth="90"/>
-                    <DataGridTextColumn Header="Por. i prirez" 
+                        <DataGridTextColumn Header="Por. i prirez" 
                                         Binding="{Binding UkupnoPorezPrirez}"  MinWidth="90"/>
-                    <DataGridTextColumn Header="Neto" 
+                        <DataGridTextColumn Header="Neto" 
                                         Binding="{Binding Neto}"  MinWidth="90"/>
-                    <DataGridTextColumn Header="Dop. zdravstvo" 
+                        <DataGridTextColumn Header="Dop. zdravstvo" 
                                         Binding="{Binding DoprinosZdravstvo}"  MinWidth="80"/>
-                </DataGrid.Columns>
-            </DataGrid>
+                    </DataGrid.Columns>
+                </DataGrid>
 
-            <TextBlock Text="Dodaci uz plaću" Margin="5" FontSize="14"/>
-            <DataGrid ItemsSource="{Binding Supplements}"
+                <TextBlock Text="Dodaci uz plaću" Margin="5" FontSize="14" />
+                <DataGrid ItemsSource="{Binding Supplements}" 
                       AutoGenerateColumns="False" CanUserAddRows="False" 
                       CanUserDeleteRows="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
-                    <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
-                    <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style>
-                                <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
-                            </Style>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                </DataGrid.Columns>
-
-            </DataGrid>
-        </StackPanel>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
+                        <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
+                        <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 
 </UserControl>

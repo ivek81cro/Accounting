@@ -8,6 +8,7 @@
   <ItemGroup>
     <None Remove="Views\Images\calculate.PNG" />
     <None Remove="Views\Images\edit.PNG" />
+    <None Remove="Views\Images\epor.PNG" />
     <None Remove="Views\Images\folder.PNG" />
     <None Remove="Views\Images\kanta.PNG" />
     <None Remove="Views\Images\save.PNG" />
@@ -27,6 +28,7 @@
   <ItemGroup>
     <Resource Include="Views\Images\calculate.PNG" />
     <Resource Include="Views\Images\edit.PNG" />
+    <Resource Include="Views\Images\epor.PNG" />
     <Resource Include="Views\Images\folder.PNG" />
     <Resource Include="Views\Images\kanta.PNG" />
     <Resource Include="Views\Images\save.PNG" />

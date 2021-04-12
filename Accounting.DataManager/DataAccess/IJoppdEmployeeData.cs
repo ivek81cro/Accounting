@@ -6,5 +6,6 @@ namespace Accounting.DataManager.DataAccess
     public interface IJoppdEmployeeData
     {
         List<JoppdEmployeeModel> GetAll();
+        void SaveData(JoppdEmployeeModel employee);
     }
 }

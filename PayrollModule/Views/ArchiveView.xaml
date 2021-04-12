@@ -38,7 +38,7 @@
                     <TextBlock Text="Briši arhivu" TextWrapping="Wrap"/>
                 </StackPanel>
             </Button>
-            <Button Height="70" Width="70" Margin="10 5 0 5" Padding="0" 
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="0" 
                         Command="{Binding CreateJoppdFormCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>

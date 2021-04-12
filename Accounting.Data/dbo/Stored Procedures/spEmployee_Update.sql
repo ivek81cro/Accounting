@@ -28,4 +28,17 @@ BEGIN
 	UPDATE Payroll
 	SET Ime = @Ime, Prezime=@Prezime
 	WHERE Oib=@Oib;
+
+	DECLARE @SifraMjesto nvarchar(10);
+	SET @SifraMjesto = (SELECT Sifra FROM City WHERE Mjesto=@Mjesto);
+
+	DECLARE @MjestoPoslodavac nvarchar(75);
+	SET @MjestoPoslodavac = (SELECT TOP 1 Mjesto FROM Company);
+
+	DECLARE @SifraOpcineRada nvarchar(10);
+	SET @SifraOpcineRada = (SELECT Sifra FROM City WHERE Mjesto=@MjestoPoslodavac);
+
+	UPDATE JoppdEmployee 
+	SET SifraPrebivalista = @SifraMjesto, SifraOpcineRada=@SifraOpcineRada
+	WHERE Oib=@Oib;
 END

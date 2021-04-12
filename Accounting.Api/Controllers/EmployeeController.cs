@@ -32,6 +32,13 @@ namespace Accounting.Api.Controllers
             return _employeeData.GetEmployeeById(id);
         }
 
+        // GET api/<EmployeeController>/12345678901
+        [HttpGet("Oib/{oib}")]
+        public EmployeeModel Get(string oib)
+        {
+            return _employeeData.GetEmployeeByOib(oib);
+        }
+
         // POST api/<EmployeeController>
         [HttpPost]
         public void Post([FromBody] EmployeeModel employee)

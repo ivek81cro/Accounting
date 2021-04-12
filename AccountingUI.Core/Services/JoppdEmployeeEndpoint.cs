@@ -31,5 +31,21 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<bool> PostJoppdData(JoppdEmployeeModel employee)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/JoppdEmployee", employee))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var error = response.ReasonPhrase;
+                    return false;
+                }
+            }
+        }
     }
 }

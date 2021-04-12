@@ -1,22 +1,30 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
-using Prism.Mvvm;
+using AccountingUI.Core.TabControlRegion;
+using PayrollModule.Dialogs;
+using Prism.Commands;
+using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
-namespace PayrollModule.Dialogs
+namespace PayrollModule.ViewModels
 {
-    public class JoppdDialogViewModel : BindableBase, IDialogAware
+    public class JoppdViewModel : ViewModelBase
     {
         private readonly IJoppdEmployeeEndpoint _joppdEmployeeEndpoint;
+        private IDialogService _showDialog;
 
-        public JoppdDialogViewModel(IJoppdEmployeeEndpoint joppdEmployeeEndpoint)
+        public JoppdViewModel(IJoppdEmployeeEndpoint joppdEmployeeEndpoint, IDialogService showDialog)
         {
             _joppdEmployeeEndpoint = joppdEmployeeEndpoint;
+            _showDialog = showDialog;
+
+            EditEmployeeCommand = new DelegateCommand(EditEmployee, CanEditEmployee);
         }
 
-        public string Title => "Izrada JOPPD obrasca";
+        public DelegateCommand EditEmployeeCommand { get; private set; }
 
         private PayrollArchiveModel _archive;
         public PayrollArchiveModel Archive
@@ -29,7 +37,7 @@ namespace PayrollModule.Dialogs
         public DateTime? FormDate
         {
             get { return _formDate; }
-            set 
+            set
             {
                 SetProperty(ref _formDate, value);
                 SetJoppdFormNumber();
@@ -61,32 +69,41 @@ namespace PayrollModule.Dialogs
         public JoppdEmployeeModel SelectedEmployee
         {
             get { return _selectedEmployee; }
-            set { SetProperty(ref _selectedEmployee, value); }
+            set 
+            { 
+                SetProperty(ref _selectedEmployee, value);
+                EditEmployeeCommand.RaiseCanExecuteChanged();
+            }
         }
 
-        public event Action<IDialogResult> RequestClose;
-
-        public bool CanCloseDialog()
+        public override void OnNavigatedTo(NavigationContext navigationContext)
         {
-            return true;
+            base.OnNavigatedTo(navigationContext);
+            Archive = navigationContext.Parameters.GetValue<PayrollArchiveModel>("archive");
         }
 
-        public void OnDialogClosed()
-        {
-
-        }
-
-        public void OnDialogOpened(IDialogParameters parameters)
-        {
-            Archive = parameters.GetValue<PayrollArchiveModel>("archive");
-
-            LoadJoppdEmployees();
-        }
-
-        private async void LoadJoppdEmployees()
+        public async void LoadJoppdEmployees()
         {
             var list = await _joppdEmployeeEndpoint.GetAll();
             JoppdEmployees = new ObservableCollection<JoppdEmployeeModel>(list);
+        }
+
+        private bool CanEditEmployee()
+        {
+            return SelectedEmployee != null;
+        }
+
+        private void EditEmployee()
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("employee", SelectedEmployee);
+            _showDialog.ShowDialog(nameof(JoppdEmployee), parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    LoadJoppdEmployees();
+                }
+            });
         }
 
         private void SetJoppdFormNumber()

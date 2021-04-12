@@ -10,5 +10,6 @@ namespace AccountingUI.Core.Services
         Task<List<EmployeeModel>> GetAll();
         Task<EmployeeModel> GetById(int id);
         Task<bool> PostEmployee(EmployeeModel partner);
+        Task<EmployeeModel> GetByOib(string oib);
     }
 }

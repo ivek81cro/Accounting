@@ -17,6 +17,9 @@
 @DatumOdlaska datetime2
 AS
 BEGIN
+	DECLARE @SifraOpcineRada nvarchar(10);
+	DECLARE @MjestoPoslodavac nvarchar(75);
+
 	SET NOCOUNT ON;
 
 	INSERT INTO Employee (Oib, Ime, Prezime, Ulica, Broj, Mjesto, Drzava, Telefon, Email, StrucnaSprema, Zvanje, Olaksica, Iban, DatumDolaska, DatumOdlaska)
@@ -24,6 +27,9 @@ BEGIN
 
 	INSERT INTO Payroll (Oib, Ime, Prezime) VALUES(@Oib, @Ime, @Prezime);
 
-	INSERT INTO JoppdEmployee (Oib)
-	VALUES (@Oib);
+	SET @MjestoPoslodavac = (SELECT TOP 1 Mjesto FROM Company)
+	SET @SifraOpcineRada = (SELECT Sifra FROM City WHERE Mjesto=@MjestoPoslodavac);
+
+	INSERT INTO JoppdEmployee (Oib, SifraOpcineRada)
+	VALUES (@Oib, @SifraOpcineRada);
 END

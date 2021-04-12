@@ -10,5 +10,6 @@ namespace Accounting.DataManager.DataAccess
         List<EmployeeModel> GetEmployees();
         void InsertEmployee(EmployeeModel employee);
         void UpdateEmployee(EmployeeModel employee);
+        EmployeeModel GetEmployeeByOib(string oib);
     }
 }

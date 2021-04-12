@@ -48,6 +48,22 @@ namespace AccountingUI.Core.Services
             }
         }
 
+        public async Task<EmployeeModel> GetByOib(string oib)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Employee/Oib/{oib}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<EmployeeModel>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task<bool> PostEmployee(EmployeeModel employee)
         {
             if(employee.DatumOdlaska == null)

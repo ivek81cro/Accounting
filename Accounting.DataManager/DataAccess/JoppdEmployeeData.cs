@@ -27,5 +27,19 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void SaveData(JoppdEmployeeModel employee)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+                _sql.SaveDataInTransaction("dbo.spJoppdEmployee_Update", employee);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

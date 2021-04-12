@@ -7,5 +7,6 @@ namespace AccountingUI.Core.Services
     public interface IJoppdEmployeeEndpoint
     {
         Task<List<JoppdEmployeeModel>> GetAll();
+        Task<bool> PostJoppdData(JoppdEmployeeModel employee);
     }
 }

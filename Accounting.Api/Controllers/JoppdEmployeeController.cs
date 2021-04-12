@@ -34,8 +34,9 @@ namespace Accounting.Api.Controllers
 
         // POST api/<JoppdEmployeeController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] JoppdEmployeeModel employee)
         {
+            _joppdEmployee.SaveData(employee);
         }
 
         // PUT api/<JoppdEmployeeController>/5

@@ -46,6 +46,23 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
+        public EmployeeModel GetEmployeeByOib(string oib)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+                var output = _sql.LoadDataInTransaction<EmployeeModel, dynamic>("dbo.spEmployee_GetByOib", new { Oib = oib })
+                        .FirstOrDefault();
+
+                return output;
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
         public void InsertEmployee(EmployeeModel employee)
         {
             try

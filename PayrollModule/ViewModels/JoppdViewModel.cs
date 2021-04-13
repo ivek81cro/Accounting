@@ -2,6 +2,8 @@
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using PayrollModule.Dialogs;
+using PayrollModule.ServiceLocal;
+using PayrollModule.ServiceLocal.EporeznaModels;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -15,16 +17,21 @@ namespace PayrollModule.ViewModels
     {
         private readonly IJoppdEmployeeEndpoint _joppdEmployeeEndpoint;
         private IDialogService _showDialog;
+        private readonly IJoppdGenerate _joppdGenerate;
 
-        public JoppdViewModel(IJoppdEmployeeEndpoint joppdEmployeeEndpoint, IDialogService showDialog)
+        public JoppdViewModel(IJoppdEmployeeEndpoint joppdEmployeeEndpoint,
+            IDialogService showDialog, IJoppdGenerate joppdGenerate)
         {
             _joppdEmployeeEndpoint = joppdEmployeeEndpoint;
             _showDialog = showDialog;
+            _joppdGenerate = joppdGenerate;
 
             EditEmployeeCommand = new DelegateCommand(EditEmployee, CanEditEmployee);
+            GenerateJoppdCommand = new DelegateCommand(GenerateJoppd, CanGenerateJoppd);
         }
 
         public DelegateCommand EditEmployeeCommand { get; private set; }
+        public DelegateCommand GenerateJoppdCommand { get; private set; }
 
         private PayrollArchiveModel _archive;
         public PayrollArchiveModel Archive
@@ -41,6 +48,7 @@ namespace PayrollModule.ViewModels
             {
                 SetProperty(ref _formDate, value);
                 SetJoppdFormNumber();
+                GenerateJoppdCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -55,7 +63,11 @@ namespace PayrollModule.ViewModels
         public string FormCreator
         {
             get { return _formcreator; }
-            set { SetProperty(ref _formcreator, value); }
+            set 
+            {
+                SetProperty(ref _formcreator, value);
+                GenerateJoppdCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private ObservableCollection<JoppdEmployeeModel> _joppdEmployees;
@@ -88,6 +100,12 @@ namespace PayrollModule.ViewModels
             JoppdEmployees = new ObservableCollection<JoppdEmployeeModel>(list);
         }
 
+        private ObservableCollection<sPrimateljiP> _irsRecipients;
+        public ObservableCollection<sPrimateljiP> IrsRecipients
+        {
+            get { return _irsRecipients; }
+            set { SetProperty(ref _irsRecipients, value); }
+        }
         private bool CanEditEmployee()
         {
             return SelectedEmployee != null;
@@ -104,6 +122,38 @@ namespace PayrollModule.ViewModels
                     LoadJoppdEmployees();
                 }
             });
+        }
+
+        private async void GenerateJoppd()
+        {
+            sObrazacJOPPD joppd = await _joppdGenerate.CreateJoppdEporezna(FormDate, FormNumber, FormCreator, Archive, JoppdEmployees.ToList());
+            IrsRecipients = new ObservableCollection<sPrimateljiP>(joppd.StranaB[0]);
+            //TODO first generate XML then read into datagrid
+        }
+
+        private bool CanGenerateJoppd()
+        {
+            bool result=true;
+
+            if (JoppdEmployees != null)
+            {
+                foreach (var emp in JoppdEmployees)
+                {
+                    if (emp.HasErrors)
+                    {
+                        result = false;
+                    }
+                }
+            }
+            else
+            {
+                result = false;
+            }
+
+            result = FormDate != null;
+            result = FormCreator != null;
+
+            return result;
         }
 
         private void SetJoppdFormNumber()

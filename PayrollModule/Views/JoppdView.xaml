@@ -34,13 +34,14 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" 
                      Margin="0" Grid.ColumnSpan="2">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="0" 
-                        Command="{Binding DeletePayrollCommand}" 
+                        Command="{Binding GenerateJoppdCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\cogs.png" Height="40"/>
@@ -118,6 +119,10 @@
                                     Binding="{Binding NacinIsplate}"/>
             </DataGrid.Columns>
         </DataGrid>
+
+        <DataGrid ItemsSource="{Binding IrsRecipients}" CanUserAddRows="False"
+                  CanUserDeleteRows="False" IsReadOnly="True" MaxHeight="200"
+                  Grid.Row="6" Grid.Column="0" Margin="0 5 0 0"/>
 
     </Grid>
 </UserControl>

@@ -4,6 +4,7 @@ using PayrollModule.ServiceLocal;
 using PayrollModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
+using System;
 
 namespace PayrollModule
 {
@@ -32,6 +33,8 @@ namespace PayrollModule
             containerRegistry.RegisterScoped<IPayrollCalculation, PayrollCalculation>();
             containerRegistry.RegisterScoped<IPayrollArchiveEndpoint, PayrollArchiveEndpoint>();
             containerRegistry.RegisterScoped<IPayrollArchivePrepare, PayrollArchivePrepare>();
+            containerRegistry.RegisterScoped<ICompanyEndpoint, CompanyEndpoint>();
+            containerRegistry.RegisterScoped<IJoppdGenerate, JoppdGenerate>();
         }
     }
 }

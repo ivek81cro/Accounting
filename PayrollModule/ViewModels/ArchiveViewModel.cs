@@ -1,11 +1,9 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
-using PayrollModule.Dialogs;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 

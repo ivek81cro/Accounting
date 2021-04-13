@@ -1,18 +1,16 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace AccountingUI.Core.Services
 {
-    public class CompanyEndPoint
+    public class CompanyEndpoint : ICompanyEndpoint
     {
         private readonly IApiService _apiService;
 
-        public CompanyEndPoint(IApiService apiService)
+        public CompanyEndpoint(IApiService apiService)
         {
             _apiService = apiService;
         }

@@ -8,10 +8,10 @@ namespace CompanyModule.ViewModels
 {
     public class CompanyViewModel : ViewModelBase
     {
-        private CompanyEndPoint _companyEndpoint;
+        private CompanyEndpoint _companyEndpoint;
         private IRegionManager _regionManager;
 
-        public CompanyViewModel(CompanyEndPoint companyEndpoint, IRegionManager regionManager)
+        public CompanyViewModel(CompanyEndpoint companyEndpoint, IRegionManager regionManager)
         {
             _companyEndpoint = companyEndpoint;
             _regionManager = regionManager;

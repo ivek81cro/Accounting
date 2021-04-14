@@ -20,6 +20,9 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -52,8 +55,8 @@
                   SelectedItem="{Binding SelectedArchive}"
                   AutoGenerateColumns="False" CanUserAddRows="False" 
                   CanUserDeleteRows="False" IsReadOnly="True"
-                  Grid.Row="1" Grid.Column="0" 
-                  Width="400" HorizontalAlignment="Left">
+                  Width="400" HorizontalAlignment="Left"
+                  Grid.Row="1" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum Od" Binding="{Binding DatumOd, 
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
@@ -64,8 +67,22 @@
                 <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"/>
             </DataGrid.Columns>
         </DataGrid>
+        <StackPanel  Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <StackPanel>
+                <TextBlock Text="Bruto ukupno:" Margin="5"/>
+                <TextBlock Text="Zdravstvo ukupno:" Margin="5"/>
+                <TextBlock Text="Dodaci ukupno:" Margin="5"/>
+                <TextBlock Text="Trošak ukupno:" Margin="5" FontWeight="Bold"/>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock Text="{Binding BrutoSum}" Margin="5"/>
+                <TextBlock Text="{Binding HealthcareSum}" Margin="5"/>
+                <TextBlock Text="{Binding SupplementsSum}" Margin="5"/>
+                <TextBlock Text="{Binding PayrollExpense}" Margin="5" FontWeight="Bold"/>
+            </StackPanel>
+        </StackPanel>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2" Grid.ColumnSpan="5">
             <StackPanel>
                 <TextBlock Text="Detalji odabranog zapisa iz arhive" Margin="5"
                        FontSize="16" Height="auto"/>

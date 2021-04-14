@@ -210,7 +210,11 @@ namespace PayrollModule.ViewModels
             var payrollList = await _payrollEndpoint.GetAll();
             var cPayrollList = _mapper.Map<List<PayrollArchivePayrollModel>>(payrollList);
             PayrollCalculations = new ObservableCollection<PayrollArchivePayrollModel>(cPayrollList);
+            LoadPayrollsFilter();
+        }
 
+        private void LoadPayrollsFilter()
+        {
             _payrollsView = CollectionViewSource.GetDefaultView(PayrollCalculations);
             _payrollsView.Filter = o => string.IsNullOrEmpty(FilterPayrolls) ?
                 true : ((PayrollArchivePayrollModel)o).Prezime.ToLower().Contains(FilterPayrolls.ToLower());
@@ -293,7 +297,11 @@ namespace PayrollModule.ViewModels
 
             var distinctSuppl = await _supplementEndpoint.GetDistinct();
             SupplementSelectDisplay = new ObservableCollection<PayrollSupplementEmployeeModel>(distinctSuppl);
+            LoadSupplementsFilter();
+        }
 
+        private void LoadSupplementsFilter()
+        {
             _supplementsView = CollectionViewSource.GetDefaultView(SupplementSelectDisplay);
             _supplementsView.Filter = o => string.IsNullOrEmpty(FilterSupplementsDisplay) ?
                 true : ((PayrollSupplementEmployeeModel)o).Naziv.ToLower().Contains(FilterSupplementsDisplay.ToLower());

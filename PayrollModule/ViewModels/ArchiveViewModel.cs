@@ -4,6 +4,7 @@ using AccountingUI.Core.TabControlRegion;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -70,6 +71,34 @@ namespace PayrollModule.ViewModels
             set { SetProperty(ref _supplements, value); }
         }
 
+        private decimal _brutoSum;
+        public decimal BrutoSum
+        {
+            get { return _brutoSum; }
+            set { SetProperty(ref _brutoSum, value); }
+        }
+
+        private decimal _healthcareSum;
+        public decimal HealthcareSum
+        {
+            get { return _healthcareSum; }
+            set { SetProperty(ref _healthcareSum, value); }
+        }
+
+        private decimal _supplementsSum;
+        public decimal SupplementsSum
+        {
+            get { return _supplementsSum; }
+            set { SetProperty(ref _supplementsSum, value); }
+        }
+
+        private decimal _payrollExpense;
+        public decimal PayrollExpense
+        {
+            get { return _payrollExpense; }
+            set { SetProperty(ref _payrollExpense, value); }
+        }
+
         public async void LoadArchive()
         {
             _archiveHeaders = new();
@@ -79,6 +108,11 @@ namespace PayrollModule.ViewModels
 
         private async void LoadDetails()
         {
+            BrutoSum = 0;
+            HealthcareSum = 0;
+            SupplementsSum = 0;
+            PayrollExpense = 0;
+
             _archivePayrolls = new();
             _archivePayrolls = await _archiveEndpoint.GetArchivePayrolls(SelectedArchive.Id);
             Payrolls = new ObservableCollection<PayrollArchivePayrollModel>(_archivePayrolls);
@@ -86,6 +120,24 @@ namespace PayrollModule.ViewModels
             _archiveSupplements = new();
             _archiveSupplements = await _archiveEndpoint.GetArchiveSupplements(SelectedArchive.Id);
             Supplements = new ObservableCollection<PayrollArchiveSupplementModel>(_archiveSupplements);
+
+            SetSums();
+        }
+
+        private void SetSums()
+        {
+            foreach(var p in Payrolls)
+            {
+                BrutoSum += p.Bruto;
+                HealthcareSum += p.DoprinosZdravstvo;
+            }
+
+            foreach(var s in Supplements)
+            {
+                SupplementsSum += s.Iznos;
+            }
+
+            PayrollExpense = BrutoSum + HealthcareSum + SupplementsSum;
         }
 
         private void DeleteSelectedRecord()

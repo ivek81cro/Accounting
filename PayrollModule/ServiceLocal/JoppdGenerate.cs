@@ -233,6 +233,7 @@ namespace PayrollModule.ServiceLocal
 
         private void AddRecipients(List<JoppdEmployeeModel> joppdEmployee)
         {
+            _pArr = new List<sPrimateljiP>();
             for (int i = 0; i < _archive.Payrolls.Count; i++)
             {
                 var p = _archive.Payrolls[i];
@@ -276,8 +277,9 @@ namespace PayrollModule.ServiceLocal
                     P142 = p.Prirez,
                     P161 = (tOznakaNacinaIsplate)Enum.Parse(typeof(tOznakaNacinaIsplate), e.NacinIsplate),
                     P162 = p.Neto,
-                    P17 = p.Neto
+                    P17 = p.Bruto
                 });
+                
 
                 var supplements = _archive.Supplements.Where(x => x.Oib == p.Oib);
                 AddSupplements(supplements, e, p, _pArr.Last());
@@ -289,14 +291,19 @@ namespace PayrollModule.ServiceLocal
         {
             for(int i = 0; i<supplements.Count(); i++)
             {
-                if (i == 0)
+                if (i == 0 && sPrimateljiP.P11 != 0 && (sPrimateljiP.P61 != tOznakaStjecatelja.Item0032 || sPrimateljiP.P62 != tOznakaPrimici.Item0101))
                 {
                     sPrimateljiP.P151 = (tOznakaNeoporezivogPrimitka)Enum.Parse(typeof(tOznakaNeoporezivogPrimitka), supplements.ElementAt(i).Sifra);
                     sPrimateljiP.P152 = supplements.ElementAt(i).Iznos;
-                    sPrimateljiP.P17 += sPrimateljiP.P152;
+                    sPrimateljiP.P162 += sPrimateljiP.P152;
                 }
                 else
                 {
+                    if (sPrimateljiP.P11 == 0)
+                    {
+                        _pArr.Remove(sPrimateljiP);
+                    }
+
                     _pArr.Add(new sPrimateljiP()
                     {
                         P1 = _pArr.Count() + 1,
@@ -335,7 +342,7 @@ namespace PayrollModule.ServiceLocal
                         P152 = supplements.ElementAt(i).Iznos,
                         P161 = (tOznakaNacinaIsplate)Enum.Parse(typeof(tOznakaNacinaIsplate), e.NacinIsplate),
                         P162 = supplements.ElementAt(i).Iznos,
-                        P17 = supplements.ElementAt(i).Iznos
+                        P17 = 0
                     });
                 }
             }

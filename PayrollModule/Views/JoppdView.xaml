@@ -82,8 +82,8 @@
 
         <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0">
             <TextBlock Text="Izvješće sastavio" Margin="5" Padding="5"/>
-            <TextBox Text="{Binding FormCreator}" Margin="5" Padding="5"
-                     Width="150"/>
+            <TextBox Text="{Binding FormCreator, UpdateSourceTrigger=PropertyChanged}" 
+                     Margin="5" Padding="5" Width="150"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">

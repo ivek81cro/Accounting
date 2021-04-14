@@ -1,6 +1,7 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
+using Microsoft.Win32;
 using PayrollModule.Dialogs;
 using PayrollModule.ServiceLocal;
 using PayrollModule.ServiceLocal.EporeznaModels;
@@ -9,7 +10,10 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.IO;
 using System.Linq;
+using System.Xml.Serialization;
 
 namespace PayrollModule.ViewModels
 {
@@ -126,34 +130,67 @@ namespace PayrollModule.ViewModels
 
         private async void GenerateJoppd()
         {
-            sObrazacJOPPD joppd = await _joppdGenerate.CreateJoppdEporezna(FormDate, FormNumber, FormCreator, Archive, JoppdEmployees.ToList());
-            IrsRecipients = new ObservableCollection<sPrimateljiP>(joppd.StranaB[0]);
-            //TODO first generate XML then read into datagrid
+            sObrazacJOPPD joppd = new();
+            joppd = await _joppdGenerate.CreateJoppdEporezna(FormDate, FormNumber, FormCreator, Archive, JoppdEmployees.ToList());
+
+            SaveFileDialog sfd = new SaveFileDialog()
+            {
+                Filter = "XML file|*.xml",
+                Title = "Spremi XML datoteku"
+            };
+            Nullable<bool> result = sfd.ShowDialog();
+            string path;
+            if (result != null && result == true)
+            {
+                path = sfd.FileName;
+
+                TextWriter txtWriter = new StreamWriter(path);
+                XmlSerializer x = new XmlSerializer(joppd.GetType());
+                x.Serialize(txtWriter, joppd);
+                txtWriter.Close();
+
+                StreamReader reader = new StreamReader(path);
+                var data = (sObrazacJOPPD)x.Deserialize(reader);
+                reader.Close();
+
+                IrsRecipients = new ObservableCollection<sPrimateljiP>(data.StranaB[0]);
+            }
+            //TODO new class for result display in datagrid map sJoppdObrazac to new class
         }
 
         private bool CanGenerateJoppd()
         {
-            bool result=true;
-
             if (JoppdEmployees != null)
             {
                 foreach (var emp in JoppdEmployees)
                 {
                     if (emp.HasErrors)
                     {
-                        result = false;
+                        return false;
                     }
                 }
             }
             else
             {
-                result = false;
+                return false;
             }
 
-            result = FormDate != null;
-            result = FormCreator != null;
+            if(FormDate == null || !CheckFormCreatorName())
+            {
+                return false;
+            }
 
-            return result;
+            return true;
+        }
+
+        private bool CheckFormCreatorName()
+        {
+            if (FormCreator != null)
+            {
+                return FormCreator.Length > 0 && FormCreator.Contains(" ");
+            }
+
+            return false;
         }
 
         private void SetJoppdFormNumber()

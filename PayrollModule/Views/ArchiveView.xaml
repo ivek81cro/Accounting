@@ -114,6 +114,7 @@
                       AutoGenerateColumns="False" CanUserAddRows="False" 
                       CanUserDeleteRows="False" IsReadOnly="True">
                     <DataGrid.Columns>
+                        <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
                         <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
                         <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
                         <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}">

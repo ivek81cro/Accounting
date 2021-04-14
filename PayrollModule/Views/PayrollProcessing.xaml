@@ -202,6 +202,7 @@
                             <DataGridTextColumn Header="Ukupno porez" Binding="{Binding UkupnoPorez}"/>
                             <DataGridTextColumn Header="Prirez" Binding="{Binding Prirez}"/>
                             <DataGridTextColumn Header="Ukupno por. i prir." Binding="{Binding UkupnoPorezPrirez}"/>
+                            <DataGridTextColumn Header="Neto" Binding="{Binding Neto}"/>
                             <DataGridTextColumn Header="Doprinos zdravstvo" Binding="{Binding DoprinosZdravstvo}"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -210,9 +211,9 @@
                               Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                               AutoGenerateColumns="False" CanUserAddRows="False">
                         <DataGrid.Columns>
+                            <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
                             <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
                             <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
-                            <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
                         </DataGrid.Columns>
                     </DataGrid>
                 </DockPanel>

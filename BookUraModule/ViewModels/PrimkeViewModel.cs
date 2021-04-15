@@ -55,7 +55,10 @@ namespace BookUraModule.ViewModels
             {
                 FilePath = ofd.FileName;
                 var data = _xlsFileReader.Convert(FilePath, "Primke");
-                FromStringToList(data);
+                if (data != null)
+                {
+                    FromStringToList(data);
+                }
             }
         }
 

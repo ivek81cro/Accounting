@@ -152,7 +152,7 @@ namespace PayrollModule.ServiceLocal
             decimal sum = 0;
             foreach (var p in pArr)
             {
-                if (!p.P61.ToString().StartsWith("003") && !p.P62.ToString().StartsWith("01"))
+                if (!p.P61.ToString().Contains("0032") && !p.P62.ToString().Contains("0101"))
                 {
                     sum += p.P123;
                 }
@@ -166,7 +166,7 @@ namespace PayrollModule.ServiceLocal
             decimal sum = 0;
             foreach (var p in pArr)
             {
-                if (p.P61.ToString().StartsWith("003") && p.P62.ToString().StartsWith("01"))
+                if (p.P61.ToString().Contains("0032") && p.P62.ToString().Contains("0101"))
                 {
                     sum += p.P123;
                 }
@@ -180,7 +180,7 @@ namespace PayrollModule.ServiceLocal
             decimal sum = 0;
             foreach (var p in pArr)
             {
-                if (p.P61.ToString().StartsWith("003") && p.P62.ToString().StartsWith("01"))
+                if (p.P61.ToString().Contains("003") && p.P62.ToString().Contains("0101"))
                 {
                     sum += p.P122;
                 }
@@ -194,7 +194,7 @@ namespace PayrollModule.ServiceLocal
             decimal sum = 0;
             foreach (var p in pArr)
             {
-                if (!p.P61.ToString().StartsWith("003") && !p.P62.ToString().StartsWith("01"))
+                if (!p.P61.ToString().Contains("0032") && !p.P62.ToString().Contains("0101"))
                 {
                     sum += p.P122;
                 }
@@ -208,7 +208,7 @@ namespace PayrollModule.ServiceLocal
             decimal sum = 0;
             foreach (var p in pArr)
             {
-                if (p.P61.ToString().StartsWith("003") && p.P62.ToString().StartsWith("01"))
+                if (p.P61.ToString().Contains("0032") && p.P62.ToString().Contains("0101"))
                 {
                     sum += p.P121;
                 }
@@ -222,7 +222,7 @@ namespace PayrollModule.ServiceLocal
             decimal sum = 0;
             foreach (var p in pArr)
             {
-                if (!p.P61.ToString().StartsWith("003") && !p.P62.ToString().StartsWith("01"))
+                if (!p.P61.ToString().Contains("0032") && !p.P62.ToString().Contains("0101"))
                 {
                     sum += p.P121;
                 }
@@ -277,7 +277,7 @@ namespace PayrollModule.ServiceLocal
                     P142 = p.Prirez,
                     P161 = (tOznakaNacinaIsplate)Enum.Parse(typeof(tOznakaNacinaIsplate), e.NacinIsplate),
                     P162 = p.Neto,
-                    P17 = p.Bruto
+                    P17 = IsPoslodavac(e) ? 0 : p.Bruto
                 });
                 
 
@@ -350,7 +350,7 @@ namespace PayrollModule.ServiceLocal
 
         private bool IsPoslodavac(JoppdEmployeeModel e)
         {
-            if (e.OznakaPrimitka.StartsWith("01"))
+            if (e.OznakaPrimitka.Contains("0101"))
             {
                 return true;
             }

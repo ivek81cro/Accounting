@@ -359,7 +359,7 @@ namespace PayrollModule.ViewModels
         {
             PayrollArchive = new ObservableCollection<PayrollArchivePayrollModel>(_archive.Payrolls);
             
-            if (SupplementsArchive != null)
+            if (_archive.Supplements != null)
             {
                 SupplementsArchive = new ObservableCollection<PayrollSupplementEmployeeModel>(_archive.Supplements);
             }

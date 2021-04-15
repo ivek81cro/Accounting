@@ -24,11 +24,9 @@
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -95,7 +93,7 @@
         
         <DataGrid ItemsSource="{Binding JoppdEmployees}" CanUserAddRows="False"
                   CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False"
-                  SelectedItem="{Binding SelectedEmployee}" MaxHeight="200"
+                  SelectedItem="{Binding SelectedEmployee}"
                   Grid.Row="5" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
@@ -122,6 +120,7 @@
 
         <DataGrid ItemsSource="{Binding IrsRecipients}" CanUserAddRows="False"
                   CanUserDeleteRows="False" IsReadOnly="True" MaxHeight="200"
+                  VerticalAlignment="Top"
                   Grid.Row="6" Grid.Column="0" Margin="0 5 0 0"/>
 
     </Grid>

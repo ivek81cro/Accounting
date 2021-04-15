@@ -358,7 +358,11 @@ namespace PayrollModule.ViewModels
         private void InitializeArchivePreparationDatagrid()
         {
             PayrollArchive = new ObservableCollection<PayrollArchivePayrollModel>(_archive.Payrolls);
-            SupplementsArchive = new ObservableCollection<PayrollSupplementEmployeeModel>(_archive.Supplements);
+            
+            if (SupplementsArchive != null)
+            {
+                SupplementsArchive = new ObservableCollection<PayrollSupplementEmployeeModel>(_archive.Supplements);
+            }
         }
 
         #endregion

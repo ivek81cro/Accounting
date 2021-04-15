@@ -4,7 +4,6 @@ using PayrollModule.ServiceLocal;
 using PayrollModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
-using System;
 
 namespace PayrollModule
 {

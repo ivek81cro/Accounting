@@ -79,6 +79,8 @@
 
             </MenuItem>
             <MenuItem Header="Financijsko" Margin="5">
+                <MenuItem Header="Kontni plan" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="AccountsView"/>
             </MenuItem>
         </Menu>
 

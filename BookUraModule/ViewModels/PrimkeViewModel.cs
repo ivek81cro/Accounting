@@ -1,5 +1,4 @@
-﻿using AccountingUI.Core.Events;
-using AccountingUI.Core.Models;
+﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using Microsoft.Win32;
@@ -17,7 +16,6 @@ namespace BookUraModule.ViewModels
     {
         private readonly IXlsFileReader _xlsFileReader;
         private readonly IBookUraEndpoint _bookUraEndpoint;
-        private readonly BackgroundWorker _worker;
 
         private bool _loaded = false;
         private int _maxPrimka;
@@ -150,6 +148,27 @@ namespace BookUraModule.ViewModels
 
             _loaded = false;
             LoadPrimke();
+        }
+
+        private Dictionary<string, decimal> MapColumnToPropertyValue(BookUraPrimkaModel primka)
+        {
+            var item = new Dictionary<string, decimal>();
+            item.Add("Id", primka.Id);
+            item.Add("Maloprodajna vrijednost", primka.MaloprodajnaVrijednost);
+            item.Add("Fakturna vrijednost", primka.FakturnaVrijednost);
+            item.Add("Maloprodajna marža", primka.MaloprodajnaMarza);
+            item.Add("Iznos PDV-a", primka.IznosPdv);
+            item.Add("Vrijednost bez poreza", primka.VrijednostBezPoreza);
+            item.Add("NabavnaVrijednost", primka.NabavnaVrijednost);
+            item.Add("MaloprodajniRabat", primka.MaloprodajniRabat);
+            item.Add("NettoNabavnaVrijednost", primka.NettoNabavnaVrijednost);
+            item.Add("Pretporez", primka.Pretporez);
+            item.Add("VeleprodajniRabat", primka.VeleprodajniRabat);
+            item.Add("CassaSconto", primka.CassaSconto);
+            item.Add("NettoRuc", primka.NettoRuc);
+            item.Add("PovratnaNaknada", primka.PovratnaNaknada);
+
+            return item;
         }
     }
 }

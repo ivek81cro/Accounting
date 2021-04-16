@@ -31,6 +31,7 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
         public async Task<List<BookUraPrimkaModel>> GetAll()
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync("/api/UraPrimka"))

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
+    <ProjectReference Include="..\BookAccountsModule\BookAccountsModule.csproj" />
     <ProjectReference Include="..\BookUraModule\BookUraModule.csproj" />
     <ProjectReference Include="..\Cities\CitiesModule.csproj" />
     <ProjectReference Include="..\CompanyModule\CompanyModule.csproj" />
@@ -33,6 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Dialogs\AccountingSettings\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

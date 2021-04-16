@@ -14,43 +14,42 @@ namespace Accounting.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class UraPrimkaController : ControllerBase
+    public class BookAccountsController : ControllerBase
     {
-        private readonly IBookUraPrimkaData _primka;
+        private readonly IBookAccountData _bookAccount;
 
-        public UraPrimkaController(IBookUraPrimkaData primka)
+        public BookAccountsController(IBookAccountData bookAccount)
         {
-            _primka = primka;
+            _bookAccount = bookAccount;
         }
 
-        // GET: api/<UraPrimkaController>
+        // GET: api/<BookAccountsController>
         [HttpGet]
-        public List<BookUraPrimkaModel> Get()
+        public List<BookAccountModel> Get()
         {
-            return _primka.GetAll();
+            return _bookAccount.GetAll();
         }
 
-        // GET api/<UraPrimkaController>/5
+        // GET api/<BookAccountsController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<UraPrimkaController>
+        // POST api/<BookAccountsController>
         [HttpPost]
-        public void Post([FromBody] List<BookUraPrimkaModel> primke)
+        public void Post([FromBody] string value)
         {
-            _primka.InsertPrimke(primke);
         }
 
-        // PUT api/<UraPrimkaController>/5
+        // PUT api/<BookAccountsController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<UraPrimkaController>/5
+        // DELETE api/<BookAccountsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

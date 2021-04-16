@@ -14,7 +14,8 @@ namespace AccountingUI.Core.TabControlRegion
             PayrollProcessing,
             ArchiveView,
             JoppdView,
-            PrimkeView
+            PrimkeView,
+            AccountsView
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -38,6 +39,8 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Arhiva obračuna";
                 case ViewNames.PrimkeView:
                     return "URA - Primke";
+                case ViewNames.AccountsView:
+                    return "Kontni plan";
                 default:
                     return "";
             }

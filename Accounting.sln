@@ -31,7 +31,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CitiesModule", "Cities\Citi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PayrollModule", "PayrollModule\PayrollModule.csproj", "{04AB84F3-B695-4960-AABC-2BE1E3061F7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookUraModule", "BookUraModule\BookUraModule.csproj", "{743217DE-3670-43B9-BBC9-FBCD28DEC9DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookUraModule", "BookUraModule\BookUraModule.csproj", "{743217DE-3670-43B9-BBC9-FBCD28DEC9DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookAccountsModule", "BookAccountsModule\BookAccountsModule.csproj", "{DD99A27E-620D-4323-BD35-4176C52F0754}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +91,10 @@ Global
 		{743217DE-3670-43B9-BBC9-FBCD28DEC9DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{743217DE-3670-43B9-BBC9-FBCD28DEC9DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{743217DE-3670-43B9-BBC9-FBCD28DEC9DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD99A27E-620D-4323-BD35-4176C52F0754}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD99A27E-620D-4323-BD35-4176C52F0754}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD99A27E-620D-4323-BD35-4176C52F0754}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD99A27E-620D-4323-BD35-4176C52F0754}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +112,7 @@ Global
 		{87B37203-0BED-447B-9233-F500A3C7EE8E} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{04AB84F3-B695-4960-AABC-2BE1E3061F7B} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{743217DE-3670-43B9-BBC9-FBCD28DEC9DF} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
+		{DD99A27E-620D-4323-BD35-4176C52F0754} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C146DCE3-AE73-4C23-A973-F16BCE354B0B}

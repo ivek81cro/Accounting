@@ -42,7 +42,7 @@
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding CalculatePayrollCommand}" 
+                        Command="{Binding SaveDataCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\save.png" Height="30"/>
@@ -57,6 +57,8 @@
                     <TextBlock Text="Knjiži"/>
                 </StackPanel>
             </Button>
+            <TextBlock Text="{Binding StatusMessage}" FontSize="24" Margin="50 0 0 0"
+                       Foreground="OrangeRed" VerticalAlignment="Center"/>
         </StackPanel>
         
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
@@ -66,7 +68,9 @@
                   CanUserDeleteRows="False" ItemsSource="{Binding UraPrimke, IsAsync=True}"
                   Grid.Row="2" Grid.Column="0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Redni br." Binding="{Binding RedniBroj}"/>
+                <DataGridTextColumn Header="Broj primke" Binding="{Binding BrojPrimke}"/>
+                <DataGridTextColumn Header="Broj u knjizi ura" 
+                                    Binding="{Binding BrojUKnjiziUra}"/>
                 <DataGridTextColumn Header="Datum knjiženja" 
                                     Binding="{Binding DatumKnjizenja, 
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>
@@ -78,7 +82,7 @@
                 <DataGridTextColumn Header="Broj racuna" Binding="{Binding BrojRacuna}"/>
                 <DataGridTextColumn Header="Datum računa" Binding="{Binding DatumRacuna, 
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
-                <DataGridTextColumn Header="Otpremnica" Binding="{Binding Otpremnica}"/>
+                <DataGridCheckBoxColumn Header="Otpremnica" Binding="{Binding Otpremnica}"/>
                 <DataGridTextColumn Header="Dospijeće plaćanja" 
                                     Binding="{Binding DospijecePlacanja}"/>
                 <DataGridTextColumn Header="Fakturna vrijednost" 
@@ -106,8 +110,6 @@
                                     Binding="{Binding PovratnaNaknada}"/>
                 <DataGridTextColumn Header="Porezni broj" 
                                     Binding="{Binding PorezniBroj}"/>
-                <DataGridTextColumn Header="Broj u knjizi ura" 
-                                    Binding="{Binding BrojUKnjiziUra}"/>
 
             </DataGrid.Columns>
         </DataGrid>

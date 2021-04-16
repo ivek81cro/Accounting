@@ -11,6 +11,7 @@ namespace LoginModule.ViewModels
     {
         private IApiService _apiService;
         private ILoggedInUserModel _loggedInUserModel;
+
         public LoginViewModel(IApiService apiService, ILoggedInUserModel loggedInUserModel)
         {
             _apiService = apiService;

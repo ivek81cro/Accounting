@@ -1,17 +1,19 @@
-﻿namespace Accounting.DataManager.Models
+﻿using System;
+
+namespace Accounting.DataManager.Models
 {
     public class BookUraPrimkaModel
     {
-        public int RedniBroj { get; set; }
-        public string DatumKnjizenja { get; set; }
+        public int Id { get; set; }
+        public DateTime DatumKnjizenja { get; set; }
         public int BrojPrimke { get; set; }
         public bool Storno { get; set; }
         public decimal MaloprodajnaVrijednost { get; set; }
         public string NazivDobavljaca { get; set; }
         public string BrojRacuna { get; set; }
-        public string DatumRacuna { get; set; }
+        public DateTime DatumRacuna { get; set; }
         public bool Otpremnica { get; set; }
-        public string DospijecePlacanja { get; set; }
+        public DateTime DospijecePlacanja { get; set; }
         public decimal FakturnaVrijednost { get; set; }
         public decimal MaloprodajnaMarza { get; set; }
         public decimal IznosPdv { get; set; }

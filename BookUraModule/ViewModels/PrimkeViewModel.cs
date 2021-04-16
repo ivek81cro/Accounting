@@ -1,32 +1,48 @@
-﻿using AccountingUI.Core.Models;
+﻿using AccountingUI.Core.Events;
+using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using Microsoft.Win32;
 using Prism.Commands;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
-using System.Globalization;
+using System.Linq;
 
 namespace BookUraModule.ViewModels
 {
     public class PrimkeViewModel : ViewModelBase
     {
         private readonly IXlsFileReader _xlsFileReader;
-        public PrimkeViewModel(IXlsFileReader xlsFileReader)
+        private readonly IBookUraEndpoint _bookUraEndpoint;
+        private readonly BackgroundWorker _worker;
+
+        private bool _loaded = false;
+        private int _maxPrimka;
+
+        public PrimkeViewModel(IXlsFileReader xlsFileReader, IBookUraEndpoint bookUraEndpoint)
         {
             _xlsFileReader = xlsFileReader;
+            _bookUraEndpoint = bookUraEndpoint;
 
             LoadDataCommand = new DelegateCommand(LoadDataFromFile);
+            SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
         }
 
         public DelegateCommand LoadDataCommand { get; private set; }
+        public DelegateCommand SaveDataCommand { get; private set; }
 
         private ObservableCollection<BookUraPrimkaModel> _uraPrimke;
         public ObservableCollection<BookUraPrimkaModel> UraPrimke
         {
             get { return _uraPrimke; }
-            set { SetProperty(ref _uraPrimke, value); }
+            set
+            { 
+                SetProperty(ref _uraPrimke, value);
+                SaveDataCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private string _filePath;
@@ -36,13 +52,25 @@ namespace BookUraModule.ViewModels
             set { SetProperty(ref _filePath, value); }
         }
 
-        public void LoadPrimke()
+        private string _statusMessage;
+        public string StatusMessage
         {
+            get { return _statusMessage; }
+            set { SetProperty(ref _statusMessage, value); }
+        }
 
+        public async void LoadPrimke()
+        {
+            StatusMessage = "Učitavam podatke iz baze...";
+            var primke = await _bookUraEndpoint.GetAll();
+            StatusMessage = "";
+            UraPrimke = new ObservableCollection<BookUraPrimkaModel>(primke);
         }
 
         private void LoadDataFromFile()
         {
+            _maxPrimka = UraPrimke.Count > 0 ? UraPrimke.Max(y => y.BrojUKnjiziUra) : 0;
+
             OpenFileDialog ofd = new OpenFileDialog
             {
                 Filter = "Xlsx Files *.xlsx|*.xlsx|Xls Files *.xls|*.xls|Csv files *.csv|*.csv",
@@ -58,6 +86,7 @@ namespace BookUraModule.ViewModels
                 if (data != null)
                 {
                     FromStringToList(data);
+                    _loaded = true;
                 }
             }
         }
@@ -65,30 +94,29 @@ namespace BookUraModule.ViewModels
         private void FromStringToList(DataSet data)
         {
             UraPrimke = new ObservableCollection<BookUraPrimkaModel>();
-            foreach (DataRow row in data.Tables[0].Rows)
+            foreach(DataRow row in data.Tables[0].Rows)
             {
                 if(!int.TryParse(row[0].ToString(), out _))
                 {
                     continue;
                 }
                 AddDataToList(row);
-            }     
+            }
         }
 
         private void AddDataToList(DataRow val)
         {
             UraPrimke.Add(new BookUraPrimkaModel
             {
-                RedniBroj = int.Parse(val[0].ToString()),
-                DatumKnjizenja = DateTime.ParseExact(val[1].ToString().Split(' ')[0], "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd"),
+                DatumKnjizenja = DateTime.Parse(val[1].ToString()),
                 BrojPrimke = int.Parse(val[2].ToString()),
                 Storno = val[3].ToString() == "*",
                 MaloprodajnaVrijednost = decimal.Parse(val[4].ToString()),
                 NazivDobavljaca = val[5].ToString(),
                 BrojRacuna = val[6].ToString(),
-                DatumRacuna = DateTime.ParseExact(val[7].ToString().Split(' ')[0], "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd"),
+                DatumRacuna = DateTime.Parse(val[7].ToString()),
                 Otpremnica = val[8].ToString() == "DA",
-                DospijecePlacanja = DateTime.ParseExact(val[9].ToString().Split(' ')[0], "dd.MM.yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd"),
+                DospijecePlacanja = DateTime.Parse(val[9].ToString()),
                 FakturnaVrijednost = decimal.Parse(val[10].ToString()),
                 MaloprodajnaMarza = decimal.Parse(val[11].ToString()),
                 IznosPdv = decimal.Parse(val[12].ToString()),
@@ -104,6 +132,24 @@ namespace BookUraModule.ViewModels
                 PorezniBroj = val[22].ToString(),
                 BrojUKnjiziUra = int.Parse(val[23].ToString())
             });
+        }
+
+        private bool CanSavePrimke()
+        {
+            return UraPrimke != null && _loaded;
+        }
+
+        private async void SaveToDatabase()
+        {
+            IEnumerable<BookUraPrimkaModel> primke = UraPrimke.Where(x=>x.BrojUKnjiziUra > _maxPrimka);
+            var list = new List<BookUraPrimkaModel>(primke);
+
+            StatusMessage = "Zapisujem u bazu podataka...";
+            await _bookUraEndpoint.PostPrimke(list);
+            StatusMessage = ""; ;
+
+            _loaded = false;
+            LoadPrimke();
         }
     }
 }

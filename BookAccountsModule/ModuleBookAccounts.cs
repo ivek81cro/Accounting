@@ -17,6 +17,7 @@ namespace BookAccountsModule
             containerRegistry.RegisterForNavigation<AccountsView>();
 
             containerRegistry.RegisterScoped<IBookAccountsEndpoint, BookAccountsEndpoint>();
+            containerRegistry.RegisterScoped<IBookAccountSettingsEndpoint, BookAccountSettingsEndpoint>();
         }
     }
 }

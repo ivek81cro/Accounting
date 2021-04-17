@@ -57,6 +57,14 @@
                     <TextBlock Text="Knjiži"/>
                 </StackPanel>
             </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding AccountsSettingsCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\settings.png" Height="30"/>
+                    <TextBlock Text="Postavke"/>
+                </StackPanel>
+            </Button>
             <TextBlock Text="{Binding StatusMessage}" FontSize="24" Margin="50 0 0 0"
                        Foreground="OrangeRed" VerticalAlignment="Center"/>
         </StackPanel>

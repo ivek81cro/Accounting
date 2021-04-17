@@ -1,5 +1,4 @@
-﻿using AccountingUI.Core.Helpers;
-using AccountingUI.Core.Services;
+﻿using AccountingUI.Core.Services;
 using BookUraModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;

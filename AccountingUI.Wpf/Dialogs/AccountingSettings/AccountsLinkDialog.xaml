@@ -1,0 +1,94 @@
+﻿<UserControl x:Class="AccountingUI.Wpf.Dialogs.AccountingSettings.AccountsLinkDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AccountingUI.Wpf.Dialogs.AccountingSettings"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="Height" Value="550"/>
+            <Setter Property="Width" Value="1050"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Postavke knjiženja" FontSize="18" Margin="5"
+                   Grid.ColumnSpan="3"
+                   Grid.Row="0" Grid.Column="0"/>
+
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="3"
+                    Grid.Row="1" Grid.Column="0">
+            <StackPanel>
+                <TextBlock Text="Odabir stupca" Margin="5 0 0 0"/>
+                <ComboBox ItemsSource="{Binding SettingsOptions}" Margin="5"
+                          Padding="5" Width="180" 
+                          SelectedItem="{Binding NewSetting.Name}"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Odabir konta" Margin="5 0 0 0"/>
+                <TextBox Text="{Binding NewSetting.Account}" Width="150" Margin="5"
+                         Padding="5">
+                    <TextBox.InputBindings>
+                        <MouseBinding Command="{Binding OpenAccountsSelectionCommand}"
+                                      Gesture="LeftDoubleClick"/>
+                    </TextBox.InputBindings>
+                </TextBox>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Odabir strane" Margin="5 0 0 0"/>
+                <ComboBox Margin="5" Padding="5" Width="100" 
+                          ItemsSource="{Binding OptionSide}"
+                          SelectedItem="{Binding NewSetting.Side}"/>
+            </StackPanel>
+
+            <StackPanel>
+                <TextBlock Text="Predznak" Margin="5 0 0 0"/>
+                <ComboBox Margin="5" Padding="5" Width="100"
+                          ItemsSource="{Binding OptionPrefix}"
+                          SelectedItem="{Binding NewSetting.Prefix}"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <Button Content="Dodaj" Margin="5" Width="75" Height="30"
+                Command="{Binding AddNewSettingCommand}"
+                Grid.Column="0" Grid.Row="2"/>
+        <Button Content="Briši" Margin="5" Width="75"
+                Command="{Binding DeleteSettingCommand}"
+                Grid.Column="1" Grid.Row="2"/>
+
+        <DataGrid ItemsSource="{Binding Settings}" SelectedItem="{Binding SelectedSetting}" 
+                  Grid.ColumnSpan="3" Margin="0 10 0 0"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  AutoGenerateColumns="False"
+                  Grid.Row="3" Grid.Column="0" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Naziv" Binding="{Binding Name}"/>
+                <DataGridTextColumn Header="Konto" Binding="{Binding Account}"/>
+                <DataGridTextColumn Header="Strana"  Binding="{Binding Side}"/>
+                <DataGridTextColumn Header="Predznak"  Binding="{Binding Prefix}"/>
+            </DataGrid.Columns>            
+        </DataGrid>
+        
+    </Grid>
+</UserControl>

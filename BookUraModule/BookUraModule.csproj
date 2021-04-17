@@ -9,6 +9,7 @@
     <None Remove="Views\Images\cogs.PNG" />
     <None Remove="Views\Images\loadFile.PNG" />
     <None Remove="Views\Images\save.PNG" />
+    <None Remove="Views\Images\settings.PNG" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +24,7 @@
     <Resource Include="Views\Images\cogs.PNG" />
     <Resource Include="Views\Images\loadFile.PNG" />
     <Resource Include="Views\Images\save.PNG" />
+    <Resource Include="Views\Images\settings.PNG" />
   </ItemGroup>
 
 </Project>

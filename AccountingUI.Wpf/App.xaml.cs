@@ -1,6 +1,8 @@
 ﻿using Accounting.MainModule.Dialogs.AreYouSure;
 using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
+using AccountingUI.Wpf.Dialogs.AccountingSettings;
+using AccountingUI.Wpf.Dialogs.AccountsSelection;
 using AccountingUI.Wpf.Views;
 using AutoMapper;
 using BookAccountsModule;
@@ -40,7 +42,9 @@ namespace AccountingUI.WPF
 
             containerRegistry.RegisterForNavigation<StartView>();
 
-            containerRegistry.RegisterDialog<AreYouSureView, AreYouSureViewModel>();
+            containerRegistry.RegisterDialog<AreYouSureView>();
+            containerRegistry.RegisterDialog<AccountsLinkDialog>();
+            containerRegistry.RegisterDialog<AccountsSelectionDialog>();
         }
 
         private IMapper ConfigureAutomapper()

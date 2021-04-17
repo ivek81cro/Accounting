@@ -3,6 +3,7 @@ using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using Microsoft.Win32;
 using Prism.Commands;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,21 +17,28 @@ namespace BookUraModule.ViewModels
     {
         private readonly IXlsFileReader _xlsFileReader;
         private readonly IBookUraEndpoint _bookUraEndpoint;
+        private readonly IDialogService _showDialog;
+        private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
 
         private bool _loaded = false;
         private int _maxPrimka;
 
-        public PrimkeViewModel(IXlsFileReader xlsFileReader, IBookUraEndpoint bookUraEndpoint)
+        public PrimkeViewModel(IXlsFileReader xlsFileReader, IBookUraEndpoint bookUraEndpoint,
+            IDialogService showDialog, IBookAccountSettingsEndpoint settingsEndpoint)
         {
             _xlsFileReader = xlsFileReader;
             _bookUraEndpoint = bookUraEndpoint;
+            _showDialog = showDialog;
+            _settingsEndpoint = settingsEndpoint;
 
             LoadDataCommand = new DelegateCommand(LoadDataFromFile);
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
+            AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
         }
 
         public DelegateCommand LoadDataCommand { get; private set; }
         public DelegateCommand SaveDataCommand { get; private set; }
+        public DelegateCommand AccountsSettingsCommand { get; private set; }
 
         private ObservableCollection<BookUraPrimkaModel> _uraPrimke;
         public ObservableCollection<BookUraPrimkaModel> UraPrimke
@@ -57,12 +65,21 @@ namespace BookUraModule.ViewModels
             set { SetProperty(ref _statusMessage, value); }
         }
 
+        private List<BookAccountsSettingsModel> _accountingSettings;
+        public List<BookAccountsSettingsModel> AccountingSettings
+        {
+            get { return _accountingSettings; }
+            set { SetProperty(ref _accountingSettings, value); }
+        }
+
         public async void LoadPrimke()
         {
             StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookUraEndpoint.GetAll();
             StatusMessage = "";
             UraPrimke = new ObservableCollection<BookUraPrimkaModel>(primke);
+
+            LoadAccountingSettings();
         }
 
         private void LoadDataFromFile()
@@ -159,16 +176,39 @@ namespace BookUraModule.ViewModels
             item.Add("Maloprodajna marža", primka.MaloprodajnaMarza);
             item.Add("Iznos PDV-a", primka.IznosPdv);
             item.Add("Vrijednost bez poreza", primka.VrijednostBezPoreza);
-            item.Add("NabavnaVrijednost", primka.NabavnaVrijednost);
-            item.Add("MaloprodajniRabat", primka.MaloprodajniRabat);
-            item.Add("NettoNabavnaVrijednost", primka.NettoNabavnaVrijednost);
+            item.Add("Nabavna vrijednost", primka.NabavnaVrijednost);
+            item.Add("Maloprodajni rabat", primka.MaloprodajniRabat);
+            item.Add("NettoNabavna vrijednost", primka.NettoNabavnaVrijednost);
             item.Add("Pretporez", primka.Pretporez);
-            item.Add("VeleprodajniRabat", primka.VeleprodajniRabat);
-            item.Add("CassaSconto", primka.CassaSconto);
-            item.Add("NettoRuc", primka.NettoRuc);
-            item.Add("PovratnaNaknada", primka.PovratnaNaknada);
+            item.Add("Veleprodajni rabat", primka.VeleprodajniRabat);
+            item.Add("Cassa sconto", primka.CassaSconto);
+            item.Add("Netto ruc", primka.NettoRuc);
+            item.Add("Povratna naknada", primka.PovratnaNaknada);
 
             return item;
+        }
+
+        private void OpenAccountsSettings()
+        {
+            var list = new List<string>() {"Maloprodajna vrijednost", "Fakturna vrijednost", "Maloprodajna marža", "Iznos PDV-a",
+            "Vrijednost bez poreza", "Nabavna vrijednost", "Maloprodajni rabat", "NettoNabavna vrijednost", "Pretporez", "Veleprodajni rabat",
+            "Cassa sconto", "Netto ruc", "Povratna naknada"};
+            var bookName = "Primke";
+            var parameters = new DialogParameters();
+            parameters.Add("columnsList", list);
+            parameters.Add("bookName", bookName);
+            _showDialog.ShowDialog("AccountsLinkDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                }
+            });
+            LoadAccountingSettings();
+        }
+
+        private async void LoadAccountingSettings()
+        {
+            AccountingSettings = await _settingsEndpoint.GetByBookName("Primke");
         }
     }
 }

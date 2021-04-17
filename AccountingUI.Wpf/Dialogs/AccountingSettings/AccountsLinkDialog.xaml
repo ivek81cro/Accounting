@@ -41,13 +41,13 @@
                 <TextBlock Text="Odabir stupca" Margin="5 0 0 0"/>
                 <ComboBox ItemsSource="{Binding SettingsOptions}" Margin="5"
                           Padding="5" Width="180" 
-                          SelectedItem="{Binding NewSetting.Name}"/>
+                          SelectedItem="{Binding NewSetting.Name, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
 
             <StackPanel>
                 <TextBlock Text="Odabir konta" Margin="5 0 0 0"/>
-                <TextBox Text="{Binding NewSetting.Account}" Width="150" Margin="5"
-                         Padding="5">
+                <TextBox Text="{Binding NewSetting.Account, UpdateSourceTrigger=PropertyChanged}" 
+                         Width="150" Margin="5" Padding="5">
                     <TextBox.InputBindings>
                         <MouseBinding Command="{Binding OpenAccountsSelectionCommand}"
                                       Gesture="LeftDoubleClick"/>

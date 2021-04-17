@@ -17,10 +17,10 @@ namespace AccountingUI.Wpf.Dialogs.AccountsSelection
         public AccountsSelectionDialogViewModel(IBookAccountsEndpoint bookAccountsEndpoint)
         {
             _bookAccountsEndpoint = bookAccountsEndpoint;
-            SelectItemcommand = new DelegateCommand(SelectAndClose, CanReturnSelected);
+            SelectItemCommand = new DelegateCommand(SelectAndClose, CanReturnSelected);
         }
 
-        public DelegateCommand SelectItemcommand { get; private set; }
+        public DelegateCommand SelectItemCommand { get; private set; }
 
         public string Title => "Odabir konta";
 
@@ -35,7 +35,11 @@ namespace AccountingUI.Wpf.Dialogs.AccountsSelection
         public BookAccountModel SelectedItem
         {
             get { return _selectedItem; }
-            set { SetProperty(ref _selectedItem, value); }
+            set 
+            { 
+                SetProperty(ref _selectedItem, value);
+                SelectItemCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private ICollectionView _filterView;

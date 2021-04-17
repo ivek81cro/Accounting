@@ -15,9 +15,11 @@ namespace BookUraModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<PrimkeView>();
+            containerRegistry.RegisterForNavigation<PrimkeRepro>();
 
             containerRegistry.RegisterScoped<IXlsFileReader, XlsFileReader>();
             containerRegistry.RegisterScoped<IBookUraEndpoint, BookUraEndpoint>();
+            containerRegistry.RegisterScoped<IBookUraReproEndpoint, BookUraReproEndpoint>();
         }
     }
 }

@@ -45,7 +45,7 @@
                  MinWidth="250"/>
         </StackPanel>
 
-        <Button Content="Odaberi" Command="{Binding SelectItemcommand}" Margin="5" 
+        <Button Content="Odaberi" Command="{Binding SelectItemCommand}" Margin="5" 
                 Padding="5" Width="75" Height="25"
                 Grid.Row="2" Grid.Column="0"/>
 

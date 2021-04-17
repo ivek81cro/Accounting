@@ -138,6 +138,9 @@
     <Build Include="dbo\Stored Procedures\spBookAccountsSettings_GetByBookName.sql" />
     <Build Include="dbo\Stored Procedures\spBookAccountsSettings_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spBookAccountsSettings_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\spBookUraRepro_Insert.sql" />
+    <Build Include="dbo\Tables\BookUraRepro.sql" />
+    <Build Include="dbo\Stored Procedures\spBookUraRepro_GetAll.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

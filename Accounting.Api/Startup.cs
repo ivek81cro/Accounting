@@ -96,6 +96,7 @@ namespace Accounting.Api
             services.AddTransient<IPayrollArchiveData, PayrollArchiveData>();
             services.AddTransient<IJoppdEmployeeData, JoppdEmployeeData>();
             services.AddTransient<IBookUraPrimkaData, BookUraPrimkaData>();
+            services.AddTransient<IBookUraReproData, BookUraReproData>();
             services.AddTransient<IBookAccountData, BookAccountData>();
             services.AddTransient<IBookAccountSettingsData, BookAccountSettingsData>();
         }

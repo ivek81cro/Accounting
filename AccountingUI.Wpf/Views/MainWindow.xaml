@@ -60,7 +60,9 @@
                     <MenuItem Header="Primke robe" 
                               Command="{Binding ShowMenuSelectedViewCommand}"
                               CommandParameter="PrimkeView"/>
-                    <MenuItem Header="Primke repro materijala"/>
+                    <MenuItem Header="Primke repro materijala"
+                              Command="{Binding ShowMenuSelectedViewCommand}"
+                              CommandParameter="PrimkeRepro"/>
                     <MenuItem Header="Ostali ulazni računi"/>
                 </MenuItem>
                 <MenuItem Header="IRA">

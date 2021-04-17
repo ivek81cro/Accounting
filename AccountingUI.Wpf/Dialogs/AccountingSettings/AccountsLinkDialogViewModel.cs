@@ -20,7 +20,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountingSettings
             _settingsEndpoint = settingsEndpoint;
 
             OpenAccountsSelectionCommand = new DelegateCommand(OpenAccountsSelection);
-            AddNewSettingCommand = new DelegateCommand(InsertSetting, CanInsert);
+            AddNewSettingCommand = new DelegateCommand(InsertSetting);
             DeleteSettingCommand = new DelegateCommand(DeleteSetting, CanDelete);
         }
 
@@ -50,7 +50,11 @@ namespace AccountingUI.Wpf.Dialogs.AccountingSettings
         public BookAccountsSettingsModel SelectedSetting
         {
             get { return _selectedSetting; }
-            set { SetProperty(ref _selectedSetting, value); }
+            set 
+            { 
+                SetProperty(ref _selectedSetting, value);
+                DeleteSettingCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private ObservableCollection<BookAccountsSettingsModel> _settings;
@@ -105,17 +109,12 @@ namespace AccountingUI.Wpf.Dialogs.AccountingSettings
 
         private bool CanInsert()
         {
-            return (
-                NewSetting.Account != null &&
-                NewSetting.Name != null &&
-                NewSetting.Side != null &&
-                NewSetting.Prefix != null
-                );
+            return NewSetting.Account != null && NewSetting.Name != null && NewSetting.Prefix != null && NewSetting.Side != null;
         }
 
         private async void InsertSetting()
         {
-            if (!NewSetting.HasErrors)
+            if (CanInsert())
             {
                 await _settingsEndpoint.PostSetting(NewSetting);
                 LoadSettings();

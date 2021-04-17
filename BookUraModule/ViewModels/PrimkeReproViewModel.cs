@@ -12,10 +12,10 @@ using System.Linq;
 
 namespace BookUraModule.ViewModels
 {
-    public class PrimkeViewModel : ViewModelBase
+    public class PrimkeReproViewModel : ViewModelBase
     {
         private readonly IXlsFileReader _xlsFileReader;
-        private readonly IBookUraEndpoint _bookUraEndpoint;
+        private readonly IBookUraReproEndpoint _bookUraEndpoint;
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
 
@@ -24,14 +24,15 @@ namespace BookUraModule.ViewModels
         private bool _loaded = false;
         private int _maxPrimka;
 
-        public PrimkeViewModel(IXlsFileReader xlsFileReader, IBookUraEndpoint bookUraEndpoint,
-            IDialogService showDialog, IBookAccountSettingsEndpoint settingsEndpoint)
+        public PrimkeReproViewModel(IXlsFileReader xlsFileReader, 
+            IBookUraReproEndpoint bookUraEndpoint, IDialogService showDialog, 
+            IBookAccountSettingsEndpoint settingsEndpoint)
         {
             _xlsFileReader = xlsFileReader;
             _bookUraEndpoint = bookUraEndpoint;
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
-            _bookName = "Primke robe";
+            _bookName = "Primke repromaterijala";
 
             LoadDataCommand = new DelegateCommand(LoadDataFromFile);
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
@@ -42,12 +43,12 @@ namespace BookUraModule.ViewModels
         public DelegateCommand SaveDataCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
 
-        private ObservableCollection<BookUraPrimkaModel> _uraPrimke;
-        public ObservableCollection<BookUraPrimkaModel> UraPrimke
+        private ObservableCollection<BookUraPrimkaReproModel> _uraPrimke;
+        public ObservableCollection<BookUraPrimkaReproModel> UraPrimke
         {
             get { return _uraPrimke; }
             set
-            { 
+            {
                 SetProperty(ref _uraPrimke, value);
                 SaveDataCommand.RaiseCanExecuteChanged();
             }
@@ -79,7 +80,7 @@ namespace BookUraModule.ViewModels
             StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookUraEndpoint.GetAll();
             StatusMessage = "";
-            UraPrimke = new ObservableCollection<BookUraPrimkaModel>(primke);
+            UraPrimke = new ObservableCollection<BookUraPrimkaReproModel>(primke);
 
             LoadAccountingSettings();
         }
@@ -110,10 +111,10 @@ namespace BookUraModule.ViewModels
 
         private void FromStringToList(DataSet data)
         {
-            UraPrimke = new ObservableCollection<BookUraPrimkaModel>();
-            foreach(DataRow row in data.Tables[0].Rows)
+            UraPrimke = new ObservableCollection<BookUraPrimkaReproModel>();
+            foreach (DataRow row in data.Tables[0].Rows)
             {
-                if(!int.TryParse(row[0].ToString(), out _))
+                if (!int.TryParse(row[0].ToString(), out _))
                 {
                     continue;
                 }
@@ -123,31 +124,25 @@ namespace BookUraModule.ViewModels
 
         private void AddDataToList(DataRow val)
         {
-            UraPrimke.Add(new BookUraPrimkaModel
+            UraPrimke.Add(new BookUraPrimkaReproModel
             {
                 DatumKnjizenja = DateTime.Parse(val[1].ToString()),
                 BrojPrimke = int.Parse(val[2].ToString()),
                 Storno = val[3].ToString() == "*",
-                MaloprodajnaVrijednost = decimal.Parse(val[4].ToString()),
+                NettoNabavnaVrijednost = decimal.Parse(val[4].ToString()),
                 NazivDobavljaca = val[5].ToString(),
                 BrojRacuna = val[6].ToString(),
-                DatumRacuna = DateTime.Parse(val[7].ToString()),
-                Otpremnica = val[8].ToString() == "DA",
-                DospijecePlacanja = DateTime.Parse(val[9].ToString()),
-                FakturnaVrijednost = decimal.Parse(val[10].ToString()),
-                MaloprodajnaMarza = decimal.Parse(val[11].ToString()),
-                IznosPdv = decimal.Parse(val[12].ToString()),
-                VrijednostBezPoreza = decimal.Parse(val[13].ToString()),
-                NabavnaVrijednost = decimal.Parse(val[14].ToString()),
-                MaloprodajniRabat = decimal.Parse(val[15].ToString()),
-                NettoNabavnaVrijednost = decimal.Parse(val[16].ToString()),
-                Pretporez = decimal.Parse(val[17].ToString()),
-                VeleprodajniRabat = decimal.Parse(val[18].ToString()),
-                CassaSconto = decimal.Parse(val[19].ToString()),
-                NettoRuc = decimal.Parse(val[20].ToString()),
-                PovratnaNaknada = decimal.Parse(val[21].ToString()),
-                PorezniBroj = val[22].ToString(),
-                BrojUKnjiziUra = int.Parse(val[23].ToString())
+                FakturnaVrijednost = decimal.Parse(val[7].ToString()),
+                DatumRacuna = DateTime.Parse(val[8].ToString()),
+                Otpremnica = val[9].ToString() == "DA",
+                DospijecePlacanja = DateTime.Parse(val[10].ToString()),
+                NabavnaVrijednost = decimal.Parse(val[11].ToString()),
+                Rabat = decimal.Parse(val[12].ToString()),
+                Pretporez = decimal.Parse(val[13].ToString()),
+                VeleprodajniRabat = decimal.Parse(val[14].ToString()),
+                CassaSconto = decimal.Parse(val[15].ToString()),
+                PorezniBroj = val[16].ToString(),
+                BrojUKnjiziUra = int.Parse(val[17].ToString())
             });
         }
 
@@ -158,8 +153,8 @@ namespace BookUraModule.ViewModels
 
         private async void SaveToDatabase()
         {
-            IEnumerable<BookUraPrimkaModel> primke = UraPrimke.Where(x=>x.BrojUKnjiziUra > _maxPrimka);
-            var list = new List<BookUraPrimkaModel>(primke);
+            IEnumerable<BookUraPrimkaReproModel> primke = UraPrimke.Where(x => x.BrojUKnjiziUra > _maxPrimka);
+            var list = new List<BookUraPrimkaReproModel>(primke);
 
             StatusMessage = "Zapisujem u bazu podataka...";
             await _bookUraEndpoint.PostPrimke(list);
@@ -169,32 +164,25 @@ namespace BookUraModule.ViewModels
             LoadPrimke();
         }
 
-        private Dictionary<string, decimal> MapColumnToPropertyValue(BookUraPrimkaModel primka)
+        private Dictionary<string, decimal> MapColumnToPropertyValue(BookUraPrimkaReproModel primka)
         {
             var item = new Dictionary<string, decimal>();
             item.Add("Id", primka.Id);
-            item.Add("Maloprodajna vrijednost", primka.MaloprodajnaVrijednost);
+            item.Add("Netto nabavna vrijednost", primka.NettoNabavnaVrijednost);
             item.Add("Fakturna vrijednost", primka.FakturnaVrijednost);
-            item.Add("Maloprodajna marža", primka.MaloprodajnaMarza);
-            item.Add("Iznos PDV-a", primka.IznosPdv);
-            item.Add("Vrijednost bez poreza", primka.VrijednostBezPoreza);
             item.Add("Nabavna vrijednost", primka.NabavnaVrijednost);
-            item.Add("Maloprodajni rabat", primka.MaloprodajniRabat);
-            item.Add("NettoNabavna vrijednost", primka.NettoNabavnaVrijednost);
+            item.Add("Rabat", primka.Rabat);
             item.Add("Pretporez", primka.Pretporez);
             item.Add("Veleprodajni rabat", primka.VeleprodajniRabat);
             item.Add("Cassa sconto", primka.CassaSconto);
-            item.Add("Netto ruc", primka.NettoRuc);
-            item.Add("Povratna naknada", primka.PovratnaNaknada);
 
             return item;
         }
 
         private void OpenAccountsSettings()
         {
-            var list = new List<string>() {"Maloprodajna vrijednost", "Fakturna vrijednost", "Maloprodajna marža", "Iznos PDV-a",
-            "Vrijednost bez poreza", "Nabavna vrijednost", "Maloprodajni rabat", "NettoNabavna vrijednost", "Pretporez", "Veleprodajni rabat",
-            "Cassa sconto", "Netto ruc", "Povratna naknada"};
+            var list = new List<string>() {"Fakturna vrijednost", "Nabavna vrijednost", "Rabat", "Netto nabavna vrijednost", 
+                "Pretporez", "Veleprodajni rabat", "Cassa sconto"};
             var parameters = new DialogParameters();
             parameters.Add("columnsList", list);
             parameters.Add("bookName", _bookName);

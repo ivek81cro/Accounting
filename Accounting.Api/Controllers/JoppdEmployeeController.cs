@@ -38,17 +38,5 @@ namespace Accounting.Api.Controllers
         {
             _joppdEmployee.SaveData(employee);
         }
-
-        // PUT api/<JoppdEmployeeController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<JoppdEmployeeController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

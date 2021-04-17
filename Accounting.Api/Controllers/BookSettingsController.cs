@@ -37,12 +37,6 @@ namespace Accounting.Api.Controllers
             _settings.Insert(setting);
         }
 
-        // PUT api/<BookSettingsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
         // DELETE api/<BookSettingsController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)

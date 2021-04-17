@@ -30,30 +30,11 @@ namespace Accounting.Api.Controllers
             return _primka.GetAll();
         }
 
-        // GET api/<UraPrimkaController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST api/<UraPrimkaController>
         [HttpPost]
         public void Post([FromBody] List<BookUraPrimkaModel> primke)
         {
             _primka.InsertPrimke(primke);
-        }
-
-        // PUT api/<UraPrimkaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<UraPrimkaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

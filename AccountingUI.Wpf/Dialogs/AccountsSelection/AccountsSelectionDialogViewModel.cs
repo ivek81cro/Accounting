@@ -17,7 +17,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountsSelection
         public AccountsSelectionDialogViewModel(IBookAccountsEndpoint bookAccountsEndpoint)
         {
             _bookAccountsEndpoint = bookAccountsEndpoint;
-            SelectItemcommand = new DelegateCommand(SelectAndClose);
+            SelectItemcommand = new DelegateCommand(SelectAndClose, CanReturnSelected);
         }
 
         public DelegateCommand SelectItemcommand { get; private set; }
@@ -85,6 +85,11 @@ namespace AccountingUI.Wpf.Dialogs.AccountsSelection
             _filterView = CollectionViewSource.GetDefaultView(Accounts);
             _filterView.Filter = o => string.IsNullOrEmpty(FilterKonto) ?
                 true : (((BookAccountModel)o).Konto.Contains(FilterKonto) || ((BookAccountModel)o).Opis.ToLower().Contains(FilterKonto.ToLower()));
+        }
+
+        private bool CanReturnSelected()
+        {
+            return SelectedItem != null;
         }
 
         private void SelectAndClose()

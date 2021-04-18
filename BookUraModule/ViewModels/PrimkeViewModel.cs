@@ -7,8 +7,10 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Windows.Data;
 
 namespace BookUraModule.ViewModels
 {
@@ -36,12 +38,17 @@ namespace BookUraModule.ViewModels
             LoadDataCommand = new DelegateCommand(LoadDataFromFile);
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
+            FilterDataCommand = new DelegateCommand(FilterPrimke);
         }
 
+        #region DelegateCommands
         public DelegateCommand LoadDataCommand { get; private set; }
         public DelegateCommand SaveDataCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
+        public DelegateCommand FilterDataCommand { get; private set; }
+        #endregion
 
+        #region Properties
         private ObservableCollection<BookUraPrimkaModel> _uraPrimke;
         public ObservableCollection<BookUraPrimkaModel> UraPrimke
         {
@@ -74,6 +81,36 @@ namespace BookUraModule.ViewModels
             set { SetProperty(ref _accountingSettings, value); }
         }
 
+        private ICollectionView _filteredView;
+        private DateTime? _dateFrom;
+        public DateTime? DateFrom
+        {
+            get { return _dateFrom; }
+            set 
+            { 
+                SetProperty(ref _dateFrom, value);
+            }
+        }
+
+        private DateTime? _dateTo;
+        public DateTime? DateTo
+        {
+            get { return _dateTo; }
+            set 
+            { 
+                SetProperty(ref _dateTo, value);
+            }
+        }
+
+        private string _filterName;
+        public string FilterName
+        {
+            get { return _filterName; }
+            set 
+            { SetProperty(ref _filterName, value); }
+        }
+        #endregion
+
         public async void LoadPrimke()
         {
             StatusMessage = "Učitavam podatke iz baze...";
@@ -84,6 +121,60 @@ namespace BookUraModule.ViewModels
             LoadAccountingSettings();
         }
 
+        #region Load accounting settings
+        private void OpenAccountsSettings()
+        {
+            var list = new List<string>() {"Maloprodajna vrijednost", "Fakturna vrijednost", "Maloprodajna marža", "Iznos PDV-a",
+            "Vrijednost bez poreza", "Nabavna vrijednost", "Maloprodajni rabat", "NettoNabavna vrijednost", "Pretporez", "Veleprodajni rabat",
+            "Cassa sconto", "Netto ruc", "Povratna naknada"};
+            var parameters = new DialogParameters();
+            parameters.Add("columnsList", list);
+            parameters.Add("bookName", _bookName);
+            _showDialog.ShowDialog("AccountsLinkDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                }
+            });
+            LoadAccountingSettings();
+        }
+
+        private async void LoadAccountingSettings()
+        {
+            AccountingSettings = await _settingsEndpoint.GetByBookName(_bookName);
+        }
+        #endregion
+
+        #region Filtering datagrid
+        private void FilterPrimke()
+        {
+            _filteredView = CollectionViewSource.GetDefaultView(UraPrimke);
+            _filteredView.Filter = o => FilterData((BookUraPrimkaModel)o);
+        }
+
+        private bool FilterData(BookUraPrimkaModel o)
+        {
+            if (FilterName != null && (DateFrom == null || DateTo == null))
+            {
+                return o.NazivDobavljaca.ToLower().Contains(FilterName.ToLower());
+            }
+            else if(FilterName != null && (DateFrom != null || DateTo != null))
+            {
+                return o.NazivDobavljaca.ToLower().Contains(FilterName.ToLower()) && 
+                    o.DatumKnjizenja >= DateFrom && o.DatumKnjizenja <= DateTo;
+            }
+            else if (FilterName == null && (DateFrom != null || DateTo != null))
+            {
+                return o.DatumKnjizenja >= DateFrom && o.DatumKnjizenja <= DateTo;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        #endregion
+        
+        #region Loading data from excel
         private void LoadDataFromFile()
         {
             _maxPrimka = UraPrimke.Count > 0 ? UraPrimke.Max(y => y.BrojUKnjiziUra) : 0;
@@ -150,7 +241,9 @@ namespace BookUraModule.ViewModels
                 BrojUKnjiziUra = int.Parse(val[23].ToString())
             });
         }
+        #endregion
 
+        #region Saving to database
         private bool CanSavePrimke()
         {
             return UraPrimke != null && _loaded;
@@ -168,6 +261,7 @@ namespace BookUraModule.ViewModels
             _loaded = false;
             LoadPrimke();
         }
+        #endregion
 
         private Dictionary<string, decimal> MapColumnToPropertyValue(BookUraPrimkaModel primka)
         {
@@ -187,28 +281,6 @@ namespace BookUraModule.ViewModels
             item.Add("Povratna naknada", primka.PovratnaNaknada);
 
             return item;
-        }
-
-        private void OpenAccountsSettings()
-        {
-            var list = new List<string>() {"Maloprodajna vrijednost", "Fakturna vrijednost", "Maloprodajna marža", "Iznos PDV-a",
-            "Vrijednost bez poreza", "Nabavna vrijednost", "Maloprodajni rabat", "NettoNabavna vrijednost", "Pretporez", "Veleprodajni rabat",
-            "Cassa sconto", "Netto ruc", "Povratna naknada"};
-            var parameters = new DialogParameters();
-            parameters.Add("columnsList", list);
-            parameters.Add("bookName", _bookName);
-            _showDialog.ShowDialog("AccountsLinkDialog", parameters, result =>
-            {
-                if (result.Result == ButtonResult.OK)
-                {
-                }
-            });
-            LoadAccountingSettings();
-        }
-
-        private async void LoadAccountingSettings()
-        {
-            AccountingSettings = await _settingsEndpoint.GetByBookName(_bookName);
         }
     }
 }

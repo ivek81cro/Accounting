@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:BookUraModule.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
@@ -23,6 +24,8 @@
         </i:Interaction.Triggers>
         
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -72,9 +75,36 @@
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
                    Grid.Row="1" Grid.Column="0"/>
 
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Text="Filter datum od:" Margin="5" Padding="5"/>
+            <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
+                        MinWidth="150">
+                <DatePicker.SelectedDate>
+                    <Binding Path="DateFrom"
+                             Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
+            <TextBlock Text="do:" Margin="5" Padding="5"/>
+            <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
+                        MinWidth="150">
+                <DatePicker.SelectedDate>
+                    <Binding Path="DateTo"
+                             Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
+            <TextBlock Text="Filter naziv:" Margin="5" Padding="5"/>
+            <TextBox Margin="5" MinWidth="150" Text="{Binding FilterName}"/>
+            <Button Content="Filtriraj" Command="{Binding FilterDataCommand}"
+                    Margin="5" Padding="5" Width="75"/>
+        </StackPanel>
+
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
                   CanUserDeleteRows="False" ItemsSource="{Binding UraPrimke, IsAsync=True}"
-                  Grid.Row="2" Grid.Column="0">
+                  Grid.Row="3" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Broj primke" Binding="{Binding BrojPrimke}"/>
                 <DataGridTextColumn Header="Broj u knjizi ura" 

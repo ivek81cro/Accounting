@@ -17,7 +17,8 @@ namespace AccountingUI.Core.TabControlRegion
             PrimkeView,
             AccountsView,
             PrimkeRepro,
-            RestView
+            RestView,
+            IraView
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -47,6 +48,8 @@ namespace AccountingUI.Core.TabControlRegion
                     return "URA - Repromaterijal";
                 case ViewNames.RestView:
                     return "URA - sve";
+                case ViewNames.IraView:
+                    return "IRA - sve";
                 default:
                     return "";
             }

@@ -6,6 +6,7 @@ using AccountingUI.Wpf.Dialogs.AccountsSelection;
 using AccountingUI.Wpf.Views;
 using AutoMapper;
 using BookAccountsModule;
+using BookIraModule;
 using BookUraModule;
 using CitiesModule;
 using CompanyModule;
@@ -70,6 +71,7 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModulePayroll>();
             moduleCatalog.AddModule<ModuleBookUra>();
             moduleCatalog.AddModule<ModuleBookAccounts>();
+            moduleCatalog.AddModule<ModuleBookIra>();
         }
 
         private IConfiguration AddConfiguration()

@@ -68,7 +68,9 @@
                               CommandParameter="RestView"/>
                 </MenuItem>
                 <MenuItem Header="IRA">
-                    <MenuItem Header="Izlazni račun"/>
+                    <MenuItem Header="Izlazni račun"
+                              Command="{Binding ShowMenuSelectedViewCommand}"
+                              CommandParameter="IraView"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Plaće" Margin="5">

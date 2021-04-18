@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
     <ProjectReference Include="..\BookAccountsModule\BookAccountsModule.csproj" />
+    <ProjectReference Include="..\BookIraModule\BookIraModule.csproj" />
     <ProjectReference Include="..\BookUraModule\BookUraModule.csproj" />
     <ProjectReference Include="..\Cities\CitiesModule.csproj" />
     <ProjectReference Include="..\CompanyModule\CompanyModule.csproj" />

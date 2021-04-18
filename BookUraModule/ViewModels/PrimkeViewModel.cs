@@ -172,7 +172,6 @@ namespace BookUraModule.ViewModels
         private Dictionary<string, decimal> MapColumnToPropertyValue(BookUraPrimkaModel primka)
         {
             var item = new Dictionary<string, decimal>();
-            item.Add("Id", primka.Id);
             item.Add("Maloprodajna vrijednost", primka.MaloprodajnaVrijednost);
             item.Add("Fakturna vrijednost", primka.FakturnaVrijednost);
             item.Add("Maloprodajna marža", primka.MaloprodajnaMarza);

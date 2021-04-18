@@ -141,6 +141,9 @@
     <Build Include="dbo\Stored Procedures\spBookUraRepro_Insert.sql" />
     <Build Include="dbo\Tables\BookUraRepro.sql" />
     <Build Include="dbo\Stored Procedures\spBookUraRepro_GetAll.sql" />
+    <Build Include="dbo\Tables\BookUraRest.sql" />
+    <Build Include="dbo\Stored Procedures\spBookUraRest_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spBookUraRest_GetAll.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

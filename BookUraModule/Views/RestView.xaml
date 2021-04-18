@@ -1,0 +1,178 @@
+﻿<UserControl x:Class="BookUraModule.Views.RestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookUraModule.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:CallMethodAction TargetObject="{Binding}"
+                                    MethodName="LoadPrimke"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!--Custom Menu-->
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0"
+                    Grid.Row="0" Grid.Column="0">
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding LoadDataCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\loadFile.png" Height="30"/>
+                    <TextBlock Text="Učitaj"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding SaveDataCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\save.png" Height="30"/>
+                    <TextBlock Text="Spremi"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding CalculatePayrollCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\cogs.png" Height="30"/>
+                    <TextBlock Text="Knjiži"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding AccountsSettingsCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\settings.png" Height="30"/>
+                    <TextBlock Text="Postavke"/>
+                </StackPanel>
+            </Button>
+            <TextBlock Text="{Binding StatusMessage}" FontSize="24" Margin="50 0 0 0"
+                       Foreground="OrangeRed" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
+                   Grid.Row="1" Grid.Column="0"/>
+
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
+                  CanUserDeleteRows="False" ItemsSource="{Binding UraRestInvoices, IsAsync=True}"
+                  Grid.Row="2" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Redni broj" 
+                                    Binding="{Binding RedniBroj}"/>
+                <DataGridTextColumn Header="Datum" 
+                                    Binding="{Binding Datum, 
+                                              StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Broj računa" 
+                                    Binding="{Binding BrojRacuna}"/>
+                <DataGridCheckBoxColumn Header="Storno" 
+                                        Binding="{Binding Storno}"/>
+                <DataGridTextColumn Header="Storno broja" 
+                                    Binding="{Binding StornoBroja}"/>
+                <DataGridTextColumn Header="Datum racuna" 
+                                    Binding="{Binding DatumRacuna, 
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Starost računa" 
+                                    Binding="{Binding StarostRacuna}"/>
+                <DataGridTextColumn Header="Dospijeće" 
+                                    Binding="{Binding Dospijece, 
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Planirana uplata" 
+                                        Binding="{Binding PlaniranaUplata}"/>
+                <DataGridTextColumn Header="Datum uplate" 
+                                    Binding="{Binding DatumUplate, 
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Za uplatu" 
+                                    Binding="{Binding ZaUplatu}"/>
+                <DataGridTextColumn Header="FNaziv dobavljača" 
+                                    Binding="{Binding NazivDobavljaca}"/>
+                <DataGridTextColumn Header="Broj primke" 
+                                    Binding="{Binding BrojPrimke}"/>
+                <DataGridTextColumn Header="Napomena o računu" 
+                                    Binding="{Binding NapomenaORacunu}"/>
+                <DataGridTextColumn Header="Netto nabavna vrijednost" 
+                                    Binding="{Binding NettoNabavnaVrijednost}"/>
+                <DataGridTextColumn Header="Sjedište dobavljača" 
+                                    Binding="{Binding SjedisteDobavljaca}"/>
+                <DataGridTextColumn Header="OIB" 
+                                    Binding="{Binding OIB}"/>
+                <DataGridTextColumn Header="Iznos s PDV" 
+                                    Binding="{Binding IznosSPorezom}"/>
+                <DataGridTextColumn Header="Osnovica 0%" 
+                                    Binding="{Binding PoreznaOsnovica0}"/>
+                <DataGridTextColumn Header="Osnovica 5%" 
+                                    Binding="{Binding PoreznaOsnovica5}"/>
+                <DataGridTextColumn Header="Pretporez T5" 
+                                    Binding="{Binding PretporezT5}"/>
+                <DataGridTextColumn Header="Osnovica 10%" 
+                                    Binding="{Binding PoreznaOsnovica10}"/>
+                <DataGridTextColumn Header="Pretporez T10" 
+                                    Binding="{Binding PretporezT10}"/>
+                <DataGridTextColumn Header="Osnovica 13%" 
+                                    Binding="{Binding PoreznaOsnovica13}"/>
+                <DataGridTextColumn Header="Pretporez T13" 
+                                    Binding="{Binding PretporezT13}"/>
+                <DataGridTextColumn Header="Osnovica 23%" 
+                                    Binding="{Binding PoreznaOsnovica23}"/>
+                <DataGridTextColumn Header="Pretporez T23" 
+                                    Binding="{Binding PretporezT23}"/>
+                <DataGridTextColumn Header="Osnovica 25%" 
+                                    Binding="{Binding PoreznaOsnovica25}"/>
+                <DataGridTextColumn Header="Pretporez T25" 
+                                    Binding="{Binding PretporezT25}"/>
+                <DataGridTextColumn Header="Ukupni pretporez" 
+                                    Binding="{Binding UkupniPretporez}"/>
+                <DataGridTextColumn Header="Može se odbiti" 
+                                    Binding="{Binding MozeSeOdbiti}"/>
+                <DataGridTextColumn Header="Ne može se odbiti" 
+                                    Binding="{Binding NeMozeSeOdbiti}"/>
+                <DataGridTextColumn Header="Iznos bez poreza" 
+                                    Binding="{Binding IznosBezPoreza}"/>
+                <DataGridTextColumn Header="Prolazna stavka" 
+                                    Binding="{Binding ProlaznaStavka}"/>
+                <DataGridTextColumn Header="Neoporezivo" 
+                                    Binding="{Binding Neoporezivo}"/>
+                <DataGridTextColumn Header="Cassa sconto %" 
+                                    Binding="{Binding CassaScontoPercent}"/>
+                <DataGridTextColumn Header="Cassa sconto" 
+                                    Binding="{Binding CassaSconto}"/>
+                <DataGridTextColumn Header="Broj odobrenja" 
+                                    Binding="{Binding BrojOdobrenja}"/>
+                <DataGridTextColumn Header="Odobrenja bez PDV" 
+                                    Binding="{Binding OdobrenjaBezPDV}"/>
+                <DataGridTextColumn Header="Odobreni PDV" 
+                                    Binding="{Binding OdobreniPDV}"/>
+                <DataGridTextColumn Header="Datum podnošenja" 
+                                    Binding="{Binding DatumPodnosenja}"/>
+                <DataGridTextColumn Header="Datum izvršenja" 
+                                    Binding="{Binding DatumIzvrsenja}"/>
+                <DataGridTextColumn Header="Ukupno uplaćeno" 
+                                    Binding="{Binding UkupnoUplaceno}"/>
+                <DataGridTextColumn Header="Preostalo za uplatit" 
+                                    Binding="{Binding PreostaloZaUplatit}"/>
+                <DataGridTextColumn Header="Dospijeće dana" 
+                                    Binding="{Binding DospijeceDana}"/>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>

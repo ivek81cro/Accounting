@@ -16,10 +16,12 @@ namespace BookUraModule
         {
             containerRegistry.RegisterForNavigation<PrimkeView>();
             containerRegistry.RegisterForNavigation<PrimkeRepro>();
+            containerRegistry.RegisterForNavigation<RestView>();
 
             containerRegistry.RegisterScoped<IXlsFileReader, XlsFileReader>();
             containerRegistry.RegisterScoped<IBookUraEndpoint, BookUraEndpoint>();
             containerRegistry.RegisterScoped<IBookUraReproEndpoint, BookUraReproEndpoint>();
+            containerRegistry.RegisterScoped<IBookUraRestEndpoint, BookUraRestEndpoint>();
         }
     }
 }

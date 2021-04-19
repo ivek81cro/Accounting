@@ -41,6 +41,7 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
         public void Delete(int id)
         {
             try

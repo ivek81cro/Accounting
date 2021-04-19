@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="AccountingUI.Wpf.Dialogs.AccountPairing.AccountPairDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AccountingUI.Wpf.Dialogs.AccountPairing"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="Height" Value="250"/>
+            <Setter Property="Width" Value="400"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Uparivanje konta" Margin="5" Padding="5" FontSize="18"
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"/>
+
+        <TextBlock Text="Opis" Margin="5" Padding="5"
+                   Grid.Column="0" Grid.Row="1"/>
+        <TextBox Text="{Binding AccountPair.Description, UpdateSourceTrigger=PropertyChanged}" 
+                 Margin="5" Padding="5" Width="250"
+                 Grid.Column="1" Grid.Row="1"/>
+
+        <TextBlock Text="Naziv" Margin="5" Padding="5"
+                   Grid.Column="0" Grid.Row="2"/>
+        <TextBox Text="{Binding AccountPair.Name, UpdateSourceTrigger=PropertyChanged}" 
+                 Margin="5" Padding="5" Width="250"
+                 Grid.Column="1" Grid.Row="2"/>
+
+        <TextBlock Text="Konto" Margin="5" Padding="5"
+                   Grid.Column="0" Grid.Row="3"/>
+        <TextBox Text="{Binding AccountPair.Account, UpdateSourceTrigger=PropertyChanged}" 
+                 Margin="5" Padding="5" Width="250"
+                 Grid.Column="1" Grid.Row="3">
+            <TextBox.InputBindings>
+                <MouseBinding Command="{Binding OpenAccountsSelectionCommand}"
+                                      Gesture="LeftDoubleClick"/>
+            </TextBox.InputBindings>
+        </TextBox>
+
+        <Button Content="Spremi" Command="{Binding SavePairCommand}" Width="80"
+                Height="28" Padding="5" Margin="5"
+                Grid.Row="4" Grid.Column="0"/>
+
+        <TextBlock Text="{Binding StatusMessage}" Foreground="Red" Margin="5" Padding="5"
+                   Grid.Row="4" Grid.Column="1"/>
+    </Grid>
+</UserControl>

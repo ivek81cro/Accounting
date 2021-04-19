@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace BookUraModule.ViewModels
@@ -20,25 +21,31 @@ namespace BookUraModule.ViewModels
         private readonly IBookUraEndpoint _bookUraEndpoint;
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
+        private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
 
         private readonly string _bookName;
 
         private bool _loaded = false;
         private int _maxPrimka;
 
-        public PrimkeViewModel(IXlsFileReader xlsFileReader, IBookUraEndpoint bookUraEndpoint,
-            IDialogService showDialog, IBookAccountSettingsEndpoint settingsEndpoint)
+        public PrimkeViewModel(IXlsFileReader xlsFileReader,
+                               IBookUraEndpoint bookUraEndpoint,
+                               IDialogService showDialog,
+                               IBookAccountSettingsEndpoint settingsEndpoint,
+                               IAccountPairsEndpoint accoutPairsEndpoint)
         {
             _xlsFileReader = xlsFileReader;
             _bookUraEndpoint = bookUraEndpoint;
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
             _bookName = "Primke robe";
+            _accoutPairsEndpoint = accoutPairsEndpoint;
 
             LoadDataCommand = new DelegateCommand(LoadDataFromFile);
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             FilterDataCommand = new DelegateCommand(FilterPrimke);
+            ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
         }
 
         #region DelegateCommands
@@ -46,6 +53,7 @@ namespace BookUraModule.ViewModels
         public DelegateCommand SaveDataCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand FilterDataCommand { get; private set; }
+        public DelegateCommand ProcessItemCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -57,6 +65,17 @@ namespace BookUraModule.ViewModels
             { 
                 SetProperty(ref _uraPrimke, value);
                 SaveDataCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private BookUraPrimkaModel _selectedUraPrimke;
+        public BookUraPrimkaModel SelectedUraPrimke
+        {
+            get { return _selectedUraPrimke; }
+            set 
+            { 
+                SetProperty(ref _selectedUraPrimke, value);
+                ProcessItemCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -263,8 +282,28 @@ namespace BookUraModule.ViewModels
         }
         #endregion
 
-        private Dictionary<string, decimal> MapColumnToPropertyValue(BookUraPrimkaModel primka)
+        private bool CanProcess()
         {
+            return SelectedUraPrimke != null;
+        }
+
+        private async void ProcessItem()
+        {
+            var entries = await CreateJournalEntries();
+            var parameters = new DialogParameters();
+            parameters.Add("entries", entries);
+            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    
+                }
+            });
+        }
+
+        private Dictionary<string, decimal> MapColumnToPropertyValue()
+        {
+            var primka = SelectedUraPrimke;
             var item = new Dictionary<string, decimal>();
             item.Add("Maloprodajna vrijednost", primka.MaloprodajnaVrijednost);
             item.Add("Fakturna vrijednost", primka.FakturnaVrijednost);
@@ -281,6 +320,57 @@ namespace BookUraModule.ViewModels
             item.Add("Povratna naknada", primka.PovratnaNaknada);
 
             return item;
+        }
+
+        private async Task<List<AccountingJournalModel>> CreateJournalEntries()
+        {
+            var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
+            
+            var mappings = MapColumnToPropertyValue();
+            var entry = SelectedUraPrimke;
+            var entries = new List<AccountingJournalModel>();
+            foreach(var setting in AccountingSettings)
+            {
+                string account = null;
+                if(setting.Account == "22")
+                {
+                    account = FindLinkedAccount(pairs, setting);
+                }
+                else
+                {
+                    account = setting.Account;
+                }
+                var value = mappings.GetValueOrDefault(setting.Name);
+                if (value != 0)
+                {
+                    entries.Add(new AccountingJournalModel
+                    {
+                        Broj = entry.BrojUKnjiziUra,
+                        Dokument = entry.NazivDobavljaca + ":Račun br.:" + entry.BrojRacuna,
+                        Datum = entry.DatumKnjizenja,
+                        Opis = setting.Name,
+                        Konto = account,
+                        Dugovna = setting.Side == "Dugovna" ? value : 0,
+                        Potrazna = setting.Side == "Potražna" ? value : 0,
+                        Valuta = "HRK",
+                        VrstaTemeljnice = _bookName
+                    });
+                }
+            }
+            return entries;
+        }
+
+        private string FindLinkedAccount(List<AccountPairModel> pairs, BookAccountsSettingsModel setting)
+        {
+            string result = null;
+            if (pairs.Count != 0)
+            {
+                result = pairs.Where(
+                    p => p.Name == SelectedUraPrimke.NazivDobavljaca
+                    && p.Description == setting.Name).DefaultIfEmpty(new AccountPairModel()).FirstOrDefault().Account;
+            }
+
+            return result;
         }
     }
 }

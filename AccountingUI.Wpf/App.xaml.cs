@@ -1,7 +1,9 @@
 ﻿using Accounting.MainModule.Dialogs.AreYouSure;
 using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
+using AccountingUI.Wpf.Dialogs.AccountingProcessing;
 using AccountingUI.Wpf.Dialogs.AccountingSettings;
+using AccountingUI.Wpf.Dialogs.AccountPairing;
 using AccountingUI.Wpf.Dialogs.AccountsSelection;
 using AccountingUI.Wpf.Views;
 using AutoMapper;
@@ -46,6 +48,8 @@ namespace AccountingUI.WPF
             containerRegistry.RegisterDialog<AreYouSureView>();
             containerRegistry.RegisterDialog<AccountsLinkDialog>();
             containerRegistry.RegisterDialog<AccountsSelectionDialog>();
+            containerRegistry.RegisterDialog<ProcessToJournal>();
+            containerRegistry.RegisterDialog<AccountPairDialog>();
         }
 
         private IMapper ConfigureAutomapper()

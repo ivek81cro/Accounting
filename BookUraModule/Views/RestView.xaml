@@ -102,7 +102,7 @@
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Za uplatu" 
                                     Binding="{Binding ZaUplatu}"/>
-                <DataGridTextColumn Header="FNaziv dobavljača" 
+                <DataGridTextColumn Header="Naziv dobavljača" 
                                     Binding="{Binding NazivDobavljaca}"/>
                 <DataGridTextColumn Header="Broj primke" 
                                     Binding="{Binding BrojPrimke}"/>

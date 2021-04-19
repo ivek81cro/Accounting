@@ -53,7 +53,7 @@
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding CalculatePayrollCommand}" 
+                        Command="{Binding ProcessItemCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\cogs.png" Height="30"/>
@@ -104,6 +104,7 @@
 
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
                   CanUserDeleteRows="False" ItemsSource="{Binding UraPrimke, IsAsync=True}"
+                  SelectedItem="{Binding SelectedUraPrimke}"
                   Grid.Row="3" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Broj primke" Binding="{Binding BrojPrimke}"/>
@@ -122,7 +123,8 @@
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridCheckBoxColumn Header="Otpremnica" Binding="{Binding Otpremnica}"/>
                 <DataGridTextColumn Header="Dospijeće plaćanja" 
-                                    Binding="{Binding DospijecePlacanja}"/>
+                                    Binding="{Binding DospijecePlacanja, 
+                                              StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Fakturna vrijednost" 
                                     Binding="{Binding FakturnaVrijednost}"/>
                 <DataGridTextColumn Header="Maloprodajna marža" 

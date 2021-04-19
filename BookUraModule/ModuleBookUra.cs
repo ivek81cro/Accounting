@@ -22,6 +22,8 @@ namespace BookUraModule
             containerRegistry.RegisterScoped<IBookUraEndpoint, BookUraEndpoint>();
             containerRegistry.RegisterScoped<IBookUraReproEndpoint, BookUraReproEndpoint>();
             containerRegistry.RegisterScoped<IBookUraRestEndpoint, BookUraRestEndpoint>();
+            containerRegistry.RegisterScoped<IBookAccountSettingsEndpoint, BookAccountSettingsEndpoint>();
+            containerRegistry.RegisterScoped<IAccountPairsEndpoint, AccountPairsEndpoint>();
         }
     }
 }

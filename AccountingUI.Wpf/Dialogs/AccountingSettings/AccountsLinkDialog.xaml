@@ -64,9 +64,9 @@
 
             <StackPanel>
                 <TextBlock Text="Predznak" Margin="5 0 0 0"/>
-                <ComboBox Margin="5" Padding="5" Width="100"
-                          ItemsSource="{Binding OptionPrefix}"
-                          SelectedItem="{Binding NewSetting.Prefix}"/>
+                <CheckBox Margin="5 10"
+                          Content="Promijeni predznak"
+                          IsChecked="{Binding NewSetting.Prefix}"/>
             </StackPanel>
         </StackPanel>
         
@@ -86,7 +86,8 @@
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Konto" Binding="{Binding Account}"/>
                 <DataGridTextColumn Header="Strana"  Binding="{Binding Side}"/>
-                <DataGridTextColumn Header="Predznak"  Binding="{Binding Prefix}"/>
+                <DataGridCheckBoxColumn Header=" Mijenja predznak?"  
+                                        Binding="{Binding Prefix}"/>
             </DataGrid.Columns>            
         </DataGrid>
         

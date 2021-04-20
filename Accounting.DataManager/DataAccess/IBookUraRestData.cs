@@ -7,5 +7,6 @@ namespace Accounting.DataManager.DataAccess
     {
         List<BookUraRestModel> GetAll();
         void Insert(List<BookUraRestModel> data);
+        List<BookUraRestModel> GetDiscounts();
     }
 }

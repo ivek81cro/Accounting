@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="BookUraModule.Views.RestView"
+﻿<UserControl x:Class="BookUraModule.Views.PrimkeDiscounts"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -36,22 +36,6 @@
         <!--Custom Menu-->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0"
                     Grid.Row="0" Grid.Column="0">
-            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding LoadDataCommand}" 
-                        Background="Transparent" BorderBrush="Gray">
-                <StackPanel>
-                    <Image Source="images\loadFile.png" Height="30"/>
-                    <TextBlock Text="Učitaj"/>
-                </StackPanel>
-            </Button>
-            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding SaveDataCommand}" 
-                        Background="Transparent" BorderBrush="Gray">
-                <StackPanel>
-                    <Image Source="images\save.png" Height="30"/>
-                    <TextBlock Text="Spremi"/>
-                </StackPanel>
-            </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
                         Command="{Binding ProcessItemCommand}" 
                         Background="Transparent" BorderBrush="Gray">

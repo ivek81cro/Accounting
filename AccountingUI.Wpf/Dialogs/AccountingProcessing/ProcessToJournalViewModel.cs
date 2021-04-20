@@ -1,5 +1,4 @@
 ﻿using AccountingUI.Core.Models;
-using AccountingUI.Core.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -11,15 +10,13 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
 {
     public class ProcessToJournalViewModel : BindableBase, IDialogAware
     {
-        private readonly IAccountPairsEndpoint _pairsEndpoint;
         private readonly IDialogService _showDialog;
 
-        public ProcessToJournalViewModel(IAccountPairsEndpoint pairsEndpoint, IDialogService openDialog)
+        public ProcessToJournalViewModel(IDialogService openDialog)
         {
-            _pairsEndpoint = pairsEndpoint;
+            _showDialog = openDialog;
 
             AccountsLinkCommand = new DelegateCommand(AddNewPair, CanAddPair);
-            _showDialog = openDialog;
         }
 
         public string Title => "Knjiženje na temeljnicu";
@@ -104,7 +101,13 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    
+                    foreach(var ent in Entries)
+                    {
+                        if (ent.Konto == null || ent.Konto.Length < 3)
+                        {
+                            ent.Konto = result.Parameters.GetValue<string>("account");
+                        }
+                    }                    
                 }
             });
         }

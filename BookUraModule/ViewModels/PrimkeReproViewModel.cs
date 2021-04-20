@@ -330,6 +330,7 @@ namespace BookUraModule.ViewModels
                     account = setting.Account;
                 }
                 var value = mappings.GetValueOrDefault(setting.Name);
+                value *= setting.Prefix ? (-1) : 1;
                 if (value != 0)
                 {
                     entries.Add(new AccountingJournalModel

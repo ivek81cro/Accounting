@@ -282,7 +282,7 @@ namespace BookUraModule.ViewModels
         }
         #endregion
 
-        #region book items processing
+        #region Book items processing
         private bool CanProcess()
         {
             return SelectedUraPrimke != null;
@@ -342,6 +342,7 @@ namespace BookUraModule.ViewModels
                     account = setting.Account;
                 }
                 var value = mappings.GetValueOrDefault(setting.Name);
+                value *= setting.Prefix ? (-1) : 1;
                 if (value != 0)
                 {
                     entries.Add(new AccountingJournalModel

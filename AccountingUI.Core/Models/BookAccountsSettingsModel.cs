@@ -39,9 +39,9 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _side, value); }
         }
 
-        private string _prefix;
+        private bool _prefix;
         [Required]
-        public string Prefix
+        public bool Prefix
         {
             get { return _prefix; }
             set 

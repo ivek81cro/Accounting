@@ -27,6 +27,13 @@ namespace Accounting.Api.Controllers
             return _data.GetAll();
         }
 
+        // GET: api/<UraRestController>
+        [HttpGet("Discounts/")]
+        public List<BookUraRestModel> GetDiscounts()
+        {
+            return _data.GetDiscounts();
+        }
+
         // POST api/<UraRestController>
         [HttpPost]
         public void Post([FromBody] List<BookUraRestModel> list)

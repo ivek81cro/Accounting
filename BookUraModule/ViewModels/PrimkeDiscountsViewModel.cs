@@ -15,7 +15,7 @@ using System.Windows.Data;
 
 namespace BookUraModule.ViewModels
 {
-    public class RestViewModel : ViewModelBase
+    public class PrimkeDiscountsViewModel : ViewModelBase
     {
         private readonly IXlsFileReader _xlsFileReader;
         private readonly IBookUraRestEndpoint _bookUraEndpoint;
@@ -28,11 +28,11 @@ namespace BookUraModule.ViewModels
         private bool _loaded = false;
         private int _maxPrimka;
 
-        public RestViewModel(IXlsFileReader xlsFileReader,
-                             IBookUraRestEndpoint bookUraEndpoint,
-                             IDialogService showDialog,
-                             IBookAccountSettingsEndpoint settingsEndpoint,
-                             IAccountPairsEndpoint accoutPairsEndpoint)
+        public PrimkeDiscountsViewModel(IXlsFileReader xlsFileReader,
+                                        IBookUraRestEndpoint bookUraEndpoint,
+                                        IDialogService showDialog,
+                                        IBookAccountSettingsEndpoint settingsEndpoint,
+                                        IAccountPairsEndpoint accoutPairsEndpoint)
         {
             _xlsFileReader = xlsFileReader;
             _bookUraEndpoint = bookUraEndpoint;
@@ -40,18 +40,14 @@ namespace BookUraModule.ViewModels
             _settingsEndpoint = settingsEndpoint;
             _accoutPairsEndpoint = accoutPairsEndpoint;
 
-            _bookName = "Knjiga ulaznih računa";
+            _bookName = "Odobrenja";
 
-            LoadDataCommand = new DelegateCommand(LoadDataFromFile);
-            SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
         }
 
         #region Delegate commands
-        public DelegateCommand LoadDataCommand { get; private set; }
-        public DelegateCommand SaveDataCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
@@ -65,7 +61,6 @@ namespace BookUraModule.ViewModels
             set
             {
                 SetProperty(ref _uraRestInvoices, value);
-                SaveDataCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -134,38 +129,12 @@ namespace BookUraModule.ViewModels
         public async void LoadPrimke()
         {
             StatusMessage = "Učitavam podatke iz baze...";
-            var primke = await _bookUraEndpoint.GetAll();
+            var primke = await _bookUraEndpoint.GetDiscounts();
             StatusMessage = "";
             UraRestInvoices = new ObservableCollection<BookUraRestModel>(primke);
 
             LoadAccountingSettings();
         }
-
-        #region Load accounting settings
-        private void OpenAccountsSettings()
-        {
-            var list = new List<string>() { "Planirana uplata", "Za uplatu", "Netto nabavna vrijednost", "Iznos s porezom", 
-                "Osnovica 0%", "Osnovica 5%", "Pretporez T5", "Osnovica 10%", "Pretporez T10", "Osnovica 13%", "Pretporez T13", 
-                "Osnovica 23%", "Pretporez T23", "Osnovica 25%", "Pretporez T25", "Ukupni pretporez", "Može se odbiti", 
-                "Ne može se odbiti", "Iznos bez poreza", "Prolazna stavka", "Cassa sconto", "Odobreni PDV", "Ukupno uplaćeno", 
-                "Preostalo za uplatit" };
-            var parameters = new DialogParameters();
-            parameters.Add("columnsList", list);
-            parameters.Add("bookName", _bookName);
-            _showDialog.ShowDialog("AccountsLinkDialog", parameters, result =>
-            {
-                if (result.Result == ButtonResult.OK)
-                {
-                }
-            });
-            LoadAccountingSettings();
-        }
-
-        private async void LoadAccountingSettings()
-        {
-            AccountingSettings = await _settingsEndpoint.GetByBookName(_bookName);
-        }
-        #endregion
 
         #region Filtering datagrid
         private void FilterPrimke()
@@ -194,116 +163,31 @@ namespace BookUraModule.ViewModels
                 return true;
             }
         }
-        #endregion
+        #endregion        
 
-        #region Load data from file
-        private void LoadDataFromFile()
+        #region Load accounting settings
+        private void OpenAccountsSettings()
         {
-            _maxPrimka = UraRestInvoices.Count > 0 ? UraRestInvoices.Max(y => y.RedniBroj) : 0;
-
-            OpenFileDialog ofd = new OpenFileDialog
+            var list = new List<string>() { "Planirana uplata", "Za uplatu", "Netto nabavna vrijednost", "Iznos s porezom",
+                "Osnovica 0%", "Osnovica 5%", "Pretporez T5", "Osnovica 10%", "Pretporez T10", "Osnovica 13%", "Pretporez T13",
+                "Osnovica 23%", "Pretporez T23", "Osnovica 25%", "Pretporez T25", "Ukupni pretporez", "Može se odbiti",
+                "Ne može se odbiti", "Iznos bez poreza", "Prolazna stavka", "Cassa sconto", "Odobreni PDV", "Ukupno uplaćeno",
+                "Preostalo za uplatit" };
+            var parameters = new DialogParameters();
+            parameters.Add("columnsList", list);
+            parameters.Add("bookName", _bookName);
+            _showDialog.ShowDialog("AccountsLinkDialog", parameters, result =>
             {
-                Filter = "Xlsx Files *.xlsx|*.xlsx|Xls Files *.xls|*.xls|Csv files *.csv|*.csv",
-                FilterIndex = 1,
-                Multiselect = false
-            };
-
-            Nullable<bool> result = ofd.ShowDialog();
-            if (result != null && result == true)
-            {
-                FilePath = ofd.FileName;
-                var data = _xlsFileReader.Convert(FilePath, _bookName);
-                if (data != null)
+                if (result.Result == ButtonResult.OK)
                 {
-                    FromStringToList(data);
-                    _loaded = true;
                 }
-            }
-        }
-
-        private void FromStringToList(DataSet data)
-        {
-            UraRestInvoices = new ObservableCollection<BookUraRestModel>();
-            foreach (DataRow row in data.Tables[0].Rows)
-            {
-                if (!int.TryParse(row[0].ToString(), out _))
-                {
-                    continue;
-                }
-                AddDataToList(row);
-            }
-        }
-
-        private void AddDataToList(DataRow val)
-        {
-            UraRestInvoices.Add(new BookUraRestModel
-            {
-                RedniBroj = int.Parse(val[1].ToString()),
-                Datum = DateTime.Parse(val[2].ToString()),
-                BrojRacuna = val[3].ToString(),
-                Storno = val[4].ToString() == "*",
-                StornoBroja = int.Parse(val[5].ToString()),
-                DatumRacuna = DateTime.Parse(val[6].ToString()),
-                StarostRacuna = int.Parse(val[7].ToString()),
-                Dospijece = DateTime.Parse(val[8].ToString()),
-                PlaniranaUplata = val[9].ToString() == "" ? 0 : decimal.Parse(val[9].ToString()),
-                DatumUplate = val[10].ToString() == "" ? null : DateTime.Parse(val[10].ToString()),
-                ZaUplatu = decimal.Parse(val[11].ToString()),
-                NazivDobavljaca = val[12].ToString(),
-                BrojPrimke = int.Parse(val[13].ToString()),
-                NapomenaORacunu = val[14].ToString(),
-                NettoNabavnaVrijednost = decimal.Parse(val[15].ToString()),
-                SjedisteDobavljaca = val[16].ToString(),
-                OIB = val[17].ToString(),
-                IznosSPorezom = decimal.Parse(val[18].ToString()),
-                PoreznaOsnovica0 = decimal.Parse(val[19].ToString()),
-                PoreznaOsnovica5 = decimal.Parse(val[20].ToString()),
-                PretporezT5 = decimal.Parse(val[21].ToString()),
-                PoreznaOsnovica10 = decimal.Parse(val[22].ToString()),
-                PretporezT10 = decimal.Parse(val[23].ToString()),
-                PoreznaOsnovica13 = decimal.Parse(val[24].ToString()),
-                PretporezT13 = decimal.Parse(val[25].ToString()),
-                PoreznaOsnovica23 = decimal.Parse(val[26].ToString()),
-                PretporezT23 = decimal.Parse(val[27].ToString()),
-                PoreznaOsnovica25 = decimal.Parse(val[28].ToString()),
-                PretporezT25 = decimal.Parse(val[29].ToString()),
-                UkupniPretporez = decimal.Parse(val[30].ToString()),
-                MozeSeOdbiti = decimal.Parse(val[31].ToString()),
-                NeMozeSeOdbiti = decimal.Parse(val[32].ToString()),
-                IznosBezPoreza = decimal.Parse(val[33].ToString()),
-                ProlaznaStavka = decimal.Parse(val[34].ToString()),
-                Neoporezivo = decimal.Parse(val[35].ToString()),
-                CassaScontoPercent = decimal.Parse(val[36].ToString()),
-                CassaSconto = decimal.Parse(val[37].ToString()),
-                BrojOdobrenja = val[38].ToString(),
-                OdobrenjaBezPDV = val[39].ToString(),
-                OdobreniPDV = decimal.Parse(val[40].ToString()),
-                DatumPodnosenja = val[41].ToString() == "" ? null : DateTime.Parse(val[41].ToString()),
-                DatumIzvrsenja = val[42].ToString() == "" ? null : DateTime.Parse(val[42].ToString()),
-                UkupnoUplaceno = decimal.Parse(val[43].ToString()),
-                PreostaloZaUplatit = decimal.Parse(val[44].ToString()),
-                DospijeceDana = int.Parse(val[45].ToString())
             });
-        }
-        #endregion
-
-        #region Save to database
-        private bool CanSavePrimke()
-        {
-            return UraRestInvoices != null && _loaded;
+            LoadAccountingSettings();
         }
 
-        private async void SaveToDatabase()
+        private async void LoadAccountingSettings()
         {
-            IEnumerable<BookUraRestModel> primke = UraRestInvoices.Where(x => x.RedniBroj > _maxPrimka);
-            var list = new List<BookUraRestModel>(primke);
-
-            StatusMessage = "Zapisujem u bazu podataka...";
-            await _bookUraEndpoint.PostPrimke(list);
-            StatusMessage = ""; ;
-
-            _loaded = false;
-            LoadPrimke();
+            AccountingSettings = await _settingsEndpoint.GetByBookName(_bookName);
         }
         #endregion
 
@@ -340,7 +224,7 @@ namespace BookUraModule.ViewModels
 
             return item;
         }
-        
+
         private bool CanProcess()
         {
             return SelectedUraPrimke != null && SelectedUraPrimke.BrojPrimke == 0;

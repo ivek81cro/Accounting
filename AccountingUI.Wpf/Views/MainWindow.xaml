@@ -57,15 +57,18 @@
             </MenuItem>
             <MenuItem Header="Knjige" Margin="5">
                 <MenuItem Header="URA">
+                    <MenuItem Header="Svi ulazni računi" 
+                              Command="{Binding ShowMenuSelectedViewCommand}"
+                              CommandParameter="RestView"/>
                     <MenuItem Header="Primke robe" 
                               Command="{Binding ShowMenuSelectedViewCommand}"
                               CommandParameter="PrimkeView"/>
                     <MenuItem Header="Primke repro materijala"
                               Command="{Binding ShowMenuSelectedViewCommand}"
                               CommandParameter="PrimkeRepro"/>
-                    <MenuItem Header="Ostali ulazni računi" 
+                    <MenuItem Header="Odobrenja" 
                               Command="{Binding ShowMenuSelectedViewCommand}"
-                              CommandParameter="RestView"/>
+                              CommandParameter="PrimkeDiscounts"/>
                 </MenuItem>
                 <MenuItem Header="IRA">
                     <MenuItem Header="Izlazni račun"

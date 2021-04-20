@@ -7,6 +7,6 @@
         public string Name { get; set; }
         public string Account { get; set; }
         public string Side { get; set; }
-        public string Prefix { get; set; }
+        public bool Prefix { get; set; }
     }
 }

@@ -8,5 +8,6 @@ namespace AccountingUI.Core.Services
     {
         Task<List<BookUraRestModel>> GetAll();
         Task<bool> PostPrimke(List<BookUraRestModel> list);
+        Task<List<BookUraRestModel>> GetDiscounts();
     }
 }

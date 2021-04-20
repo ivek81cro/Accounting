@@ -41,5 +41,20 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public List<BookUraRestModel> GetDiscounts()
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<BookUraRestModel, dynamic>("dbo.spBookUraDiscounts_GetAll", new { });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

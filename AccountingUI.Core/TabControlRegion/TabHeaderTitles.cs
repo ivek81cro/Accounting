@@ -18,7 +18,8 @@ namespace AccountingUI.Core.TabControlRegion
             AccountsView,
             PrimkeRepro,
             RestView,
-            IraView
+            IraView,
+            PrimkeDiscounts
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -46,6 +47,8 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Kontni plan";
                 case ViewNames.PrimkeRepro:
                     return "URA - Repromaterijal";
+                case ViewNames.PrimkeDiscounts:
+                    return "URA - Odobrenja";
                 case ViewNames.RestView:
                     return "URA - sve";
                 case ViewNames.IraView:

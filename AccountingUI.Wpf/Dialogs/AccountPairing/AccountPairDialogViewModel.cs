@@ -101,7 +101,10 @@ namespace AccountingUI.Wpf.Dialogs.AccountPairing
         {
             if (CanSave())
             {
+                var param = new DialogParameters();
+                param.Add("account", AccountPair.Account);
                 _accountPairsEndpoint.Post(AccountPair);
+                RequestClose?.Invoke(new DialogResult(ButtonResult.OK, param)); 
             }
             else
             {

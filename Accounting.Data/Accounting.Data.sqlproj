@@ -151,6 +151,7 @@
     <Build Include="dbo\Tables\AccountPairs.sql" />
     <Build Include="dbo\Stored Procedures\spAccountPairs_GetByBookName.sql" />
     <Build Include="dbo\Stored Procedures\spAccountPairs_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spBookUraDiscounts_GetAll.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

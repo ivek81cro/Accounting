@@ -47,5 +47,21 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<List<BookUraRestModel>> GetDiscounts()
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync("/api/UraRest/Discounts"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<BookUraRestModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

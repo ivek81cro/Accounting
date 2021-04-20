@@ -5,5 +5,5 @@
 	[Name] nvarchar(100) NOT NULL,
 	[Account] nvarchar(20) NOT NULL,
 	[Side] nvarchar(20) NOT NULL,
-	[Prefix] NVARCHAR NOT NULL
+	[Prefix] BIT NOT NULL
 )

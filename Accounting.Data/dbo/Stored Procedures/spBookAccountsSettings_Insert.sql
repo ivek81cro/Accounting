@@ -4,7 +4,7 @@
 @Name nvarchar(100), 
 @Account nvarchar(20), 
 @Side nvarchar(20),
-@Prefix nvarchar(1)
+@Prefix bit
 AS
 BEGIN
 	SET NOCOUNT ON;

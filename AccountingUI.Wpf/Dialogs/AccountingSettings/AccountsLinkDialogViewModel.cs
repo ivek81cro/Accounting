@@ -29,7 +29,6 @@ namespace AccountingUI.Wpf.Dialogs.AccountingSettings
         public DelegateCommand DeleteSettingCommand { get; private set; }
 
         public string Title => "Postavke kniženja";
-        public char[] OptionPrefix { get; set; } = { '+', '-' };
         public string[] OptionSide { get; set; } = { "Dugovna", "Potražna" };
 
         private List<string> _settingsOptions;
@@ -109,7 +108,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountingSettings
 
         private bool CanInsert()
         {
-            return NewSetting.Account != null && NewSetting.Name != null && NewSetting.Prefix != null && NewSetting.Side != null;
+            return NewSetting.Account != null && NewSetting.Name != null && NewSetting.Side != null;
         }
 
         private async void InsertSetting()

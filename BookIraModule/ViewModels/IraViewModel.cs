@@ -7,8 +7,11 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace BookIraModule.ViewModels
 {
@@ -18,32 +21,43 @@ namespace BookIraModule.ViewModels
         private readonly IBookIraEndpoint _bookIraEndpoint;
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
+        private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
 
         private readonly string _bookName;
 
         private bool _loaded = false;
         private int _maxRedniBroj;
 
-        public IraViewModel(IXlsFileReader xlsFileReader, 
-            IBookIraEndpoint bookIraEndpoint, IDialogService showDialog, 
-            IBookAccountSettingsEndpoint settingsEndpoint)
+        public IraViewModel(IXlsFileReader xlsFileReader,
+                            IBookIraEndpoint bookIraEndpoint,
+                            IDialogService showDialog,
+                            IBookAccountSettingsEndpoint settingsEndpoint, 
+                            IAccountPairsEndpoint accoutPairsEndpoint)
         {
             _xlsFileReader = xlsFileReader;
             _bookIraEndpoint = bookIraEndpoint;
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
+            _accoutPairsEndpoint = accoutPairsEndpoint;
 
             _bookName = "Knjiga izlaznih računa";
 
             LoadDataCommand = new DelegateCommand(LoadDataFromFile);
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSaveItems);
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
+            FilterDataCommand = new DelegateCommand(FilterPrimke);
+            ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
         }
 
+        #region Delegate commands
         public DelegateCommand LoadDataCommand { get; private set; }
         public DelegateCommand SaveDataCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
+        public DelegateCommand FilterDataCommand { get; private set; }
+        public DelegateCommand ProcessItemCommand { get; private set; }
+        #endregion
 
+        #region Properties
         private ObservableCollection<BookIraModel> _iraItems;
         public ObservableCollection<BookIraModel> IraItems
         {
@@ -53,6 +67,46 @@ namespace BookIraModule.ViewModels
                 SetProperty(ref _iraItems, value);
                 SaveDataCommand.RaiseCanExecuteChanged();
             }
+        }
+
+        private BookIraModel _selectedIra;
+        public BookIraModel SelectedIra
+        {
+            get { return _selectedIra; }
+            set
+            {
+                SetProperty(ref _selectedIra, value);
+                ProcessItemCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private ICollectionView _filteredView;
+        private DateTime? _dateFrom;
+        public DateTime? DateFrom
+        {
+            get { return _dateFrom; }
+            set
+            {
+                SetProperty(ref _dateFrom, value);
+            }
+        }
+
+        private DateTime? _dateTo;
+        public DateTime? DateTo
+        {
+            get { return _dateTo; }
+            set
+            {
+                SetProperty(ref _dateTo, value);
+            }
+        }
+
+        private string _filterName;
+        public string FilterName
+        {
+            get { return _filterName; }
+            set
+            { SetProperty(ref _filterName, value); }
         }
 
         private string _filePath;
@@ -75,6 +129,7 @@ namespace BookIraModule.ViewModels
             get { return _accountingSettings; }
             set { SetProperty(ref _accountingSettings, value); }
         }
+        #endregion
 
         public async void LoadIra()
         {
@@ -86,6 +141,59 @@ namespace BookIraModule.ViewModels
             LoadAccountingSettings();
         }
 
+        #region Load accounting settings
+        private void OpenAccountsSettings()
+        {
+            var list = new List<string>() { "Iznos s Pdv", "Oslobođeno Pdv-a EU", "Oslobođeno Pdv-a ostalo", "Prolazna stavka", "Osnovica 0%",
+                "Osnovica 5%", "Pdv 5%", "Osnovica 10%", "Pdv 10%", "Osnovica 13%", "Pdv 13%", "Osnovica 25%", "Pdv ukupno", "Ukupno uplaćeno"};
+            var parameters = new DialogParameters();
+            parameters.Add("columnsList", list);
+            parameters.Add("bookName", _bookName);
+            _showDialog.ShowDialog("AccountsLinkDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                }
+            });
+            LoadAccountingSettings();
+        }
+
+        private async void LoadAccountingSettings()
+        {
+            AccountingSettings = await _settingsEndpoint.GetByBookName(_bookName);
+        }
+        #endregion
+
+        #region Filtering datagrid
+        private void FilterPrimke()
+        {
+            _filteredView = CollectionViewSource.GetDefaultView(IraItems);
+            _filteredView.Filter = o => FilterData((BookIraModel)o);
+        }
+
+        private bool FilterData(BookIraModel o)
+        {
+            if (FilterName != null && (DateFrom == null || DateTo == null))
+            {
+                return o.NazivISjedisteKupca.ToLower().Contains(FilterName.ToLower());
+            }
+            else if (FilterName != null && (DateFrom != null || DateTo != null))
+            {
+                return o.NazivISjedisteKupca.ToLower().Contains(FilterName.ToLower()) &&
+                    o.Datum >= DateFrom && o.Datum <= DateTo;
+            }
+            else if (FilterName == null && (DateFrom != null || DateTo != null))
+            {
+                return o.Datum >= DateFrom && o.Datum <= DateTo;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        #endregion
+
+        #region Load data from file
         private void LoadDataFromFile()
         {
             _maxRedniBroj = IraItems.Count > 0 ? IraItems.Max(y => y.RedniBroj) : 0;
@@ -160,7 +268,9 @@ namespace BookIraModule.ViewModels
                 DanaNeplacanja = int.Parse(val[31].ToString())
             });
         }
+        #endregion
 
+        #region Save to database
         private bool CanSaveItems()
         {
             return IraItems != null && _loaded;
@@ -178,9 +288,12 @@ namespace BookIraModule.ViewModels
             _loaded = false;
             LoadIra();
         }
+        #endregion
 
-        private Dictionary<string, decimal> MapColumnToPropertyValue(BookIraModel iraItem)
+        #region Book item processing
+        private Dictionary<string, decimal> MapColumnToPropertyValue()
         {
+            var iraItem = SelectedIra;
             var item = new Dictionary<string, decimal>();
             item.Add("Iznos s Pdv", iraItem.IznosSPdv);
             item.Add("Oslobođeno Pdv-a EU", iraItem.OslobodjenoPdvEU);
@@ -200,26 +313,80 @@ namespace BookIraModule.ViewModels
 
             return item;
         }
-
-        private void OpenAccountsSettings()
+        private bool CanProcess()
         {
-            var list = new List<string>() { "Iznos s Pdv", "Oslobođeno Pdv-a EU", "Oslobođeno Pdv-a ostalo", "Prolazna stavka", "Osnovica 0%",
-                "Osnovica 5%", "Pdv 5%", "Osnovica 10%", "Pdv 10%", "Osnovica 13%", "Pdv 13%", "Osnovica 25%", "Pdv ukupno", "Ukupno uplaćeno"};
+            return SelectedIra != null;
+        }
+
+        private async void ProcessItem()
+        {
+            var entries = await CreateJournalEntries();
             var parameters = new DialogParameters();
-            parameters.Add("columnsList", list);
-            parameters.Add("bookName", _bookName);
-            _showDialog.ShowDialog("AccountsLinkDialog", parameters, result =>
+            parameters.Add("entries", entries);
+            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {
+
                 }
             });
-            LoadAccountingSettings();
         }
 
-        private async void LoadAccountingSettings()
+        private async Task<List<AccountingJournalModel>> CreateJournalEntries()
         {
-            AccountingSettings = await _settingsEndpoint.GetByBookName(_bookName);
+            var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
+
+            var mappings = MapColumnToPropertyValue();
+            var entry = SelectedIra;
+            var entries = new List<AccountingJournalModel>();
+            foreach (var setting in AccountingSettings)
+            {
+                if (entry.NazivISjedisteKupca.Contains("PROMET"))
+                {
+                    entry.NazivISjedisteKupca = "PROMET";
+                }
+                string account = null;
+                if (setting.Account == "12")
+                {
+                    account = FindLinkedAccount(pairs, setting);
+                }
+                else
+                {
+                    account = setting.Account;
+                }
+                var value = mappings.GetValueOrDefault(setting.Name);
+                value *= setting.Prefix ? (-1) : 1;
+                if (value != 0)
+                {
+                    entries.Add(new AccountingJournalModel
+                    {
+                        Broj = entry.RedniBroj,
+                        Dokument = entry.NazivISjedisteKupca + ":Račun br.:" + entry.BrojRacuna,
+                        Datum = entry.Datum,
+                        Opis = setting.Name,
+                        Konto = account,
+                        Dugovna = setting.Side == "Dugovna" ? value : 0,
+                        Potrazna = setting.Side == "Potražna" ? value : 0,
+                        Valuta = "HRK",
+                        VrstaTemeljnice = _bookName
+                    });
+                }
+            }
+            return entries;
         }
+
+        private string FindLinkedAccount(List<AccountPairModel> pairs, BookAccountsSettingsModel setting)
+        {
+            string result = null;
+            if (pairs.Count != 0)
+            {
+                result = pairs.Where(
+                    p => p.Name == SelectedIra.NazivISjedisteKupca
+                    && p.Description == setting.Name).DefaultIfEmpty(new AccountPairModel()).FirstOrDefault().Account;
+            }
+
+            return result;
+        }
+        #endregion
     }
 }

@@ -24,6 +24,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -59,6 +60,21 @@
             </Button>
         </StackPanel>
 
-        <DataGrid ItemsSource="{Binding Accounts}" Grid.Row="1" Grid.Column="0"/>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
+                    Orientation="Horizontal">
+            <TextBlock Text="Filter Konto ili Opis" Margin="5" Padding="5"/>
+            <TextBox Margin="5" Padding="5"
+                     Text="{Binding FilterKonto, UpdateSourceTrigger=PropertyChanged}"
+                 MinWidth="250"/>
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding Accounts}" CanUserAddRows="False" 
+                  CanUserDeleteRows="False" AutoGenerateColumns="False"
+                  Grid.Row="2" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Konto" Binding="{Binding Konto}"/>
+                <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>

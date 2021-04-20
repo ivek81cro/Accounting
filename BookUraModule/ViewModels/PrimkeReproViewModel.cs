@@ -7,8 +7,11 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace BookUraModule.ViewModels
 {
@@ -18,31 +21,42 @@ namespace BookUraModule.ViewModels
         private readonly IBookUraReproEndpoint _bookUraEndpoint;
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
+        private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
 
         private readonly string _bookName;
 
         private bool _loaded = false;
         private int _maxPrimka;
 
-        public PrimkeReproViewModel(IXlsFileReader xlsFileReader, 
-            IBookUraReproEndpoint bookUraEndpoint, IDialogService showDialog, 
-            IBookAccountSettingsEndpoint settingsEndpoint)
+        public PrimkeReproViewModel(IXlsFileReader xlsFileReader,
+                                    IBookUraReproEndpoint bookUraEndpoint,
+                                    IDialogService showDialog,
+                                    IBookAccountSettingsEndpoint settingsEndpoint,
+                                    IAccountPairsEndpoint accoutPairsEndpoint)
         {
             _xlsFileReader = xlsFileReader;
             _bookUraEndpoint = bookUraEndpoint;
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
             _bookName = "Primke repromaterijala";
+            _accoutPairsEndpoint = accoutPairsEndpoint;
 
             LoadDataCommand = new DelegateCommand(LoadDataFromFile);
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
+            FilterDataCommand = new DelegateCommand(FilterPrimke);
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
+            ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
         }
 
+        #region DelegateCommands
         public DelegateCommand LoadDataCommand { get; private set; }
         public DelegateCommand SaveDataCommand { get; private set; }
+        public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
+        public DelegateCommand ProcessItemCommand { get; private set; }
+        #endregion
 
+        #region Properties
         private ObservableCollection<BookUraPrimkaReproModel> _uraPrimke;
         public ObservableCollection<BookUraPrimkaReproModel> UraPrimke
         {
@@ -75,6 +89,47 @@ namespace BookUraModule.ViewModels
             set { SetProperty(ref _accountingSettings, value); }
         }
 
+        private ICollectionView _filteredView;
+        private DateTime? _dateFrom;
+        public DateTime? DateFrom
+        {
+            get { return _dateFrom; }
+            set
+            {
+                SetProperty(ref _dateFrom, value);
+            }
+        }
+
+        private DateTime? _dateTo;
+        public DateTime? DateTo
+        {
+            get { return _dateTo; }
+            set
+            {
+                SetProperty(ref _dateTo, value);
+            }
+        }
+
+        private string _filterName;
+        public string FilterName
+        {
+            get { return _filterName; }
+            set
+            { SetProperty(ref _filterName, value); }
+        }
+
+        private BookUraPrimkaReproModel _selectedUraPrimke;
+        public BookUraPrimkaReproModel SelectedUraPrimke
+        {
+            get { return _selectedUraPrimke; }
+            set
+            {
+                SetProperty(ref _selectedUraPrimke, value);
+                ProcessItemCommand.RaiseCanExecuteChanged();
+            }
+        }
+        #endregion
+
         public async void LoadPrimke()
         {
             StatusMessage = "Učitavam podatke iz baze...";
@@ -85,6 +140,36 @@ namespace BookUraModule.ViewModels
             LoadAccountingSettings();
         }
 
+        #region Filtering datagrid
+        private void FilterPrimke()
+        {
+            _filteredView = CollectionViewSource.GetDefaultView(UraPrimke);
+            _filteredView.Filter = o => FilterData((BookUraPrimkaReproModel)o);
+        }
+
+        private bool FilterData(BookUraPrimkaReproModel o)
+        {
+            if (FilterName != null && (DateFrom == null || DateTo == null))
+            {
+                return o.NazivDobavljaca.ToLower().Contains(FilterName.ToLower());
+            }
+            else if (FilterName != null && (DateFrom != null || DateTo != null))
+            {
+                return o.NazivDobavljaca.ToLower().Contains(FilterName.ToLower()) &&
+                    o.DatumKnjizenja >= DateFrom && o.DatumKnjizenja <= DateTo;
+            }
+            else if (FilterName == null && (DateFrom != null || DateTo != null))
+            {
+                return o.DatumKnjizenja >= DateFrom && o.DatumKnjizenja <= DateTo;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        #endregion
+
+        #region Load data from file
         private void LoadDataFromFile()
         {
             _maxPrimka = UraPrimke.Count > 0 ? UraPrimke.Max(y => y.BrojUKnjiziUra) : 0;
@@ -145,7 +230,9 @@ namespace BookUraModule.ViewModels
                 BrojUKnjiziUra = int.Parse(val[17].ToString())
             });
         }
+        #endregion
 
+        #region Save data to database
         private bool CanSavePrimke()
         {
             return UraPrimke != null && _loaded;
@@ -163,25 +250,12 @@ namespace BookUraModule.ViewModels
             _loaded = false;
             LoadPrimke();
         }
+        #endregion
 
-        private Dictionary<string, decimal> MapColumnToPropertyValue(BookUraPrimkaReproModel primka)
-        {
-            var item = new Dictionary<string, decimal>();
-            item.Add("Id", primka.Id);
-            item.Add("Netto nabavna vrijednost", primka.NettoNabavnaVrijednost);
-            item.Add("Fakturna vrijednost", primka.FakturnaVrijednost);
-            item.Add("Nabavna vrijednost", primka.NabavnaVrijednost);
-            item.Add("Rabat", primka.Rabat);
-            item.Add("Pretporez", primka.Pretporez);
-            item.Add("Veleprodajni rabat", primka.VeleprodajniRabat);
-            item.Add("Cassa sconto", primka.CassaSconto);
-
-            return item;
-        }
-
+        #region Load accounting settings
         private void OpenAccountsSettings()
         {
-            var list = new List<string>() {"Fakturna vrijednost", "Nabavna vrijednost", "Rabat", "Netto nabavna vrijednost", 
+            var list = new List<string>() {"Fakturna vrijednost", "Nabavna vrijednost", "Rabat", "Netto nabavna vrijednost",
                 "Pretporez", "Veleprodajni rabat", "Cassa sconto"};
             var parameters = new DialogParameters();
             parameters.Add("columnsList", list);
@@ -199,5 +273,94 @@ namespace BookUraModule.ViewModels
         {
             AccountingSettings = await _settingsEndpoint.GetByBookName(_bookName);
         }
+        #endregion
+
+        #region book items processing
+        private bool CanProcess()
+        {
+            return SelectedUraPrimke != null;
+        }
+
+        private async void ProcessItem()
+        {
+            var entries = await CreateJournalEntries();
+            var parameters = new DialogParameters();
+            parameters.Add("entries", entries);
+            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
+        }
+
+        private Dictionary<string, decimal> MapColumnToPropertyValue()
+        {
+            var primka = SelectedUraPrimke;
+            var item = new Dictionary<string, decimal>();
+            item.Add("Id", primka.Id);
+            item.Add("Netto nabavna vrijednost", primka.NettoNabavnaVrijednost);
+            item.Add("Fakturna vrijednost", primka.FakturnaVrijednost);
+            item.Add("Nabavna vrijednost", primka.NabavnaVrijednost);
+            item.Add("Rabat", primka.Rabat);
+            item.Add("Pretporez", primka.Pretporez);
+            item.Add("Veleprodajni rabat", primka.VeleprodajniRabat);
+            item.Add("Cassa sconto", primka.CassaSconto);
+
+            return item;
+        }
+
+        private async Task<List<AccountingJournalModel>> CreateJournalEntries()
+        {
+            var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
+
+            var mappings = MapColumnToPropertyValue();
+            var entry = SelectedUraPrimke;
+            var entries = new List<AccountingJournalModel>();
+            foreach (var setting in AccountingSettings)
+            {
+                string account = null;
+                if (setting.Account == "22")
+                {
+                    account = FindLinkedAccount(pairs, setting);
+                }
+                else
+                {
+                    account = setting.Account;
+                }
+                var value = mappings.GetValueOrDefault(setting.Name);
+                if (value != 0)
+                {
+                    entries.Add(new AccountingJournalModel
+                    {
+                        Broj = entry.BrojUKnjiziUra,
+                        Dokument = entry.NazivDobavljaca + ":Račun br.:" + entry.BrojRacuna,
+                        Datum = entry.DatumKnjizenja,
+                        Opis = setting.Name,
+                        Konto = account,
+                        Dugovna = setting.Side == "Dugovna" ? value : 0,
+                        Potrazna = setting.Side == "Potražna" ? value : 0,
+                        Valuta = "HRK",
+                        VrstaTemeljnice = _bookName
+                    });
+                }
+            }
+            return entries;
+        }
+
+        private string FindLinkedAccount(List<AccountPairModel> pairs, BookAccountsSettingsModel setting)
+        {
+            string result = null;
+            if (pairs.Count != 0)
+            {
+                result = pairs.Where(
+                    p => p.Name == SelectedUraPrimke.NazivDobavljaca
+                    && p.Description == setting.Name).DefaultIfEmpty(new AccountPairModel()).FirstOrDefault().Account;
+            }
+
+            return result;
+        }
+        #endregion
     }
 }

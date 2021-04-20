@@ -282,6 +282,7 @@ namespace BookUraModule.ViewModels
         }
         #endregion
 
+        #region book items processing
         private bool CanProcess()
         {
             return SelectedUraPrimke != null;
@@ -300,7 +301,7 @@ namespace BookUraModule.ViewModels
                 }
             });
         }
-
+        
         private Dictionary<string, decimal> MapColumnToPropertyValue()
         {
             var primka = SelectedUraPrimke;
@@ -372,5 +373,6 @@ namespace BookUraModule.ViewModels
 
             return result;
         }
+        #endregion
     }
 }

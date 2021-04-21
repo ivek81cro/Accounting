@@ -61,31 +61,44 @@
                     <DataGridTextColumn Header="Prezime" 
                                         Binding="{Binding Prezime}" MinWidth="100"/>
                     <DataGridTextColumn Header="Bruto" 
-                                        Binding="{Binding Bruto}" MinWidth="90"/>
+                                        Binding="{Binding Bruto, StringFormat=N2}"
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="MIO I." 
-                                        Binding="{Binding Mio1}" MinWidth="90"/>
+                                        Binding="{Binding Mio1, StringFormat=N2}" 
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="MIO II." 
-                                        Binding="{Binding Mio2}" MinWidth="90"/>
+                                        Binding="{Binding Mio2, StringFormat=N2}" 
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Dohodak" 
-                                        Binding="{Binding Dohodak}" MinWidth="90"/>
+                                        Binding="{Binding Dohodak, StringFormat=N2}" 
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Odbitak" 
-                                        Binding="{Binding Odbitak}" MinWidth="90"/>
+                                        Binding="{Binding Odbitak, StringFormat=N2}" 
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Osnovica" 
-                                        Binding="{Binding PoreznaOsnovica}" MinWidth="90"/>
+                                        Binding="{Binding PoreznaOsnovica, StringFormat=N2}" 
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Por. stopa I." 
-                                        Binding="{Binding PoreznaStopa1}" MinWidth="90"/>
+                                        Binding="{Binding PoreznaStopa1, StringFormat=N2}" 
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Por. stopa II." 
-                                        Binding="{Binding PoreznaStopa2}" MinWidth="90"/>
+                                        Binding="{Binding PoreznaStopa2, StringFormat=N2}" 
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Ukupno porezi" 
-                                        Binding="{Binding UkupnoPorez}" MinWidth="90"/>
+                                        Binding="{Binding UkupnoPorez, StringFormat=N2}" 
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Prirez" 
-                                        Binding="{Binding Prirez}" MinWidth="90"/>
+                                        Binding="{Binding Prirez, StringFormat=N2}" 
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Por. i prirez" 
-                                        Binding="{Binding UkupnoPorezPrirez}"  MinWidth="90"/>
+                                        Binding="{Binding UkupnoPorezPrirez, StringFormat=N2}"
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Neto" 
-                                        Binding="{Binding Neto}"  MinWidth="90"/>
+                                        Binding="{Binding Neto, StringFormat=N2}"  
+                                        MinWidth="90"/>
                     <DataGridTextColumn Header="Dop. zdravstvo" 
-                                        Binding="{Binding DoprinosZdravstvo}"  MinWidth="80"/>
+                                        Binding="{Binding DoprinosZdravstvo, StringFormat=N2}" 
+                                        MinWidth="80"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

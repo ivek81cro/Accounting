@@ -129,41 +129,41 @@
                 <DataGridTextColumn Header="Oib" 
                                     Binding="{Binding Oib}"/>
                 <DataGridTextColumn Header="Iznos s Pdv" 
-                                    Binding="{Binding IznosSPdv}"/>
+                                    Binding="{Binding IznosSPdv, StringFormat=N2}"/>
                 <DataGridCheckBoxColumn Header="Oslobođeno Pdv-a EU" 
-                                        Binding="{Binding OslobodjenoPdvEU}"/>
+                                        Binding="{Binding OslobodjenoPdvEU, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Oslobođeno Pdv-a ostalo" 
-                                    Binding="{Binding OslobodjenoPdvOstalo}"/>
+                                    Binding="{Binding OslobodjenoPdvOstalo, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Prolazna stavka" 
-                                    Binding="{Binding ProlaznaStavka}"/>
+                                    Binding="{Binding ProlaznaStavka, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 0%" 
-                                    Binding="{Binding PoreznaOsnovica0}"/>
+                                    Binding="{Binding PoreznaOsnovica0, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 5%" 
-                                    Binding="{Binding PoreznaOsnovica5}"/>
+                                    Binding="{Binding PoreznaOsnovica5, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 5%" 
-                                    Binding="{Binding Pdv5}"/>
+                                    Binding="{Binding Pdv5, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 10%" 
-                                    Binding="{Binding PoreznaOsnovica10}"/>
+                                    Binding="{Binding PoreznaOsnovica10, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 10%" 
-                                    Binding="{Binding Pdv10}"/>
+                                    Binding="{Binding Pdv10, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 13%" 
-                                    Binding="{Binding PoreznaOsnovica13}"/>
+                                    Binding="{Binding PoreznaOsnovica13, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 13%" 
-                                    Binding="{Binding Pdv13}"/>
+                                    Binding="{Binding Pdv13, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 23%" 
-                                    Binding="{Binding PoreznaOsnovica23}"/>
+                                    Binding="{Binding PoreznaOsnovica23, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 23%" 
-                                    Binding="{Binding Pdv23}"/>
+                                    Binding="{Binding Pdv23, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 25%" 
-                                    Binding="{Binding PoreznaOsnovica25}"/>
+                                    Binding="{Binding PoreznaOsnovica25, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 25%" 
-                                    Binding="{Binding Pdv25}"/>
+                                    Binding="{Binding Pdv25, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv ukupno" 
-                                    Binding="{Binding UkupniPdv}"/>
+                                    Binding="{Binding UkupniPdv, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Ukupno uplaćeno" 
-                                    Binding="{Binding UkupnoUplaceno}"/>
+                                    Binding="{Binding UkupnoUplaceno, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Preostalo za uplatiti" 
-                                    Binding="{Binding PreostaloZaUplatit}"/>
+                                    Binding="{Binding PreostaloZaUplatit, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Napomena o računu" 
                                     Binding="{Binding NapomenaORacunu}"/>
                 <DataGridTextColumn Header="Zaprimljemo u HZZO" 

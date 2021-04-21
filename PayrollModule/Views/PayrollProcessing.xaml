@@ -188,22 +188,38 @@
                               Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                               AutoGenerateColumns="False" CanUserAddRows="False">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
-                            <DataGridTextColumn Header="Ime" Binding="{Binding Ime}"/>
-                            <DataGridTextColumn Header="Prezime" Binding="{Binding Prezime}"/>
-                            <DataGridTextColumn Header="Bruto" Binding="{Binding Bruto}"/>
-                            <DataGridTextColumn Header="Mio1" Binding="{Binding Mio1}"/>
-                            <DataGridTextColumn Header="Mio2" Binding="{Binding Mio2}"/>
-                            <DataGridTextColumn Header="Dohodak" Binding="{Binding Dohodak}"/>
-                            <DataGridTextColumn Header="Odbitak" Binding="{Binding Odbitak}"/>
-                            <DataGridTextColumn Header="Porezna osnovica" Binding="{Binding PoreznaOsnovica}"/>
-                            <DataGridTextColumn Header="Porezna stopa 1" Binding="{Binding PoreznaStopa1}"/>
-                            <DataGridTextColumn Header="Porezna stopa 2" Binding="{Binding PoreznaStopa2}"/>
-                            <DataGridTextColumn Header="Ukupno porez" Binding="{Binding UkupnoPorez}"/>
-                            <DataGridTextColumn Header="Prirez" Binding="{Binding Prirez}"/>
-                            <DataGridTextColumn Header="Ukupno por. i prir." Binding="{Binding UkupnoPorezPrirez}"/>
-                            <DataGridTextColumn Header="Neto" Binding="{Binding Neto}"/>
-                            <DataGridTextColumn Header="Doprinos zdravstvo" Binding="{Binding DoprinosZdravstvo}"/>
+                            <DataGridTextColumn Header="Oib" 
+                                                Binding="{Binding Oib}"/>
+                            <DataGridTextColumn Header="Ime" 
+                                                Binding="{Binding Ime}"/>
+                            <DataGridTextColumn Header="Prezime"
+                                                Binding="{Binding Prezime}"/>
+                            <DataGridTextColumn Header="Bruto" 
+                                                Binding="{Binding Bruto, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Mio1" 
+                                                Binding="{Binding Mio1, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Mio2" 
+                                                Binding="{Binding Mio2, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Dohodak" 
+                                                Binding="{Binding Dohodak, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Odbitak" 
+                                                Binding="{Binding Odbitak, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Porezna osnovica" 
+                                                Binding="{Binding PoreznaOsnovica, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Porezna stopa 1" 
+                                                Binding="{Binding PoreznaStopa1, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Porezna stopa 2" 
+                                                Binding="{Binding PoreznaStopa2, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Ukupno porez" 
+                                                Binding="{Binding UkupnoPorez, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Prirez" 
+                                                Binding="{Binding Prirez, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Ukupno por. i prir." 
+                                                Binding="{Binding UkupnoPorezPrirez, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Neto" 
+                                                Binding="{Binding Neto, StringFormat=N2}"/>
+                            <DataGridTextColumn Header="Doprinos zdravstvo" 
+                                                Binding="{Binding DoprinosZdravstvo, StringFormat=N2}"/>
                         </DataGrid.Columns>
                     </DataGrid>
 

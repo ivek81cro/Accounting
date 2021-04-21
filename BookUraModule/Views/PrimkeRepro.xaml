@@ -128,19 +128,19 @@
                 <DataGridTextColumn Header="Dospijeće plaćanja" 
                                     Binding="{Binding DospijecePlacanja}"/>
                 <DataGridTextColumn Header="Fakturna vrijednost" 
-                                    Binding="{Binding FakturnaVrijednost}"/>
+                                    Binding="{Binding FakturnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Nabavna vrijednost" 
-                                    Binding="{Binding NabavnaVrijednost}"/>
+                                    Binding="{Binding NabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Netto nabavna vrijednost" 
-                                    Binding="{Binding NettoNabavnaVrijednost}"/>
+                                    Binding="{Binding NettoNabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pretporez" 
-                                    Binding="{Binding Pretporez}"/>
+                                    Binding="{Binding Pretporez, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Rabat" 
-                                    Binding="{Binding Rabat}"/>
+                                    Binding="{Binding Rabat, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Veleprodajni Rabat" 
-                                    Binding="{Binding VeleprodajniRabat}"/>
+                                    Binding="{Binding VeleprodajniRabat, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Cassa sconto" 
-                                    Binding="{Binding CassaSconto}"/>
+                                    Binding="{Binding CassaSconto, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Porezni broj" 
                                     Binding="{Binding PorezniBroj}"/>
             </DataGrid.Columns>

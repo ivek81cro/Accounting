@@ -127,12 +127,12 @@
                                     Binding="{Binding Dospijece, 
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Planirana uplata" 
-                                        Binding="{Binding PlaniranaUplata}"/>
+                                        Binding="{Binding PlaniranaUplata, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Datum uplate" 
                                     Binding="{Binding DatumUplate, 
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Za uplatu" 
-                                    Binding="{Binding ZaUplatu}"/>
+                                    Binding="{Binding ZaUplatu, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Naziv dobavljača" 
                                     Binding="{Binding NazivDobavljaca}"/>
                 <DataGridTextColumn Header="Broj primke" 
@@ -140,65 +140,67 @@
                 <DataGridTextColumn Header="Napomena o računu" 
                                     Binding="{Binding NapomenaORacunu}"/>
                 <DataGridTextColumn Header="Netto nabavna vrijednost" 
-                                    Binding="{Binding NettoNabavnaVrijednost}"/>
+                                    Binding="{Binding NettoNabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Sjedište dobavljača" 
                                     Binding="{Binding SjedisteDobavljaca}"/>
                 <DataGridTextColumn Header="OIB" 
                                     Binding="{Binding OIB}"/>
                 <DataGridTextColumn Header="Iznos s PDV" 
-                                    Binding="{Binding IznosSPorezom}"/>
+                                    Binding="{Binding IznosSPorezom, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 0%" 
-                                    Binding="{Binding PoreznaOsnovica0}"/>
+                                    Binding="{Binding PoreznaOsnovica0, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 5%" 
-                                    Binding="{Binding PoreznaOsnovica5}"/>
+                                    Binding="{Binding PoreznaOsnovica5, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pretporez T5" 
-                                    Binding="{Binding PretporezT5}"/>
+                                    Binding="{Binding PretporezT5, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 10%" 
-                                    Binding="{Binding PoreznaOsnovica10}"/>
+                                    Binding="{Binding PoreznaOsnovica10, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pretporez T10" 
-                                    Binding="{Binding PretporezT10}"/>
+                                    Binding="{Binding PretporezT10, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 13%" 
-                                    Binding="{Binding PoreznaOsnovica13}"/>
+                                    Binding="{Binding PoreznaOsnovica13, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pretporez T13" 
-                                    Binding="{Binding PretporezT13}"/>
+                                    Binding="{Binding PretporezT13, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 23%" 
-                                    Binding="{Binding PoreznaOsnovica23}"/>
+                                    Binding="{Binding PoreznaOsnovica23, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pretporez T23" 
-                                    Binding="{Binding PretporezT23}"/>
+                                    Binding="{Binding PretporezT23, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 25%" 
-                                    Binding="{Binding PoreznaOsnovica25}"/>
+                                    Binding="{Binding PoreznaOsnovica25, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pretporez T25" 
-                                    Binding="{Binding PretporezT25}"/>
+                                    Binding="{Binding PretporezT25, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Ukupni pretporez" 
-                                    Binding="{Binding UkupniPretporez}"/>
+                                    Binding="{Binding UkupniPretporez, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Može se odbiti" 
-                                    Binding="{Binding MozeSeOdbiti}"/>
+                                    Binding="{Binding MozeSeOdbiti, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Ne može se odbiti" 
-                                    Binding="{Binding NeMozeSeOdbiti}"/>
+                                    Binding="{Binding NeMozeSeOdbiti, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Iznos bez poreza" 
-                                    Binding="{Binding IznosBezPoreza}"/>
+                                    Binding="{Binding IznosBezPoreza, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Prolazna stavka" 
-                                    Binding="{Binding ProlaznaStavka}"/>
+                                    Binding="{Binding ProlaznaStavka, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Neoporezivo" 
-                                    Binding="{Binding Neoporezivo}"/>
+                                    Binding="{Binding Neoporezivo, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Cassa sconto %" 
-                                    Binding="{Binding CassaScontoPercent}"/>
+                                    Binding="{Binding CassaScontoPercent, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Cassa sconto" 
-                                    Binding="{Binding CassaSconto}"/>
+                                    Binding="{Binding CassaSconto, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Broj odobrenja" 
-                                    Binding="{Binding BrojOdobrenja}"/>
+                                    Binding="{Binding BrojOdobrenja, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Odobrenja bez PDV" 
-                                    Binding="{Binding OdobrenjaBezPDV}"/>
+                                    Binding="{Binding OdobrenjaBezPDV, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Odobreni PDV" 
-                                    Binding="{Binding OdobreniPDV}"/>
+                                    Binding="{Binding OdobreniPDV, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Datum podnošenja" 
-                                    Binding="{Binding DatumPodnosenja}"/>
+                                    Binding="{Binding DatumPodnosenja, 
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Datum izvršenja" 
-                                    Binding="{Binding DatumIzvrsenja}"/>
+                                    Binding="{Binding DatumIzvrsenja, 
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Ukupno uplaćeno" 
-                                    Binding="{Binding UkupnoUplaceno}"/>
+                                    Binding="{Binding UkupnoUplaceno, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Preostalo za uplatit" 
-                                    Binding="{Binding PreostaloZaUplatit}"/>
+                                    Binding="{Binding PreostaloZaUplatit, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Dospijeće dana" 
                                     Binding="{Binding DospijeceDana}"/>
 

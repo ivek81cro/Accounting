@@ -115,7 +115,7 @@
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridCheckBoxColumn Header="Storno" Binding="{Binding Storno}"/>
                 <DataGridTextColumn Header="Maloprodajna vrijednost" 
-                                    Binding="{Binding MaloprodajnaVrijednost}"/>
+                                    Binding="{Binding MaloprodajnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Naziv dobavljača" 
                                     Binding="{Binding NazivDobavljaca}"/>
                 <DataGridTextColumn Header="Broj racuna" Binding="{Binding BrojRacuna}"/>
@@ -126,28 +126,29 @@
                                     Binding="{Binding DospijecePlacanja, 
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Fakturna vrijednost" 
-                                    Binding="{Binding FakturnaVrijednost}"/>
+                                    Binding="{Binding FakturnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Maloprodajna marža" 
-                                    Binding="{Binding MaloprodajnaMarza}"/>
-                <DataGridTextColumn Header="Iznos PDV-a" Binding="{Binding IznosPdv}"/>
+                                    Binding="{Binding MaloprodajnaMarza, StringFormat=N2}"/>
+                <DataGridTextColumn Header="Iznos PDV-a" 
+                                    Binding="{Binding IznosPdv, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Vrijednost bez poreza" 
-                                    Binding="{Binding VrijednostBezPoreza}"/>
+                                    Binding="{Binding VrijednostBezPoreza, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Nabavna vrijednost" 
-                                    Binding="{Binding NabavnaVrijednost}"/>
+                                    Binding="{Binding NabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Maloprodajni rabat" 
-                                    Binding="{Binding MaloprodajniRabat}"/>
+                                    Binding="{Binding MaloprodajniRabat, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Netto nabavna vrijednost" 
-                                    Binding="{Binding NettoNabavnaVrijednost}"/>
+                                    Binding="{Binding NettoNabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pretporez" 
-                                    Binding="{Binding Pretporez}"/>
+                                    Binding="{Binding Pretporez, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Veleprodajni rabat" 
-                                    Binding="{Binding VeleprodajniRabat}"/>
+                                    Binding="{Binding VeleprodajniRabat, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Cassa sconto" 
-                                    Binding="{Binding CassaSconto}"/>
+                                    Binding="{Binding CassaSconto, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Netto ruc" 
-                                    Binding="{Binding NettoRuc}"/>
+                                    Binding="{Binding NettoRuc, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Povratna naknada" 
-                                    Binding="{Binding PovratnaNaknada}"/>
+                                    Binding="{Binding PovratnaNaknada, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Porezni broj" 
                                     Binding="{Binding PorezniBroj}"/>
 

@@ -29,5 +29,19 @@ namespace Accounting.Api.Controllers
         {
             return _bookAccount.GetAll();
         }
+
+        // POST api/<BookIraController>
+        [HttpPost]
+        public void Post([FromBody] BookAccountModel account)
+        {
+            if (_bookAccount.Exists(account))
+            {
+                _bookAccount.Update(account);
+            }
+            else
+            {
+                _bookAccount.Insert(account);
+            }
+        }
     }
 }

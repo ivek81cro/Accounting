@@ -35,24 +35,16 @@
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0"
                     Grid.Row="0" Grid.Column="0">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding AddAccountCommand}" 
-                        Background="Transparent" BorderBrush="Gray">
+                    Command="{Binding AddAccountCommand}" 
+                    Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\add.png" Height="30"/>
                     <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding DeleteAccountCommand}" 
-                        Background="Transparent" BorderBrush="Gray">
-                <StackPanel>
-                    <Image Source="images\kanta.png" Height="30"/>
-                    <TextBlock Text="Briši"/>
-                </StackPanel>
-            </Button>
-            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding EditAccountCommand}" 
-                        Background="Transparent" BorderBrush="Gray">
+                    Command="{Binding EditAccountCommand}"
+                    Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\edit.png" Height="30"/>
                     <TextBlock Text="Izmjeni"/>
@@ -70,6 +62,7 @@
 
         <DataGrid ItemsSource="{Binding Accounts}" CanUserAddRows="False" 
                   CanUserDeleteRows="False" AutoGenerateColumns="False"
+                  SelectedItem="{Binding SelectedAccount}"
                   Grid.Row="2" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Konto" Binding="{Binding Konto}"/>

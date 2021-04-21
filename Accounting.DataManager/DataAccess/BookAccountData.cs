@@ -26,5 +26,51 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public bool Exists(BookAccountModel account)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                var result =  _sql.LoadDataInTransaction<BookAccountModel, dynamic>("dbo.spBookAccounts_IfExists", new { Konto = account.Konto });
+                return result.Count > 0;
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+        
+        public void Insert(BookAccountModel account)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spBookAccounts_Insert", account);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
+        public void Update(BookAccountModel account)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spBookAccounts_Update", account);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

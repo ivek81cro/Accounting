@@ -64,13 +64,14 @@ namespace AccountingUI.Wpf.Dialogs.AccountingSettings
         }
 
         private BookAccountsSettingsModel _newSetting = new();
+
+        public event Action<IDialogResult> RequestClose;
+
         public BookAccountsSettingsModel NewSetting
         {
             get { return _newSetting; }
             set { SetProperty(ref _newSetting, value); }
         }
-
-        public event Action<IDialogResult> RequestClose;
 
         public bool CanCloseDialog()
         {

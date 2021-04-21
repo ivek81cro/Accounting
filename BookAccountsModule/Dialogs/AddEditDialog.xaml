@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="BookAccountsModule.Dialogs.AddEditDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookAccountsModule.Dialogs"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:prism="http://prismlibrary.com/">
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="Height" Value="220"/>
+            <Setter Property="Width" Value="450"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Kontni plan - konto" Margin="5" Padding="5" FontSize="18"
+                   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+        <TextBlock Text="Konto" Margin="5" Padding="5"
+                   Grid.Row="1" Grid.Column="0"/>
+        <TextBox Text="{Binding BookAccount.Konto}" Margin="5" Padding="5" Width="100"
+                 HorizontalAlignment="Left"
+                 Grid.Row="1" Grid.Column="1"/>
+
+        <TextBlock Text="Opis" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="0"/>
+        <TextBox Text="{Binding BookAccount.Opis}" Margin="5" Padding="5" Width="300"
+                 Grid.Row="2" Grid.Column="1"/>
+
+        <Button Content="Spremi" Margin="5" Padding="5" Width="80" Height="30"
+                Command="{Binding SaveAccountCommand}"
+                Grid.Row="3" Grid.Column="0"/>
+
+    </Grid>
+</UserControl>

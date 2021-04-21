@@ -25,9 +25,6 @@ namespace BookUraModule.ViewModels
 
         private readonly string _bookName;
 
-        private bool _loaded = false;
-        private int _maxPrimka;
-
         public PrimkeDiscountsViewModel(IXlsFileReader xlsFileReader,
                                         IBookUraRestEndpoint bookUraEndpoint,
                                         IDialogService showDialog,

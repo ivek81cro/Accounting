@@ -31,5 +31,20 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<bool> Insert(BookAccountModel account)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/BookAccounts/", account))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

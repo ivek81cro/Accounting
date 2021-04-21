@@ -23,7 +23,7 @@
 @PoreznaOsnovica23 DECIMAL(9,2),
 @Pdv23 DECIMAL(9,2),
 @PoreznaOsnovica25 DECIMAL(9,2),
-@PDV25 DECIMAL(9,2),
+@Pdv25 DECIMAL(9,2),
 @UkupniPdv DECIMAL(9,2),
 @UkupnoUplaceno DECIMAL(9,2),
 @PreostaloZaUplatit DECIMAL(9,2),

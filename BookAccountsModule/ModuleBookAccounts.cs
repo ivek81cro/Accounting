@@ -1,4 +1,5 @@
 ﻿using AccountingUI.Core.Services;
+using BookAccountsModule.Dialogs;
 using BookAccountsModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -15,6 +16,8 @@ namespace BookAccountsModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<AccountsView>();
+
+            containerRegistry.RegisterDialog<AddEditDialog>();
 
             containerRegistry.RegisterScoped<IBookAccountsEndpoint, BookAccountsEndpoint>();
             containerRegistry.RegisterScoped<IBookAccountSettingsEndpoint, BookAccountSettingsEndpoint>();

@@ -155,6 +155,8 @@
     <Build Include="dbo\Stored Procedures\spBookAccounts_IfExists.sql" />
     <Build Include="dbo\Stored Procedures\spBookAccounts_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spBookAccounts_Update.sql" />
+    <Build Include="dbo\Tables\BankReport.sql" />
+    <Build Include="dbo\Tables\BankReportItems.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookUraModule", "BookUraMod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookAccountsModule", "BookAccountsModule\BookAccountsModule.csproj", "{DD99A27E-620D-4323-BD35-4176C52F0754}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookIraModule", "BookIraModule\BookIraModule.csproj", "{840C9FEB-87D0-48A5-880D-3C3C1433B205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookIraModule", "BookIraModule\BookIraModule.csproj", "{840C9FEB-87D0-48A5-880D-3C3C1433B205}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankReportsModule", "BankReportsModule\BankReportsModule.csproj", "{40E1D21C-DF87-41C9-921F-C66E63555D41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,10 @@ Global
 		{840C9FEB-87D0-48A5-880D-3C3C1433B205}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{840C9FEB-87D0-48A5-880D-3C3C1433B205}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{840C9FEB-87D0-48A5-880D-3C3C1433B205}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40E1D21C-DF87-41C9-921F-C66E63555D41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40E1D21C-DF87-41C9-921F-C66E63555D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40E1D21C-DF87-41C9-921F-C66E63555D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40E1D21C-DF87-41C9-921F-C66E63555D41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,6 +126,7 @@ Global
 		{743217DE-3670-43B9-BBC9-FBCD28DEC9DF} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{DD99A27E-620D-4323-BD35-4176C52F0754} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{840C9FEB-87D0-48A5-880D-3C3C1433B205} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
+		{40E1D21C-DF87-41C9-921F-C66E63555D41} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C146DCE3-AE73-4C23-A973-F16BCE354B0B}

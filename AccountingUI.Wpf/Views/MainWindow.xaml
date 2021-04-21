@@ -84,9 +84,10 @@
                 <MenuItem Header="Arhiva" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="ArchiveView"/>
             </MenuItem>
-            <MenuItem Header="Izvodi" Margin="5">
-
-            </MenuItem>
+            
+            <MenuItem Header="Izvodi" Margin="5" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="BankStatementView"/>
+            
             <MenuItem Header="Financijsko" Margin="5">
                 <MenuItem Header="Kontni plan" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="AccountsView"/>

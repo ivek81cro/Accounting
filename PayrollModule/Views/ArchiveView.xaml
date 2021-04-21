@@ -28,6 +28,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -51,12 +52,15 @@
             </Button>
         </StackPanel>
 
+        <TextBlock Text="Arhiva isplata zaposlenicima" Margin="5" Padding="5" FontSize="18"
+                   Grid.Row="1" Grid.Column="0"/>
+        
         <DataGrid ItemsSource="{Binding AccountingHeaders}" 
                   SelectedItem="{Binding SelectedArchive}"
                   AutoGenerateColumns="False" CanUserAddRows="False" 
                   CanUserDeleteRows="False" IsReadOnly="True"
                   Width="400" HorizontalAlignment="Left"
-                  Grid.Row="1" Grid.Column="0">
+                  Grid.Row="2" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum Od" Binding="{Binding DatumOd, 
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
@@ -67,7 +71,8 @@
                 <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"/>
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel  Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+        
+        <StackPanel  Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
             <StackPanel>
                 <TextBlock Text="Bruto ukupno:" Margin="5"/>
                 <TextBlock Text="Zdravstvo ukupno:" Margin="5"/>
@@ -82,7 +87,7 @@
             </StackPanel>
         </StackPanel>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2" Grid.ColumnSpan="5">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="3" Grid.ColumnSpan="5">
             <StackPanel>
                 <TextBlock Text="Detalji odabranog zapisa iz arhive" Margin="5"
                        FontSize="16" Height="auto"/>

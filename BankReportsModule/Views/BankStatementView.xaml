@@ -29,11 +29,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!--Custom Menu-->
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0"
+        <StackPanel Orientation="Horizontal" Margin="0" Grid.ColumnSpan="3"
                     Grid.Row="0" Grid.Column="0">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
                         Command="{Binding LoadDataCommand}" 
@@ -72,6 +74,7 @@
         </StackPanel>
 
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
+                   Grid.ColumnSpan="3"
                    Grid.Row="1" Grid.Column="0"/>
 
     </Grid>

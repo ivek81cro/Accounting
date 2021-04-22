@@ -36,11 +36,11 @@ namespace BankkStatementsModule.ViewModels
             set { SetProperty(ref _reportHeader, value); }
         }
 
-        private List<BankReportItemModel> reportItems = new();
+        private List<BankReportItemModel> _reportItems;
         public List<BankReportItemModel> ReportItems
         {
-            get { return reportItems; }
-            set { SetProperty(ref reportItems, value); }
+            get { return _reportItems; }
+            set { SetProperty(ref _reportItems, value); }
         }
 
         public void LoadReports()
@@ -97,6 +97,7 @@ namespace BankkStatementsModule.ViewModels
 
         private void CreateReportItemsList()
         {
+            _reportItems = new();
             foreach (var prometStavka in _fileXml.Izvod.Sekcije.Sekcija.Prometi.Promet)
             {
                 ReportItems.Add(

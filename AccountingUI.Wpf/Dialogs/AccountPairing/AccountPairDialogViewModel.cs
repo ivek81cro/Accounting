@@ -53,6 +53,13 @@ namespace AccountingUI.Wpf.Dialogs.AccountPairing
             set { SetProperty(ref _entry, value); }
         }
 
+        private BankReportItemModel _reportEntry;
+        public BankReportItemModel ReportEntry
+        {
+            get { return _reportEntry; }
+            set { SetProperty(ref _reportEntry, value); }
+        }
+
         private string _statusMessage;
         public string StatusMessage
         {
@@ -67,15 +74,25 @@ namespace AccountingUI.Wpf.Dialogs.AccountPairing
 
         public void OnDialogClosed()
         {
-
+            
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            Entry = parameters.GetValue<AccountingJournalModel>("entry");
-            AccountPair.Name = Entry.Dokument.Split(':')[0];
-            AccountPair.Description = Entry.Opis;
-            AccountPair.BookName = Entry.VrstaTemeljnice;
+            if (parameters.ContainsKey("bankReport"))
+            {
+                ReportEntry = parameters.GetValue<BankReportItemModel>("bankReport");
+                AccountPair.Name = ReportEntry.Naziv;
+                AccountPair.Description = ReportEntry.Opis;
+                AccountPair.BookName = "Izvodi";
+            }
+            else
+            {
+                Entry = parameters.GetValue<AccountingJournalModel>("entry");
+                AccountPair.Name = Entry.Dokument.Split(':')[0];
+                AccountPair.Description = Entry.Opis;
+                AccountPair.BookName = Entry.VrstaTemeljnice;
+            }
         }
 
         private void OpenAccountsSelection()
@@ -102,7 +119,14 @@ namespace AccountingUI.Wpf.Dialogs.AccountPairing
             if (CanSave())
             {
                 var param = new DialogParameters();
-                param.Add("account", AccountPair.Account);
+                if (ReportEntry != null)
+                {
+                    param.Add("bankReport", ReportEntry.Konto);
+                }
+                else
+                {
+                    param.Add("account", AccountPair.Account);
+                }
                 _accountPairsEndpoint.Post(AccountPair);
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK, param)); 
             }

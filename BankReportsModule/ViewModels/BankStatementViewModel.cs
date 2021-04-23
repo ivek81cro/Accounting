@@ -1,4 +1,5 @@
 ﻿using AccountingUI.Core.Models;
+using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using BankkStatementsModule.XmlModel;
 using Microsoft.Win32;
@@ -16,10 +17,13 @@ namespace BankkStatementsModule.ViewModels
     public class BankStatementViewModel : ViewModelBase
     {
         private readonly IDialogService _showDialog;
+        private readonly IBankReportEndpoint _bankReportEndpoint;
 
-        public BankStatementViewModel(IDialogService showDialog)
+        public BankStatementViewModel(IDialogService showDialog,
+                                      IBankReportEndpoint bankReportEndpoint)
         {
             _showDialog = showDialog;
+            _bankReportEndpoint = bankReportEndpoint;
 
             LoadDataCommand = new DelegateCommand(OpenStatementFile);
         }
@@ -36,6 +40,13 @@ namespace BankkStatementsModule.ViewModels
             set { SetProperty(ref _reportHeader, value); }
         }
 
+        private List<BankReportModel> _allHeaders;
+        public List<BankReportModel> AllHeaders
+        {
+            get { return _allHeaders; }
+            set { SetProperty(ref _allHeaders, value); }
+        }
+
         private List<BankReportItemModel> _reportItems;
         public List<BankReportItemModel> ReportItems
         {
@@ -43,9 +54,9 @@ namespace BankkStatementsModule.ViewModels
             set { SetProperty(ref _reportItems, value); }
         }
 
-        public void LoadReports()
+        public async void LoadReports()
         {
-
+            AllHeaders = await _bankReportEndpoint.GetAllHeaders();
         }
 
         private void OpenStatementFile()
@@ -55,27 +66,29 @@ namespace BankkStatementsModule.ViewModels
                 Filter = "XML file|*.xml",
                 Title = "Otvori xml datoteku izvoda"
             };
-            openFileDialog1.ShowDialog();
+            bool result = (bool)openFileDialog1.ShowDialog();
 
             // If the file name is not an empty string open it for saving.
-            if (openFileDialog1.FileName != "")
+            if (result)
             {
                 _path = openFileDialog1.FileName;
-            }
-            if (_path != "")
                 DeserializeIzvodXml();
+            }
         }
 
         private void DeserializeIzvodXml()
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-            var encoding = Encoding.GetEncoding("windows-1250");
-            StreamReader reader = new StreamReader(_path, encoding);
-            XmlSerializer x = new XmlSerializer(_fileXml.GetType());
-            _fileXml = (BankStatementXml)x.Deserialize(reader);
-            reader.Close();
+            if (_path != null)
+            {
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                var encoding = Encoding.GetEncoding("windows-1250");
+                StreamReader reader = new StreamReader(_path, encoding);
+                XmlSerializer x = new XmlSerializer(_fileXml.GetType());
+                _fileXml = (BankStatementXml)x.Deserialize(reader);
+                reader.Close();
 
-            CreateStatementHeader();
+                CreateStatementHeader();
+            }
         }
 
         private void CreateStatementHeader()

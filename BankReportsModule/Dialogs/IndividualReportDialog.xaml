@@ -12,12 +12,25 @@
             <Setter Property="ResizeMode" Value="NoResize"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
             <Setter Property="Height" Value="600"/>
-            <Setter Property="Width" Value="900"/>
+            <Setter Property="Width" Value="902"/>
         </Style>
     </prism:Dialog.WindowStyle>
     <UserControl.Resources>
         <Style TargetType="{x:Type TextBlock}" x:Key="WrapText">
             <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="controlSidesSum" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ControlFlag, UpdateSourceTrigger=PropertyChanged}" 
+                             Value="False">
+                    <Setter Property="Foreground" Value="Red"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding ControlFlag, UpdateSourceTrigger=PropertyChanged}"
+                             Value="True">
+                    <Setter Property="Foreground" Value="Green"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -53,29 +66,78 @@
                     <TextBlock Text="Upari"/>
                 </StackPanel>
             </Button>
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Izvod broj" Margin="5 10 0 0" FontSize="16"/>
-                    <TextBlock Text="{Binding ReportHeader.RedniBroj}" Margin="5 10 0 0"
-                            FontSize="16"/>
-                </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Datum:" Margin="5 0 0 0" FontSize="14"/>
+            <Border BorderBrush="Black" BorderThickness="1" Margin="15 0 0 0" Padding="5">
+                <Grid HorizontalAlignment="Right">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="130"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="90"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="Izvod broj:" Margin="5 10 0 0" FontSize="14"
+                               Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="{Binding ReportHeader.RedniBroj}" Margin="5 10 0 0"
+                               FontSize="14"
+                               Grid.Row="0" Grid.Column="1"/>
+                    <TextBlock Text="Datum:" Margin="5 0 0 0" FontSize="14"
+                               Grid.Row="1" Grid.Column="0"/>
                     <TextBlock Text="{Binding ReportHeader.DatumIzvoda, StringFormat=\{0:dd.MM.yyyy\}}" 
-                               FontSize="14" Margin="5 0 0 0"/>
-                </StackPanel>
-            </StackPanel>
+                               FontSize="14" Margin="5 0 0 0"
+                               Grid.Row="1" Grid.Column="1"/>
+                    
+                    <TextBlock Text="Početno stanje:" Margin="15 10 0 0" FontSize="14"
+                               Grid.Row="0" Grid.Column="2"/>
+                    <TextBlock Text="{Binding ReportHeader.StanjePrethodnogIzvoda, StringFormat=N2}"
+                               FontSize="14" Margin="0 10 0 0"
+                               Grid.Row="0" Grid.Column="3"/>
+                    <TextBlock Text="Završno stanje:" Margin="15 0 0 0" FontSize="14"
+                               Grid.Row="1" Grid.Column="2"/>
+                    <TextBlock Text="{Binding ReportHeader.NovoStanje, StringFormat=N2}"
+                               FontSize="14" Margin="0 0 0 0"
+                               Grid.Row="1" Grid.Column="3"/>
+                    
+                    <TextBlock Text="Dugovna:" Margin="5 0 0 0" FontSize="14"
+                               Grid.Row="0" Grid.Column="6"/>
+                    <TextBlock Text="{Binding SumDugovna, StringFormat=N2, 
+                               UpdateSourceTrigger=PropertyChanged}"
+                               FontSize="14" Margin="5 0 0 0"
+                               Style="{StaticResource controlSidesSum}"
+                               Grid.Row="1" Grid.Column="6"/>
+                    <TextBlock Text="Potražna" Margin="5 0 0 0" FontSize="14"
+                               Grid.Row="0" Grid.Column="7"/>
+                    <TextBlock Text="{Binding SumPotrazna, StringFormat=N2, 
+                               UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource controlSidesSum}"
+                               FontSize="14" Margin="5 0 0 0"
+                               Grid.Row="1" Grid.Column="7"/>
+                </Grid>
+            </Border>
         </StackPanel>
 
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
                    Grid.ColumnSpan="3"
                    Grid.Row="1" Grid.Column="0"/>        
 
-        <DataGrid ItemsSource="{Binding ReportItems}" AutoGenerateColumns="False"
+        <DataGrid ItemsSource="{Binding ReportItems, Mode=TwoWay}" 
+                  AutoGenerateColumns="False"
                   CanUserDeleteRows="False" CanUserAddRows="False" 
-                  Grid.ColumnSpan="3" SelectedItem="{Binding SelectedEntry}"
+                  Grid.ColumnSpan="3" SelectedItem="{Binding SelectedEntry, Mode=TwoWay}"
                   Grid.Row="4" Grid.Column="0">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CellEditEnding">
+                    <i:InvokeCommandAction Command="{Binding CellValueChanged}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"
                                     Width="300"
@@ -83,12 +145,14 @@
                 <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"
                                     Width="300"
                                     ElementStyle="{StaticResource WrapText}"/>
-                <DataGridTextColumn Header="Konto" Width="98"
+                <DataGridTextColumn Header="Konto" Width="78"
                                     Binding="{Binding Konto}"/>
-                <DataGridTextColumn Header="Dugovna" Width="80"
-                                    Binding="{Binding Dugovna, StringFormat=N2}"/>
-                <DataGridTextColumn Header="Potražna" Width="80"
-                                    Binding="{Binding Potrazna, StringFormat=N2}"/>
+                <DataGridTextColumn Header="Dugovna" Width="90"
+                                    Binding="{Binding Dugovna, StringFormat=N2, Mode=TwoWay, 
+                                    UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Potražna" Width="90"
+                                    Binding="{Binding Potrazna, StringFormat=N2, Mode=TwoWay, 
+                                    UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

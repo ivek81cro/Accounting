@@ -1,4 +1,5 @@
-﻿using BankkStatementsModule.Dialogs;
+﻿using AccountingUI.Core.Services;
+using BankkStatementsModule.Dialogs;
 using BankkStatementsModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -17,6 +18,8 @@ namespace BankkStatementsModule
             containerRegistry.RegisterForNavigation<BankStatementView>();
 
             containerRegistry.RegisterDialog<IndividualReportDialog>();
+
+            containerRegistry.RegisterScoped<IBankReportEndpoint, BankReportEndpoint>();
         }
     }
 }

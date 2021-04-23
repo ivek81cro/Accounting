@@ -13,7 +13,7 @@ namespace AccountingUI.Core.Validation
     {
         private Dictionary<string, List<string>> _errors = new();
 
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = delegate { };
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public IEnumerable GetErrors(string propertyName)
         {
@@ -62,7 +62,7 @@ namespace AccountingUI.Core.Validation
             {
                 _errors.Remove(propertyName);
             }
-            ErrorsChanged(this, new DataErrorsChangedEventArgs(propertyName));
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
         }
     }
 }

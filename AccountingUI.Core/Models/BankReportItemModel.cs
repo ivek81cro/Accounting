@@ -17,8 +17,21 @@ namespace AccountingUI.Core.Models
             get { return _konto; }
             set { SetProperty(ref _konto, value); }
         }
-        public decimal Dugovna { get; set; }
-        public decimal Potrazna { get; set; }
+        
+        private decimal _dugovna;
+        public decimal Dugovna
+        {
+            get { return _dugovna; }
+            set { SetProperty(ref _dugovna, value); }
+        }
+
+        private decimal _potrazna;
+        public decimal Potrazna
+        {
+            get { return _potrazna; }
+            set { SetProperty(ref _potrazna, value); }
+        }
+
         public string Strana { get; set; }
     }
 }

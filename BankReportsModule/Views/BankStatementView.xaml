@@ -77,5 +77,10 @@
                    Grid.ColumnSpan="3"
                    Grid.Row="1" Grid.Column="0"/>
 
+        <DataGrid ItemsSource="{Binding AllHeaders}"
+                  Grid.Row="3" Grid.Column="0">
+            
+        </DataGrid>
+
     </Grid>
 </UserControl>

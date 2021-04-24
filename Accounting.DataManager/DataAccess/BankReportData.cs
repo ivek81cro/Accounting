@@ -65,6 +65,8 @@ namespace Accounting.DataManager.DataAccess
                 _sql.StartTransaction("AccountingConnStr");
 
                 _sql.LoadDataInTransaction<CityModel, dynamic>("dbo.spBankReports_Delete", new { Id = id });
+
+                _sql.CommitTransaction();
             }
             catch (System.Exception)
             {

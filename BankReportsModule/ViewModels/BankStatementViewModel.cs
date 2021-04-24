@@ -31,10 +31,12 @@ namespace BankkStatementsModule.ViewModels
 
             LoadDataCommand = new DelegateCommand(OpenStatementFile);
             LoadReportCommand = new DelegateCommand(LoadReport);
+            ChangeDataCommand = new DelegateCommand(ChangeData);
         }
 
         public DelegateCommand LoadDataCommand { get; private set; }
         public DelegateCommand LoadReportCommand { get; private set; }
+        public DelegateCommand ChangeDataCommand { get; private set; }
 
         private BankReportModel _reportHeader;
         public BankReportModel ReportHeader
@@ -122,7 +124,7 @@ namespace BankkStatementsModule.ViewModels
 
             CreateReportItemsList();
 
-            OpenNewReportDialog();
+            OpenIndividualReportDialog();
         }
 
         private void CreateReportItemsList()
@@ -142,7 +144,7 @@ namespace BankkStatementsModule.ViewModels
             }
         }
 
-        private void OpenNewReportDialog()
+        private void OpenIndividualReportDialog()
         {
             var param = new DialogParameters();
             param.Add("header", ReportHeader);
@@ -151,7 +153,9 @@ namespace BankkStatementsModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-
+                    LoadReports();
+                    ReportHeader = null;
+                    ReportItems = null;
                 }
             });
         }
@@ -169,6 +173,14 @@ namespace BankkStatementsModule.ViewModels
         {
             SumDugovna = ReportItems.Sum(x => x.Dugovna);
             SumPotrazna = ReportItems.Sum(x => x.Potrazna);
+        }
+
+        private void ChangeData()
+        {
+            if (ReportHeader != null && ReportHeader.Id > 0 && ReportItems != null)
+            {
+                OpenIndividualReportDialog();
+            }
         }
     }
 }

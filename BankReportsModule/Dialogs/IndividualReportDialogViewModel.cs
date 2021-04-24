@@ -171,7 +171,7 @@ namespace BankkStatementsModule.Dialogs
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    SelectedEntry.Konto = result.Parameters.GetValue<string>("bankReport");
+                    LoadAccountPairs();
                 }
             });
         }
@@ -210,7 +210,8 @@ namespace BankkStatementsModule.Dialogs
 
             if(result)
             {
-                RequestClose?.Invoke(new DialogResult());
+                var dialogResult = ButtonResult.OK;
+                RequestClose?.Invoke(new DialogResult(dialogResult));
             }
         }
     }

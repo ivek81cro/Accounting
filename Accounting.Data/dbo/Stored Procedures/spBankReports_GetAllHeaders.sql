@@ -3,5 +3,6 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	SELECT Id, RedniBroj, DatumIzvoda, SumaPotrazna, SumaDugovna, StanjePrethodnogIzvoda, NovoStanje, Knjizen
-	FROM BankReport;
+	FROM BankReport
+	ORDER BY RedniBroj;
 END

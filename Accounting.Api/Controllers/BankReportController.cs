@@ -49,6 +49,10 @@ namespace Accounting.Api.Controllers
         [HttpPost("Header/")]
         public void PostHeader([FromBody] BankReportModel reportHeader)
         {
+            if(reportHeader.Id != 0)
+            {
+                _data.Delete(reportHeader.Id);
+            }
             _data.InsertHeader(reportHeader);
         }
 

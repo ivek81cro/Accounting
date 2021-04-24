@@ -36,15 +36,15 @@
         <TextBlock Text="Uparivanje konta" Margin="5" Padding="5" FontSize="18"
                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"/>
 
-        <TextBlock Text="Opis" Margin="5" Padding="5"
+        <TextBlock Text="Partner" Margin="5" Padding="5"
                    Grid.Column="0" Grid.Row="1"/>
-        <TextBox Text="{Binding AccountPair.Description, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding AccountPair.Name, UpdateSourceTrigger=PropertyChanged}" 
                  Margin="5" Padding="5" Width="250"
                  Grid.Column="1" Grid.Row="1"/>
 
-        <TextBlock Text="Naziv" Margin="5" Padding="5"
+        <TextBlock Text="Opis" Margin="5" Padding="5"
                    Grid.Column="0" Grid.Row="2"/>
-        <TextBox Text="{Binding AccountPair.Name, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Text="{Binding AccountPair.Description, UpdateSourceTrigger=PropertyChanged}" 
                  Margin="5" Padding="5" Width="250"
                  Grid.Column="1" Grid.Row="2"/>
 
@@ -54,8 +54,8 @@
                  Margin="5" Padding="5" Width="250"
                  Grid.Column="1" Grid.Row="3">
             <TextBox.InputBindings>
-                <MouseBinding Command="{Binding OpenAccountsSelectionCommand}"
-                                      Gesture="LeftDoubleClick"/>
+                <MouseBinding  Gesture="LeftDoubleClick" 
+                               Command="{Binding OpenAccountsSelectionCommand}"/>
             </TextBox.InputBindings>
         </TextBox>
 

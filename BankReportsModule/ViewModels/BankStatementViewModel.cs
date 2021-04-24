@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
 
@@ -54,6 +55,20 @@ namespace BankkStatementsModule.ViewModels
         {
             get { return _reportItems; }
             set { SetProperty(ref _reportItems, value); }
+        }
+
+        private decimal _sumDugovna;
+        public decimal SumDugovna
+        {
+            get { return _sumDugovna; }
+            set { SetProperty(ref _sumDugovna, value); }
+        }
+
+        private decimal _sumPotrazna;
+        public decimal SumPotrazna
+        {
+            get { return _sumPotrazna; }
+            set { SetProperty(ref _sumPotrazna, value); }
         }
 
         public async void LoadReports()
@@ -146,7 +161,14 @@ namespace BankkStatementsModule.ViewModels
             if (ReportHeader != null && ReportHeader.Id > 0)
             {
                 ReportItems = await _bankReportEndpoint.GetItems(ReportHeader.Id);
+                SumSides();
             }
+        }
+
+        private void SumSides()
+        {
+            SumDugovna = ReportItems.Sum(x => x.Dugovna);
+            SumPotrazna = ReportItems.Sum(x => x.Potrazna);
         }
     }
 }

@@ -12,6 +12,9 @@
         <Style TargetType="TabItem">
             <Setter Property="Header" Value="{Binding DataContext.Title}"/>
         </Style>
+        <Style TargetType="{x:Type TextBlock}" x:Key="WrapText">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -77,9 +80,43 @@
                    Grid.ColumnSpan="3"
                    Grid.Row="1" Grid.Column="0"/>
 
-        <DataGrid ItemsSource="{Binding AllHeaders}"
+        <DataGrid ItemsSource="{Binding ReportItems}" AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
                   Grid.Row="3" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Partner" Binding="{Binding Naziv}"
+                                    ElementStyle="{StaticResource WrapText}"
+                                    Width="300"/>
+                <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"
+                                    ElementStyle="{StaticResource WrapText}"
+                                    Width="300"/>
+                <DataGridTextColumn Header="Konto" Binding="{Binding Konto}"
+                                    Width="78"/>
+                <DataGridTextColumn Header="Dugovna" Binding="{Binding Dugovna,
+                                    StringFormat=N2}"
+                                    Width="90"/>
+                <DataGridTextColumn Header="Potražna" Binding="{Binding Potrazna,
+                                    StringFormat=N2}"
+                                    Width="90"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid ItemsSource="{Binding AllHeaders}" AutoGenerateColumns="False"
+                  SelectedItem="{Binding ReportHeader}"
+                  CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
+                  Margin="10 0 0 0"
+                  Grid.Row="3" Grid.Column="1">
+
+            <DataGrid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick"
+                              Command="{Binding LoadReportCommand}"/>
+            </DataGrid.InputBindings>
             
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Br. izvoda" Binding="{Binding RedniBroj}"/>
+                <DataGridTextColumn Header="Datum" Binding="{Binding DatumIzvoda,
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridCheckBoxColumn Header="Knjižen" Binding="{Binding Knjizen}"/>
+            </DataGrid.Columns>            
         </DataGrid>
 
     </Grid>

@@ -19,6 +19,9 @@ namespace BankkStatementsModule.ViewModels
         private readonly IDialogService _showDialog;
         private readonly IBankReportEndpoint _bankReportEndpoint;
 
+        private string _path;
+        private BankStatementXml _fileXml = new();
+
         public BankStatementViewModel(IDialogService showDialog,
                                       IBankReportEndpoint bankReportEndpoint)
         {
@@ -26,12 +29,11 @@ namespace BankkStatementsModule.ViewModels
             _bankReportEndpoint = bankReportEndpoint;
 
             LoadDataCommand = new DelegateCommand(OpenStatementFile);
+            LoadReportCommand = new DelegateCommand(LoadReport);
         }
 
-        private string _path;
-        private BankStatementXml _fileXml = new();
-
         public DelegateCommand LoadDataCommand { get; private set; }
+        public DelegateCommand LoadReportCommand { get; private set; }
 
         private BankReportModel _reportHeader;
         public BankReportModel ReportHeader
@@ -137,6 +139,14 @@ namespace BankkStatementsModule.ViewModels
 
                 }
             });
+        }
+
+        private async void LoadReport()
+        {
+            if (ReportHeader != null && ReportHeader.Id > 0)
+            {
+                ReportItems = await _bankReportEndpoint.GetItems(ReportHeader.Id);
+            }
         }
     }
 }

@@ -154,7 +154,7 @@ namespace BankkStatementsModule.Dialogs
             }
             else
             {
-                reportEntry.Konto = result.First().Account;
+                reportEntry.Konto = result.DefaultIfEmpty(new AccountPairModel()).First().Account;
             }
         }
 

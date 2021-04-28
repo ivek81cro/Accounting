@@ -24,6 +24,7 @@ using Prism.Modularity;
 using System;
 using System.IO;
 using System.Windows;
+using VATModule;
 
 namespace AccountingUI.WPF
 {
@@ -78,6 +79,7 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleBookAccounts>();
             moduleCatalog.AddModule<ModuleBookIra>();
             moduleCatalog.AddModule<ModuleBankReports>();
+            moduleCatalog.AddModule<ModuleVAT>();
         }
 
         private IConfiguration AddConfiguration()

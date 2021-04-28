@@ -1,0 +1,23 @@
+﻿CREATE TABLE [dbo].[VatArchive]
+(
+	[Id] INT NOT NULL IDENTITY,
+	[DateFrom] DATETIME2 NOT NULL,
+	[DateTo] DATETIME2 NOT NULL,
+	[IraOsnovica5] DECIMAL(9,2) NOT NULL,
+	[IraOsnovica10] DECIMAL(9,2) NOT NULL,
+	[IraOsnovica13] DECIMAL(9,2) NOT NULL,
+	[IraOsnovica25] DECIMAL(9,2) NOT NULL,
+	[Pdv5] DECIMAL(9,2) NOT NULL,
+	[Pdv10] DECIMAL(9,2) NOT NULL,
+	[Pdv13] DECIMAL(9,2) NOT NULL,
+	[Pdv25] DECIMAL(9,2) NOT NULL,
+	[UraOsnovica5] DECIMAL(9,2) NOT NULL,
+	[UraOsnovica10] DECIMAL(9,2) NOT NULL,
+	[UraOsnovica13] DECIMAL(9,2) NOT NULL,
+	[UraOsnovica25] DECIMAL(9,2) NOT NULL,
+	[Pretoprez5] DECIMAL(9,2) NOT NULL,
+	[Pretoprez10] DECIMAL(9,2) NOT NULL,
+	[Pretoprez13] DECIMAL(9,2) NOT NULL,
+	[Pretoprez25] DECIMAL(9,2) NOT NULL,
+	[Neoporezivo] DECIMAL(9,2) NOT NULL,
+)

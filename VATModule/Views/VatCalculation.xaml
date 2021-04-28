@@ -1,0 +1,205 @@
+﻿<UserControl x:Class="VATModule.Views.VatCalculation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:VATModule.Views"
+             xmlns:date="clr-namespace:AccountingUI.Core.Validation;assembly=AccountingUI.Core"
+             xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <UserControl.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="9">
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding CalculateVatCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\cogs.png" Height="30"/>
+                    <TextBlock Text="Izračun"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
+                   Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="9"/>
+
+        <TextBlock Text="Datum od:" Margin="5 10"
+                   Grid.Row="2" Grid.Column="0"/>
+        <DatePicker Margin="5" Grid.Row="2" Grid.Column="1" 
+                    h:DatePickerHelper.Watermark="Odaberite datum">
+            <DatePicker.SelectedDate>
+                <Binding Path="Vat.DateFrom" Mode="TwoWay" 
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <date:DateValidate />
+                    </Binding.ValidationRules>
+                </Binding>
+            </DatePicker.SelectedDate>
+        </DatePicker>
+        <TextBlock Text="Datum do:" Margin="5 10"
+                   Grid.Row="2" Grid.Column="2"/>
+        <DatePicker Margin="5" Grid.Row="2" Grid.Column="3" 
+                    h:DatePickerHelper.Watermark="Odaberite datum">
+            <DatePicker.SelectedDate>
+                <Binding Path="Vat.DateTo"  Mode="TwoWay" 
+                         UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <date:DateValidate />
+                    </Binding.ValidationRules>
+                </Binding>
+            </DatePicker.SelectedDate>
+        </DatePicker>
+
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="4" Margin="5"
+                Width="400"
+                Grid.Row="3" Grid.Column="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Ulazni računi" Margin="5" Padding="5" FontSize="16"
+                   Grid.Row="0" Grid.Column="0"/>
+                <TextBlock Text="Neoporezivo:" Margin="5" Padding="5"
+                   Grid.Row="1" Grid.Column="0"/>
+                <TextBlock Text="{Binding Vat.UraOsnovica0, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="1" Grid.Column="1"/>
+                <TextBlock Text="Osnovica 5%:" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="0"/>
+                <TextBlock Text="{Binding Vat.UraOsnovica5, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="1"/>
+                <TextBlock Text="Osnovica 13%:" Margin="5" Padding="5"
+                   Grid.Row="3" Grid.Column="0"/>
+                <TextBlock Text="{Binding Vat.UraOsnovica13, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="3" Grid.Column="1"/>
+                <TextBlock Text="Osnovica 25%:" Margin="5" Padding="5"
+                   Grid.Row="4" Grid.Column="0"/>
+                <TextBlock Text="{Binding Vat.UraOsnovica25, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="4" Grid.Column="1"/>
+                <TextBlock Text="PDV 5%:" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="2"/>
+                <TextBlock Text="{Binding Vat.PretporezT5, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="3"/>
+                <TextBlock Text="PDV 13%:" Margin="5" Padding="5"
+                   Grid.Row="3" Grid.Column="2"/>
+                <TextBlock Text="{Binding Vat.PretporezT13, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="3" Grid.Column="3"/>
+                <TextBlock Text="PDV 25%" Margin="5" Padding="5"
+                   Grid.Row="4" Grid.Column="2"/>
+                <TextBlock Text="{Binding Vat.PretporezT25, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="4" Grid.Column="3"/>
+                <TextBlock Text="Osnovica ukupno:" Margin="5" Padding="5"
+                   Grid.Row="5" Grid.Column="0"/>
+                <TextBlock Text="{Binding TaxableInTotal, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="5" Grid.Column="1"/>
+                <TextBlock Text="Pretporez Uk.:" Margin="5" Padding="5"
+                   Grid.Row="5" Grid.Column="2"/>
+                <TextBlock Text="{Binding VatInTotal, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="5" Grid.Column="3"/>
+            </Grid>
+        </Border>
+
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="4" Margin="5" 
+                Width="400"
+                Grid.Row="3" Grid.Column="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Izlazni računi" Margin="5" Padding="5" FontSize="16"
+                   Grid.Row="0" Grid.Column="0"/>
+                <TextBlock Text="Neoporezivo:" Margin="5" Padding="5"
+                   Grid.Row="1" Grid.Column="0"/>
+                <TextBlock Text="{Binding Vat.IraOsnovica0, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="1" Grid.Column="1"/>
+                <TextBlock Text="Osnovica 5%:" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="0"/>
+                <TextBlock Text="{Binding Vat.IraOsnovica5, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="1"/>
+                <TextBlock Text="Osnovica 13%:" Margin="5" Padding="5"
+                   Grid.Row="3" Grid.Column="0"/>
+                <TextBlock Text="{Binding Vat.IraOsnovica13, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="3" Grid.Column="1"/>
+                <TextBlock Text="Osnovica 25%:" Margin="5" Padding="5"
+                   Grid.Row="4" Grid.Column="0"/>
+                <TextBlock Text="{Binding Vat.IraOsnovica25, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="4" Grid.Column="1"/>
+                <TextBlock Text="PDV 5%:" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="2"/>
+                <TextBlock Text="{Binding Vat.Pdv5, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="3"/>
+                <TextBlock Text="PDV 13%:" Margin="5" Padding="5"
+                   Grid.Row="3" Grid.Column="2"/>
+                <TextBlock Text="{Binding Vat.Pdv13, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="3" Grid.Column="3"/>
+                <TextBlock Text="PDV 25%" Margin="5" Padding="5"
+                   Grid.Row="4" Grid.Column="2"/>
+                <TextBlock Text="{Binding Vat.Pdv25, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="4" Grid.Column="3"/>
+                <TextBlock Text="Osnovica ukupno:" Margin="5" Padding="5"
+                   Grid.Row="5" Grid.Column="0"/>
+                <TextBlock Text="{Binding TaxableOutTotal, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="5" Grid.Column="1"/>
+                <TextBlock Text="PDV Ukupno:" Margin="5" Padding="5"
+                   Grid.Row="5" Grid.Column="2"/>
+                <TextBlock Text="{Binding VatOutTotal, StringFormat=N2}" Margin="5" Padding="5"
+                   Grid.Row="5" Grid.Column="3"/>
+            </Grid>
+        </Border>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.ColumnSpan="8" Margin="5"
+                Grid.Row="4" Grid.Column="0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Pdv za uplatu:" FontSize="14" FontWeight="Bold" Margin="5"/>
+                <TextBlock Text="{Binding VatTotal}" FontSize="14" FontWeight="Bold"
+                           Margin="5"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>

@@ -103,6 +103,7 @@ namespace Accounting.Api
             services.AddTransient<IBookAccountSettingsData, BookAccountSettingsData>();
             services.AddTransient<IAccountPairData, AccountPairData>();
             services.AddTransient<IBankReportData, BankReportData>();
+            services.AddTransient<IVatArchiveData, VatArchiveData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

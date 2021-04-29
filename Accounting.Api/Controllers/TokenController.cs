@@ -84,8 +84,12 @@ namespace Accounting.Api.Controllers
         private async Task<bool> IsValidUsernameAndPassword(string username, string password)
         {
             var user = await _userManager.FindByEmailAsync(username);
-            
-            return await _userManager.CheckPasswordAsync(user, password);
+            if (user.EmailConfirmed)
+            {
+                return await _userManager.CheckPasswordAsync(user, password);
+            }
+
+            return false;
         }
     }
 }

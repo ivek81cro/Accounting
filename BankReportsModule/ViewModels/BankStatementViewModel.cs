@@ -11,6 +11,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace BankkStatementsModule.ViewModels
@@ -21,6 +22,7 @@ namespace BankkStatementsModule.ViewModels
         private readonly IBankReportEndpoint _bankReportEndpoint;
 
         private string _path;
+        private string _bookName = "Izvodi";
         private BankStatementXml _fileXml = new();
 
         public BankStatementViewModel(IDialogService showDialog,
@@ -32,11 +34,13 @@ namespace BankkStatementsModule.ViewModels
             LoadDataCommand = new DelegateCommand(OpenStatementFile);
             LoadReportCommand = new DelegateCommand(LoadReport);
             ChangeDataCommand = new DelegateCommand(ChangeData);
+            ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
         }
 
         public DelegateCommand LoadDataCommand { get; private set; }
         public DelegateCommand LoadReportCommand { get; private set; }
         public DelegateCommand ChangeDataCommand { get; private set; }
+        public DelegateCommand ProcessItemCommand { get; private set; }
 
         private BankReportModel _reportHeader;
         public BankReportModel ReportHeader
@@ -166,6 +170,7 @@ namespace BankkStatementsModule.ViewModels
             {
                 ReportItems = await _bankReportEndpoint.GetItems(ReportHeader.Id);
                 SumSides();
+                ProcessItemCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -181,6 +186,55 @@ namespace BankkStatementsModule.ViewModels
             {
                 OpenIndividualReportDialog();
             }
+        }
+
+        private List<AccountingJournalModel> CreateJournalEntries()
+        {
+            var entries = new List<AccountingJournalModel>();
+            entries.Add(new AccountingJournalModel
+            {
+                Broj = ReportHeader.RedniBroj,
+                Dokument = "Izvod br.:" + ReportHeader.RedniBroj,
+                Datum = ReportHeader.DatumIzvoda,
+                Opis = "Žiro račun: Izvod br. " + ReportHeader.RedniBroj,
+                Konto = "1000",
+                Dugovna = ReportHeader.SumaPotrazna,
+                Potrazna = ReportHeader.SumaDugovna,
+                Valuta = "HRK",
+                VrstaTemeljnice = _bookName
+            });
+            foreach (var entry in ReportItems)
+            {
+                entries.Add(new AccountingJournalModel
+                {
+                    Broj = ReportHeader.RedniBroj,
+                    Dokument = "Izvod br.:" + ReportHeader.RedniBroj,
+                    Datum = ReportHeader.DatumIzvoda,
+                    Opis = entry.Opis,
+                    Konto = entry.Konto,
+                    Dugovna = entry.Dugovna,
+                    Potrazna = entry.Potrazna,
+                    Valuta = "HRK",
+                    VrstaTemeljnice = _bookName
+                });                
+            }
+            return entries;
+        }
+
+        private bool CanProcess() => ReportHeader != null && ReportItems != null;
+
+        private void ProcessItem()
+        {
+            var entries = CreateJournalEntries();
+            var parameters = new DialogParameters();
+            parameters.Add("entries", entries);
+            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
     }
 }

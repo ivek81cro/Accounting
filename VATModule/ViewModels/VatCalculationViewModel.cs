@@ -81,5 +81,39 @@ namespace VATModule.ViewModels
 
             VatTotal = (VatOutTotal) - (VatInTotal);
         }
+
+        //TODO: Extract method to separate file (local service)
+        private void SerializeToXml(DateTime dateFrom, DateTime dateTo, string autorIme, string autorPrezime, decimal total12)
+        {
+            //TODO: Create model for reqired data items in method arguments(local service model)
+            sObrazacPDV form = new sObrazacPDV
+            {
+                Metapodaci = new sPDVmetapodaci
+                {
+                    Datum = new sDatumTemeljni() { Value = DateTime.Today },
+                    Naslov = new sNaslovTemeljni() { Value = "Prijava poreza na dodanu vrijednost" },
+                    Autor = new sAutorTemeljni() { Value = autorIme + " " + autorPrezime },
+                    Format = new sFormatTemeljni() { Value = tFormat.textxml },
+                    Jezik = new sJezikTemeljni() { Value = tJezik.hrHR },
+                    Identifikator = new sIdentifikatorTemeljni() { Value = Guid.NewGuid().ToString() },
+                    Uskladjenost = new sUskladjenost() { Value = "ObrazacPDV-v9-0" },
+                    Tip = new sTipTemeljni() { Value = tTip.Elektroničkiobrazac },
+                    Adresant = new sAdresantTemeljni() { Value = "Ministarstvo Financija, Porezna uprava, Zagreb" }
+                },
+                Zaglavlje = new sZaglavlje
+                {
+                    Ispostava = "3398",
+                    ObracunSastavio = new sObracunSastavio { Ime = autorIme, Prezime = autorPrezime },
+                    Razdoblje = new sRazdoblje { DatumOd = dateFrom, DatumDo = dateTo},
+                },
+                Tijelo = new sTijelo
+                {
+                    //TODO: calculated sums for monthly report
+                    Podatak000 = total12
+                }
+            };
+
+            //TODO: Generate XML file
+        }
     }
 }

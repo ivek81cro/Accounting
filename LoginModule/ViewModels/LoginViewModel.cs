@@ -1,5 +1,6 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
+using Microsoft.Extensions.Configuration;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -11,11 +12,13 @@ namespace LoginModule.ViewModels
     {
         private IApiService _apiService;
         private ILoggedInUserModel _loggedInUserModel;
+        private IConfiguration _config;
 
-        public LoginViewModel(IApiService apiService, ILoggedInUserModel loggedInUserModel)
+        public LoginViewModel(IApiService apiService, ILoggedInUserModel loggedInUserModel, IConfiguration config)
         {
             _apiService = apiService;
             _loggedInUserModel = loggedInUserModel;
+            _config = config;
 
             LoginUser = new DelegateCommand(LogInAsync);
         }
@@ -40,7 +43,7 @@ namespace LoginModule.ViewModels
             }
         }
 
-        private string _password = "Pwd12345.";
+        private string _password;
         public string Password
         {
             get { return _password; }
@@ -79,7 +82,7 @@ namespace LoginModule.ViewModels
         }
 
 
-        public bool CanAddUser => UserName?.Length > 0 && Password?.Length > 0;
+        public bool CanAddUser => UserName?.Length > 0;
 
         public string Title => "Prijava Korisnika";
 
@@ -88,7 +91,7 @@ namespace LoginModule.ViewModels
             UserModel user = new()
             {
                 UserName = UserName,
-                Password = Password
+                Password = _config.GetValue<string>("Pass")
             };
 
             UserName = string.Empty;

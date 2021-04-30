@@ -21,7 +21,9 @@ namespace AccountingUI.Core.TabControlRegion
             IraView,
             PrimkeDiscounts,
             BankStatementView, 
-            VatCalculation
+            VatCalculation,
+            AssetsFixedView,
+            AssetsCurrentView
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -59,6 +61,10 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Izvodi";
                 case ViewNames.VatCalculation:
                     return "PDV - izračun";
+                case ViewNames.AssetsFixedView:
+                    return "Dugotrajna imovina";
+                case ViewNames.AssetsCurrentView:
+                    return "Kratkotrajna imovina";
                 default:
                     return "";
             }

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
+    <ProjectReference Include="..\AssetsModule\AssetsModule.csproj" />
     <ProjectReference Include="..\BankReportsModule\BankReportsModule.csproj" />
     <ProjectReference Include="..\BookAccountsModule\BookAccountsModule.csproj" />
     <ProjectReference Include="..\BookIraModule\BookIraModule.csproj" />

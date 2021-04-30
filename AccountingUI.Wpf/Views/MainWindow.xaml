@@ -75,6 +75,15 @@
                               Command="{Binding ShowMenuSelectedViewCommand}"
                               CommandParameter="IraView"/>
                 </MenuItem>
+                <Separator/>
+                <MenuItem Header="Osnovna sredstva">
+                    <MenuItem Header="Kratkotrajna" 
+                              Command="{Binding ShowMenuSelectedViewCommand}"
+                              CommandParameter="AssetsCurrentView"/>
+                    <MenuItem Header="Dugortajna" 
+                              Command="{Binding ShowMenuSelectedViewCommand}"
+                              CommandParameter="AssetsFixedView"/>
+                </MenuItem>
             </MenuItem>
             <MenuItem Header="Plaće" Margin="5">
                 <MenuItem Header="Pregled"  Command="{Binding ShowMenuSelectedViewCommand}"

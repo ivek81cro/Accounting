@@ -6,6 +6,7 @@ using AccountingUI.Wpf.Dialogs.AccountingSettings;
 using AccountingUI.Wpf.Dialogs.AccountPairing;
 using AccountingUI.Wpf.Dialogs.AccountsSelection;
 using AccountingUI.Wpf.Views;
+using AssetsModule;
 using AutoMapper;
 using BankkStatementsModule;
 using BookAccountsModule;
@@ -80,6 +81,7 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleBookIra>();
             moduleCatalog.AddModule<ModuleBankReports>();
             moduleCatalog.AddModule<ModuleVAT>();
+            moduleCatalog.AddModule<ModuleAssets>();
         }
 
         private IConfiguration AddConfiguration()

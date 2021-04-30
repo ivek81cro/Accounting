@@ -166,6 +166,7 @@
     <Build Include="dbo\Stored Procedures\spBankReports_GetAllHeaders.sql" />
     <Build Include="dbo\Tables\VatArchive.sql" />
     <Build Include="dbo\Stored Procedures\spVatArchive_CalculateForPeriod.sql" />
+    <Build Include="dbo\Tables\FixedAssets.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AccountingUI.Core.Models
 {
-    public class FixedAssetModel : ValidationBindableBase
+    public class AssetModel : ValidationBindableBase
     {
         private int _id;
         public int Id
@@ -134,6 +134,14 @@ namespace AccountingUI.Core.Models
         {
             get { return _datumRashodovanja; }
             set { SetProperty(ref _datumRashodovanja, value); }
+        }
+
+        private string _vrstaPoTrajanju;
+        [Required]
+        public string VrstaPoTrajanju
+        {
+            get { return _vrstaPoTrajanju; }
+            set { SetProperty(ref _vrstaPoTrajanju, value); }
         }
     }
 }

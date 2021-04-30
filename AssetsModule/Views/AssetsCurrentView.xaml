@@ -40,15 +40,15 @@
         <StackPanel Orientation="Horizontal" Margin="0" Grid.ColumnSpan="3"
                     Grid.Row="0" Grid.Column="0">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding LoadDataCommand}" 
+                        Command="{Binding AddItemCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\loadFile.png" Height="30"/>
-                    <TextBlock Text="Učitaj"/>
+                    <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding ChangeDataCommand}" 
+                        Command="{Binding EditItemCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\save.png" Height="30"/>
@@ -60,7 +60,7 @@
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\cogs.png" Height="30"/>
-                    <TextBlock Text="Knjiži"/>
+                    <TextBlock Text="Obračun"/>
                 </StackPanel>
             </Button>
         </StackPanel>

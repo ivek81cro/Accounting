@@ -1,4 +1,5 @@
-﻿using AssetsModule.Views;
+﻿using AccountingUI.Core.Services;
+using AssetsModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 
@@ -13,6 +14,8 @@ namespace AssetsModule
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterScoped<IAssetsEndpoint, AssetsEndpoint>();
+
             containerRegistry.RegisterForNavigation<AssetsFixedView>();
             containerRegistry.RegisterForNavigation<AssetsCurrentView>();
         }

@@ -2,7 +2,7 @@
 
 namespace Accounting.DataManager.Models
 {
-    public class FixedAssetModel
+    public class AssetModel
     {
 
         public int Id { get; set; }
@@ -23,5 +23,6 @@ namespace Accounting.DataManager.Models
         public decimal IznosOtpisa { get; set; }
         public decimal SadasnjaVrijednost { get; set; }
         public DateTime DatumRashodovanja { get; set; }
+        public string TypeOfAsset { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[FixedAssets]
+﻿CREATE TABLE [dbo].[Assets]
 (
 	[Id] INT NOT NULL IDENTITY,
 	[Naziv] nvarchar(255),
@@ -17,5 +17,6 @@
 	[KontoOtpisa] nvarchar(255),
 	[IznosOtpisa] decimal(9,2),
 	[SadasnjaVrijednost] decimal(9,2),
-	[DatumRashodovanja] datetime2
+	[DatumRashodovanja] datetime2,
+	[VrstaPoTrajanju] nvarchar(255)
 )

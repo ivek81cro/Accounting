@@ -1,12 +1,8 @@
 ﻿using Accounting.DataManager.DataAccess;
 using Accounting.DataManager.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Accounting.Api.Controllers
 {
@@ -23,9 +19,22 @@ namespace Accounting.Api.Controllers
         }
 
         [HttpGet]
-        public List<AssetModel> Get(string bookName)
+        public List<AssetModel> Get()
         {
             return _data.Get(); ;
+        }
+
+        [HttpPost]
+        public void Post(AssetModel asset)
+        {
+            if (asset.Id == 0)
+            {
+                _data.Insert(asset);
+            }
+            else
+            {
+                _data.Update(asset);
+            }
         }
     }
 }

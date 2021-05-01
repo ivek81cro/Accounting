@@ -52,7 +52,7 @@
                    Grid.Column="0" Margin="10"/>
         <TextBox Grid.Row="1" Grid.Column="1" MinWidth="200" Margin="5 5 5 15" MinHeight="30"
                  Text="{Binding Employee.Oib, Mode=TwoWay,
-            ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                 ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Text="Ime:" Grid.Row="2" Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Employee.Ime, Mode=TwoWay, 

@@ -21,14 +21,15 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _naziv, value); }
         }
 
-        private DateTime _datumNabave;
-        public DateTime DatumNabave
+        private DateTime? _datumNabave;
+        public DateTime? DatumNabave
         {
             get { return _datumNabave; }
             set { SetProperty(ref _datumNabave, value); }
         }
 
         private decimal _kolicina;
+        [Required]
         public decimal Kolicina
         {
             get { return _kolicina; }
@@ -65,8 +66,8 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _dokument, value); }
         }
 
-        private DateTime _datumUporabe;
-        public DateTime DatumUporabe
+        private DateTime? _datumUporabe;
+        public DateTime? DatumUporabe
         {
             get { return _datumUporabe; }
             set { SetProperty(ref _datumUporabe, value); }
@@ -102,6 +103,7 @@ namespace AccountingUI.Core.Models
         }
 
         private string _sintetickiKonto;
+        [Required]
         public string SintetickiKonto
         {
             get { return _sintetickiKonto; }
@@ -109,6 +111,7 @@ namespace AccountingUI.Core.Models
         }
 
         private string _kontoOtpisa;
+        [Required]
         public string KontoOtpisa
         {
             get { return _kontoOtpisa; }
@@ -129,8 +132,8 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _sadasnjaVrijednost, value); }
         }
 
-        private DateTime _datumRashodovanja;
-        public DateTime DatumRashodovanja
+        private DateTime? _datumRashodovanja;
+        public DateTime? DatumRashodovanja
         {
             get { return _datumRashodovanja; }
             set { SetProperty(ref _datumRashodovanja, value); }

@@ -18,7 +18,7 @@ namespace AccountingUI.Core.Services
 
         public async Task<List<AssetModel>> GetAssets()
         {
-            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Assets/"))
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Assets"))
             {
                 if (response.IsSuccessStatusCode)
                 {
@@ -28,6 +28,22 @@ namespace AccountingUI.Core.Services
                 else
                 {
                     throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<bool> Insert(AssetModel asset)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/Assets", asset))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var error = response.ReasonPhrase;
+                    return false;
                 }
             }
         }

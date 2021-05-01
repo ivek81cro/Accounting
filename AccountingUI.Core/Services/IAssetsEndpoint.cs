@@ -7,5 +7,6 @@ namespace AccountingUI.Core.Services
     public interface IAssetsEndpoint
     {
         Task<List<AssetModel>> GetAssets();
+        Task<bool> Insert(AssetModel asset);
     }
 }

@@ -18,10 +18,10 @@ namespace Accounting.Api.Controllers
             _data = data;
         }
 
-        [HttpGet]
-        public List<AssetModel> Get()
+        [HttpGet("{assetType}")]
+        public List<AssetModel> Get(string assetType)
         {
-            return _data.Get(); ;
+            return _data.Get(assetType);
         }
 
         [HttpPost]

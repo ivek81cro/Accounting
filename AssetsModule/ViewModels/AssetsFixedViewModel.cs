@@ -3,7 +3,6 @@ using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using Prism.Commands;
 using Prism.Services.Dialogs;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace AssetsModule.ViewModels
@@ -42,7 +41,7 @@ namespace AssetsModule.ViewModels
 
         public async void LoadAssetsList()
         {
-            var list = await _assetsEndpoint.GetAssets();
+            var list = await _assetsEndpoint.GetAssets(_vrstaImovine);
             AssetsList = new ObservableCollection<AssetModel>(list);
         }
 

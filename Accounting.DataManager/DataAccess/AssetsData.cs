@@ -12,13 +12,13 @@ namespace Accounting.DataManager.DataAccess
             _sql = sql;
         }
 
-        public List<AssetModel> Get()
+        public List<AssetModel> Get(string assetType)
         {
             try
             {
                 _sql.StartTransaction("AccountingConnStr");
 
-                return _sql.LoadDataInTransaction<AssetModel, dynamic>("dbo.spAssets_GetAll", new { });
+                return _sql.LoadDataInTransaction<AssetModel, dynamic>("dbo.spAssets_GetAll", new { VrstaPoTrajanju = assetType });
             }
             catch (System.Exception)
             {

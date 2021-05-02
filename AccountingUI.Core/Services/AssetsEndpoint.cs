@@ -16,9 +16,9 @@ namespace AccountingUI.Core.Services
             _apiService = apiService;
         }
 
-        public async Task<List<AssetModel>> GetAssets()
+        public async Task<List<AssetModel>> GetAssets(string vrstaImovine)
         {
-            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Assets"))
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Assets/{vrstaImovine}"))
             {
                 if (response.IsSuccessStatusCode)
                 {

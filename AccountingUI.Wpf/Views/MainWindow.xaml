@@ -77,12 +77,12 @@
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="Osnovna sredstva">
-                    <MenuItem Header="Kratkotrajna" 
-                              Command="{Binding ShowMenuSelectedViewCommand}"
-                              CommandParameter="AssetsCurrentView"/>
-                    <MenuItem Header="Dugortajna" 
+                    <MenuItem Header="Dugotrajna imovina" 
                               Command="{Binding ShowMenuSelectedViewCommand}"
                               CommandParameter="AssetsFixedView"/>
+                    <MenuItem Header="Sitni invetar" 
+                              Command="{Binding ShowMenuSelectedViewCommand}"
+                              CommandParameter="AssetsCurrentView"/>
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Plaće" Margin="5">

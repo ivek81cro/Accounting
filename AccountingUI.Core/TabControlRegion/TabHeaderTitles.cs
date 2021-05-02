@@ -64,7 +64,7 @@ namespace AccountingUI.Core.TabControlRegion
                 case ViewNames.AssetsFixedView:
                     return "Dugotrajna imovina";
                 case ViewNames.AssetsCurrentView:
-                    return "Kratkotrajna imovina";
+                    return "Sitni inventar";
                 default:
                     return "";
             }

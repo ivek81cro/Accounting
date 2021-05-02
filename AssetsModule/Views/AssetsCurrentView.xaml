@@ -40,18 +40,20 @@
         <StackPanel Orientation="Horizontal" Margin="0" Grid.ColumnSpan="3"
                     Grid.Row="0" Grid.Column="0">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding AddItemCommand}" 
-                        Background="Transparent" BorderBrush="Gray">
+                    Command="{Binding OpenDetailDialogCommand}"
+                    CommandParameter="new"
+                    Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\loadFile.png" Height="30"/>
+                    <Image Source="images\add.png" Height="30"/>
                     <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding EditItemCommand}" 
-                        Background="Transparent" BorderBrush="Gray">
+                    Command="{Binding OpenDetailDialogCommand}" 
+                    CommandParameter="edit"
+                    Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\save.png" Height="30"/>
+                    <Image Source="images\edit.png" Height="30"/>
                     <TextBlock Text="Izmijeni"/>
                 </StackPanel>
             </Button>
@@ -63,9 +65,47 @@
                     <TextBlock Text="Obračun"/>
                 </StackPanel>
             </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding DeleteItemCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\delete.png" Height="30"/>
+                    <TextBlock Text="Otpis"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"/>
+
+        <DataGrid ItemsSource="{Binding AssetsList}" SelectedItem="{Binding SelectedAsset}"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  AutoGenerateColumns="False" Grid.ColumnSpan="3"
+                  Grid.Row="2" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"/>
+                <DataGridTextColumn Header="Datum nabave" Binding="{Binding DatumNabave,
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Količina" Binding="{Binding Kolicina}"/>
+                <DataGridTextColumn Header="Lokacija" Binding="{Binding Lokacija}"/>
+                <DataGridTextColumn Header="Inv. broj" Binding="{Binding InvBroj}"/>
+                <DataGridTextColumn Header="Dobavljač" Binding="{Binding Daobavljac}"/>
+                <DataGridTextColumn Header="Dokument" Binding="{Binding Dokument}"/>
+                <DataGridTextColumn Header="Datum uporabe" Binding="{Binding DatumUporabe,
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Nabavna vrijednost" 
+                                    Binding="{Binding NabavnaVrijednost, StringFormat=N2}"/>
+                <DataGridTextColumn Header="Skupina" Binding="{Binding Skupina}"/>
+                <DataGridTextColumn Header="Vijek trajanja" Binding="{Binding VijekTrajanja}"/>
+                <DataGridTextColumn Header="Stopa otp." Binding="{Binding StopaOtpisa}"/>
+                <DataGridTextColumn Header="Sintetički konto" Binding="{Binding SintetickiKonto}"/>
+                <DataGridTextColumn Header="Konto otpisa" Binding="{Binding KontoOtpisa}"/>
+                <DataGridTextColumn Header="Iznos otpisa" Binding="{Binding IznosOtpisa}"/>
+                <DataGridTextColumn Header="Sadašnja vrijednost" Binding="{Binding SadasnjaVrijednost,
+                                    StringFormat=N2}"/>
+                <DataGridTextColumn Header="Datum otpisa" Binding="{Binding DatumOtpisa,
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </UserControl>

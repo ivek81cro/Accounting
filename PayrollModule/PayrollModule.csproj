@@ -13,6 +13,7 @@
     <None Remove="Views\Images\folder.PNG" />
     <None Remove="Views\Images\kanta.PNG" />
     <None Remove="Views\Images\save.PNG" />
+    <None Remove="Views\Images\settings.PNG" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,6 +35,7 @@
     <Resource Include="Views\Images\folder.PNG" />
     <Resource Include="Views\Images\kanta.PNG" />
     <Resource Include="Views\Images\save.PNG" />
+    <Resource Include="Views\Images\settings.PNG" />
   </ItemGroup>
 
 </Project>

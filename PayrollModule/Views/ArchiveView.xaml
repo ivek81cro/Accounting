@@ -33,13 +33,29 @@
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="0" 
-                     Margin="0">
+                     Margin="0" Grid.ColumnSpan="4">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="0" 
                         Command="{Binding DeletePayrollCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\kanta.png" Height="30"/>
                     <TextBlock Text="Briši arhivu" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding ProcessPayrollCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\cogs.png" Height="30"/>
+                    <TextBlock Text="Knjiži"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding AccountsSettingsCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\settings.png" Height="30"/>
+                    <TextBlock Text="Postavke"/>
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="0" 
@@ -59,7 +75,7 @@
                   SelectedItem="{Binding SelectedArchive}"
                   AutoGenerateColumns="False" CanUserAddRows="False" 
                   CanUserDeleteRows="False" IsReadOnly="True"
-                  Width="400" HorizontalAlignment="Left"
+                  Width="400" MaxHeight="150" HorizontalAlignment="Left"
                   Grid.Row="2" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum Od" Binding="{Binding DatumOd, 

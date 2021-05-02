@@ -7,6 +7,8 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PayrollModule.ViewModels
 {
@@ -15,24 +17,38 @@ namespace PayrollModule.ViewModels
         private readonly IPayrollArchiveEndpoint _archiveEndpoint; 
         private readonly IDialogService _showDialog;
         private readonly IRegionManager _regionManager;
+        private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
+        private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
 
         private List<PayrollArchiveHeaderModel> _archiveHeaders;
         private List<PayrollArchivePayrollModel> _archivePayrolls;
         private List<PayrollArchiveSupplementModel> _archiveSupplements;
 
-        public ArchiveViewModel(IPayrollArchiveEndpoint archiveEndpoint, 
-            IDialogService showDialog, IRegionManager regionManager)
+        private readonly string _bookName;
+
+        public ArchiveViewModel(IPayrollArchiveEndpoint archiveEndpoint,
+                                IDialogService showDialog,
+                                IRegionManager regionManager,
+                                IBookAccountSettingsEndpoint settingsEndpoint,
+                                IAccountPairsEndpoint accoutPairsEndpoint)
         {
             _archiveEndpoint = archiveEndpoint;
             _showDialog = showDialog;
             _regionManager = regionManager;
+            _settingsEndpoint = settingsEndpoint;
+            _accoutPairsEndpoint = accoutPairsEndpoint;
+            _bookName = "Plaća";
 
             DeletePayrollCommand = new DelegateCommand(DeleteSelectedRecord, CanDelete);
             CreateJoppdFormCommand = new DelegateCommand(CreateJoppdDialog, CanCreateJoppd);
+            AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
+            ProcessPayrollCommand = new DelegateCommand(ProcessItem, CanProcess);
         }
 
         public DelegateCommand CreateJoppdFormCommand { get; private set; }
         public DelegateCommand DeletePayrollCommand { get; private set; }
+        public DelegateCommand AccountsSettingsCommand { get; private set; }
+        public DelegateCommand ProcessPayrollCommand { get; private set; }
 
         private ObservableCollection<PayrollArchiveHeaderModel> _accountingHeaders;
         public ObservableCollection<PayrollArchiveHeaderModel> AccountingHeaders
@@ -54,6 +70,7 @@ namespace PayrollModule.ViewModels
                 }
                 DeletePayrollCommand.RaiseCanExecuteChanged();
                 CreateJoppdFormCommand.RaiseCanExecuteChanged();
+                ProcessPayrollCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -99,11 +116,20 @@ namespace PayrollModule.ViewModels
             set { SetProperty(ref _payrollExpense, value); }
         }
 
+        private List<BookAccountsSettingsModel> _accountingSettings;
+        public List<BookAccountsSettingsModel> AccountingSettings
+        {
+            get { return _accountingSettings; }
+            set { SetProperty(ref _accountingSettings, value); }
+        }
+
         public async void LoadArchive()
         {
             _archiveHeaders = new();
             _archiveHeaders = await _archiveEndpoint.GetArchiveHeaders();
             AccountingHeaders = new ObservableCollection<PayrollArchiveHeaderModel>(_archiveHeaders);
+
+            LoadAccountingSettings();
         }
 
         private async void LoadDetails()
@@ -183,5 +209,99 @@ namespace PayrollModule.ViewModels
         {
             return SelectedArchive != null;
         }
+
+        #region Load accounting settings
+        private void OpenAccountsSettings()
+        {
+            var list = new List<string>() { "Bruto", "MIO I.", "MIO II.", "Dohodak", "Odbitak", "Osnovica", "Por. stopa I.", "Por. stopa II.",
+                                            "Ukupno porezi", "Prirez", "Por. i prirez", "Neto", "Dop. zdravstvo"};
+            var parameters = new DialogParameters();
+            parameters.Add("columnsList", list);
+            parameters.Add("bookName", _bookName);
+            _showDialog.ShowDialog("AccountsLinkDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                }
+            });
+            LoadAccountingSettings();
+        }
+
+        private async void LoadAccountingSettings()
+        {
+            AccountingSettings = await _settingsEndpoint.GetByBookName(_bookName);
+        }
+        #endregion
+
+        #region Book item processing
+        private Dictionary<string, decimal> MapColumnToPropertyValue()
+        {
+            var pay = Payrolls;
+            var item = new Dictionary<string, decimal>();
+            item.Add("Bruto", pay.Sum(x => x.Bruto));
+            item.Add("Mio I.", pay.Sum(x => x.Mio1));
+            item.Add("Mio II.", pay.Sum(x => x.Mio2));
+            item.Add("Dohodak", pay.Sum(x => x.Dohodak));
+            item.Add("Odbitak", pay.Sum(x => x.Odbitak));
+            item.Add("Osnovica", pay.Sum(x => x.PoreznaOsnovica));
+            item.Add("Por. stopa I.", pay.Sum(x => x.PoreznaStopa1));
+            item.Add("Por. stopa II.", pay.Sum(x => x.PoreznaStopa2));
+            item.Add("Ukupno porezi", pay.Sum(x => x.UkupnoPorez));
+            item.Add("Prirez", pay.Sum(x => x.Prirez));
+            item.Add("Por. i prirez", pay.Sum(x => x.UkupnoPorezPrirez));
+            item.Add("Neto", pay.Sum(x => x.Neto));
+            item.Add("Dop. zdravstvo", pay.Sum(x => x.DoprinosZdravstvo));
+
+            return item;
+        }
+        private bool CanProcess()
+        {
+            return SelectedArchive != null;
+        }
+
+        private async void ProcessItem()
+        {
+            var entries = await CreateJournalEntries();
+            var parameters = new DialogParameters();
+            parameters.Add("entries", entries);
+            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
+        }
+
+        private async Task<List<AccountingJournalModel>> CreateJournalEntries()
+        {
+            var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
+
+            var mappings = MapColumnToPropertyValue();
+            var entry = SelectedArchive;
+            var entries = new List<AccountingJournalModel>();
+            foreach (var setting in AccountingSettings)
+            {                
+                var value = mappings.GetValueOrDefault(setting.Name);
+                value *= setting.Prefix ? (-1) : 1;
+                if (value != 0)
+                {
+                    entries.Add(new AccountingJournalModel
+                    {
+                        Broj = 0,
+                        Dokument = entry.Opis,
+                        Datum = entry.DatumObracuna,
+                        Opis = setting.Name,
+                        Konto = setting.Account,
+                        Dugovna = setting.Side == "Dugovna" ? value : 0,
+                        Potrazna = setting.Side == "Potražna" ? value : 0,
+                        Valuta = "HRK",
+                        VrstaTemeljnice = _bookName
+                    });
+                }
+            }
+            return entries;
+        }
+        #endregion
     }
 }

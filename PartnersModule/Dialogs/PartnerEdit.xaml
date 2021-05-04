@@ -46,72 +46,81 @@
 
         <TextBlock Text="Uredi podatke" FontSize="20" Grid.Row="0"
                    Grid.Column="0" Margin="10" Grid.ColumnSpan="2"/>
-       
+
         <TextBlock Text="Oib:" Grid.Row="1"
                    Grid.Column="0" Margin="10"/>
         <TextBox Grid.Row="1" Grid.Column="1" MinWidth="250" Margin="5 5 5 15" MinHeight="30"
                  Text="{Binding Partner.Oib, Mode=TwoWay,
             ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
-        
+
         <TextBlock Text="Naziv:" Grid.Row="2" Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Partner.Naziv, Mode=TwoWay, 
             ValidatesOnNotifyDataErrors=True, UpdateSourceTrigger=PropertyChanged}"
                  Grid.Row="2" Grid.Column="1" MinWidth="250" MaxWidth="250"
                  Margin="5 5 5 15" MinHeight="30" TextWrapping="Wrap"/>
-        
+
         <TextBlock Text="Ulica:" Grid.Row="3"
                    Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Partner.Ulica, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="3" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
-        
+
         <TextBlock Text="Broj:" Grid.Row="4"
                    Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Partner.Broj, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="4" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
-        
+
         <TextBlock Text="Pošta:" Grid.Row="5"
                    Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Partner.Posta, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="5" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
-        
+
         <TextBlock Text="Mjesto:" Grid.Row="6"
                    Grid.Column="0" Margin="10"/>
         <TextBox Text="{Binding Partner.Mjesto, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="6" Grid.Column="1"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
-        
+
         <TextBlock Text="Telefon:" Grid.Row="1"
                    Grid.Column="2" Margin="10"/>
         <TextBox Text="{Binding Partner.Telefon, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="1" Grid.Column="3"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
-        
+
         <TextBlock Text="Fax:" Grid.Row="2"
                    Grid.Column="2" Margin="10"/>
         <TextBox Text="{Binding Partner.Fax, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="2" Grid.Column="3"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
-        
+
         <TextBlock Text="Email:" Grid.Row="3"
                    Grid.Column="2" Margin="10"/>
         <TextBox Text="{Binding Partner.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="3" Grid.Column="3"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
-        
+
         <TextBlock Text="Iban:" Grid.Row="4"
                    Grid.Column="2" Margin="10"/>
         <TextBox Text="{Binding Partner.Iban, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="4" Grid.Column="3"
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
-        
+
         <TextBlock Text="Mbo:" Grid.Row="5"
                    Grid.Column="2" Margin="10"/>
         <TextBox Text="{Binding Partner.Mbo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                  Grid.Row="5" Grid.Column="3" 
                  MinWidth="250" Margin="5 5 5 15" MinHeight="30"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="3" >
+            <TextBlock Text="Kupac?" Margin="5" Padding="5"/>
+            <CheckBox IsChecked="{Binding IsBuyer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                      Margin="0 10 0 0"/>
+            <TextBlock Text="Dobavljač?" Margin="35 5 5 5" Padding="5"/>
+            <CheckBox IsChecked="{Binding IsSupplier, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  
+                      Margin="0 10 0 0"/>
+        </StackPanel>
 
         <Button Command="{Binding SavePartnerCommand}" Content="Spremi" Grid.Row="12"
                 Grid.Column="3" HorizontalAlignment="Right" Margin="10"

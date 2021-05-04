@@ -112,13 +112,11 @@ namespace PartnersModule.ViewModels
         {
             var parameters = new DialogParameters();
             parameters.Add("partner", SelectedPartner);
-            _showDialog.ShowDialog(nameof(PartnerEdit), parameters, result =>
+            _showDialog.ShowDialog(nameof(PartnerEdit), parameters, async result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {
                     PartnersModel partner = result.Parameters.GetValue<PartnersModel>("partner");
-                    _partnersEndpoint.PostPartner(partner);
-                    _partners.Add(partner);
                     LoadPartners();
                 }
             });

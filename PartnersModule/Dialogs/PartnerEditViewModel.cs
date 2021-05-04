@@ -4,22 +4,29 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Threading.Tasks;
 
 namespace PartnersModule.Dialogs
 {
     public class PartnerEditViewModel : BindableBase, IDialogAware
     {
         private readonly IPartnersEndpoint _partnersEndpoint;
+        private readonly IBookAccountsEndpoint _bookAccountsEndpoint;
 
 
-        public PartnerEditViewModel(IPartnersEndpoint partnersEndpoint)
+        public PartnerEditViewModel(IPartnersEndpoint partnersEndpoint,
+                                    IBookAccountsEndpoint bookAccountsEndpoint)
         {
             _partnersEndpoint = partnersEndpoint;
-            SavePartnerCommand = new DelegateCommand(CloseDialog);
+            _bookAccountsEndpoint = bookAccountsEndpoint;
+
+            SavePartnerCommand = new DelegateCommand(SavePartner, CanSavePartner);
         }
 
-        public event Action<IDialogResult> RequestClose;
         public DelegateCommand SavePartnerCommand { get; private set; }
+
+        public event Action<IDialogResult> RequestClose;
+
         public string Title => "Izmjena Podataka Partnera";
 
         private PartnersModel _partner;
@@ -32,16 +39,25 @@ namespace PartnersModule.Dialogs
             }
         }
 
-        private void CloseDialog()
+        private bool _isBuyer;
+        public bool IsBuyer
         {
-            if (Partner != null && !Partner.HasErrors)
-            {
-                _partnersEndpoint.PostPartner(Partner);
-                var result = ButtonResult.OK;
-                var p = new DialogParameters();
-                p.Add("partner", Partner);
+            get { return _isBuyer; }
+            set 
+            { 
+                SetProperty(ref _isBuyer, value);
+                SavePartnerCommand.RaiseCanExecuteChanged();
+            }
+        }
 
-                RequestClose?.Invoke(new DialogResult(result, p));
+        private bool _isSupplier;
+        public bool IsSupplier
+        {
+            get { return _isSupplier; }
+            set 
+            {
+                SetProperty(ref _isSupplier, value);
+                SavePartnerCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -72,6 +88,69 @@ namespace PartnersModule.Dialogs
         private async void GetPartnerFromDatabase(int partnerId)
         {
             Partner = await _partnersEndpoint.GetById(partnerId);
+            IsBuyer = Partner.KontoK != null && Partner.KontoK.StartsWith("12");
+            IsSupplier = Partner.KontoD != null && Partner.KontoD.StartsWith("22");
+        }
+
+        private bool CanSavePartner()
+        {
+            return IsBuyer || IsSupplier;
+        }
+
+        private async void SavePartner()
+        {
+            if (Partner != null && !Partner.HasErrors)
+            {
+                await _partnersEndpoint.PostPartner(Partner);
+                var partner = await _partnersEndpoint.GetByOib(Partner.Oib);
+                AddAccountNumber();
+                var result = ButtonResult.OK;
+                var p = new DialogParameters();
+                p.Add("partner", Partner);
+
+                RequestClose?.Invoke(new DialogResult(result, p));
+            }
+        }
+
+        private async void AddAccountNumber()
+        {
+            if (IsBuyer)
+            {
+                Partner.KontoK = "12";
+            }
+            if (IsSupplier)
+            {
+                Partner.KontoD = "22";
+            }
+
+            string sifra = Partner.Id.ToString();
+            string kontoK = Partner.KontoK;
+            string kontoD = Partner.KontoD;
+
+            if (kontoK.StartsWith("12"))
+            {
+                while (kontoK.Length + sifra.Length < 8)
+                { 
+                    kontoK += "0"; 
+                }
+                kontoK += sifra;
+                await _bookAccountsEndpoint.Insert(new BookAccountModel { Konto = kontoK, Opis = Partner.Naziv });
+            }
+
+            if (kontoD.StartsWith("22"))
+            {
+                while (kontoD.Length + sifra.Length < 8)
+                {
+                    kontoD += "0";
+                }
+                kontoD += sifra;
+                await _bookAccountsEndpoint.Insert(new BookAccountModel { Konto = kontoD, Opis = Partner.Naziv });
+            }
+
+            Partner.KontoK = kontoK;
+            Partner.KontoD = kontoD;
+
+            await _partnersEndpoint.PostPartner(Partner);
         }
     }
 }

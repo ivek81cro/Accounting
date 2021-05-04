@@ -46,6 +46,22 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
+        public PartnersModel GetPartnerByOib(string oib)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+                var output = _sql.LoadDataInTransaction<PartnersModel, dynamic>("dbo.spPartners_GetByOib", new { Oib = oib }).FirstOrDefault();
+
+                return output;
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
         public void InsertPartner(PartnersModel partner)
         {
             try

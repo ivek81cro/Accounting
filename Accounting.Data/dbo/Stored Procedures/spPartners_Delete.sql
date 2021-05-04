@@ -5,7 +5,6 @@ BEGIN
 	
 	SET NOCOUNT ON;
 
-	DELETE FROM Partners
-	WHERE Id=@id;
+	DELETE FROM Partners WHERE Id=@id;
 
 END

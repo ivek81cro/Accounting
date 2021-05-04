@@ -10,5 +10,6 @@ namespace Accounting.DataManager.DataAccess
         void InsertPartner(PartnersModel partner);
         void UpdatePartner(PartnersModel partner);
         void DeletePartner(int id);
+        PartnersModel GetPartnerByOib(string oib);
     }
 }

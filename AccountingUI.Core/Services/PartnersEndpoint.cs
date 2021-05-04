@@ -48,6 +48,22 @@ namespace AccountingUI.Core.Services
             }
         }
 
+        public async Task<PartnersModel> GetByOib(string oib)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Partners/Oib/{oib}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<PartnersModel>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task PostPartner(PartnersModel partner)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/Partners", partner))

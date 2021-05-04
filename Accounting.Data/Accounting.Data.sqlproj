@@ -170,6 +170,7 @@
     <Build Include="dbo\Stored Procedures\spAssets_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spAssets_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spAssets_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spPartners_GetByOib.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

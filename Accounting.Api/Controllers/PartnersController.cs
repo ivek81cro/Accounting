@@ -32,6 +32,12 @@ namespace Accounting.Api.Controllers
             return _partnersData.GetPartnersById(id);
         }
 
+        [HttpGet("Oib/{oib}")]
+        public PartnersModel Get(string oib)
+        {
+            return _partnersData.GetPartnerByOib(oib);
+        }
+
         // POST api/<PartnersController>
         [HttpPost]
         public void Post([FromBody] PartnersModel partner)

@@ -103,10 +103,8 @@ namespace PartnersModule.Dialogs
                 await _partnersEndpoint.PostPartner(Partner);
                 await AddAccountNumber(Partner.Oib);
                 var result = ButtonResult.OK;
-                var p = new DialogParameters();
-                p.Add("partner", Partner);
 
-                RequestClose?.Invoke(new DialogResult(result, p));
+                RequestClose?.Invoke(new DialogResult(result));
             }
         }
 

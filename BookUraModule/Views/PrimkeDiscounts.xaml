@@ -27,14 +27,20 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!--Custom Menu-->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0"
+                    Grid.ColumnSpan="5"
                     Grid.Row="0" Grid.Column="0">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
                         Command="{Binding ProcessItemCommand}" 
@@ -52,14 +58,24 @@
                     <TextBlock Text="Postavke"/>
                 </StackPanel>
             </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding CalculationsReportCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\discounts.png" Height="30"/>
+                    <TextBlock Text="Izračuni"/>
+                </StackPanel>
+            </Button>
             <TextBlock Text="{Binding StatusMessage}" FontSize="24" Margin="50 0 0 0"
                        Foreground="OrangeRed" VerticalAlignment="Center"/>
         </StackPanel>
 
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
+                   Grid.ColumnSpan="5"
                    Grid.Row="1" Grid.Column="0"/>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" 
+                    Orientation="Horizontal">
             <TextBlock Text="Filter datum od:" Margin="5" Padding="5"/>
             <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
                         MinWidth="150">
@@ -81,15 +97,18 @@
                 </DatePicker.SelectedDate>
             </DatePicker>
             <TextBlock Text="Filter naziv:" Margin="5" Padding="5"/>
-            <TextBox Margin="5" MinWidth="150" Text="{Binding FilterName}"/>
+            <TextBox Margin="5" Padding="5" MinWidth="150" Text="{Binding FilterName}"/>
             <Button Content="Filtriraj" Command="{Binding FilterDataCommand}"
                     Margin="5" Padding="5" Width="75"/>
         </StackPanel>
 
+        
+        
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
                   CanUserDeleteRows="False" SelectedItem="{Binding SelectedUraPrimke}"
                   ItemsSource="{Binding UraRestInvoices, IsAsync=True}"
-                  Grid.Row="3" Grid.Column="0">
+                  Grid.ColumnSpan="5"
+                  Grid.Row="4" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Redni broj" 
                                     Binding="{Binding RedniBroj}"/>

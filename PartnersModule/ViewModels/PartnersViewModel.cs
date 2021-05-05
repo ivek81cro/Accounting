@@ -26,8 +26,8 @@ namespace PartnersModule.ViewModels
             _showDialog = showDialog;
             
             NewPartnerCommand = new DelegateCommand(AddNewPartner);
-            EditPartnerCommand = new DelegateCommand(EditPartner);
-            DeletePartnerCommand = new DelegateCommand(DeletePartner, CanDelete);
+            EditPartnerCommand = new DelegateCommand(EditPartner, IsSelected);
+            DeletePartnerCommand = new DelegateCommand(DeletePartner, IsSelected);
         }
 
         public DelegateCommand NewPartnerCommand { get; private set; }
@@ -53,6 +53,7 @@ namespace PartnersModule.ViewModels
             { 
                 SetProperty(ref _selectedPartner, value);
                 DeletePartnerCommand.RaiseCanExecuteChanged();
+                EditPartnerCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -77,7 +78,7 @@ namespace PartnersModule.ViewModels
                 true : ((PartnersModel)o).Naziv.ToLower().Contains(FilterPartners.ToLower());
         }
 
-        private bool CanDelete()
+        private bool IsSelected()
         {
             return SelectedPartner != null;
         }
@@ -112,11 +113,10 @@ namespace PartnersModule.ViewModels
         {
             var parameters = new DialogParameters();
             parameters.Add("partner", SelectedPartner);
-            _showDialog.ShowDialog(nameof(PartnerEdit), parameters, async result =>
+            _showDialog.ShowDialog(nameof(PartnerEdit), parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    PartnersModel partner = result.Parameters.GetValue<PartnersModel>("partner");
                     LoadPartners();
                 }
             });

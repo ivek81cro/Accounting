@@ -42,12 +42,14 @@ namespace BookUraModule.ViewModels
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
+            CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
         }
 
         #region Delegate commands
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
+        public DelegateCommand CalculationsReportCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -97,8 +99,7 @@ namespace BookUraModule.ViewModels
         public string FilterName
         {
             get { return _filterName; }
-            set
-            { SetProperty(ref _filterName, value); }
+            set { SetProperty(ref _filterName, value); }
         }
 
         private string _filePath;
@@ -121,6 +122,13 @@ namespace BookUraModule.ViewModels
             get { return _accountingSettings; }
             set { SetProperty(ref _accountingSettings, value); }
         }
+
+        private decimal _sumTotal;
+        public decimal SumTotal
+        {
+            get { return _sumTotal; }
+            set { SetProperty(ref _sumTotal, value); }
+        }
         #endregion
 
         public async void LoadPrimke()
@@ -129,7 +137,7 @@ namespace BookUraModule.ViewModels
             var primke = await _bookUraEndpoint.GetDiscounts();
             StatusMessage = "";
             UraRestInvoices = new ObservableCollection<BookUraRestModel>(primke);
-
+            FilterPrimke();
             LoadAccountingSettings();
         }
 
@@ -291,6 +299,22 @@ namespace BookUraModule.ViewModels
             }
 
             return result;
+        }
+        #endregion
+
+        #region Calculations dialog
+        private void ShowCalculationDialog()
+        {
+            var parameters = new DialogParameters();
+            var filteredItems = _filteredView.Cast<BookUraRestModel>().ToList();
+            parameters.Add("collection", filteredItems);
+            _showDialog.ShowDialog("CalculationDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
         #endregion
     }

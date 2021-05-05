@@ -1,4 +1,5 @@
 ﻿using AccountingUI.Core.Services;
+using BookUraModule.Dialogs;
 using BookUraModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -18,6 +19,8 @@ namespace BookUraModule
             containerRegistry.RegisterForNavigation<PrimkeRepro>();
             containerRegistry.RegisterForNavigation<RestView>();
             containerRegistry.RegisterForNavigation<PrimkeDiscounts>();
+
+            containerRegistry.RegisterDialog<CalculationDialog>();
 
             containerRegistry.RegisterScoped<IXlsFileReader, XlsFileReader>();
             containerRegistry.RegisterScoped<IBookUraEndpoint, BookUraEndpoint>();

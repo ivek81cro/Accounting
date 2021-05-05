@@ -37,23 +37,5 @@ namespace AccountingUI.Core.Models
 		public string Mbo { get; set; }
 		public string KontoK { get; set; }
 		public string KontoD { get; set; }
-
-        public void Reset()
-        {
-            Id = 0;
-            Oib = "";
-            Naziv = "";
-            Posta = "";
-            Mjesto = "";
-            Broj = "";
-            Ulica = "";
-            Telefon = "";
-            Fax = "";
-            Email = "";
-            Mbo = "";
-            KontoD = "";
-            KontoK = "";
-            Iban = "";
-        }
     }
 }

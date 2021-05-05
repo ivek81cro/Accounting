@@ -80,8 +80,7 @@ namespace PartnersModule.Dialogs
             }
             else 
             {
-                Partner = new PartnersModel();
-                Partner.Reset();
+                Partner = new();
             }
         }
 
@@ -102,8 +101,7 @@ namespace PartnersModule.Dialogs
             if (Partner != null && !Partner.HasErrors)
             {
                 await _partnersEndpoint.PostPartner(Partner);
-                var partner = await _partnersEndpoint.GetByOib(Partner.Oib);
-                AddAccountNumber();
+                await AddAccountNumber(Partner.Oib);
                 var result = ButtonResult.OK;
                 var p = new DialogParameters();
                 p.Add("partner", Partner);
@@ -112,8 +110,10 @@ namespace PartnersModule.Dialogs
             }
         }
 
-        private async void AddAccountNumber()
+        private async Task AddAccountNumber(string oib)
         {
+            Partner = await _partnersEndpoint.GetByOib(oib);
+
             if (IsBuyer)
             {
                 Partner.KontoK = "12";
@@ -127,7 +127,7 @@ namespace PartnersModule.Dialogs
             string kontoK = Partner.KontoK;
             string kontoD = Partner.KontoD;
 
-            if (kontoK.StartsWith("12"))
+            if (kontoK != null && kontoK.StartsWith("12"))
             {
                 while (kontoK.Length + sifra.Length < 8)
                 { 
@@ -137,7 +137,7 @@ namespace PartnersModule.Dialogs
                 await _bookAccountsEndpoint.Insert(new BookAccountModel { Konto = kontoK, Opis = Partner.Naziv });
             }
 
-            if (kontoD.StartsWith("22"))
+            if (kontoD != null && kontoD.StartsWith("22"))
             {
                 while (kontoD.Length + sifra.Length < 8)
                 {

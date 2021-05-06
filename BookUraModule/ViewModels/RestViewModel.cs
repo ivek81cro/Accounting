@@ -47,6 +47,9 @@ namespace BookUraModule.ViewModels
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
+            CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
+            LoadExpendituresCommand = new DelegateCommand(LoadOnlyRestExpenditures);
+            LoadRetailCommand = new DelegateCommand(LoadRetailInvoices);
         }
 
         #region Delegate commands
@@ -55,6 +58,9 @@ namespace BookUraModule.ViewModels
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
+        public DelegateCommand CalculationsReportCommand { get; private set; }
+        public DelegateCommand LoadExpendituresCommand { get; private set; }
+        public DelegateCommand LoadRetailCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -131,15 +137,39 @@ namespace BookUraModule.ViewModels
         }
         #endregion
 
+        #region Data loading
         public async void LoadPrimke()
+        {
+            await LoadInitialData();
+            FilterPrimke();
+            LoadAccountingSettings();
+        }
+
+        private async Task LoadInitialData()
         {
             StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookUraEndpoint.GetAll();
             StatusMessage = "";
             UraRestInvoices = new ObservableCollection<BookUraRestModel>(primke);
-
-            LoadAccountingSettings();
         }
+
+        public async void LoadOnlyRestExpenditures()
+        {
+            await LoadInitialData();
+            var expenditures = UraRestInvoices.Where(x => (x.BrojPrimke == 0 && x.IznosSPorezom > 0 && !x.Storno) 
+                                                            || (x.BrojPrimke == 0 && x.IznosSPorezom < 0 && x.Storno)).ToList();
+            UraRestInvoices = new ObservableCollection<BookUraRestModel>(expenditures);
+            FilterPrimke();
+        }
+        
+        public async void LoadRetailInvoices()
+        {
+            await LoadInitialData();
+            var expenditures = UraRestInvoices.Where(x => x.BrojPrimke != 0 ).ToList();
+            UraRestInvoices = new ObservableCollection<BookUraRestModel>(expenditures);
+            FilterPrimke();
+        }
+        #endregion
 
         #region Load accounting settings
         private void OpenAccountsSettings()
@@ -410,6 +440,22 @@ namespace BookUraModule.ViewModels
             }
 
             return result;
+        }
+        #endregion
+
+        #region Calculations dialog
+        private void ShowCalculationDialog()
+        {
+            var parameters = new DialogParameters();
+            var filteredItems = _filteredView.Cast<BookUraRestModel>().ToList();
+            parameters.Add("collection", filteredItems);
+            _showDialog.ShowDialog("CalculationDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
         #endregion
     }

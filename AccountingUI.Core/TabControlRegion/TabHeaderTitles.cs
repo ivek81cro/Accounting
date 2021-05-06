@@ -45,22 +45,22 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Izrada JOPPD obrasca";
                 case ViewNames.ArchiveView:
                     return "Arhiva obračuna";
-                case ViewNames.PrimkeView:
-                    return "URA - Primke";
                 case ViewNames.AccountsView:
                     return "Kontni plan";
+                case ViewNames.PrimkeView:
+                    return "URA-Kalkulacije primki";
                 case ViewNames.PrimkeRepro:
-                    return "URA - Repromaterijal";
+                    return "URA-Repromaterijal";
                 case ViewNames.PrimkeDiscounts:
-                    return "URA - Odobrenja";
+                    return "URA-Odobrenja";
                 case ViewNames.RestView:
-                    return "URA - sve";
+                    return "URA-sve";
                 case ViewNames.IraView:
-                    return "IRA - sve";
+                    return "IRA-sve";
                 case ViewNames.BankStatementView:
                     return "Izvodi";
                 case ViewNames.VatCalculation:
-                    return "PDV - izračun";
+                    return "PDV-izračun";
                 case ViewNames.AssetsFixedView:
                     return "Dugotrajna imovina";
                 case ViewNames.AssetsCurrentView:

@@ -275,7 +275,7 @@ namespace BookUraModule.ViewModels
         }
         #endregion
 
-        #region book items processing
+        #region Book items processing
         private bool CanProcess()
         {
             return SelectedUraPrimke != null;

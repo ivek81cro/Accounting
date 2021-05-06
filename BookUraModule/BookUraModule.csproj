@@ -8,6 +8,7 @@
   <ItemGroup>
     <None Remove="Views\Images\cogs.PNG" />
     <None Remove="Views\Images\discounts.PNG" />
+    <None Remove="Views\Images\filter.PNG" />
     <None Remove="Views\Images\loadFile.PNG" />
     <None Remove="Views\Images\save.PNG" />
     <None Remove="Views\Images\settings.PNG" />
@@ -24,6 +25,7 @@
   <ItemGroup>
     <Resource Include="Views\Images\cogs.PNG" />
     <Resource Include="Views\Images\discounts.PNG" />
+    <Resource Include="Views\Images\filter.PNG" />
     <Resource Include="Views\Images\loadFile.PNG" />
     <Resource Include="Views\Images\save.PNG" />
     <Resource Include="Views\Images\settings.PNG" />

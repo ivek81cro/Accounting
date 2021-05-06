@@ -206,7 +206,6 @@
                                     Binding="{Binding PreostaloZaUplatit, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Dospijeće dana" 
                                     Binding="{Binding DospijeceDana}"/>
-
             </DataGrid.Columns>
         </DataGrid>
 

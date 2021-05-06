@@ -17,6 +17,5 @@
         public decimal PretporezT25 { get; set; }
         public decimal UkupniPretporez { get; set; }
         public decimal OsnovicaUkupno { get; set; }
-
     }
 }

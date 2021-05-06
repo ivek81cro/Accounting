@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="BookUraModule.Dialogs.UraToXmlDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookUraModule.Dialogs"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
+             xmlns:prism="http://prismlibrary.com/">
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="MaxHeight" Value="950"/>
+            <Setter Property="Width" Value="800"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Kreiranje U-RA XML datoteke za ePoreznu" Margin="5" Padding="5"
+                   FontSize="18" Grid.ColumnSpan="4"
+                   Grid.Row="0" Grid.Column="0"/>
+
+        <TextBlock Text="Autor:" Margin="5" Padding="5" 
+                   Grid.Row="1" Grid.Column="0"/>
+        <TextBox Text="{Binding Autor}" Margin="5" Padding="5" Width="150"
+                 Grid.Row="1" Grid.Column="1"/>
+        
+        <Button Content="Generiraj" Margin="5" Padding="5" Width="80" Height="30"
+                Command="{Binding GenerateXmlCommand}"
+                HorizontalAlignment="Left" Grid.ColumnSpan="2"
+                Grid.Row="2" Grid.Column="0"/>
+
+        <DataGrid ItemsSource="{Binding UraList}" AutoGenerateColumns="False"
+                  CanUserAddRows="False" CanUserDeleteRows="False"
+                  Grid.ColumnSpan="4"
+                  Grid.Row="4" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Redni br." Binding="{Binding RedniBroj}"/>
+                <DataGridTextColumn Header="Datum" Binding="{Binding Datum,
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Broj računa" Binding="{Binding BrojRacuna}"/>
+                <DataGridTextColumn Header="Naziv dobavljača" Binding="{Binding NazivDobavljaca}"/>
+                <DataGridTextColumn Header="OIB" Binding="{Binding OIB}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>

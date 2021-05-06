@@ -50,6 +50,7 @@ namespace BookUraModule.ViewModels
             CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
             LoadExpendituresCommand = new DelegateCommand(LoadOnlyRestExpenditures);
             LoadRetailCommand = new DelegateCommand(LoadRetailInvoices);
+            CreateUraXmlCommand = new DelegateCommand(CreateUraXml);
         }
 
         #region Delegate commands
@@ -61,6 +62,7 @@ namespace BookUraModule.ViewModels
         public DelegateCommand CalculationsReportCommand { get; private set; }
         public DelegateCommand LoadExpendituresCommand { get; private set; }
         public DelegateCommand LoadRetailCommand { get; private set; }
+        public DelegateCommand CreateUraXmlCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -450,6 +452,24 @@ namespace BookUraModule.ViewModels
             var filteredItems = _filteredView.Cast<BookUraRestModel>().ToList();
             parameters.Add("collection", filteredItems);
             _showDialog.ShowDialog("CalculationDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
+        }
+        #endregion
+
+        #region U-RA creation
+        private void CreateUraXml()
+        {
+            var parameters = new DialogParameters();
+            var filteredItems = _filteredView.Cast<BookUraRestModel>().ToList();
+            DateTime[] period = { (DateTime)DateFrom, (DateTime)DateTo };            
+            parameters.Add("collection", filteredItems);
+            parameters.Add("period", period);
+            _showDialog.ShowDialog("UraToXmlDialog", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {

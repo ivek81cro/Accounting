@@ -21,6 +21,7 @@ namespace BookUraModule
             containerRegistry.RegisterForNavigation<PrimkeDiscounts>();
 
             containerRegistry.RegisterDialog<CalculationDialog>();
+            containerRegistry.RegisterDialog<UraToXmlDialog>();
 
             containerRegistry.RegisterScoped<IXlsFileReader, XlsFileReader>();
             containerRegistry.RegisterScoped<IBookUraEndpoint, BookUraEndpoint>();

@@ -52,8 +52,7 @@ namespace BookIraModule.Dialogs
                 Pdv25 = list.Sum(x => x.Pdv25),
                 UkupniPdv = list.Sum(x => x.UkupniPdv)
             };
-            Calculation.OsnovicaUkupno = Calculation.PoreznaOsnovica0
-                + Calculation.PoreznaOsnovica5
+            Calculation.OsnovicaUkupno = Calculation.PoreznaOsnovica5
                 + Calculation.PoreznaOsnovica13
                 + Calculation.PoreznaOsnovica25;
         }

@@ -50,7 +50,7 @@ namespace BookUraModule.ViewModels
             CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
             LoadExpendituresCommand = new DelegateCommand(LoadOnlyRestExpenditures);
             LoadRetailCommand = new DelegateCommand(LoadRetailInvoices);
-            CreateUraXmlCommand = new DelegateCommand(CreateUraXml);
+            CreateUraXmlCommand = new DelegateCommand(CreateUraXml, CanCreateXml);
         }
 
         #region Delegate commands
@@ -96,6 +96,7 @@ namespace BookUraModule.ViewModels
             set
             {
                 SetProperty(ref _dateFrom, value);
+                CreateUraXmlCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -106,6 +107,7 @@ namespace BookUraModule.ViewModels
             set
             {
                 SetProperty(ref _dateTo, value);
+                CreateUraXmlCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -462,6 +464,11 @@ namespace BookUraModule.ViewModels
         #endregion
 
         #region U-RA creation
+        private bool CanCreateXml()
+        {
+            return DateFrom != null && DateTo != null;
+        }
+
         private void CreateUraXml()
         {
             var parameters = new DialogParameters();

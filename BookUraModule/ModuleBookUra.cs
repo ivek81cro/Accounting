@@ -1,5 +1,6 @@
 ﻿using AccountingUI.Core.Services;
 using BookUraModule.Dialogs;
+using BookUraModule.ServiceLocal;
 using BookUraModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -29,6 +30,7 @@ namespace BookUraModule
             containerRegistry.RegisterScoped<IBookUraRestEndpoint, BookUraRestEndpoint>();
             containerRegistry.RegisterScoped<IBookAccountSettingsEndpoint, BookAccountSettingsEndpoint>();
             containerRegistry.RegisterScoped<IAccountPairsEndpoint, AccountPairsEndpoint>();
+            containerRegistry.RegisterScoped<IDataForXml, DataForXml>();
         }
     }
 }

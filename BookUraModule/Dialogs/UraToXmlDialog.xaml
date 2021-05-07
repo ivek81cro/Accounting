@@ -37,13 +37,19 @@
 
         <TextBlock Text="Autor:" Margin="5" Padding="5" 
                    Grid.Row="1" Grid.Column="0"/>
-        <TextBox Text="{Binding Autor}" Margin="5" Padding="5" Width="150"
+        <TextBox Text="{Binding Autor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                 Margin="5" Padding="5" Width="150"
                  Grid.Row="1" Grid.Column="1"/>
         
         <Button Content="Generiraj" Margin="5" Padding="5" Width="80" Height="30"
                 Command="{Binding GenerateXmlCommand}"
                 HorizontalAlignment="Left" Grid.ColumnSpan="2"
                 Grid.Row="2" Grid.Column="0"/>
+
+        <TextBlock Text="{Binding StatusMessage, Mode=TwoWay, 
+                   UpdateSourceTrigger=PropertyChanged}" Margin="5" Padding="5"
+                   Foreground="Red"
+                   Grid.Row="2" Grid.Column="2"/>
 
         <DataGrid ItemsSource="{Binding UraList}" AutoGenerateColumns="False"
                   CanUserAddRows="False" CanUserDeleteRows="False"

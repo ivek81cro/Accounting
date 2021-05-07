@@ -47,6 +47,7 @@ namespace BookIraModule.ViewModels
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
+            CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
         }
 
         #region Delegate commands
@@ -55,6 +56,7 @@ namespace BookIraModule.ViewModels
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
+        public DelegateCommand CalculationsReportCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -137,7 +139,7 @@ namespace BookIraModule.ViewModels
             var primke = await _bookIraEndpoint.GetAll();
             StatusMessage = "";
             IraItems = new ObservableCollection<BookIraModel>(primke);
-
+            FilterPrimke();
             LoadAccountingSettings();
         }
 
@@ -386,6 +388,22 @@ namespace BookIraModule.ViewModels
             }
 
             return result;
+        }
+        #endregion
+
+        #region Calculations dialog
+        private void ShowCalculationDialog()
+        {
+            var parameters = new DialogParameters();
+            var filteredItems = _filteredView.Cast<BookIraModel>().ToList();
+            parameters.Add("collection", filteredItems);
+            _showDialog.ShowDialog("IraCalculation", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using AccountingUI.Core.Services;
+using BookIraModule.Dialogs;
 using BookIraModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
@@ -18,6 +19,8 @@ namespace BookIraModule
 
             containerRegistry.RegisterScoped<IXlsFileReader, XlsFileReader>();
             containerRegistry.RegisterScoped<IBookIraEndpoint, BookIraEndpoint>();
+
+            containerRegistry.RegisterDialog<CalculationDialog>("IraCalculation");
         }
     }
 }

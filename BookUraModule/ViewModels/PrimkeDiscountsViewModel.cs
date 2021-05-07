@@ -308,7 +308,7 @@ namespace BookUraModule.ViewModels
             var parameters = new DialogParameters();
             var filteredItems = _filteredView.Cast<BookUraRestModel>().ToList();
             parameters.Add("collection", filteredItems);
-            _showDialog.ShowDialog("CalculationDialog", parameters, result =>
+            _showDialog.ShowDialog("UraCalculation", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {

@@ -12,6 +12,10 @@
             <Setter Property="Header" Value="{Binding DataContext.Title}"/>
         </Style>
     </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding ProcessPayrollCommand}" Modifiers="Ctrl" Key="K"/>
+    </UserControl.InputBindings>
+    
     <Grid>
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
@@ -43,7 +47,7 @@
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding ProcessPayrollCommand}" 
+                        Command="{Binding ProcessPayrollCommand}" ToolTip="CTRL + K"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\cogs.png" Height="30"/>

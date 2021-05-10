@@ -14,6 +14,9 @@
             <Setter Property="Header" Value="{Binding DataContext.Title}"/>
         </Style>
     </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding ProcessItemCommand}" Modifiers="Ctrl" Key="K"/>
+    </UserControl.InputBindings>
 
     <Grid>
         <i:Interaction.Triggers>
@@ -53,7 +56,7 @@
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding ProcessItemCommand}" 
+                        Command="{Binding ProcessItemCommand}" ToolTip="CTRL + K"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\cogs.png" Height="30"/>

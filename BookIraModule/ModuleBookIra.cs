@@ -16,9 +16,11 @@ namespace BookIraModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<IraView>();
+            containerRegistry.RegisterForNavigation<CashRegisterBookView>();
 
             containerRegistry.RegisterScoped<IXlsFileReader, XlsFileReader>();
             containerRegistry.RegisterScoped<IBookIraEndpoint, BookIraEndpoint>();
+            containerRegistry.RegisterScoped<ICashRegisterBookEndpoint, CashRegisterBookEndpoint>();
 
             containerRegistry.RegisterDialog<CalculationDialog>("IraCalculation");
         }

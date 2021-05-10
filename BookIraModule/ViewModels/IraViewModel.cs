@@ -315,6 +315,7 @@ namespace BookIraModule.ViewModels
 
             return item;
         }
+
         private bool CanProcess()
         {
             return SelectedIra != null;

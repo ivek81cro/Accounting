@@ -71,9 +71,12 @@
                               CommandParameter="PrimkeDiscounts"/>
                 </MenuItem>
                 <MenuItem Header="IRA">
-                    <MenuItem Header="Izlazni račun"
+                    <MenuItem Header="Svi izlazni računi"
                               Command="{Binding ShowMenuSelectedViewCommand}"
                               CommandParameter="IraView"/>
+                    <MenuItem Header="Knjiga blagajne"
+                              Command="{Binding ShowMenuSelectedViewCommand}"
+                              CommandParameter="CashRegisterBookView"/>
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="Osnovna sredstva">

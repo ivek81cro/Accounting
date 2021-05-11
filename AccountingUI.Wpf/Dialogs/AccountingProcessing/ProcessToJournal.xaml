@@ -91,6 +91,10 @@
                     <i:CallMethodAction TargetObject="{Binding}" 
                                         MethodName="SumSidesAndCompare"/>
                 </i:EventTrigger>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:CallMethodAction TargetObject="{Binding}" 
+                                        MethodName="OpenAccountsDialog"/>
+                </i:EventTrigger>
             </i:Interaction.Triggers>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Broj" 
@@ -100,11 +104,11 @@
                                               UpdateSourceTrigger=PropertyChanged, 
                                               Mode=TwoWay, StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Opis" 
-                                    Binding="{Binding Opis}"/>
+                                    Binding="{Binding Opis, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Dokument" 
-                                    Binding="{Binding Dokument}"/>
+                                    Binding="{Binding Dokument, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Konto" 
-                                    Binding="{Binding Konto}"/>
+                                    Binding="{Binding Konto, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Duguje" 
                                     Binding="{Binding Dugovna, StringFormat=N2, 
                                     UpdateSourceTrigger=PropertyChanged}"/>

@@ -148,5 +148,16 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
             Entries.Remove(SelectedEntry);
             SumSidesAndCompare();
         }
+
+        public void OpenAccountsDialog()
+        {
+            _showDialog.ShowDialog("AccountsSelectionDialog", null, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    SelectedEntry.Konto = result.Parameters.GetValue<BookAccountModel>("account").Konto;
+                }
+            });
+        }
     }
 }

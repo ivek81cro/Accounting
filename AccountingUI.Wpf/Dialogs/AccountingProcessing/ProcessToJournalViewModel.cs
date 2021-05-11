@@ -4,6 +4,7 @@ using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
@@ -17,16 +18,20 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
             _showDialog = openDialog;
 
             AccountsLinkCommand = new DelegateCommand(AddNewPair, CanAddPair);
+            AddRowCommand = new DelegateCommand(AddRow);
+            DeleteRowCommand = new DelegateCommand(DeleteRow);
         }
 
         public string Title => "Knjiženje na temeljnicu";
 
         public DelegateCommand AccountsLinkCommand { get; private set; }
+        public DelegateCommand AddRowCommand { get; private set; }
+        public DelegateCommand DeleteRowCommand { get; private set; }
 
         public event Action<IDialogResult> RequestClose;
 
-        private List<AccountingJournalModel> _entries;
-        public List<AccountingJournalModel> Entries
+        private ObservableCollection<AccountingJournalModel> _entries;
+        public ObservableCollection<AccountingJournalModel> Entries
         {
             get { return _entries; }
             set { SetProperty(ref _entries, value); }
@@ -64,6 +69,13 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
             set { SetProperty(ref _sidesEqual, value); }
         }
 
+        private string _bookName;
+        public string BookName
+        {
+            get { return _bookName; }
+            set { SetProperty(ref _bookName, value); }
+        }
+
         public bool CanCloseDialog()
         {
             return true;
@@ -76,11 +88,16 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            Entries = parameters.GetValue<List<AccountingJournalModel>>("entries");
+            var list = parameters.GetValue<List<AccountingJournalModel>>("entries");
+            if(list.Count > 0)
+            {
+                BookName = list[0].VrstaTemeljnice;
+            }
+            Entries = new ObservableCollection<AccountingJournalModel>(list);
             SumSidesAndCompare();
         }
 
-        private void SumSidesAndCompare()
+        public void SumSidesAndCompare()
         {
             Dugovna = Entries.Sum(x => x.Dugovna);
             Potrazna = Entries.Sum(x => x.Potrazna);
@@ -90,7 +107,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
 
         private bool CanAddPair()
         {
-            return SelectedEntry != null;
+            return SelectedEntry != null && SelectedEntry.Dokument!=null;
         }
 
         private void AddNewPair()
@@ -110,6 +127,26 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
                     }                    
                 }
             });
+        }
+
+        private void AddRow()
+        {
+            SelectedEntry = new AccountingJournalModel
+            {
+                VrstaTemeljnice = BookName
+            };
+            Entries.Add(SelectedEntry);
+            SelectedEntry.Datum = null;
+            SelectedEntry.Konto = null;
+            SelectedEntry.Dokument = null;
+            SelectedEntry.Opis = null;
+            SumSidesAndCompare();
+        }
+
+        private void DeleteRow()
+        {
+            Entries.Remove(SelectedEntry);
+            SumSidesAndCompare();
         }
     }
 }

@@ -4,6 +4,6 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT Id, RedniBroj, Datum, Gotovina, KreditneKartice, Sveukupno, IznosSudjelovanja
+	SELECT Id, RedniBroj, Datum, Gotovina, KreditneKartice, Sveukupno, IznosSudjelovanja, Knjizen
 	FROM CashRegisterJournal
 END

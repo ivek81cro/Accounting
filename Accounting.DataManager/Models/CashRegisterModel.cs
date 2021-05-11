@@ -11,5 +11,6 @@ namespace Accounting.DataManager.Models
         public decimal KreditneKartice { get; set; }
         public decimal Sveukupno { get; set; }
         public decimal IznosSudjelovanja { get; set; }
+        public bool Knjizen { get; set; }
     }
 }

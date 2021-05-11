@@ -49,7 +49,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Text="Za uplatu:" Margin="5" Padding="5"
+                <TextBlock Text="Iznos s PDV-om:" Margin="5" Padding="5"
                            Grid.Row="0" Grid.Column="0"/>
                 <TextBlock Text="{Binding Calculation.IznosSPdv, StringFormat=N2}" 
                            Margin="5" Padding="5" HorizontalAlignment="Right"
@@ -80,11 +80,6 @@
                            Margin="5" Padding="5" HorizontalAlignment="Right"
                            Grid.Row="5" Grid.Column="1"/>
 
-                <TextBlock Text="Iznos s porezom:" Margin="5" Padding="5"
-                           Grid.Row="0" Grid.Column="2"/>
-                <TextBlock Text="{Binding Calculation.IznosSPorezom, StringFormat=N2}" 
-                           Margin="5" Padding="5" HorizontalAlignment="Right"
-                           Grid.Row="0" Grid.Column="3"/>
                 <TextBlock Text="Pdv 5%:" Margin="5" Padding="5"
                            Grid.Row="2" Grid.Column="2"/>
                 <TextBlock Text="{Binding Calculation.Pdv5, StringFormat=N2}" 

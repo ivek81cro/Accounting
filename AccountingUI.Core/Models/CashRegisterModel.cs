@@ -53,5 +53,12 @@ namespace AccountingUI.Core.Models
             get { return _iznosSudjelovanja; }
             set { SetProperty(ref _iznosSudjelovanja, value); }
         }
+
+        private bool _knjizen;
+        public bool Knjizen
+        {
+            get { return _knjizen; }
+            set { SetProperty(ref _knjizen, value); }
+        }
     }
 }

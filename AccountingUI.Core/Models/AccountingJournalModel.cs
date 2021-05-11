@@ -7,9 +7,23 @@ namespace AccountingUI.Core.Models
     public class AccountingJournalModel : ValidationBindableBase
     {
         public int Id { get; set; }
-        public string Opis { get; set; }
-        public string Dokument { get; set; }
+        private string _opis;
+        [Required]
+        public string Opis
+        {
+            get { return _opis; }
+            set { SetProperty(ref _opis, value); }
+        }
+
+        private string _dokument;
+        [Required]
+        public string Dokument
+        {
+            get { return _dokument; }
+            set { SetProperty(ref _dokument, value); }
+        }
         public int Broj { get; set; }
+
         private string _konto;
         [Required]
         public string Konto
@@ -17,7 +31,15 @@ namespace AccountingUI.Core.Models
             get { return _konto; }
             set { SetProperty(ref _konto, value); }
         }
-        public DateTime? Datum { get; set; }
+
+        private DateTime? _datum;
+        [Required]
+        public DateTime? Datum
+        {
+            get { return _datum; }
+            set { SetProperty(ref _datum, value); }
+        }
+
         public string Valuta { get; set; }
         public decimal Dugovna { get; set; }
         public decimal Potrazna { get; set; }

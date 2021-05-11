@@ -318,7 +318,7 @@ namespace BookIraModule.ViewModels
 
         private bool CanProcess()
         {
-            return SelectedIra != null;
+            return SelectedIra != null && !SelectedIra.Knjizen;
         }
 
         private async void ProcessItem()

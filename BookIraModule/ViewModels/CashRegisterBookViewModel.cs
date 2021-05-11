@@ -20,7 +20,6 @@ namespace BookIraModule.ViewModels
         private readonly IXlsFileReader _xlsFileReader;
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
-        private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
         private readonly ICashRegisterBookEndpoint _cashRegisterBookEndpoint;
             
         private readonly string _bookName;
@@ -30,13 +29,11 @@ namespace BookIraModule.ViewModels
         public CashRegisterBookViewModel(IXlsFileReader xlsFileReader,
                                          IDialogService showDialog,
                                          IBookAccountSettingsEndpoint settingsEndpoint,
-                                         IAccountPairsEndpoint accoutPairsEndpoint, 
                                          ICashRegisterBookEndpoint cashRegisterBookEndpoint)
         {
             _xlsFileReader = xlsFileReader;
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
-            _accoutPairsEndpoint = accoutPairsEndpoint;
             _cashRegisterBookEndpoint = cashRegisterBookEndpoint;
 
             _bookName = "Blagajna";
@@ -304,7 +301,7 @@ namespace BookIraModule.ViewModels
 
         private bool CanProcess()
         {
-            return SelectedBookItem != null;
+            return SelectedBookItem != null && !SelectedBookItem.Knjizen;
         }
 
         private async void ProcessItem()

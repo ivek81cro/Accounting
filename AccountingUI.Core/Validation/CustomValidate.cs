@@ -33,6 +33,9 @@ namespace AccountingUI.Core.Validation
                 case "Iban":
                     ValidateIban((string)data, validationResults, name);
                     break;
+                case "Konto":
+                    ValidateAccount((string)data, validationResults, name);
+                    break;
             }
         }
 
@@ -72,6 +75,25 @@ namespace AccountingUI.Core.Validation
                 if (c < '0' || c > '9')
                 {
                    validationResults.Add(new ValidationResult("Unos smije sadržavati samo brojeve"));
+                }
+            }
+        }
+
+
+
+        private static void ValidateAccount(string data, ICollection<ValidationResult> validationResults, string name)
+        {
+            if (data == null)
+            {
+                validationResults.Add(new ValidationResult("Unos ne smije biti prazan"));
+                return;
+            }
+
+            foreach (char c in data)
+            {
+                if (c < '0' || c > '9')
+                {
+                    validationResults.Add(new ValidationResult("Unos smije sadržavati samo brojeve"));
                 }
             }
         }

@@ -147,7 +147,6 @@
     <Build Include="dbo\Tables\BookIra.sql" />
     <Build Include="dbo\Stored Procedures\spBookIra_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spBookIra_GetAll.sql" />
-    <Build Include="dbo\Tables\AccountingJouralPreparation.sql" />
     <Build Include="dbo\Tables\AccountPairs.sql" />
     <Build Include="dbo\Stored Procedures\spAccountPairs_GetByBookName.sql" />
     <Build Include="dbo\Stored Procedures\spAccountPairs_Insert.sql" />
@@ -174,6 +173,7 @@
     <Build Include="dbo\Tables\CashRegisterJournal.sql" />
     <Build Include="dbo\Stored Procedures\spCashRegister_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spCashRegister_InsertItems.sql" />
+    <Build Include="dbo\Tables\AccountingJournal.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

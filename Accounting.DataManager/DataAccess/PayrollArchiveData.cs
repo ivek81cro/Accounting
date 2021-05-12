@@ -86,7 +86,10 @@ namespace Accounting.DataManager.DataAccess
 
             InsertPayrollArchive(archive.Payrolls, id);
 
-            InsertSupplementArchive(archive.Supplements, id);
+            if (archive.Supplements != null)
+            {
+                InsertSupplementArchive(archive.Supplements, id); 
+            }
         }
 
         private int GetLatestId()

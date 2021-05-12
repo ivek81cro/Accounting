@@ -1,6 +1,8 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PayrollModule.ServiceLocal
@@ -8,10 +10,18 @@ namespace PayrollModule.ServiceLocal
     public class PayrollArchivePrepare : IPayrollArchivePrepare
     {
         private readonly IPayrollArchiveEndpoint _archiveEndpoint;
+        private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
+        private readonly string _bookName;
 
-        public PayrollArchivePrepare(IPayrollArchiveEndpoint archiveEndpoint)
+        private List<PayrollArchivePayrollModel> Payrolls = new();
+        private List<PayrollArchiveSupplementModel> Supplements = new();
+
+        public PayrollArchivePrepare(IPayrollArchiveEndpoint archiveEndpoint,
+                                     IAccountPairsEndpoint accoutPairsEndpoint)
         {
             _archiveEndpoint = archiveEndpoint;
+            _accoutPairsEndpoint = accoutPairsEndpoint;
+            _bookName = "Plaća";
         }
 
         private PayrollArchiveModel _archive;
@@ -92,6 +102,132 @@ namespace PayrollModule.ServiceLocal
                 return true;
             }
             return false;
+        }
+
+        private Dictionary<string, decimal> MapColumnToPropertyValue()
+        {
+            var pay = Payrolls;
+            var item = new Dictionary<string, decimal>();
+            item.Add("Bruto", pay.Sum(x => x.Bruto));
+            item.Add("Mio I.", pay.Sum(x => x.Mio1));
+            item.Add("Mio II.", pay.Sum(x => x.Mio2));
+            item.Add("Dohodak", pay.Sum(x => x.Dohodak));
+            item.Add("Odbitak", pay.Sum(x => x.Odbitak));
+            item.Add("Osnovica", pay.Sum(x => x.PoreznaOsnovica));
+            item.Add("Por. stopa I.", pay.Sum(x => x.PoreznaStopa1));
+            item.Add("Por. stopa II.", pay.Sum(x => x.PoreznaStopa2));
+            item.Add("Ukupno porezi", pay.Sum(x => x.UkupnoPorez));
+            item.Add("Prirez", pay.Sum(x => x.Prirez));
+            item.Add("Por. i prirez", pay.Sum(x => x.UkupnoPorezPrirez));
+            item.Add("Neto", pay.Sum(x => x.Neto));
+            item.Add("Dop. zdravstvo", pay.Sum(x => x.DoprinosZdravstvo));
+
+            return item;
+        }
+
+        public async Task<List<AccountingJournalModel>> CreateJournalEntries(List<PayrollArchivePayrollModel> payrolls,
+                                                                             PayrollArchiveHeaderModel selectedArchive,
+                                                                             List<BookAccountsSettingsModel> accountingSettings,
+                                                                             List<PayrollArchiveSupplementModel> supplements)
+        {
+            Payrolls = payrolls;
+            Supplements = supplements;
+            var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
+
+            var mappings = MapColumnToPropertyValue();
+            var entry = selectedArchive;
+            List<AccountingJournalModel> entries = new();
+            foreach (var setting in accountingSettings)
+            {
+                var value = mappings.GetValueOrDefault(setting.Name);
+                value *= setting.Prefix ? (-1) : 1;
+                if (value != 0)
+                {
+                    entries.Add(new AccountingJournalModel
+                    {
+                        Broj = 0,
+                        Dokument = entry.Opis,
+                        Datum = entry.DatumObracuna,
+                        Opis = setting.Name,
+                        Konto = setting.Account,
+                        Dugovna = setting.Side == "Dugovna" ? value : 0,
+                        Potrazna = setting.Side == "Potražna" ? value : 0,
+                        Valuta = "HRK",
+                        VrstaTemeljnice = _bookName
+                    });
+                }
+            }
+
+            if (supplements.Count > 0)
+            {
+                var supplSum = supplements.Sum(x => x.Iznos);
+                await AddSupplementEntries(entry, entries, supplSum);
+            }
+
+            return entries;
+        }
+
+        private async Task AddSupplementEntries(PayrollArchiveHeaderModel entry,
+                                                List<AccountingJournalModel> entries,
+                                                decimal supplSum)
+        {
+            entries.Add(new AccountingJournalModel
+            {
+                Broj = 0,
+                Dokument = entry.Opis,
+                Datum = entry.DatumObracuna,
+                Opis = "Dodaci ukupno",
+                Konto = "2300",
+                Dugovna = 0,
+                Potrazna = supplSum,
+                Valuta = "HRK",
+                VrstaTemeljnice = _bookName
+            });
+
+            List<PayrollArchiveSupplementModel> supplements = new();
+            supplements = Supplements
+                .GroupBy(x => x.Sifra)
+                .Select(y => new PayrollArchiveSupplementModel
+                {
+                    Sifra = y.First().Sifra,
+                    Naziv = y.First().Naziv,
+                    Iznos = y.Sum(z => z.Iznos)
+                }).ToList();
+
+            foreach (var sup in supplements)
+            {
+                entries.Add(new AccountingJournalModel
+                {
+                    Broj = 0,
+                    Dokument = entry.Opis,
+                    Datum = entry.DatumObracuna,
+                    Opis = sup.Naziv,
+                    Konto = await FindLinkedAccount(entry.Opis, sup.Naziv),
+                    Dugovna = sup.Iznos,
+                    Potrazna = 0,
+                    Valuta = "HRK",
+                    VrstaTemeljnice = _bookName
+                });
+
+            }
+        }
+
+        private async Task<string> FindLinkedAccount(string opis, string naziv)
+        {
+            var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
+            string result = null;
+            if (pairs.Count != 0)
+            {
+                foreach (var pair in pairs)
+                {
+                    if (naziv.Contains(pair.Description))
+                    {
+                        return result = pair.Account;
+                    }
+                }
+            }
+
+            return result;
         }
     }
 }

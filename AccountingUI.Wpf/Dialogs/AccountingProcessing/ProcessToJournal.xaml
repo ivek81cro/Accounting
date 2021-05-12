@@ -9,6 +9,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}" x:Key="WrapText">
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
         <Style x:Key="txtRunning" TargetType="TextBlock">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding SidesEqual, UpdateSourceTrigger=PropertyChanged,
@@ -30,7 +33,7 @@
             <Setter Property="ResizeMode" Value="NoResize"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
             <Setter Property="Height" Value="550"/>
-            <Setter Property="Width" Value="950"/>
+            <Setter Property="Width" Value="800"/>
         </Style>
     </prism:Dialog.WindowStyle>
 
@@ -103,8 +106,9 @@
                                     Binding="{Binding Datum, ValidatesOnExceptions=True,
                                               UpdateSourceTrigger=PropertyChanged, 
                                               Mode=TwoWay, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                <DataGridTextColumn Header="Opis" 
-                                    Binding="{Binding Opis, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Opis" MaxWidth="400"
+                                    Binding="{Binding Opis, UpdateSourceTrigger=PropertyChanged}"
+                                    ElementStyle="{StaticResource WrapText}"/>
                 <DataGridTextColumn Header="Dokument" 
                                     Binding="{Binding Dokument, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Konto" 

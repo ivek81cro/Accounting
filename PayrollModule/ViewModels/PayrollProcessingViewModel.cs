@@ -285,7 +285,7 @@ namespace PayrollModule.ViewModels
             set
             {
                 SetProperty(ref _filterSupplementsDisplay, value);
-                _supplementsView.Refresh();
+                _supplementsView?.Refresh();
             }
         }
 

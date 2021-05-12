@@ -1,6 +1,7 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
+using PayrollModule.ServiceLocal;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
@@ -18,7 +19,7 @@ namespace PayrollModule.ViewModels
         private readonly IDialogService _showDialog;
         private readonly IRegionManager _regionManager;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
-        private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
+        private readonly IPayrollArchivePrepare _payrollArchivePrepare;
 
         private List<PayrollArchiveHeaderModel> _archiveHeaders;
         private List<PayrollArchivePayrollModel> _archivePayrolls;
@@ -30,13 +31,14 @@ namespace PayrollModule.ViewModels
                                 IDialogService showDialog,
                                 IRegionManager regionManager,
                                 IBookAccountSettingsEndpoint settingsEndpoint,
-                                IAccountPairsEndpoint accoutPairsEndpoint)
+                                IAccountPairsEndpoint accoutPairsEndpoint,
+                                IPayrollArchivePrepare payrollArchivePrepare)
         {
             _archiveEndpoint = archiveEndpoint;
             _showDialog = showDialog;
             _regionManager = regionManager;
             _settingsEndpoint = settingsEndpoint;
-            _accoutPairsEndpoint = accoutPairsEndpoint;
+            _payrollArchivePrepare = payrollArchivePrepare;
             _bookName = "Plaća";
 
             DeletePayrollCommand = new DelegateCommand(DeleteSelectedRecord, CanDelete);
@@ -233,27 +235,7 @@ namespace PayrollModule.ViewModels
         }
         #endregion
 
-        #region Book item processing
-        private Dictionary<string, decimal> MapColumnToPropertyValue()
-        {
-            var pay = Payrolls;
-            var item = new Dictionary<string, decimal>();
-            item.Add("Bruto", pay.Sum(x => x.Bruto));
-            item.Add("Mio I.", pay.Sum(x => x.Mio1));
-            item.Add("Mio II.", pay.Sum(x => x.Mio2));
-            item.Add("Dohodak", pay.Sum(x => x.Dohodak));
-            item.Add("Odbitak", pay.Sum(x => x.Odbitak));
-            item.Add("Osnovica", pay.Sum(x => x.PoreznaOsnovica));
-            item.Add("Por. stopa I.", pay.Sum(x => x.PoreznaStopa1));
-            item.Add("Por. stopa II.", pay.Sum(x => x.PoreznaStopa2));
-            item.Add("Ukupno porezi", pay.Sum(x => x.UkupnoPorez));
-            item.Add("Prirez", pay.Sum(x => x.Prirez));
-            item.Add("Por. i prirez", pay.Sum(x => x.UkupnoPorezPrirez));
-            item.Add("Neto", pay.Sum(x => x.Neto));
-            item.Add("Dop. zdravstvo", pay.Sum(x => x.DoprinosZdravstvo));
-
-            return item;
-        }
+        #region Book item processing        
         private bool CanProcess()
         {
             return SelectedArchive != null;
@@ -261,7 +243,7 @@ namespace PayrollModule.ViewModels
 
         private async void ProcessItem()
         {
-            var entries = await CreateJournalEntries();
+            var entries = await _payrollArchivePrepare.CreateJournalEntries(Payrolls.ToList(), SelectedArchive, AccountingSettings, Supplements.ToList());
             var parameters = new DialogParameters();
             parameters.Add("entries", entries);
             _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
@@ -271,37 +253,7 @@ namespace PayrollModule.ViewModels
 
                 }
             });
-        }
-
-        private async Task<List<AccountingJournalModel>> CreateJournalEntries()
-        {
-            var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
-
-            var mappings = MapColumnToPropertyValue();
-            var entry = SelectedArchive;
-            var entries = new List<AccountingJournalModel>();
-            foreach (var setting in AccountingSettings)
-            {                
-                var value = mappings.GetValueOrDefault(setting.Name);
-                value *= setting.Prefix ? (-1) : 1;
-                if (value != 0)
-                {
-                    entries.Add(new AccountingJournalModel
-                    {
-                        Broj = 0,
-                        Dokument = entry.Opis,
-                        Datum = entry.DatumObracuna,
-                        Opis = setting.Name,
-                        Konto = setting.Account,
-                        Dugovna = setting.Side == "Dugovna" ? value : 0,
-                        Potrazna = setting.Side == "Potražna" ? value : 0,
-                        Valuta = "HRK",
-                        VrstaTemeljnice = _bookName
-                    });
-                }
-            }
-            return entries;
-        }
+        }        
         #endregion
     }
 }

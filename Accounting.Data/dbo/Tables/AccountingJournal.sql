@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[AccountingJouralPreparation]
+﻿CREATE TABLE [dbo].[AccountingJournal]
 (
 	[Id] INT IDENTITY,
     [Opis] NVARCHAR(255) NOT NULL,

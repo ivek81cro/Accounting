@@ -7,6 +7,7 @@ namespace AccountingUI.Core.Models
     public class AccountingJournalModel : ValidationBindableBase
     {
         public int Id { get; set; }
+
         private string _opis;
         [Required]
         public string Opis

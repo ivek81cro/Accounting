@@ -109,8 +109,8 @@ namespace PayrollModule.ServiceLocal
             var pay = Payrolls;
             var item = new Dictionary<string, decimal>();
             item.Add("Bruto", pay.Sum(x => x.Bruto));
-            item.Add("Mio I.", pay.Sum(x => x.Mio1));
-            item.Add("Mio II.", pay.Sum(x => x.Mio2));
+            item.Add("MIO I.", pay.Sum(x => x.Mio1));
+            item.Add("MIO II.", pay.Sum(x => x.Mio2));
             item.Add("Dohodak", pay.Sum(x => x.Dohodak));
             item.Add("Odbitak", pay.Sum(x => x.Odbitak));
             item.Add("Osnovica", pay.Sum(x => x.PoreznaOsnovica));

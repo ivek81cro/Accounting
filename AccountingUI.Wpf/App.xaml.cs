@@ -46,8 +46,6 @@ namespace AccountingUI.WPF
             containerRegistry.RegisterInstance<IConfiguration>(AddConfiguration());
             containerRegistry.RegisterInstance<IMapper>(ConfigureAutomapper());
 
-            containerRegistry.RegisterForNavigation<StartView>();
-
             containerRegistry.RegisterDialog<AreYouSureView>();
             containerRegistry.RegisterDialog<AccountsLinkDialog>();
             containerRegistry.RegisterDialog<AccountsSelectionDialog>();

@@ -5,11 +5,9 @@ using PayrollModule.ServiceLocal;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PayrollModule.ViewModels
 {
@@ -31,7 +29,6 @@ namespace PayrollModule.ViewModels
                                 IDialogService showDialog,
                                 IRegionManager regionManager,
                                 IBookAccountSettingsEndpoint settingsEndpoint,
-                                IAccountPairsEndpoint accoutPairsEndpoint,
                                 IPayrollArchivePrepare payrollArchivePrepare)
         {
             _archiveEndpoint = archiveEndpoint;
@@ -47,11 +44,14 @@ namespace PayrollModule.ViewModels
             ProcessPayrollCommand = new DelegateCommand(ProcessItem, CanProcess);
         }
 
+        #region Delegate commands
         public DelegateCommand CreateJoppdFormCommand { get; private set; }
         public DelegateCommand DeletePayrollCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand ProcessPayrollCommand { get; private set; }
+        #endregion
 
+        #region Properties
         private ObservableCollection<PayrollArchiveHeaderModel> _accountingHeaders;
         public ObservableCollection<PayrollArchiveHeaderModel> AccountingHeaders
         {
@@ -124,7 +124,9 @@ namespace PayrollModule.ViewModels
             get { return _accountingSettings; }
             set { SetProperty(ref _accountingSettings, value); }
         }
+        #endregion
 
+        #region Load Archive, details, sum values
         public async void LoadArchive()
         {
             _archiveHeaders = new();
@@ -167,7 +169,9 @@ namespace PayrollModule.ViewModels
 
             PayrollExpense = BrutoSum + HealthcareSum + SupplementsSum;
         }
+        #endregion
 
+        #region Deleting selected record
         private void DeleteSelectedRecord()
         {
             if(SelectedArchive != null)
@@ -190,7 +194,9 @@ namespace PayrollModule.ViewModels
         {
             return SelectedArchive != null;
         }
+        #endregion
 
+        #region Create JOPPD XML document
         private void CreateJoppdDialog()
         {
             PayrollArchiveModel archive = new PayrollArchiveModel
@@ -211,6 +217,7 @@ namespace PayrollModule.ViewModels
         {
             return SelectedArchive != null;
         }
+        #endregion
 
         #region Load accounting settings
         private void OpenAccountsSettings()
@@ -235,7 +242,7 @@ namespace PayrollModule.ViewModels
         }
         #endregion
 
-        #region Book item processing        
+        #region Book item processing       
         private bool CanProcess()
         {
             return SelectedArchive != null;

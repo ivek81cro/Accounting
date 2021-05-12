@@ -7,6 +7,7 @@ using Prism.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Data;
 
 namespace PayrollModule.ViewModels
@@ -37,7 +38,6 @@ namespace PayrollModule.ViewModels
         public DelegateCommand SaveToArchiveCommand { get; private set; }
 
         #region Archive Preparation And Save
-
         private string _saveStatusMessage;
         public string SaveStatusMessage
         {
@@ -82,7 +82,7 @@ namespace PayrollModule.ViewModels
                 }
             }
 
-            _archive = _processPayroll.Process(PayrollCalculations, SupplementCalculations, Accounting);
+            _archive = _processPayroll.Process(PayrollCalculations.ToList(), SupplementCalculations.ToList(), Accounting);
 
             InitializeArchivePreparationDatagrid();
 
@@ -326,11 +326,9 @@ namespace PayrollModule.ViewModels
                 }
             }
         }
-
         #endregion
 
         #region PayrollAccounting
-
         private PayrollArchiveHeaderModel _accounting = new();
         public PayrollArchiveHeaderModel Accounting
         {

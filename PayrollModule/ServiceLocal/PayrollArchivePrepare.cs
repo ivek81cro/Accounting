@@ -13,6 +13,10 @@ namespace PayrollModule.ServiceLocal
         private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
         private readonly string _bookName;
 
+        private PayrollArchiveModel _archive;
+        private List<PayrollArchivePayrollModel> _payrolls;
+        private List<PayrollArchiveSupplementModel> _supplements;
+
         private List<PayrollArchivePayrollModel> Payrolls = new();
         private List<PayrollArchiveSupplementModel> Supplements = new();
 
@@ -24,13 +28,9 @@ namespace PayrollModule.ServiceLocal
             _bookName = "Plaća";
         }
 
-        private PayrollArchiveModel _archive;
-        private ObservableCollection<PayrollArchivePayrollModel> _payrolls;
-        private ObservableCollection<PayrollArchiveSupplementModel> _supplements;
-
-        public PayrollArchiveModel Process(ObservableCollection<PayrollArchivePayrollModel> payrollCalculations,
-            ObservableCollection<PayrollArchiveSupplementModel> supplementCalculations,
-            PayrollArchiveHeaderModel payrollAccounting)
+        public PayrollArchiveModel Process(List<PayrollArchivePayrollModel> payrollCalculations,
+                                           List<PayrollArchiveSupplementModel> supplementCalculations,
+                                           PayrollArchiveHeaderModel payrollAccounting)
         {
             _archive = new();
             _payrolls = payrollCalculations;

@@ -64,14 +64,13 @@ namespace AccountingUI.Core.Services
             }
         }
 
-        public async Task<List<BankReportItemModel>> GetItems(int headerId)
+        public async Task<bool> PostHeader(BankReportModel header)
         {
-            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/BankReport/GetItems/{headerId}"))
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/BankReport/Header", header))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<List<BankReportItemModel>>();
-                    return result;
+                    return true;
                 }
                 else
                 {
@@ -80,13 +79,29 @@ namespace AccountingUI.Core.Services
             }
         }
 
-        public async Task<bool> PostHeader(BankReportModel header)
+        public async Task UpdateHeader(BankReportModel reportHeader)
         {
-            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/BankReport/Header", header))
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/BankReport/Update", reportHeader))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return true;
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<List<BankReportItemModel>> GetItems(int headerId)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/BankReport/GetItems/{headerId}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<BankReportItemModel>>();
+                    return result;
                 }
                 else
                 {

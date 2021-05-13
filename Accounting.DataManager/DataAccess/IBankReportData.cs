@@ -12,5 +12,6 @@ namespace Accounting.DataManager.DataAccess
         List<BankReportItemModel> GetItems(int reportNumber);
         BankReportItemModel GetHeader(int reportNumber);
         List<BankReportModel> GetAllHeaders();
+        void UpdateHeader(BankReportModel reportHeader);
     }
 }

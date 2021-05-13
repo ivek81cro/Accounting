@@ -7,6 +7,7 @@ using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -35,12 +36,14 @@ namespace BankkStatementsModule.ViewModels
             LoadReportCommand = new DelegateCommand(LoadReport);
             ChangeDataCommand = new DelegateCommand(ChangeData);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
+            DeleteReportCommand = new DelegateCommand(DeleteReport, CanDelete);
         }
 
         public DelegateCommand LoadDataCommand { get; private set; }
         public DelegateCommand LoadReportCommand { get; private set; }
         public DelegateCommand ChangeDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
+        public DelegateCommand DeleteReportCommand { get; private set; }
 
         private BankReportModel _reportHeader;
         public BankReportModel ReportHeader
@@ -49,8 +52,8 @@ namespace BankkStatementsModule.ViewModels
             set { SetProperty(ref _reportHeader, value); }
         }
 
-        private List<BankReportModel> _allHeaders;
-        public List<BankReportModel> AllHeaders
+        private ObservableCollection<BankReportModel> _allHeaders;
+        public ObservableCollection<BankReportModel> AllHeaders
         {
             get { return _allHeaders; }
             set { SetProperty(ref _allHeaders, value); }
@@ -79,7 +82,8 @@ namespace BankkStatementsModule.ViewModels
 
         public async void LoadReports()
         {
-            AllHeaders = await _bankReportEndpoint.GetAllHeaders();
+            var list = await _bankReportEndpoint.GetAllHeaders();
+            AllHeaders = new ObservableCollection<BankReportModel>(list);
         }
 
         private void OpenStatementFile()
@@ -171,6 +175,7 @@ namespace BankkStatementsModule.ViewModels
                 ReportItems = await _bankReportEndpoint.GetItems(ReportHeader.Id);
                 SumSides();
                 ProcessItemCommand.RaiseCanExecuteChanged();
+                DeleteReportCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -221,20 +226,31 @@ namespace BankkStatementsModule.ViewModels
             return entries;
         }
 
-        private bool CanProcess() => ReportHeader != null && ReportItems != null;
+        private bool CanProcess() => ReportHeader != null && !ReportHeader.Knjizen && ReportItems != null;
 
         private void ProcessItem()
         {
             var entries = CreateJournalEntries();
             var parameters = new DialogParameters();
             parameters.Add("entries", entries);
-            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            _showDialog.ShowDialog("ProcessToJournal", parameters, async result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {
-
+                    ReportHeader.Knjizen = true;
+                    await _bankReportEndpoint.UpdateHeader(ReportHeader);
                 }
             });
+        }
+
+        private bool CanDelete()
+        {
+            return ReportHeader != null && !ReportHeader.Knjizen;
+        }
+
+        private void DeleteReport()
+        {
+            _bankReportEndpoint.Delete(ReportHeader.Id);
         }
     }
 }

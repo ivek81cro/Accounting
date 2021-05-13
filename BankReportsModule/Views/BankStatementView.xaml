@@ -67,6 +67,14 @@
                     <TextBlock Text="Knjiži"/>
                 </StackPanel>
             </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding DeleteReportCommand}" ToolTip="CTRL + K"
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\kanta.png" Height="30"/>
+                    <TextBlock Text="Briši"/>
+                </StackPanel>
+            </Button>
             <TextBlock Text="{Binding StatusMessage}" FontSize="24" Margin="50 0 0 0"
                        Foreground="OrangeRed" VerticalAlignment="Center"/>
 
@@ -164,7 +172,9 @@
                 <DataGridTextColumn Header="Br. izvoda" Binding="{Binding RedniBroj}"/>
                 <DataGridTextColumn Header="Datum" Binding="{Binding DatumIzvoda,
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
-                <DataGridCheckBoxColumn Header="Knjižen" Binding="{Binding Knjizen}"/>
+                <DataGridCheckBoxColumn Header="Knjižen" Binding="{Binding Knjizen, 
+                                        UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                        IsReadOnly="True"/>
             </DataGrid.Columns>            
         </DataGrid>
 

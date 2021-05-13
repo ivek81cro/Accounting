@@ -12,6 +12,11 @@ namespace AccountingUI.Core.Models
         public decimal SumaDugovna { get; set; }
         public decimal StanjePrethodnogIzvoda { get; set; }
         public decimal NovoStanje { get; set; }
-        public bool Knjizen { get; set; }
+        private bool _knjizen;
+        public bool Knjizen
+        {
+            get { return _knjizen; }
+            set { SetProperty(ref _knjizen, value); }
+        }
     }
 }

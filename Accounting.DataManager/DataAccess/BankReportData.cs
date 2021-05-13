@@ -43,13 +43,13 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
-        public void InsertItems(List<BankReportItemModel> items)
+        public void UpdateHeader(BankReportModel reportHeader)
         {
             try
             {
                 _sql.StartTransaction("AccountingConnStr");
 
-                _sql.SaveDataInTransaction("dbo.spBankReports_InsertItems", items);
+                _sql.SaveDataInTransaction("dbo.spBankReports_UpdateHeader", reportHeader);
             }
             catch (System.Exception)
             {
@@ -58,15 +58,13 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
-        public void Delete(int id)
+        public void InsertItems(List<BankReportItemModel> items)
         {
             try
             {
                 _sql.StartTransaction("AccountingConnStr");
 
-                _sql.LoadDataInTransaction<CityModel, dynamic>("dbo.spBankReports_Delete", new { Id = id });
-
-                _sql.CommitTransaction();
+                _sql.SaveDataInTransaction("dbo.spBankReports_InsertItems", items);
             }
             catch (System.Exception)
             {
@@ -112,6 +110,23 @@ namespace Accounting.DataManager.DataAccess
                 _sql.StartTransaction("AccountingConnStr");
 
                 return _sql.LoadDataInTransaction<BankReportModel, dynamic>("dbo.spBankReports_GetAllHeaders", new { });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
+        public void Delete(int id)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.LoadDataInTransaction<CityModel, dynamic>("dbo.spBankReports_Delete", new { Id = id });
+
+                _sql.CommitTransaction();
             }
             catch (System.Exception)
             {

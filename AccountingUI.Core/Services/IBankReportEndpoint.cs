@@ -12,5 +12,7 @@ namespace AccountingUI.Core.Services
         Task<BankReportModel> GetHeader(int id);
         Task<List<BankReportItemModel>> GetItems(int headerId);
         Task<List<BankReportModel>> GetAllHeaders();
+        Task UpdateHeader(BankReportModel reportHeader);
+        Task Delete(int id);
     }
 }

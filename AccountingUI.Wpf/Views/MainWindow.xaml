@@ -79,6 +79,10 @@
                               CommandParameter="CashRegisterBookView"/>
                 </MenuItem>
                 <Separator/>
+                <MenuItem Header="Temeljnice"
+                          Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="JournalView"/>
+                <Separator/>
                 <MenuItem Header="Osnovna sredstva">
                     <MenuItem Header="Dugotrajna imovina" 
                               Command="{Binding ShowMenuSelectedViewCommand}"

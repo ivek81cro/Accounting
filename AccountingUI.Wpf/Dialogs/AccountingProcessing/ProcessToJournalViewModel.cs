@@ -1,4 +1,5 @@
 ﻿using AccountingUI.Core.Models;
+using AccountingUI.Core.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -12,14 +13,17 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
     public class ProcessToJournalViewModel : BindableBase, IDialogAware
     {
         private readonly IDialogService _showDialog;
+        private readonly IAccountingJournalEndpoint _accountingJournalEndpoint;
 
-        public ProcessToJournalViewModel(IDialogService openDialog)
+        public ProcessToJournalViewModel(IDialogService openDialog, IAccountingJournalEndpoint accountingJournalEndpoint)
         {
             _showDialog = openDialog;
+            _accountingJournalEndpoint = accountingJournalEndpoint;
 
             AccountsLinkCommand = new DelegateCommand(AddNewPair, CanAddPair);
             AddRowCommand = new DelegateCommand(AddRow);
             DeleteRowCommand = new DelegateCommand(DeleteRow);
+            ProcessCommand = new DelegateCommand(ProcessRows);
         }
 
         public string Title => "Knjiženje na temeljnicu";
@@ -27,6 +31,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
         public DelegateCommand AccountsLinkCommand { get; private set; }
         public DelegateCommand AddRowCommand { get; private set; }
         public DelegateCommand DeleteRowCommand { get; private set; }
+        public DelegateCommand ProcessCommand { get; private set; }
 
         public event Action<IDialogResult> RequestClose;
 
@@ -158,6 +163,15 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
                     SelectedEntry.Konto = result.Parameters.GetValue<BookAccountModel>("account").Konto;
                 }
             });
+        }
+
+        private async void ProcessRows()
+        {
+            bool result = await _accountingJournalEndpoint.Post(Entries.ToList());
+            if (result)
+            {
+                RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
+            }
         }
     }
 }

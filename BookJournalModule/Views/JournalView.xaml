@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="BookJournalModule.Views.JournalView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookJournalModule.Views"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Orientation="Horizontal" Margin="0" Grid.ColumnSpan="3"
+                    Grid.Row="0" Grid.Column="0">
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding LoadDataCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\loadFile.png" Height="30"/>
+                    <TextBlock Text="Učitaj"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding ChangeDataCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\save.png" Height="30"/>
+                    <TextBlock Text="Izmijeni"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding ProcessItemCommand}" ToolTip="CTRL + K"
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\cogs.png" Height="30"/>
+                    <TextBlock Text="Knjiži"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding DeleteReportCommand}" ToolTip="CTRL + K"
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\kanta.png" Height="30"/>
+                    <TextBlock Text="Briši"/>
+                </StackPanel>
+            </Button>
+            <TextBlock Text="{Binding StatusMessage}" FontSize="24" Margin="50 0 0 0"
+                       Foreground="OrangeRed" VerticalAlignment="Center"/>
+
+            <Border BorderBrush="Black" BorderThickness="1" Padding="5" Margin="50 0 0 0">
+                <Grid HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="115"/>
+                        <ColumnDefinition Width="79"/>
+                        <ColumnDefinition Width="1"/>
+                        <ColumnDefinition Width="1"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="90"/>
+                    </Grid.ColumnDefinitions>
+
+                    
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
+                   Grid.ColumnSpan="3"
+                   Grid.Row="1" Grid.Column="0"/>
+        
+    </Grid>
+</UserControl>

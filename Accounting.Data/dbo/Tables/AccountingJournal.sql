@@ -8,7 +8,7 @@
     [Datum] DATETIME2 NOT NULL,
     [Valuta] NVARCHAR(5) NOT NULL,
     [Dugovna] DECIMAL(9,2) NOT NULL,
-    [Potražna] DECIMAL(9,2) NOT NULL,
+    [Potrazna] DECIMAL(9,2) NOT NULL,
     [VrstaTemeljnice] NVARCHAR(125) NOT NULL,
     [BrojTemeljnice] INT NOT NULL
 )

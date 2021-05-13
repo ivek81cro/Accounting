@@ -42,6 +42,7 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -56,18 +57,22 @@
                    Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"/>
 
         <Button Content="Poveži konto" Command="{Binding AccountsLinkCommand}"
-                Width="85" Height="25" Padding="5" Margin="5"
+                Width="85" Height="30" Padding="5" Margin="5"
                 Grid.Column="0" Grid.Row="1"/>
 
         <Button Content="Dodaj red" Command="{Binding AddRowCommand}"
-                Width="85" Height="25" Padding="5" Margin="5"
+                Width="85" Height="30" Padding="5" Margin="5"
                 Grid.Column="1" Grid.Row="1"/>
 
         <Button Content="Briši red" Command="{Binding DeleteRowCommand}"
-                Width="85" Height="25" Padding="5" Margin="5"
+                Width="85" Height="30" Padding="5" Margin="5"
                 Grid.Column="2" Grid.Row="1"/>
 
-        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" 
+        <Button Content="Knjiži" Command="{Binding ProcessCommand}"
+                Width="85" Height="30" Padding="5" Margin="5"
+                Grid.Column="3" Grid.Row="1"/>
+
+        <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" 
                     Orientation="Horizontal">
             <TextBlock Text="Kontrola - " Margin="5" Padding="5" FontWeight="Bold"/>
             <TextBlock Text="Dugovna:" Margin="5" Padding="5" FontWeight="Bold"/>
@@ -87,7 +92,7 @@
                   CanUserReorderColumns="False" CanUserDeleteRows="False"
                   CanUserAddRows="False" CanUserSortColumns="False"
                   SelectedItem="{Binding SelectedEntry}"
-                  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4">
+                  Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5">
 
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CellEditEnding">

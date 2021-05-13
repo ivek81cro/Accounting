@@ -1,6 +1,7 @@
 ﻿using Accounting.MainModule.Dialogs.AreYouSure;
 using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
+using AccountingUI.Core.Services;
 using AccountingUI.Wpf.Dialogs.AccountingProcessing;
 using AccountingUI.Wpf.Dialogs.AccountingSettings;
 using AccountingUI.Wpf.Dialogs.AccountPairing;
@@ -11,6 +12,7 @@ using AutoMapper;
 using BankkStatementsModule;
 using BookAccountsModule;
 using BookIraModule;
+using BookJournalModule;
 using BookUraModule;
 using CitiesModule;
 using CompanyModule;
@@ -42,6 +44,7 @@ namespace AccountingUI.WPF
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterScoped<IApiService, ApiService>();
+            containerRegistry.RegisterScoped<IAccountingJournalEndpoint, AccountingJournalEndpoint>();
 
             containerRegistry.RegisterInstance<IConfiguration>(AddConfiguration());
             containerRegistry.RegisterInstance<IMapper>(ConfigureAutomapper());
@@ -80,6 +83,7 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleBankReports>();
             moduleCatalog.AddModule<ModuleVAT>();
             moduleCatalog.AddModule<ModuleAssets>();
+            moduleCatalog.AddModule<ModuleBookJournal>();
         }
 
         private IConfiguration AddConfiguration()

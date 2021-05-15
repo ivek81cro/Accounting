@@ -29,6 +29,18 @@ namespace Accounting.Api.Controllers
             return _data.GetHeaders();
         }
 
+        [HttpGet("Unprocessed/")]
+        public List<AccountingJournalModel> GetUnprocessed()
+        {
+            return _data.GetUnprocessedHeaders();
+        }
+        
+        [HttpPost("Details/")]
+        public List<AccountingJournalModel> GetDetails([FromBody] AccountingJournalModel model)
+        {
+            return _data.GetJournalDetails(model);
+        }
+
         // GET api/<JournalController>/5
         [HttpGet("{bookNumber}")]
         public List<AccountingJournalModel> Get(int bookNumber)

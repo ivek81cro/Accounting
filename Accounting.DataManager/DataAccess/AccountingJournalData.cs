@@ -42,6 +42,41 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
+        public List<AccountingJournalModel> GetUnprocessedHeaders()
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<AccountingJournalModel, dynamic>("dbo.spAccountingJournal_GetUnprocessedHeaders", new { });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
+        public List<AccountingJournalModel> GetJournalDetails(AccountingJournalModel model)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<AccountingJournalModel, dynamic>("dbo.spAccountingJournal_GetJournalDetail", 
+                    new 
+                    { 
+                        VrstaTemeljnice = model.VrstaTemeljnice,
+                        BrojTemeljnice = model.BrojTemeljnice
+                    });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
         public void Insert(List<AccountingJournalModel> journal)
         {
             try

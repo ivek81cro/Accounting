@@ -8,5 +8,7 @@ namespace Accounting.DataManager.DataAccess
         List<AccountingJournalModel> GetByBookNumber(int bookNumber); 
         List<AccountingJournalModel> GetHeaders();
         void Insert(List<AccountingJournalModel> journal);
+        List<AccountingJournalModel> GetUnprocessedHeaders();
+        List<AccountingJournalModel> GetJournalDetails(AccountingJournalModel model);
     }
 }

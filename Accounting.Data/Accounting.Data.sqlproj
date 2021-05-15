@@ -178,6 +178,8 @@
     <Build Include="dbo\Stored Procedures\spAccountingJournal_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spAccountingJournal_GetHeaders.sql" />
     <Build Include="dbo\Stored Procedures\spBankReports_UpdateHeader.sql" />
+    <Build Include="dbo\Stored Procedures\spAccountingJournal_GetUnprocessedHeaders.sql" />
+    <Build Include="dbo\Stored Procedures\spAccountingJournal_GetJournalDetail.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

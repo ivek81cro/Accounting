@@ -15,6 +15,12 @@
         </Style>
     </UserControl.Resources>
     <Grid>
+        <i:Interaction.Triggers>
+            <i:EventTrigger EventName="Loaded">
+                <i:CallMethodAction TargetObject="{Binding}"
+                                    MethodName="LoadData"/>
+            </i:EventTrigger>
+        </i:Interaction.Triggers>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -22,6 +28,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -87,6 +95,62 @@
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
                    Grid.ColumnSpan="3"
                    Grid.Row="1" Grid.Column="0"/>
+
+        <TextBlock Text="Detalji temeljnice" Margin="5" Padding="5" FontSize="14"
+                   Grid.Row="2" Grid.Column="0"/>
+
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
+                  CanUserDeleteRows="False" SelectedItem="{Binding SelectedJournalDetail}"
+                  ItemsSource="{Binding JournalDetails, IsAsync=True}"
+                  Width="850"
+                  Grid.Row="3" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Opis" Width="200"
+                                    Binding="{Binding Opis}"/>
+                <DataGridTextColumn Header="Dokument" Width="100" 
+                                    Binding="{Binding Dokument}"/>
+                <DataGridTextColumn Header="Broj" Width="50" 
+                                    Binding="{Binding Broj}"/>
+                <DataGridTextColumn Header="Konto"  Width="80"
+                                    Binding="{Binding Konto}"/>
+                <DataGridTextColumn Header="Datum" Width="100"
+                                    Binding="{Binding Datum,
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Valuta" Width="80"
+                                    Binding="{Binding Valuta}"/>
+                <DataGridTextColumn Header="Dugovna" Width="80"
+                                    Binding="{Binding Dugovna, StringFormat=N2}"/>
+                <DataGridTextColumn Header="Potražna" Width="80"
+                                    Binding="{Binding Potrazna, StringFormat=N2}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock Text="Neknjižene temeljnice" Margin="5" Padding="5" FontSize="14"
+                   Grid.Row="2" Grid.Column="1"/>
         
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
+                  IsReadOnly="True"
+                  CanUserDeleteRows="False" SelectedItem="{Binding SelectedJournal}"
+                  ItemsSource="{Binding UnprocessedJournals, IsAsync=True}"
+                  Width="400" Margin="5 0 0 0"
+                  Grid.Row="3" Grid.Column="1">
+            <DataGrid.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick"
+                              Command="{Binding LoadJournalCommand}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Broj" Width="50"
+                                    Binding="{Binding BrojTemeljnice}"/>
+                <DataGridTextColumn Header="Vrsta" Width="100" 
+                                    Binding="{Binding VrstaTemeljnice}"/>
+                <DataGridTextColumn Header="Dugovna"  Width="80"
+                                    Binding="{Binding Dugovna, StringFormat=N2}"/>
+                <DataGridTextColumn Header="Potražna" Width="80"
+                                    Binding="{Binding Potrazna, StringFormat=N2}"/>
+                <DataGridTextColumn Header="Stanje" Width="80"
+                                    Binding="{Binding Stanje, StringFormat=N2}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
     </Grid>
 </UserControl>

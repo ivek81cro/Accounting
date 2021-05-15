@@ -183,5 +183,21 @@ namespace Accounting.DataManager.DataAccess
             }
             _sql.Dispose();
         }
+
+
+        public void SetProcessed(int id)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.LoadDataInTransaction<PayrollArchiveHeaderModel, dynamic>("dbo.spPayrollArchive_SetProcessed", new { Id = id });
+            }
+            catch (Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

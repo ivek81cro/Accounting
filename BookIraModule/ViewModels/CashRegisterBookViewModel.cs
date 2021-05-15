@@ -299,25 +299,6 @@ namespace BookIraModule.ViewModels
             return item;
         }
 
-        private bool CanProcess()
-        {
-            return SelectedBookItem != null && !SelectedBookItem.Knjizen;
-        }
-
-        private async void ProcessItem()
-        {
-            var entries = await CreateJournalEntries();
-            var parameters = new DialogParameters();
-            parameters.Add("entries", entries);
-            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
-            {
-                if (result.Result == ButtonResult.OK)
-                {
-
-                }
-            });
-        }
-
         private async Task<List<AccountingJournalModel>> CreateJournalEntries()
         {
             var mappings = MapColumnToPropertyValue();
@@ -344,6 +325,26 @@ namespace BookIraModule.ViewModels
                 }
             }
             return entries;
+        }
+
+        private bool CanProcess()
+        {
+            return SelectedBookItem != null && !SelectedBookItem.Knjizen;
+        }
+
+        private async void ProcessItem()
+        {
+            var entries = await CreateJournalEntries();
+            var parameters = new DialogParameters();
+            parameters.Add("entries", entries);
+            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    SelectedBookItem.Knjizen = true;
+                    _cashRegisterBookEndpoint.MarkAsProcessed(SelectedBookItem.RedniBroj);
+                }
+            });
         }
         #endregion
     }

@@ -7,5 +7,6 @@ namespace Accounting.DataManager.DataAccess
     {
         List<BookIraModel> GetAll();
         void Insert(List<BookIraModel> primke);
+        void SetProcessed(int iraNumber);
     }
 }

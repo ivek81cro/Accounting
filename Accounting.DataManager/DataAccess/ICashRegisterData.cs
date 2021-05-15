@@ -7,5 +7,6 @@ namespace Accounting.DataManager.DataAccess
     {
         List<CashRegisterModel> GetAll();
         void InsertItems(List<CashRegisterModel> items);
+        void SetProcessed(int number);
     }
 }

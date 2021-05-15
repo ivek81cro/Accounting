@@ -41,5 +41,20 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void SetProcessed(int iraNumber)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.LoadDataInTransaction<BookUraRestModel, dynamic>("dbo.spBookIra_SetProcessed", new { RedniBroj = iraNumber });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

@@ -41,6 +41,12 @@ namespace Accounting.Api.Controllers
             _data.Insert(list);
         }
 
+        [HttpPost("Processed/")]
+        public void Post([FromBody] int uraNumber)
+        {
+            _data.SetProcessed(uraNumber);
+        }
+
         // DELETE api/<UraRestController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)

@@ -47,5 +47,21 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<bool> MarkAsProcessed(int number)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync($"/api/CashRegister/Processed", number))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var error = response.ReasonPhrase;
+                    return false;
+                }
+            }
+        }
     }
 }

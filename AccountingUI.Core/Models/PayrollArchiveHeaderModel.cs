@@ -63,6 +63,13 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _datumObracuna, value); }
         }
 
+        private bool _knjizen;
+        public bool Knjizen
+        {
+            get { return _knjizen; }
+            set { SetProperty(ref _knjizen, value); }
+        }
+
         public void CreateUniqueIdentifier()
         {
             UniqueId = DatumOd.ToString().Replace(".", "").Replace(":", "").Replace(" ","").Trim() + "-" +

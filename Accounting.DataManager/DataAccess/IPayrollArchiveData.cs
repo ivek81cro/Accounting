@@ -11,5 +11,6 @@ namespace Accounting.DataManager.DataAccess
         List<PayrollArchivePayrollModel> GetArchivePayrolls(int uniqueId);
         List<PayrollArchiveSupplementModel> GetArchiveSupplements(int accountingId);
         void DeleteRecord(int accountingId);
+        void SetProcessed(int id);
     }
 }

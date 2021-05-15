@@ -7,5 +7,6 @@
 	[DatumDo] DATETIME2 NOT NULL,
 	[SatiRada] INT,
 	[SatiPraznika] INT,
-	[DatumObracuna] DATETIME2 NOT NULL
+	[DatumObracuna] DATETIME2 NOT NULL, 
+    [Knjizen] BIT NULL
 )

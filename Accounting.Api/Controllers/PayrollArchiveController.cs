@@ -52,6 +52,12 @@ namespace Accounting.Api.Controllers
             _payrollArchive.Insert(archive);
         }
 
+        [HttpPost("Processed/")]
+        public void MarkProcessed([FromBody] int id)
+        {
+            _payrollArchive.SetProcessed(id);
+        }
+
         // DELETE api/<PayrollArchiveController>/5
         [HttpDelete("{accountingId}")]
         public void Delete(int accountingId)

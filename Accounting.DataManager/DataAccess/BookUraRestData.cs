@@ -42,6 +42,21 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
+        public void SetProcessed(int uraNumber)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.LoadDataInTransaction<BookUraRestModel, dynamic>("dbo.spBookUraRest_SetProcessed", new { BrojUKnjiziUra = uraNumber });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
         public List<BookUraRestModel> GetDiscounts()
         {
             try

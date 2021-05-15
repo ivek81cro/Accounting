@@ -185,7 +185,8 @@
                 <DataGridTextColumn Header="Dana neplaćanja" 
                                     Binding="{Binding DanaNeplacanja}"/>
                 <DataGridCheckBoxColumn Header="Knjižen" 
-                                        Binding="{Binding Knjizen}"/>
+                                        Binding="{Binding Knjizen, Mode=TwoWay, 
+                                        UpdateSourceTrigger=PropertyChanged}"/>
 
             </DataGrid.Columns>
         </DataGrid>

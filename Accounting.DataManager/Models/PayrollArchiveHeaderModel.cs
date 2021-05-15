@@ -19,5 +19,7 @@ namespace Accounting.DataManager.Models
         public int SatiPraznika { get; set; }
 
         public DateTime DatumObracuna { get; set; }
+
+        public bool Knjizen { get; set; }
     }
 }

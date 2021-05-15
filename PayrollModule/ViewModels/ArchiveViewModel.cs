@@ -257,7 +257,8 @@ namespace PayrollModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-
+                    SelectedArchive.Knjizen = true;
+                    _archiveEndpoint.MarkAsProcessed(SelectedArchive.Id);
                 }
             });
         }        

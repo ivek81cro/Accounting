@@ -16,7 +16,7 @@ namespace AccountingUI.Core.Services
             _apiService = apiService;
         }
 
-        public async void DeleteRecord(int accountingId)
+        public async Task DeleteRecord(int accountingId)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.DeleteAsync($"/api/PayrollArchive/{accountingId}"))
             {
@@ -107,6 +107,21 @@ namespace AccountingUI.Core.Services
                 {
                     var error = response.ReasonPhrase;
                     return false;
+                }
+            }
+        }
+
+        public async Task MarkAsProcessed(int id)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/PayrollArchive/Processed", id))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
                 }
             }
         }

@@ -19,6 +19,7 @@ namespace BookUraModule.ViewModels
     {
         private readonly IXlsFileReader _xlsFileReader;
         private readonly IBookUraReproEndpoint _bookUraEndpoint;
+        private readonly IBookUraRestEndpoint _bookUraRestEndpoint;
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
         private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
@@ -281,20 +282,6 @@ namespace BookUraModule.ViewModels
             return SelectedUraPrimke != null;
         }
 
-        private async void ProcessItem()
-        {
-            var entries = await CreateJournalEntries();
-            var parameters = new DialogParameters();
-            parameters.Add("entries", entries);
-            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
-            {
-                if (result.Result == ButtonResult.OK)
-                {
-
-                }
-            });
-        }
-
         private Dictionary<string, decimal> MapColumnToPropertyValue()
         {
             var primka = SelectedUraPrimke;
@@ -361,6 +348,20 @@ namespace BookUraModule.ViewModels
             }
 
             return result;
+        }
+
+        private async void ProcessItem()
+        {
+            var entries = await CreateJournalEntries();
+            var parameters = new DialogParameters();
+            parameters.Add("entries", entries);
+            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    _bookUraRestEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
+                }
+            });
         }
         #endregion
     }

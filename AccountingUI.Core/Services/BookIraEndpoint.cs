@@ -47,5 +47,21 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<bool> MarkAsProcessed(int numberInIra)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync($"/api/BookIra/Processed", numberInIra))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var error = response.ReasonPhrase;
+                    return false;
+                }
+            }
+        }
     }
 }

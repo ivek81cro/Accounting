@@ -63,5 +63,21 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<bool> MarkAsProcessed(int numberInUra)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync($"/api/UraRest/Processed", numberInUra))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    var error = response.ReasonPhrase;
+                    return false;
+                }
+            }
+        }
     }
 }

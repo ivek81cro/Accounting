@@ -29,5 +29,11 @@ namespace Accounting.Api.Controllers
         {
             _data.InsertItems(list);
         }
+
+        [HttpPost("Processed/")]
+        public void Post([FromBody] int number)
+        {
+            _data.SetProcessed(number);
+        }
     }
 }

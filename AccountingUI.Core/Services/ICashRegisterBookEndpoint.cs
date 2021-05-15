@@ -8,5 +8,6 @@ namespace AccountingUI.Core.Services
     {
         Task<List<CashRegisterModel>> GetAll();
         Task<bool> PostItems(List<CashRegisterModel> list);
+        Task<bool> MarkAsProcessed(int redniBroj);
     }
 }

@@ -11,6 +11,7 @@ namespace AccountingUI.Core.Services
         Task<List<PayrollArchiveHeaderModel>> GetArchiveHeaders();
         Task<List<PayrollArchivePayrollModel>> GetArchivePayrolls(int accountingId);
         Task<List<PayrollArchiveSupplementModel>> GetArchiveSupplements(int accountingId);
-        void DeleteRecord(int accountingId);
+        Task DeleteRecord(int accountingId);
+        Task MarkAsProcessed(int id);
     }
 }

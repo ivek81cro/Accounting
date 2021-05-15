@@ -85,9 +85,7 @@
                         <ColumnDefinition Width="1"/>
                         <ColumnDefinition Width="90"/>
                         <ColumnDefinition Width="90"/>
-                    </Grid.ColumnDefinitions>
-
-                    
+                    </Grid.ColumnDefinitions>                    
                 </Grid>
             </Border>
         </StackPanel>
@@ -102,7 +100,7 @@
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
                   CanUserDeleteRows="False" SelectedItem="{Binding SelectedJournalDetail}"
                   ItemsSource="{Binding JournalDetails, IsAsync=True}"
-                  Width="850"
+                  Width="auto"
                   Grid.Row="3" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Opis" Width="200"
@@ -132,7 +130,7 @@
                   IsReadOnly="True"
                   CanUserDeleteRows="False" SelectedItem="{Binding SelectedJournal}"
                   ItemsSource="{Binding UnprocessedJournals, IsAsync=True}"
-                  Width="400" Margin="5 0 0 0"
+                  Width="auto" Margin="5 0 0 0"
                   Grid.Row="3" Grid.Column="1">
             <DataGrid.InputBindings>
                 <MouseBinding MouseAction="LeftDoubleClick"

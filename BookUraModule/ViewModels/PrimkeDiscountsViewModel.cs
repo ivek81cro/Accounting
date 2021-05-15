@@ -235,20 +235,6 @@ namespace BookUraModule.ViewModels
             return SelectedUraPrimke != null && SelectedUraPrimke.BrojPrimke == 0;
         }
 
-        private async void ProcessItem()
-        {
-            var entries = await CreateJournalEntries();
-            var parameters = new DialogParameters();
-            parameters.Add("entries", entries);
-            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
-            {
-                if (result.Result == ButtonResult.OK)
-                {
-
-                }
-            });
-        }
-
         private async Task<List<AccountingJournalModel>> CreateJournalEntries()
         {
             var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
@@ -299,6 +285,21 @@ namespace BookUraModule.ViewModels
             }
 
             return result;
+        }
+
+        private async void ProcessItem()
+        {
+            var entries = await CreateJournalEntries();
+            var parameters = new DialogParameters();
+            parameters.Add("entries", entries);
+            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    SelectedUraPrimke.Knjizen = true;
+                    _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.RedniBroj);
+                }
+            });
         }
         #endregion
 

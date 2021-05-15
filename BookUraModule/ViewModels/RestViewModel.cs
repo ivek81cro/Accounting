@@ -377,7 +377,7 @@ namespace BookUraModule.ViewModels
         
         private bool CanProcess()
         {
-            return SelectedUraPrimke != null && SelectedUraPrimke.BrojPrimke == 0;
+            return SelectedUraPrimke != null && SelectedUraPrimke.BrojPrimke == 0 && !SelectedUraPrimke.Knjizen;
         }
 
         private async void ProcessItem()
@@ -389,7 +389,8 @@ namespace BookUraModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-
+                    SelectedUraPrimke.Knjizen = true;
+                    _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.RedniBroj);
                 }
             });
         }

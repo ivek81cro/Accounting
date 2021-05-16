@@ -229,11 +229,6 @@ namespace BookUraModule.ViewModels
             return item;
         }
 
-        private bool CanProcess()
-        {
-            return SelectedUraPrimke != null && SelectedUraPrimke.BrojPrimke == 0;
-        }
-
         private async Task<List<AccountingJournalModel>> CreateJournalEntries()
         {
             var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
@@ -284,6 +279,11 @@ namespace BookUraModule.ViewModels
             }
 
             return result;
+        }
+
+        private bool CanProcess()
+        {
+            return SelectedUraPrimke != null && SelectedUraPrimke.BrojPrimke == 0 && !SelectedUraPrimke.Knjizen;
         }
 
         private async void ProcessItem()

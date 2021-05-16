@@ -276,11 +276,6 @@ namespace BookUraModule.ViewModels
         #endregion
 
         #region Book items processing
-        private bool CanProcess()
-        {
-            return SelectedUraPrimke != null;
-        }
-
         private Dictionary<string, decimal> MapColumnToPropertyValue()
         {
             var primka = SelectedUraPrimke;
@@ -347,6 +342,10 @@ namespace BookUraModule.ViewModels
             }
 
             return result;
+        }
+        private bool CanProcess()
+        {
+            return SelectedUraPrimke != null && !SelectedUraPrimke.Knjizen;
         }
 
         private async void ProcessItem()

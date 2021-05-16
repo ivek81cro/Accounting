@@ -7,5 +7,6 @@ namespace Accounting.DataManager.DataAccess
     {
         List<BookUraPrimkaReproModel> GetAll();
         void InsertPrimke(List<BookUraPrimkaReproModel> primke);
+        void SetProcessed(int number);
     }
 }

@@ -29,5 +29,6 @@ namespace AccountingUI.Core.Models
         public decimal PovratnaNaknada { get; set; }
         public string PorezniBroj { get; set; }
         public int BrojUKnjiziUra { get; set; }
+        public bool Knjizen { get; set; }
     }
 }

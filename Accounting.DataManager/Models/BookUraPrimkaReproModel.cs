@@ -22,5 +22,6 @@ namespace Accounting.DataManager.Models
         public decimal CassaSconto { get; set; }
         public string PorezniBroj { get; set; }
         public int BrojUKnjiziUra { get; set; }
+        public bool Knjizen { get; set; }
     }
 }

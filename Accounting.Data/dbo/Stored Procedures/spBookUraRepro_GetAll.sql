@@ -4,6 +4,6 @@ BEGIN
 	SET NOCOUNT ON;
 	SELECT Id, DatumKnjizenja, BrojPrimke, Storno,  NazivDobavljaca, BrojRacuna,
 	DatumRacuna, Otpremnica, DospijecePlacanja, FakturnaVrijednost, NabavnaVrijednost, VeleprodajniRabat,
-	Rabat, NettoNabavnaVrijednost, Pretporez, CassaSconto, PorezniBroj, BrojUKnjiziUra
+	Rabat, NettoNabavnaVrijednost, Pretporez, CassaSconto, PorezniBroj, BrojUKnjiziUra, Knjizen
 	FROM BookUraRepro;
 END

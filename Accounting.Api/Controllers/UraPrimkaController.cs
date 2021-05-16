@@ -16,25 +16,31 @@ namespace Accounting.Api.Controllers
     [Authorize]
     public class UraPrimkaController : ControllerBase
     {
-        private readonly IBookUraPrimkaData _primka;
+        private readonly IBookUraPrimkaData _data;
 
         public UraPrimkaController(IBookUraPrimkaData primka)
         {
-            _primka = primka;
+            _data = primka;
         }
 
         // GET: api/<UraPrimkaController>
         [HttpGet]
         public List<BookUraPrimkaModel> Get()
         {
-            return _primka.GetAll();
+            return _data.GetAll();
         }
 
         // POST api/<UraPrimkaController>
         [HttpPost]
         public void Post([FromBody] List<BookUraPrimkaModel> primke)
         {
-            _primka.InsertPrimke(primke);
+            _data.InsertPrimke(primke);
+        }
+
+        [HttpPost("Processed/")]
+        public void Post([FromBody] int number)
+        {
+            _data.SetProcessed(number);
         }
     }
 }

@@ -8,5 +8,6 @@ namespace AccountingUI.Core.Services
     {
         Task<bool> PostPrimke(List<BookUraPrimkaModel> primke);
         Task<List<BookUraPrimkaModel>> GetAll();
+        Task MarkAsProcessed(int brojUKnjiziUra);
     }
 }

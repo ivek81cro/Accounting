@@ -19,7 +19,6 @@ namespace BookUraModule.ViewModels
     {
         private readonly IXlsFileReader _xlsFileReader;
         private readonly IBookUraReproEndpoint _bookUraEndpoint;
-        private readonly IBookUraRestEndpoint _bookUraRestEndpoint;
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
         private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
@@ -359,7 +358,7 @@ namespace BookUraModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    _bookUraRestEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
+                    _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
                 }
             });
         }

@@ -23,5 +23,6 @@
 	[NettoRuc] decimal(9,2),
 	[PovratnaNaknada] decimal(9,2),
 	[PorezniBroj] nvarchar(50),
-	[BrojUKnjiziUra] int
+	[BrojUKnjiziUra] int, 
+    [Knjizen] BIT NULL
 )

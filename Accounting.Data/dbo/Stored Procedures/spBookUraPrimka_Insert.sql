@@ -22,16 +22,17 @@
 @NettoRuc decimal(9,2),
 @PovratnaNaknada decimal(9,2),
 @PorezniBroj nvarchar(50),
-@BrojUKnjiziUra int
+@BrojUKnjiziUra int,
+@Knjizen bit
 AS
 BEGIN
 	SET NOCOUNT ON;
 
 	INSERT INTO BookUraPrimka (DatumKnjizenja, BrojPrimke, Storno, MaloprodajnaVrijednost, NazivDobavljaca, BrojRacuna,
 	DatumRacuna, Otpremnica, DospijecePlacanja, FakturnaVrijednost, MaloprodajnaMarza, IznosPdv, VrijednostBezPoreza, NabavnaVrijednost,
-	MaloprodajniRabat, NettoNabavnaVrijednost, Pretporez, VeleprodajniRabat, CassaSconto, NettoRuc, PovratnaNaknada, PorezniBroj, BrojUKnjiziUra)
+	MaloprodajniRabat, NettoNabavnaVrijednost, Pretporez, VeleprodajniRabat, CassaSconto, NettoRuc, PovratnaNaknada, PorezniBroj, BrojUKnjiziUra, Knjizen)
 	VALUES (@DatumKnjizenja, @BrojPrimke, @Storno, @MaloprodajnaVrijednost, @NazivDobavljaca, @BrojRacuna,
 	@DatumRacuna, @Otpremnica, @DospijecePlacanja, @FakturnaVrijednost, @MaloprodajnaMarza, @IznosPdv, @VrijednostBezPoreza, @NabavnaVrijednost,
-	@MaloprodajniRabat, @NettoNabavnaVrijednost, @Pretporez, @VeleprodajniRabat, @CassaSconto, @NettoRuc, @PovratnaNaknada, @PorezniBroj, @BrojUKnjiziUra);
+	@MaloprodajniRabat, @NettoNabavnaVrijednost, @Pretporez, @VeleprodajniRabat, @CassaSconto, @NettoRuc, @PovratnaNaknada, @PorezniBroj, @BrojUKnjiziUra, @Knjizen);
 
 END

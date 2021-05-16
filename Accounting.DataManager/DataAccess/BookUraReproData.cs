@@ -41,5 +41,20 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void SetProcessed(int number)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.LoadDataInTransaction<BookUraPrimkaReproModel, dynamic>("dbo.spBookUraRepro_SetProcessed", new { BrojUKnjiziUra = number });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

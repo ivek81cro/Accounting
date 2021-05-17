@@ -25,7 +25,8 @@ namespace AccountingUI.Core.TabControlRegion
             VatCalculation,
             AssetsFixedView,
             AssetsCurrentView,
-            JournalView
+            JournalView,
+            RetailView
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -71,6 +72,8 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Sitni inventar";
                 case ViewNames.JournalView:
                     return "Temeljnice";
+                case ViewNames.RetailView:
+                    return "Maloprodaja";
                 default:
                     return "";
             }

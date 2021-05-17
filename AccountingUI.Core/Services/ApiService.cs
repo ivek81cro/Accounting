@@ -17,9 +17,9 @@ namespace AccountingUI.Core.Service
         private IEventAggregator _eventAggregator;
         private IConfiguration _config;
 
-        public ApiService(ILoggedInUserModel loggedInUserModel, 
-            IEventAggregator eventAggregator, 
-            IConfiguration config)
+        public ApiService(ILoggedInUserModel loggedInUserModel,
+                          IEventAggregator eventAggregator,
+                          IConfiguration config)
         {
             _loggedInUserModel = loggedInUserModel;
             _eventAggregator = eventAggregator;

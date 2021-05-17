@@ -70,11 +70,11 @@ namespace BookJournalModule.ViewModels
         private async void LoadJournalDetails()
         {
             var list = await _accountingJournalEndpoint
-                .LoadJournalDetails(new AccountingJournalModel 
-                {
-                    BrojTemeljnice = SelectedJournal.BrojTemeljnice,
-                    VrstaTemeljnice = SelectedJournal.VrstaTemeljnice
-                });
+                            .LoadJournalDetails(new AccountingJournalModel
+                            {
+                                BrojTemeljnice = SelectedJournal.BrojTemeljnice,
+                                VrstaTemeljnice = SelectedJournal.VrstaTemeljnice
+                            });
 
             JournalDetails = new ObservableCollection<AccountingJournalModel>(list);
         }

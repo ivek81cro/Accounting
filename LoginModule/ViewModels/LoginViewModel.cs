@@ -14,7 +14,9 @@ namespace LoginModule.ViewModels
         private ILoggedInUserModel _loggedInUserModel;
         private IConfiguration _config;
 
-        public LoginViewModel(IApiService apiService, ILoggedInUserModel loggedInUserModel, IConfiguration config)
+        public LoginViewModel(IApiService apiService,
+                              ILoggedInUserModel loggedInUserModel,
+                              IConfiguration config)
         {
             _apiService = apiService;
             _loggedInUserModel = loggedInUserModel;
@@ -125,6 +127,7 @@ namespace LoginModule.ViewModels
                 ErrorMessage = "Prijava neuspješna.\n" + ex.Message;
             }
         }
+
         public virtual void RaiseRequestClose(IDialogResult dialogResult)
         {
             RequestClose?.Invoke(dialogResult);

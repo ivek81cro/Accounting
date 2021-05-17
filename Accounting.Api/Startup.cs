@@ -99,6 +99,7 @@ namespace Accounting.Api
             services.AddTransient<IBookUraReproData, BookUraReproData>();
             services.AddTransient<IBookUraRestData, BookUraRestData>();
             services.AddTransient<IBookIraData, BookIraData>();
+            services.AddTransient<IBookIraRetailData, BookIraRetailData>();
             services.AddTransient<IBookAccountData, BookAccountData>();
             services.AddTransient<IBookAccountSettingsData, BookAccountSettingsData>();
             services.AddTransient<IAccountPairData, AccountPairData>();

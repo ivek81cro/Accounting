@@ -186,6 +186,10 @@
     <Build Include="dbo\Stored Procedures\spPayrollArchive_SetProcessed.sql" />
     <Build Include="dbo\Stored Procedures\spBookUraPrimka_SetProcessed.sql" />
     <Build Include="dbo\Stored Procedures\spBookUraRepro_SetProcessed.sql" />
+    <Build Include="dbo\Tables\BookIraRetail.sql" />
+    <Build Include="dbo\Stored Procedures\spBookIraRetail_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\spBookIraRetail_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spBookIraRetail_SetProcessed.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

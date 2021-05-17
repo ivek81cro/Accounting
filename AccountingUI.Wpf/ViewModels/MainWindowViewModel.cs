@@ -14,19 +14,20 @@ namespace AccountingUI.Wpf.ViewModels
     {
         private readonly IRegionManager _regionManager;
         private readonly IEventAggregator _eventAggregator;
-        private IDialogService _showDialog;
+        private readonly IDialogService _showDialog;
 
-        public MainWindowViewModel(IRegionManager regionManager, 
-            IEventAggregator eventAggregator, IDialogService showDialog)
+        public MainWindowViewModel(IRegionManager regionManager,
+                                   IEventAggregator eventAggregator,
+                                   IDialogService showDialog)
         {
             _regionManager = regionManager;
             _eventAggregator = eventAggregator;
+            _showDialog = showDialog;
+            _eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(EventIsUserLoggedIn);
 
             ShowMenuSelectedViewCommand = new DelegateCommand<string>(Navigate);
             TabControlLoadedCommand = new DelegateCommand(OnTabControlLoaded);
 
-            _eventAggregator.GetEvent<UserLoggedInEvent>().Subscribe(EventIsUserLoggedIn);
-            _showDialog = showDialog;
         }
 
         public DelegateCommand<string> ShowMenuSelectedViewCommand { get; set; }

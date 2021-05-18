@@ -22,6 +22,7 @@ namespace BookUraModule.ViewModels
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
         private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
+        private readonly IProcessToJournalService _processToJournalService;
 
         private readonly string _bookName;
 
@@ -32,7 +33,8 @@ namespace BookUraModule.ViewModels
                                IBookUraEndpoint bookUraEndpoint,
                                IDialogService showDialog,
                                IBookAccountSettingsEndpoint settingsEndpoint,
-                               IAccountPairsEndpoint accoutPairsEndpoint)
+                               IAccountPairsEndpoint accoutPairsEndpoint,
+                               IProcessToJournalService processToJournalService)
         {
             _xlsFileReader = xlsFileReader;
             _bookUraEndpoint = bookUraEndpoint;
@@ -40,6 +42,7 @@ namespace BookUraModule.ViewModels
             _settingsEndpoint = settingsEndpoint;
             _bookName = "Primke robe";
             _accoutPairsEndpoint = accoutPairsEndpoint;
+            _processToJournalService = processToJournalService;
 
             LoadDataCommand = new DelegateCommand(LoadDataFromFile);
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
@@ -127,6 +130,13 @@ namespace BookUraModule.ViewModels
             get { return _filterName; }
             set 
             { SetProperty(ref _filterName, value); }
+        }
+
+        private bool _automaticProcess;
+        public bool AutomaticProcess
+        {
+            get { return _automaticProcess; }
+            set { SetProperty(ref _automaticProcess, value); }
         }
         #endregion
 
@@ -363,15 +373,52 @@ namespace BookUraModule.ViewModels
 
         private async void ProcessItem()
         {
+            if (AutomaticProcess)
+            {
+                if(!await ProcessToJournalAutomatic())
+                {
+                    return;
+                }
+            }
+            else
+            {
+                await SendToProcessingDialog();
+            }
+        }
+
+        private async Task<bool> ProcessToJournalAutomatic()
+        {
+            foreach (var item in _filteredView)
+            {
+                SelectedUraPrimke = (BookUraPrimkaModel)item;
+                var entries = await CreateJournalEntries();
+                if(!await _processToJournalService.ProcessEntries(entries))
+                {
+                    await SendToProcessingDialog();
+                    return false;
+                }
+                else
+                {
+                    SelectedUraPrimke.Knjizen = true;
+                    await _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
+                }
+            }
+
+            return true;
+        }
+
+        private async Task SendToProcessingDialog()
+        {
             var entries = await CreateJournalEntries();
             var parameters = new DialogParameters();
             parameters.Add("entries", entries);
-            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            parameters.Add("automatic", AutomaticProcess);
+            _showDialog.ShowDialog("ProcessToJournal", parameters, async result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {
                     SelectedUraPrimke.Knjizen = true;
-                    _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
+                    await _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
                 }
             });
         }

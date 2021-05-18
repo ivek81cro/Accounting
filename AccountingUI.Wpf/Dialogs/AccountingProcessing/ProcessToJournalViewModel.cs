@@ -15,6 +15,8 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
         private readonly IDialogService _showDialog;
         private readonly IAccountingJournalEndpoint _accountingJournalEndpoint;
 
+        private bool _automatic;
+
         public ProcessToJournalViewModel(IDialogService openDialog, IAccountingJournalEndpoint accountingJournalEndpoint)
         {
             _showDialog = openDialog;
@@ -23,7 +25,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
             AccountsLinkCommand = new DelegateCommand(AddNewPair, CanAddPair);
             AddRowCommand = new DelegateCommand(AddRow);
             DeleteRowCommand = new DelegateCommand(DeleteRow);
-            ProcessCommand = new DelegateCommand(ProcessRows);
+            ProcessCommand = new DelegateCommand(ProcessRows, CanProcess);
         }
 
         public string Title => "Knjiženje na temeljnicu";
@@ -35,6 +37,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
 
         public event Action<IDialogResult> RequestClose;
 
+        #region Properties
         private ObservableCollection<AccountingJournalModel> _entries;
         public ObservableCollection<AccountingJournalModel> Entries
         {
@@ -80,6 +83,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
             get { return _bookName; }
             set { SetProperty(ref _bookName, value); }
         }
+        #endregion
 
         public bool CanCloseDialog()
         {
@@ -94,12 +98,19 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
         public void OnDialogOpened(IDialogParameters parameters)
         {
             var list = parameters.GetValue<List<AccountingJournalModel>>("entries");
+            _automatic = parameters.GetValue<bool>("automatic");
             if(list.Count > 0)
             {
                 BookName = list[0].VrstaTemeljnice;
             }
             Entries = new ObservableCollection<AccountingJournalModel>(list);
             SumSidesAndCompare();
+            ProcessCommand.RaiseCanExecuteChanged();
+
+            if (_automatic && CanProcess())
+            {
+                ProcessRows();
+            }
         }
 
         public void SumSidesAndCompare()
@@ -128,6 +139,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
                         if (ent.Konto == null || ent.Konto.Length < 3)
                         {
                             ent.Konto = result.Parameters.GetValue<string>("account");
+                            ProcessCommand.RaiseCanExecuteChanged();
                         }
                     }                    
                 }
@@ -163,6 +175,30 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
                     SelectedEntry.Konto = result.Parameters.GetValue<BookAccountModel>("account").Konto;
                 }
             });
+        }
+
+        private bool CanProcess()
+        {
+            if (Entries != null)
+            {
+                foreach (var entry in Entries)
+                {
+                    if (entry.Konto == null)
+                    {
+                        return false;
+                    }
+                    else if (entry.Konto.Length < 3)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
+            return true;
         }
 
         private async void ProcessRows()

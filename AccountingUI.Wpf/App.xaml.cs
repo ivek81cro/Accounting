@@ -45,6 +45,7 @@ namespace AccountingUI.WPF
         {
             containerRegistry.RegisterScoped<IApiService, ApiService>();
             containerRegistry.RegisterScoped<IAccountingJournalEndpoint, AccountingJournalEndpoint>();
+            containerRegistry.RegisterScoped<IProcessToJournalService, ProcessToJournalService>();
 
             containerRegistry.RegisterInstance<IConfiguration>(AddConfiguration());
             containerRegistry.RegisterInstance<IMapper>(ConfigureAutomapper());

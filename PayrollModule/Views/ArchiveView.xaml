@@ -89,6 +89,7 @@
                 <DataGridTextColumn Header="Datum obračuna" Binding="{Binding DatumObracuna, 
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"/>
+                <DataGridCheckBoxColumn Header="Knjižen" Binding="{Binding Knjizen}"/>
             </DataGrid.Columns>
         </DataGrid>
         

@@ -128,6 +128,13 @@ namespace BookUraModule.ViewModels
             get { return _sumTotal; }
             set { SetProperty(ref _sumTotal, value); }
         }
+
+        private bool _automaticProcess;
+        public bool AutomaticProcess
+        {
+            get { return _automaticProcess; }
+            set { SetProperty(ref _automaticProcess, value); }
+        }
         #endregion
 
         public async void LoadPrimke()
@@ -291,6 +298,7 @@ namespace BookUraModule.ViewModels
             var entries = await CreateJournalEntries();
             var parameters = new DialogParameters();
             parameters.Add("entries", entries);
+            parameters.Add("automatic", AutomaticProcess);
             _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)

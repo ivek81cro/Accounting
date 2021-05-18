@@ -375,10 +375,7 @@ namespace BookUraModule.ViewModels
         {
             if (AutomaticProcess)
             {
-                if(!await ProcessToJournalAutomatic())
-                {
-                    return;
-                }
+                await ProcessToJournalAutomatic();
             }
             else
             {
@@ -386,7 +383,7 @@ namespace BookUraModule.ViewModels
             }
         }
 
-        private async Task<bool> ProcessToJournalAutomatic()
+        private async Task ProcessToJournalAutomatic()
         {
             foreach (var item in _filteredView)
             {
@@ -394,8 +391,9 @@ namespace BookUraModule.ViewModels
                 var entries = await CreateJournalEntries();
                 if(!await _processToJournalService.ProcessEntries(entries))
                 {
+                    AutomaticProcess = false;
                     await SendToProcessingDialog();
-                    return false;
+                    break;
                 }
                 else
                 {
@@ -403,8 +401,6 @@ namespace BookUraModule.ViewModels
                     await _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
                 }
             }
-
-            return true;
         }
 
         private async Task SendToProcessingDialog()

@@ -30,6 +30,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -78,7 +79,11 @@
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
                    Grid.Row="1" Grid.Column="0"/>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <CheckBox Content="Brzo knjiženje" IsChecked="{Binding AutomaticProcess, 
+                  Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Grid.Row="2" Grid.Column="0"/>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
             <TextBlock Text="Filter datum od:" Margin="5" Padding="5"/>
             <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
                         MinWidth="150">
@@ -108,7 +113,7 @@
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
                   CanUserDeleteRows="False" ItemsSource="{Binding UraPrimke, IsAsync=True}"
                   SelectedItem="{Binding SelectedUraPrimke}"
-                  Grid.Row="3" Grid.Column="0">
+                  Grid.Row="4" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Broj primke" 
                                     Binding="{Binding BrojPrimke}"/>

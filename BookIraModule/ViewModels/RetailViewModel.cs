@@ -21,6 +21,7 @@ namespace BookIraModule.ViewModels
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
         private readonly IBookRetailEndpoint _bookRetailEndpoint;
+        private readonly IProcessToJournalService _processToJournalService;
         
         private readonly string _bookName; 
         private int _maxRedniBroj;
@@ -29,11 +30,14 @@ namespace BookIraModule.ViewModels
         public RetailViewModel(IXlsFileReader xlsFileReader,
                                IDialogService showDialog,
                                IBookAccountSettingsEndpoint settingsEndpoint,
-                               IBookRetailEndpoint bookRetailEndpoint)
+                               IBookRetailEndpoint bookRetailEndpoint,
+                               IProcessToJournalService processToJournalService)
         {
             _xlsFileReader = xlsFileReader;
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
+            _processToJournalService = processToJournalService;
+            _bookRetailEndpoint = bookRetailEndpoint;
 
             _bookName = "Maloprodaja";
 
@@ -43,7 +47,6 @@ namespace BookIraModule.ViewModels
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
             CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
-            _bookRetailEndpoint = bookRetailEndpoint;
         }
 
         #region Delegate commands
@@ -126,6 +129,13 @@ namespace BookIraModule.ViewModels
         {
             get { return _accountingSettings; }
             set { SetProperty(ref _accountingSettings, value); }
+        }
+
+        private bool _automaticProcess;
+        public bool AutomaticProcess
+        {
+            get { return _automaticProcess; }
+            set { SetProperty(ref _automaticProcess, value); }
         }
         #endregion
 
@@ -276,11 +286,6 @@ namespace BookIraModule.ViewModels
             return item;
         }
 
-        private bool CanProcess()
-        {
-            return SelectedItem != null && !SelectedItem.Knjizen;
-        }
-
         private async Task<List<AccountingJournalModel>> CreateJournalEntries()
         {
 
@@ -310,8 +315,46 @@ namespace BookIraModule.ViewModels
             return entries;
         }
 
+        private bool CanProcess()
+        {
+            return SelectedItem != null && !SelectedItem.Knjizen;
+        }
+
         private async void ProcessItem()
         {
+            if (AutomaticProcess)
+            {
+                await ProcessToJournalAutomatic();
+            }
+            else
+            {
+                await SendToProcessingDialog();
+            }
+        }
+
+        private async Task ProcessToJournalAutomatic()
+        {
+            foreach (var item in _filteredView)
+            {
+                SelectedItem = (RetailIraModel)item;
+                var entries = await CreateJournalEntries();
+                if (!await _processToJournalService.ProcessEntries(entries))
+                {
+                    AutomaticProcess = false;
+                    await SendToProcessingDialog();
+                    break;
+                }
+                else
+                {
+                    SelectedItem.Knjizen = true;
+                    await _bookRetailEndpoint.MarkAsProcessed(SelectedItem.RedniBroj);
+                }
+            }
+        }
+
+        private async Task SendToProcessingDialog()
+        {
+
             var entries = await CreateJournalEntries();
             var parameters = new DialogParameters();
             parameters.Add("entries", entries);

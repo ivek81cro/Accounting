@@ -21,6 +21,7 @@ namespace BookIraModule.ViewModels
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
         private readonly ICashRegisterBookEndpoint _cashRegisterBookEndpoint;
+        private readonly IProcessToJournalService _processToJournalService;
             
         private readonly string _bookName;
         private bool _loaded = false;
@@ -29,12 +30,14 @@ namespace BookIraModule.ViewModels
         public CashRegisterBookViewModel(IXlsFileReader xlsFileReader,
                                          IDialogService showDialog,
                                          IBookAccountSettingsEndpoint settingsEndpoint,
-                                         ICashRegisterBookEndpoint cashRegisterBookEndpoint)
+                                         ICashRegisterBookEndpoint cashRegisterBookEndpoint,
+                                         IProcessToJournalService processToJournalService)
         {
             _xlsFileReader = xlsFileReader;
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
             _cashRegisterBookEndpoint = cashRegisterBookEndpoint;
+            _processToJournalService = processToJournalService;
 
             _bookName = "Blagajna";
 
@@ -146,6 +149,13 @@ namespace BookIraModule.ViewModels
         {
             get { return _participationSum; }
             set { SetProperty(ref _participationSum, value); }
+        }
+
+        private bool _automaticProcess;
+        public bool AutomaticProcess
+        {
+            get { return _automaticProcess; }
+            set { SetProperty(ref _automaticProcess, value); }
         }
         #endregion
 
@@ -334,6 +344,39 @@ namespace BookIraModule.ViewModels
 
         private async void ProcessItem()
         {
+            if (AutomaticProcess)
+            {
+                await ProcessToJournalAutomatic();
+            }
+            else
+            {
+                await SendToProcessingDialog();
+            }
+        }
+
+        private async Task ProcessToJournalAutomatic()
+        {
+            foreach (var item in _filteredView)
+            {
+                SelectedBookItem = (CashRegisterModel)item;
+                var entries = await CreateJournalEntries();
+                if (!await _processToJournalService.ProcessEntries(entries))
+                {
+                    AutomaticProcess = false;
+                    await SendToProcessingDialog();
+                    break;
+                }
+                else
+                {
+                    SelectedBookItem.Knjizen = true;
+                    await _cashRegisterBookEndpoint.MarkAsProcessed(SelectedBookItem.RedniBroj);
+                }
+            }
+        }
+
+        private async Task SendToProcessingDialog()
+        {
+
             var entries = await CreateJournalEntries();
             var parameters = new DialogParameters();
             parameters.Add("entries", entries);

@@ -22,6 +22,7 @@ namespace BookUraModule.ViewModels
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
         private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
+        private readonly IProcessToJournalService _processToJournalService;
 
         private readonly string _bookName;
 
@@ -32,14 +33,17 @@ namespace BookUraModule.ViewModels
                                     IBookUraReproEndpoint bookUraEndpoint,
                                     IDialogService showDialog,
                                     IBookAccountSettingsEndpoint settingsEndpoint,
-                                    IAccountPairsEndpoint accoutPairsEndpoint)
+                                    IAccountPairsEndpoint accoutPairsEndpoint,
+                                    IProcessToJournalService processToJournalService)
         {
             _xlsFileReader = xlsFileReader;
             _bookUraEndpoint = bookUraEndpoint;
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
-            _bookName = "Primke repromaterijala";
             _accoutPairsEndpoint = accoutPairsEndpoint;
+            _processToJournalService = processToJournalService;
+            
+            _bookName = "Primke repromaterijala";
 
             LoadDataCommand = new DelegateCommand(LoadDataFromFile);
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
@@ -128,6 +132,13 @@ namespace BookUraModule.ViewModels
                 ProcessItemCommand.RaiseCanExecuteChanged();
             }
         }
+
+        private bool _automaticProcess;
+        public bool AutomaticProcess
+        {
+            get { return _automaticProcess; }
+            set { SetProperty(ref _automaticProcess, value); }
+        }
         #endregion
 
         public async void LoadPrimke()
@@ -136,7 +147,7 @@ namespace BookUraModule.ViewModels
             var primke = await _bookUraEndpoint.GetAll();
             StatusMessage = "";
             UraPrimke = new ObservableCollection<BookUraPrimkaReproModel>(primke);
-
+            FilterPrimke();
             LoadAccountingSettings();
         }
 
@@ -349,6 +360,38 @@ namespace BookUraModule.ViewModels
         }
 
         private async void ProcessItem()
+        {
+            if (AutomaticProcess)
+            {
+                await ProcessToJournalAutomatic();
+            }
+            else
+            {
+                await SendToProcessingDialog();
+            }
+        }
+
+        private async Task ProcessToJournalAutomatic()
+        {
+            foreach (var item in _filteredView)
+            {
+                SelectedUraPrimke = (BookUraPrimkaReproModel)item;
+                var entries = await CreateJournalEntries();
+                if (!await _processToJournalService.ProcessEntries(entries))
+                {
+                    AutomaticProcess = false;
+                    await SendToProcessingDialog();
+                    break;
+                }
+                else
+                {
+                    SelectedUraPrimke.Knjizen = true;
+                    await _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
+                }
+            }
+        }
+
+        private async Task SendToProcessingDialog()
         {
             var entries = await CreateJournalEntries();
             var parameters = new DialogParameters();

@@ -9,5 +9,6 @@ namespace AccountingUI.Core.Services
         Task<bool> Post(List<AccountingJournalModel> pair);
         Task<List<AccountingJournalModel>> LoadUnprocessedJournals();
         Task<List<AccountingJournalModel>> LoadJournalDetails(AccountingJournalModel model);
+        Task Delete(AccountingJournalModel accountingJournalModel);
     }
 }

@@ -24,5 +24,6 @@
 	[PovratnaNaknada] decimal(9,2),
 	[PorezniBroj] nvarchar(50),
 	[BrojUKnjiziUra] int, 
-    [Knjizen] BIT NULL
+    [Knjizen] BIT NULL,
+	[TemeljnicaId] INT
 )

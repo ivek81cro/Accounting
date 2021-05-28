@@ -23,7 +23,14 @@ namespace Accounting.MainModule.Dialogs.AreYouSure
         public DelegateCommand<string> ButtonClickCommand { get; private set; }
 
         public string Title => "Upozorenje";
-        
+
+        private string _messageText;
+        public string MessageText
+        {
+            get { return _messageText; }
+            set { SetProperty(ref _messageText, value); }
+        }
+
         public event Action<IDialogResult> RequestClose;
 
         private bool _answer = false;
@@ -44,7 +51,11 @@ namespace Accounting.MainModule.Dialogs.AreYouSure
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-
+            MessageText = parameters.GetValue<string>("message");
+            if (MessageText == null)
+            {
+                MessageText = "Da li ste sigurni da želite brisati podatke?";
+            }
         }
     }
 }

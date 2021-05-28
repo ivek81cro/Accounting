@@ -7,6 +7,7 @@ BEGIN
 		SjedisteDobavljaca, OIB, IznosSPorezom, PoreznaOsnovica0, PoreznaOsnovica5, PretporezT5, PoreznaOsnovica10, PretporezT10, 
 		PoreznaOsnovica13, PretporezT13, PoreznaOsnovica23, PretporezT23, PoreznaOsnovica25, PretporezT25, UkupniPretporez, 
 		MozeSeOdbiti, NeMozeSeOdbiti, IznosBezPoreza, ProlaznaStavka, Neoporezivo, CassaScontoPercent, CassaSconto, BrojOdobrenja, 
-		OdobrenjaBezPDV, OdobreniPDV, DatumPodnosenja, DatumIzvrsenja, UkupnoUplaceno, PreostaloZaUplatit, DospijeceDana, Knjizen
+		OdobrenjaBezPDV, OdobreniPDV, DatumPodnosenja, DatumIzvrsenja, UkupnoUplaceno, PreostaloZaUplatit, DospijeceDana, Knjizen,
+		TemeljnicaId
 	FROM BookUraRest;
 END

@@ -10,5 +10,6 @@ namespace Accounting.DataManager.DataAccess
         void Insert(List<AccountingJournalModel> journal);
         List<AccountingJournalModel> GetUnprocessedHeaders();
         List<AccountingJournalModel> GetJournalDetails(AccountingJournalModel model);
+        void DeleteJournal(AccountingJournalModel model);
     }
 }

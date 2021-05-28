@@ -17,5 +17,6 @@ namespace Accounting.DataManager.Models
         public decimal StornoPdv { get; set; }
         public decimal MaloprodajnaVrijednost { get; set; }
         public bool Knjizen { get; set; }
+        public int TemeljnicaId { get; set; }
     }
 }

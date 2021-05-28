@@ -12,5 +12,6 @@
     [StornoMarze] DECIMAL(9,2) NOT NULL,
     [StornoPdv] DECIMAL(9,2) NOT NULL,
     [MaloprodajnaVrijednost] DECIMAL(9,2) NOT NULL,
-    [Knjizen] BIT NOT NULL
+    [Knjizen] BIT NOT NULL,
+	[TemeljnicaId] INT
 )

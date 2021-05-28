@@ -46,5 +46,6 @@
 	[UkupnoUplaceno] DECIMAL(9,2) NULL,
 	[PreostaloZaUplatit] DECIMAL(9,2) NULL,
 	[DospijeceDana] INT NULL,
-	[Knjizen] BIT NULL
+	[Knjizen] BIT NULL,
+	[TemeljnicaId] INT
 )

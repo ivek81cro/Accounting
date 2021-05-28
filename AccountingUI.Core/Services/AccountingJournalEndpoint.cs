@@ -63,5 +63,20 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task Delete(AccountingJournalModel model)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/Journal/Delete", model))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    await _apiService.ApiClient.PostAsJsonAsync("/api/Journal/Details", model);
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

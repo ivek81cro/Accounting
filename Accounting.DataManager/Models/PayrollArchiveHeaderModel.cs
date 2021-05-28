@@ -21,5 +21,6 @@ namespace Accounting.DataManager.Models
         public DateTime DatumObracuna { get; set; }
 
         public bool Knjizen { get; set; }
+        public int TemeljnicaId { get; set; }
     }
 }

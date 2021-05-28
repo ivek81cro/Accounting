@@ -7,11 +7,13 @@
 @SatiRada int,
 @SatiPraznika int,
 @DatumObracuna datetime2,
-@Knjizen bit
+@Knjizen bit,
+@TemeljnicaId INT
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO PayrollArchiveHeader (Opis, UniqueId, DatumOd, DatumDo, SatiRada, SatiPraznika, DatumObracuna, Knjizen) 
-	VALUES(@Opis, @UniqueId, @DatumOd, @DatumDo, @SatiRada, @SatiPraznika, @DatumObracuna, @Knjizen);
+	INSERT INTO PayrollArchiveHeader (Opis, UniqueId, DatumOd, DatumDo, SatiRada, SatiPraznika, DatumObracuna, Knjizen,
+	TemeljnicaId) 
+	VALUES(@Opis, @UniqueId, @DatumOd, @DatumDo, @SatiRada, @SatiPraznika, @DatumObracuna, @Knjizen, @TemeljnicaId);
 END

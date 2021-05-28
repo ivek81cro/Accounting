@@ -46,5 +46,6 @@ namespace AccountingUI.Core.Models
         public decimal Potrazna { get; set; }
         public string VrstaTemeljnice { get; set; }
         public int BrojTemeljnice { get; set; }
+        public DateTime? DatumKnjizenja { get; set; }
     }
 }

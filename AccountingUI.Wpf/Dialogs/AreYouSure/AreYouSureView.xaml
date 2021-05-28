@@ -14,27 +14,38 @@
     </prism:Dialog.WindowStyle>
     <Grid>       
         <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <TextBlock Text="Da li ste sigurni da želite obrisati odabrani podatak?"
-                   Grid.Row="0" HorizontalAlignment="Center" 
+        <TextBlock Text="{Binding MessageText}"
+                   HorizontalAlignment="Center" Margin="5" Padding="5"
                    VerticalAlignment="Center" TextWrapping="Wrap"
-                   MaxWidth="200"/>
+                   MaxWidth="200" MinHeight="100"
+                   Grid.Row="1" Grid.Column="0"/>
 
-        <Button Content="Da" Grid.Row="1" HorizontalAlignment="Left"
+        <Image HorizontalAlignment="Right" Height="40" 
+               Margin="5 20 10 0" VerticalAlignment="Top" Width="40"
+               Grid.Row="1" Grid.Column="1" 
+               Source="pack://application:,,,/Dialogs/AreYouSure/Images/questionmark.png"/>
+
+        <StackPanel Orientation="Horizontal" Grid.ColumnSpan="2"
+                    Grid.Row="2" Grid.Column="0">
+            <Button Content="Da"
                 Width="80" Margin="25 0 0 0" Padding="5"
                 Command="{Binding ButtonClickCommand}"
                 CommandParameter="true"/>
 
-        <Button Content="Ne" Grid.Row="1" HorizontalAlignment="Right"
-                Width="80" Margin="0 0 25 0" Padding="5"
+            <Button Content="Ne"
+                Width="80" Margin="50 0 25 0" Padding="5"
                 Command="{Binding ButtonClickCommand}"
                 CommandParameter="false"/>
-        <Image HorizontalAlignment="Right" Height="50" 
-               Margin="0 20 10 0" VerticalAlignment="Top" Width="50"
-               Grid.Row="0" Source="pack://application:,,,/Dialogs/AreYouSure/Images/questionmark.png"/>
+        </StackPanel>
     </Grid>
 </UserControl>

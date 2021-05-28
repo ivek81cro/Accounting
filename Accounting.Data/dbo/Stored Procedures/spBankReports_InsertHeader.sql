@@ -6,10 +6,11 @@
 @SumaDugovna DECIMAL(9, 2), 
 @StanjePrethodnogIzvoda DECIMAL(9, 2), 
 @NovoStanje DECIMAL(9, 2), 
-@Knjizen BIT
+@Knjizen BIT,
+@TemeljnicaId INT
 AS
 BEGIN
 	SET NOCOUNT ON;
-	INSERT INTO BankReport (RedniBroj, DatumIzvoda, SumaPotrazna, SumaDugovna, StanjePrethodnogIzvoda, NovoStanje, Knjizen)
-	VALUES (@RedniBroj, @DatumIzvoda, @SumaPotrazna, @SumaDugovna, @StanjePrethodnogIzvoda, @NovoStanje, @Knjizen);
+	INSERT INTO BankReport (RedniBroj, DatumIzvoda, SumaPotrazna, SumaDugovna, StanjePrethodnogIzvoda, NovoStanje, Knjizen, TemeljnicaId)
+	VALUES (@RedniBroj, @DatumIzvoda, @SumaPotrazna, @SumaDugovna, @StanjePrethodnogIzvoda, @NovoStanje, @Knjizen, @TemeljnicaId);
 END

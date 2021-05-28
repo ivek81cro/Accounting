@@ -6,11 +6,13 @@
 @KreditneKartice decimal(9,2),
 @Sveukupno decimal(9,2),
 @IznosSudjelovanja decimal(9,2),
-@Knjizen bit
+@Knjizen bit,
+@TemeljnicaId INT
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO CashRegisterJournal (Datum, RedniBroj, Gotovina, KreditneKartice, Sveukupno, IznosSudjelovanja, Knjizen)
-	VALUES (@Datum, @RedniBroj, @Gotovina, @KreditneKartice, @Sveukupno, @IznosSudjelovanja, @Knjizen);
+	INSERT INTO CashRegisterJournal (Datum, RedniBroj, Gotovina, KreditneKartice, Sveukupno, IznosSudjelovanja, Knjizen,
+	TemeljnicaId)
+	VALUES (@Datum, @RedniBroj, @Gotovina, @KreditneKartice, @Sveukupno, @IznosSudjelovanja, @Knjizen, @TemeljnicaId);
 END

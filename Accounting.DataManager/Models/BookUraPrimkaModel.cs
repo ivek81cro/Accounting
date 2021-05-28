@@ -29,5 +29,6 @@ namespace Accounting.DataManager.Models
         public string PorezniBroj { get; set; }
         public int BrojUKnjiziUra { get; set; }
         public bool Knjizen { get; set; }
+        public int TemeljnicaId { get; set; }
     }
 }

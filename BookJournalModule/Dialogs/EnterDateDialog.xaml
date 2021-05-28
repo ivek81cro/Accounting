@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="BookJournalModule.Dialogs.EnterDateDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BookJournalModule.Dialogs"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:date="clr-namespace:AccountingUI.Core.Validation;assembly=AccountingUI.Core"
+             xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
+             Width="300" Height="150">
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="Height" Value="200"/>
+            <Setter Property="Width" Value="350"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Unesite datum knjiženja temeljnice." Margin="5" Padding="5"
+                   Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center"/>
+
+        <DatePicker HorizontalAlignment="Center"
+                    h:DatePickerHelper.Watermark="Odaberite datum"
+                    Grid.Row="1" Grid.Column="0" >
+            <DatePicker.SelectedDate>
+                <Binding Path="SelectedDate"
+                         Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <date:DateValidate />
+                    </Binding.ValidationRules>
+                </Binding>
+            </DatePicker.SelectedDate>
+        </DatePicker>
+
+        <Button Content="Knjiži" Height="30" Width="85" HorizontalAlignment="Center"
+                Command="{Binding ProcessCommand}"
+                Grid.Row="2" Grid.Column="0"/>
+
+    </Grid>
+</UserControl>

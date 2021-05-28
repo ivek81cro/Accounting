@@ -41,6 +41,12 @@ namespace Accounting.Api.Controllers
             return _data.GetJournalDetails(model);
         }
 
+        [HttpPost("Delete/")]
+        public void DeleteEntries([FromBody] AccountingJournalModel model)
+        {
+            _data.DeleteJournal(model);
+        }
+
         // GET api/<JournalController>/5
         [HttpGet("{bookNumber}")]
         public List<AccountingJournalModel> Get(int bookNumber)
@@ -53,12 +59,6 @@ namespace Accounting.Api.Controllers
         public void Post([FromBody] List<AccountingJournalModel> list)
         {
             _data.Insert(list);
-        }
-
-        // DELETE api/<JournalController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

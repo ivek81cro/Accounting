@@ -12,5 +12,6 @@ namespace Accounting.DataManager.Models
         public decimal Sveukupno { get; set; }
         public decimal IznosSudjelovanja { get; set; }
         public bool Knjizen { get; set; }
+        public int TemeljnicaId { get; set; }
     }
 }

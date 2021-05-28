@@ -7,5 +7,6 @@
     [SumaDugovna] DECIMAL(9, 2) NOT NULL, 
     [StanjePrethodnogIzvoda] DECIMAL(9, 2) NOT NULL, 
     [NovoStanje] DECIMAL(9, 2) NOT NULL, 
-    [Knjizen] BIT NOT NULL
+    [Knjizen] BIT NOT NULL,
+	[TemeljnicaId] INT
 )

@@ -5,7 +5,9 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT Id, Opis, Dokument, Broj, Konto, Datum, Valuta, Dugovna, Potrazna, VrstaTemeljnice, BrojTemeljnice
+	SELECT Id, Opis, Dokument, Broj, Konto, Datum, Valuta, Dugovna, Potrazna, VrstaTemeljnice, BrojTemeljnice,
+	DatumKnjizenja
 	FROM AccountingJournal
-	WHERE BrojTemeljnice = @BrojTemeljnice AND VrstaTemeljnice = @VrstaTemeljnice;
+	WHERE BrojTemeljnice = @BrojTemeljnice AND VrstaTemeljnice = @VrstaTemeljnice
+	ORDER BY Broj ASC;
 END

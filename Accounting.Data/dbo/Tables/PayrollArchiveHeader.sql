@@ -8,5 +8,6 @@
 	[SatiRada] INT,
 	[SatiPraznika] INT,
 	[DatumObracuna] DATETIME2 NOT NULL, 
-    [Knjizen] BIT NULL
+    [Knjizen] BIT NULL,
+	[TemeljnicaId] INT
 )

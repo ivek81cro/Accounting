@@ -45,7 +45,8 @@
 @UkupnoUplaceno DECIMAL(9,2),
 @PreostaloZaUplatit DECIMAL(9,2),
 @DospijeceDana INT,
-@Knjizen BIT
+@Knjizen BIT,
+@TemeljnicaId INT
 AS
 BEGIN
 	SET NOCOUNT ON;
@@ -54,11 +55,13 @@ BEGIN
 		SjedisteDobavljaca, OIB, IznosSPorezom, PoreznaOsnovica0, PoreznaOsnovica5, PretporezT5, PoreznaOsnovica10, PretporezT10, 
 		PoreznaOsnovica13, PretporezT13, PoreznaOsnovica23, PretporezT23, PoreznaOsnovica25, PretporezT25, UkupniPretporez, 
 		MozeSeOdbiti, NeMozeSeOdbiti, IznosBezPoreza, ProlaznaStavka, Neoporezivo, CassaScontoPercent, CassaSconto, BrojOdobrenja, 
-		OdobrenjaBezPDV, OdobreniPDV, DatumPodnosenja, DatumIzvrsenja, UkupnoUplaceno, PreostaloZaUplatit, DospijeceDana, Knjizen)
+		OdobrenjaBezPDV, OdobreniPDV, DatumPodnosenja, DatumIzvrsenja, UkupnoUplaceno, PreostaloZaUplatit, DospijeceDana, Knjizen,
+		TemeljnicaId)
 	VALUES (@RedniBroj, @Datum, @BrojRacuna, @Storno, @StornoBroja, @DatumRacuna, @StarostRacuna, @Dospijece, 
 		@PlaniranaUplata, @DatumUplate, @ZaUplatu, @NazivDobavljaca, @BrojPrimke, @NapomenaORacunu, @NettoNabavnaVrijednost, 
 		@SjedisteDobavljaca, @OIB, @IznosSPorezom, @PoreznaOsnovica0, @PoreznaOsnovica5, @PretporezT5, @PoreznaOsnovica10, @PretporezT10, 
 		@PoreznaOsnovica13, @PretporezT13, @PoreznaOsnovica23, @PretporezT23, @PoreznaOsnovica25, @PretporezT25, @UkupniPretporez, 
 		@MozeSeOdbiti, @NeMozeSeOdbiti, @IznosBezPoreza, @ProlaznaStavka, @Neoporezivo, @CassaScontoPercent, @CassaSconto, @BrojOdobrenja, 
-		@OdobrenjaBezPDV, @OdobreniPDV, @DatumPodnosenja, @DatumIzvrsenja, @UkupnoUplaceno, @PreostaloZaUplatit, @DospijeceDana, @Knjizen)
+		@OdobrenjaBezPDV, @OdobreniPDV, @DatumPodnosenja, @DatumIzvrsenja, @UkupnoUplaceno, @PreostaloZaUplatit, @DospijeceDana, @Knjizen,
+		@TemeljnicaId)
 END

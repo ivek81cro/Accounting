@@ -6,12 +6,25 @@
              xmlns:local="clr-namespace:BookJournalModule.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
         <Style TargetType="TabItem">
             <Setter Property="Header" Value="{Binding DataContext.Title}"/>
+        </Style>
+        <Style x:Key="controlSidesSum" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SidesEqual, UpdateSourceTrigger=PropertyChanged}" 
+                             Value="False">
+                    <Setter Property="Foreground" Value="Red"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding SidesEqual, UpdateSourceTrigger=PropertyChanged}"
+                             Value="True">
+                    <Setter Property="Foreground" Value="Green"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -35,35 +48,36 @@
 
         <StackPanel Orientation="Horizontal" Margin="0" Grid.ColumnSpan="3"
                     Grid.Row="0" Grid.Column="0">
-            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="0"
                         Command="{Binding LoadDataCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\loadFile.png" Height="30"/>
-                    <TextBlock Text="Učitaj"/>
+                    <Image Source="images\loadfile.png" Height="30"/>
+                    <TextBlock Text="Knjižene temeljnice" TextWrapping="Wrap"
+                               FontSize="10" VerticalAlignment="Bottom"/>
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding ChangeDataCommand}" 
-                        Background="Transparent" BorderBrush="Gray">
+                    Command="{Binding ChangeDataCommand}" 
+                    Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\save.png" Height="30"/>
+                    <Image Source="images\edit.png" Height="30"/>
                     <TextBlock Text="Izmijeni"/>
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding ProcessItemCommand}" ToolTip="CTRL + K"
-                        Background="Transparent" BorderBrush="Gray">
+                    Command="{Binding ProcessItemCommand}" ToolTip="CTRL + K"
+                    Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\cogs.png" Height="30"/>
                     <TextBlock Text="Knjiži"/>
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding DeleteReportCommand}" ToolTip="CTRL + K"
+                        Command="{Binding DeleteJournalCommand}" ToolTip="CTRL + K"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\kanta.png" Height="30"/>
+                    <Image Source="images\delete.png" Height="30"/>
                     <TextBlock Text="Briši"/>
                 </StackPanel>
             </Button>
@@ -78,14 +92,42 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="95"/>
                         <ColumnDefinition Width="75"/>
-                        <ColumnDefinition Width="115"/>
-                        <ColumnDefinition Width="79"/>
-                        <ColumnDefinition Width="1"/>
-                        <ColumnDefinition Width="1"/>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="90"/>
-                    </Grid.ColumnDefinitions>                    
+                        <ColumnDefinition Width="95"/>
+                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="95"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <TextBlock Text="Dugovna" Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="0"/>
+                    <TextBlock Text="{Binding SumDugovna, StringFormat=N2,
+                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource controlSidesSum}"
+                               Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="1"/>
+
+                    <TextBlock Text="Potražna" Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="2"/>
+                    <TextBlock Text="{Binding SumPotrazna, StringFormat=N2,
+                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource controlSidesSum}"
+                               FontSize="14" FontWeight="Bold"
+                               Margin="5" Padding="5"
+                               Grid.Row="0" Grid.Column="3"/>
+
+                    <TextBlock Text="Stanje" Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="4"/>
+                    <TextBlock Text="{Binding SumStanje, StringFormat=N2,
+                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource controlSidesSum}"
+                               Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="5"/>
                 </Grid>
             </Border>
         </StackPanel>
@@ -97,11 +139,14 @@
         <TextBlock Text="Detalji temeljnice" Margin="5" Padding="5" FontSize="14"
                    Grid.Row="2" Grid.Column="0"/>
 
-        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
-                  CanUserDeleteRows="False" SelectedItem="{Binding SelectedJournalDetail}"
+        <DataGrid AutoGenerateColumns="False" CanUserAddRows="True"
+                  CanUserDeleteRows="True" SelectedItem="{Binding SelectedJournalDetail}"
                   ItemsSource="{Binding JournalDetails, IsAsync=True}"
-                  Width="auto"
+                  Width="auto" EnableRowVirtualization="False"                  
                   Grid.Row="3" Grid.Column="0">
+            <DataGrid.InputBindings>
+                <KeyBinding Key="Delete" Command="{Binding SumColumnsCommand}"/>
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Opis" Width="200"
                                     Binding="{Binding Opis}"/>

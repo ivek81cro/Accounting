@@ -60,5 +60,6 @@ namespace AccountingUI.Core.Models
             get { return _knjizen; }
             set { SetProperty(ref _knjizen, value); }
         }
+        public int TemeljnicaId { get; set; }
     }
 }

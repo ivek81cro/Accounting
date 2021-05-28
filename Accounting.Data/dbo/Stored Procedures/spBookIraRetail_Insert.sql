@@ -11,13 +11,14 @@
 @StornoMarze DECIMAL(9,2),
 @StornoPdv DECIMAL(9,2),
 @MaloprodajnaVrijednost DECIMAL(9,2),
-@Knjizen BIT
+@Knjizen BIT,
+@TemeljnicaId INT
 AS
 BEGIN
 	SET NOCOUNT ON;
 
 	INSERT INTO BookIraRetail (RedniBroj, Datum, Stopa, NaplacenaVrijednost, PoreznaOsnovica, NettoRuc, Pdv, NabavnaVrijednost,
-	StornoMarze, StornoPdv, MaloprodajnaVrijednost, Knjizen)
+	StornoMarze, StornoPdv, MaloprodajnaVrijednost, Knjizen, TemeljnicaId)
 	VALUES (@RedniBroj, @Datum, @Stopa, @NaplacenaVrijednost, @PoreznaOsnovica, @NettoRuc, @Pdv, @NabavnaVrijednost,
-	@StornoMarze, @StornoPdv, @MaloprodajnaVrijednost, @Knjizen);
+	@StornoMarze, @StornoPdv, @MaloprodajnaVrijednost, @Knjizen, @TemeljnicaId);
 END

@@ -9,11 +9,14 @@
 @Dugovna DECIMAL(9,2),
 @Potrazna DECIMAL(9,2),
 @VrstaTemeljnice NVARCHAR(125),
-@BrojTemeljnice INT
+@BrojTemeljnice INT,
+@DatumKnjizenja DATETIME2
 AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO AccountingJournal (Opis, Dokument, Broj, Konto, Datum, Valuta, Dugovna, Potrazna, VrstaTemeljnice, BrojTemeljnice)
-	VALUES (@Opis, @Dokument, @Broj, @Konto, @Datum, @Valuta, @Dugovna, @Potrazna, @VrstaTemeljnice, @BrojTemeljnice);
+	INSERT INTO AccountingJournal (Opis, Dokument, Broj, Konto, Datum, Valuta, Dugovna, Potrazna, 
+	VrstaTemeljnice, BrojTemeljnice, DatumKnjizenja)
+	VALUES (@Opis, @Dokument, @Broj, @Konto, @Datum, @Valuta, @Dugovna, @Potrazna, 
+	@VrstaTemeljnice, @BrojTemeljnice, @DatumKnjizenja);
 END

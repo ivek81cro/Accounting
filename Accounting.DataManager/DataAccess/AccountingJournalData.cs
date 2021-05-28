@@ -91,5 +91,24 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void DeleteJournal(AccountingJournalModel model)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spAccountingJournal_Delete", new
+                {
+                    VrstaTemeljnice = model.VrstaTemeljnice,
+                    BrojTemeljnice = model.BrojTemeljnice
+                });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

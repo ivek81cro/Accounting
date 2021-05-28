@@ -38,5 +38,6 @@ namespace AccountingUI.Core.Models
         public int DanaOdZaprimanja { get; set; }
         public int DanaNeplacanja { get; set; }
         public bool Knjizen { get; set; }
+        public int TemeljnicaId { get; set; }
     }
 }

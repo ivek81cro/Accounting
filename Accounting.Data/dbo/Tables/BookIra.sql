@@ -32,5 +32,6 @@
 	[ZaprimljenUHzzo] DATETIME2,
 	[DanaOdZaprimanja]INT,
 	[DanaNeplacanja] INT,
-	[Knjizen] BIT
+	[Knjizen] BIT,
+	[TemeljnicaId] INT
 )

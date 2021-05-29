@@ -48,6 +48,23 @@ namespace AccountingUI.Core.Services
             }
         }
 
+        public async Task<List<AccountingJournalModel>> LoadProcessedJournals()
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync("/api/Journal/Processed"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<AccountingJournalModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+
         public async Task<List<AccountingJournalModel>> LoadJournalDetails(AccountingJournalModel model)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/Journal/Details", model))

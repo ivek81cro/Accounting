@@ -18,6 +18,7 @@ namespace BookJournalModule
             containerRegistry.RegisterForNavigation<JournalView>();
 
             containerRegistry.RegisterDialog<EnterDateDialog>();
+            containerRegistry.RegisterDialog<ProcessedJournalsDialog>();
 
             containerRegistry.RegisterScoped<IAccountingJournalEndpoint, AccountingJournalEndpoint>();
         }

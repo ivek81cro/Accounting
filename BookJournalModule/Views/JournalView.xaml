@@ -49,7 +49,7 @@
         <StackPanel Orientation="Horizontal" Margin="0" Grid.ColumnSpan="3"
                     Grid.Row="0" Grid.Column="0">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="0"
-                        Command="{Binding LoadDataCommand}" 
+                        Command="{Binding LoadSavedCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
                     <Image Source="images\loadfile.png" Height="30"/>
@@ -173,7 +173,7 @@
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
                   IsReadOnly="True"
                   CanUserDeleteRows="False" SelectedItem="{Binding SelectedJournal}"
-                  ItemsSource="{Binding UnprocessedJournals, IsAsync=True}"
+                  ItemsSource="{Binding JournalHeaders, IsAsync=True}"
                   Width="auto" Margin="5 0 0 0"
                   Grid.Row="3" Grid.Column="1">
             <DataGrid.InputBindings>

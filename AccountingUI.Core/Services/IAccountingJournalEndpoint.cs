@@ -11,5 +11,6 @@ namespace AccountingUI.Core.Services
         Task<List<AccountingJournalModel>> LoadJournalDetails(AccountingJournalModel model);
         Task Delete(AccountingJournalModel accountingJournalModel);
         Task<int> LatestJournalNumber();
+        Task<List<AccountingJournalModel>> LoadProcessedJournals();
     }
 }

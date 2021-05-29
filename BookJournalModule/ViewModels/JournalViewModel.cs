@@ -26,21 +26,23 @@ namespace BookJournalModule.ViewModels
             ProcessItemCommand = new DelegateCommand(ProcessJournal);
             DeleteJournalCommand = new DelegateCommand(DeleteJournal, CanDelete);
             SumColumnsCommand = new DelegateCommand(DeleteRow);
-        }
+            LoadSavedCommand = new DelegateCommand(LoadProcessedHeaders);
+        }        
 
         #region Delegate commands
         public DelegateCommand LoadJournalCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
         public DelegateCommand DeleteJournalCommand { get; private set; }
         public DelegateCommand SumColumnsCommand { get; private set; }
+        public DelegateCommand LoadSavedCommand { get; private set; }
         #endregion
 
         #region Properties
-        private ObservableCollection<JournalHeaders> _unprocessedJournals;
-        public ObservableCollection<JournalHeaders> UnprocessedJournals
+        private ObservableCollection<JournalHeaders> _journalHeaders;
+        public ObservableCollection<JournalHeaders> JournalHeaders
         {
-            get { return _unprocessedJournals; }
-            set { SetProperty(ref _unprocessedJournals, value); }
+            get { return _journalHeaders; }
+            set { SetProperty(ref _journalHeaders, value); }
         }
 
         private JournalHeaders _selectedJournal;
@@ -97,10 +99,10 @@ namespace BookJournalModule.ViewModels
         public async void LoadHeaders()
         {
             var list = await _accountingJournalEndpoint.LoadUnprocessedJournals();
-            UnprocessedJournals = new ObservableCollection<JournalHeaders>();
+            JournalHeaders = new ObservableCollection<JournalHeaders>();
             foreach(var item in list)
             {
-                UnprocessedJournals.Add(
+                JournalHeaders.Add(
                     new JournalHeaders
                     {
                         BrojTemeljnice = item.BrojTemeljnice,
@@ -124,6 +126,17 @@ namespace BookJournalModule.ViewModels
             JournalDetails = new ObservableCollection<AccountingJournalModel>(list);
             DeleteJournalCommand.RaiseCanExecuteChanged();
             SumColumns();
+        }
+
+        private void LoadProcessedHeaders()
+        {
+            _showDialog.ShowDialog(nameof(ProcessedJournalsDialog), null, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
 
         private void SumColumns()

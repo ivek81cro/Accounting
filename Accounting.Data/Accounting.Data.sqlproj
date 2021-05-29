@@ -193,6 +193,7 @@
     <Build Include="dbo\Stored Procedures\spAccountingJournal_Delete.sql" />
     <Build Include="dbo\Stored Procedures\spAccountingJournal_GetLatestNumber.sql" />
     <Build Include="dbo\Stored Procedures\spAccountingJournal_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spAccountingJournal_GetProcessedHeaders.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

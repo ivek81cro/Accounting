@@ -35,6 +35,12 @@ namespace Accounting.Api.Controllers
             return _data.GetUnprocessedHeaders();
         }
 
+        [HttpGet("Processed/")]
+        public List<AccountingJournalModel> GetProcessed()
+        {
+            return _data.GetProcessedHeaders();
+        }
+
         [HttpGet("Latest/")]
         public int GetLatestNumber()
         {

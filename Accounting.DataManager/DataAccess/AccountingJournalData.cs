@@ -58,6 +58,21 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
+        public List<AccountingJournalModel> GetProcessedHeaders()
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<AccountingJournalModel, dynamic>("dbo.spAccountingJournal_GetProcessedHeaders", new { });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
         public List<AccountingJournalModel> GetJournalDetails(AccountingJournalModel model)
         {
             try

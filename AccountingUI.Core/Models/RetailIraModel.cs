@@ -17,7 +17,12 @@ namespace AccountingUI.Core.Models
         public decimal StornoMarze { get; set; }
         public decimal StornoPdv { get; set; }
         public decimal MaloprodajnaVrijednost { get; set; }
-        public bool Knjizen { get; set; }
+        private bool _knjizen;
+        public bool Knjizen
+        {
+            get { return _knjizen; }
+            set { SetProperty(ref _knjizen, value); }
+        }
         public int TemeljnicaId { get; set; }
     }
 }

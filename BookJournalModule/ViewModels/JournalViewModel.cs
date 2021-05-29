@@ -24,18 +24,20 @@ namespace BookJournalModule.ViewModels
 
             LoadJournalCommand = new DelegateCommand(LoadJournalDetails);
             ProcessItemCommand = new DelegateCommand(ProcessJournal);
-            DeleteJournalCommand = new DelegateCommand(DeleteJournal);
+            DeleteJournalCommand = new DelegateCommand(DeleteJournal, CanDelete);
             SumColumnsCommand = new DelegateCommand(DeleteRow);
         }
 
+        #region Delegate commands
         public DelegateCommand LoadJournalCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
         public DelegateCommand DeleteJournalCommand { get; private set; }
         public DelegateCommand SumColumnsCommand { get; private set; }
+        #endregion
 
         #region Properties
-        private List<JournalHeaders> _unprocessedJournals;
-        public List<JournalHeaders> UnprocessedJournals
+        private ObservableCollection<JournalHeaders> _unprocessedJournals;
+        public ObservableCollection<JournalHeaders> UnprocessedJournals
         {
             get { return _unprocessedJournals; }
             set { SetProperty(ref _unprocessedJournals, value); }
@@ -91,10 +93,10 @@ namespace BookJournalModule.ViewModels
         }
         #endregion
 
-        public async void LoadData()
+        public async void LoadHeaders()
         {
             var list = await _accountingJournalEndpoint.LoadUnprocessedJournals();
-            UnprocessedJournals = new List<JournalHeaders>();
+            UnprocessedJournals = new ObservableCollection<JournalHeaders>();
             foreach(var item in list)
             {
                 UnprocessedJournals.Add(
@@ -147,6 +149,11 @@ namespace BookJournalModule.ViewModels
             SumColumns();
         }
 
+        private bool CanDelete() 
+        {
+            return JournalDetails != null;
+        }
+
         private void DeleteJournal()
         {
             var parameter = new DialogParameters();
@@ -154,15 +161,17 @@ namespace BookJournalModule.ViewModels
                 "dokumente kao neknjižene da bi mogli ponovo izvršiti knjiženje na temeljnicu.\n" +
                 "Želite li nastaviti?";
             parameter.Add("message", message);
-            _showDialog.ShowDialog("AreYouSureView", parameter, result =>
+            _showDialog.ShowDialog("AreYouSureView", parameter, async result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    _accountingJournalEndpoint.Delete(new AccountingJournalModel
+                    await _accountingJournalEndpoint.Delete(new AccountingJournalModel
                     {
                         BrojTemeljnice = SelectedJournal.BrojTemeljnice,
                         VrstaTemeljnice = SelectedJournal.VrstaTemeljnice
                     });
+                    LoadHeaders();
+                    JournalDetails = null;
                 }
             });
         }

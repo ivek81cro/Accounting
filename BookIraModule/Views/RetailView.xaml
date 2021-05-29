@@ -114,6 +114,8 @@
             </DatePicker>
             <Button Content="Filtriraj" Command="{Binding FilterDataCommand}"
                     Margin="5" Padding="5" Width="75"/>
+            <Button Content="Odznači knjiženo" Command="{Binding UnmarkProcessedCommand}"
+                    Margin="5" Padding="5" Width="105"/>
         </StackPanel>
 
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
@@ -122,6 +124,7 @@
                   Grid.Row="4" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Redni broj" Binding="{Binding RedniBroj}"/>
+                <DataGridCheckBoxColumn Header="Knjižen" Binding="{Binding Knjizen}"/>
                 <DataGridTextColumn Header="Datum" 
                                     Binding="{Binding Datum, 
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>
@@ -141,8 +144,7 @@
                 <DataGridTextColumn Header="Storno PDV-a" 
                                     Binding="{Binding StornoPdv, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Maloprodajna vrijednost"
-                                    Binding="{Binding MalporodajnaVrijednost, StringFormat=N2}"/>
-                <DataGridCheckBoxColumn Header="Knjižen" Binding="{Binding Knjizen}"/>
+                                    Binding="{Binding MaloprodajnaVrijednost, StringFormat=N2}"/>
             </DataGrid.Columns>
         </DataGrid>
 

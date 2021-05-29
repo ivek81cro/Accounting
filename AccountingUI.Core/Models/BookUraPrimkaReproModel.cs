@@ -1,8 +1,9 @@
-﻿using System;
+﻿using AccountingUI.Core.TabControlRegion;
+using System;
 
 namespace AccountingUI.Core.Models
 {
-    public class BookUraPrimkaReproModel
+    public class BookUraPrimkaReproModel : ViewModelBase
     {
         public int Id { get; set; }
         public DateTime DatumKnjizenja { get; set; }
@@ -22,7 +23,12 @@ namespace AccountingUI.Core.Models
         public decimal CassaSconto { get; set; }
         public string PorezniBroj { get; set; }
         public int BrojUKnjiziUra { get; set; }
-        public bool Knjizen { get; set; }
+        private bool _knjizen;
+        public bool Knjizen
+        {
+            get { return _knjizen; }
+            set { SetProperty(ref _knjizen, value); }
+        }
         public int TemeljnicaId { get; set; }
     }
 }

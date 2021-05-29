@@ -49,7 +49,8 @@ namespace BookUraModule.ViewModels
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSavePrimke);
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
-            ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
+            ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess); 
+            UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
         }
 
         #region DelegateCommands
@@ -58,6 +59,7 @@ namespace BookUraModule.ViewModels
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
+        public DelegateCommand UnmarkProcessedCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -101,6 +103,7 @@ namespace BookUraModule.ViewModels
             set
             {
                 SetProperty(ref _dateFrom, value);
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -111,6 +114,7 @@ namespace BookUraModule.ViewModels
             set
             {
                 SetProperty(ref _dateTo, value);
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -403,6 +407,22 @@ namespace BookUraModule.ViewModels
                     _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
                 }
             });
+        }
+        #endregion
+
+        #region Remove processed checked status
+        private bool CanUnmark()
+        {
+            return DateFrom != null && DateTo != null;
+        }
+
+        private void UnmarkProcessed()
+        {
+            foreach (object item in _filteredView)
+            {
+                SelectedUraPrimke = (BookUraPrimkaReproModel)item;
+                SelectedUraPrimke.Knjizen = false;
+            }
         }
         #endregion
     }

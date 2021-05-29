@@ -37,7 +37,12 @@ namespace AccountingUI.Core.Models
         public DateTime? ZaprimljenUHzzo { get; set; }
         public int DanaOdZaprimanja { get; set; }
         public int DanaNeplacanja { get; set; }
-        public bool Knjizen { get; set; }
+        private bool _knjizen;
+        public bool Knjizen
+        {
+            get { return _knjizen; }
+            set { SetProperty(ref _knjizen, value); }
+        }
         public int TemeljnicaId { get; set; }
     }
 }

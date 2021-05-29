@@ -29,7 +29,12 @@ namespace AccountingUI.Core.Models
         public decimal PovratnaNaknada { get; set; }
         public string PorezniBroj { get; set; }
         public int BrojUKnjiziUra { get; set; }
-        public bool Knjizen { get; set; }
+        private bool _knjizen;
+        public bool Knjizen
+        {
+            get { return _knjizen; }
+            set { SetProperty(ref _knjizen, value); }
+        }
         public int TemeljnicaId { get; set; }
     }
 }

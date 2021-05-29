@@ -54,6 +54,7 @@ namespace BookUraModule.ViewModels
             LoadExpendituresCommand = new DelegateCommand(LoadOnlyRestExpenditures);
             LoadRetailCommand = new DelegateCommand(LoadRetailInvoices);
             CreateUraXmlCommand = new DelegateCommand(CreateUraXml, CanCreateXml);
+            UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
         }
 
         #region Delegate commands
@@ -66,6 +67,7 @@ namespace BookUraModule.ViewModels
         public DelegateCommand LoadExpendituresCommand { get; private set; }
         public DelegateCommand LoadRetailCommand { get; private set; }
         public DelegateCommand CreateUraXmlCommand { get; private set; }
+        public DelegateCommand UnmarkProcessedCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -100,6 +102,7 @@ namespace BookUraModule.ViewModels
             {
                 SetProperty(ref _dateFrom, value);
                 CreateUraXmlCommand.RaiseCanExecuteChanged();
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -111,6 +114,7 @@ namespace BookUraModule.ViewModels
             {
                 SetProperty(ref _dateTo, value);
                 CreateUraXmlCommand.RaiseCanExecuteChanged();
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -526,6 +530,22 @@ namespace BookUraModule.ViewModels
 
                 }
             });
+        }
+        #endregion
+
+        #region Remove processed checked status
+        private bool CanUnmark()
+        {
+            return DateFrom != null && DateTo != null;
+        }
+
+        private void UnmarkProcessed()
+        {
+            foreach (object item in _filteredView)
+            {
+                SelectedUraPrimke = (BookUraRestModel)item;
+                SelectedUraPrimke.Knjizen = false;
+            }
         }
         #endregion
     }

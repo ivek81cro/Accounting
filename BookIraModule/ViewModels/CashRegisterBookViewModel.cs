@@ -47,6 +47,7 @@ namespace BookIraModule.ViewModels
             FilterDataCommand = new DelegateCommand(FilterItems);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
             CalculationsReportCommand = new DelegateCommand(SumColumns);
+            UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
         }
 
         #region Delegate commands
@@ -56,6 +57,7 @@ namespace BookIraModule.ViewModels
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
         public DelegateCommand CalculationsReportCommand { get; private set; }
+        public DelegateCommand UnmarkProcessedCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -89,6 +91,7 @@ namespace BookIraModule.ViewModels
             set
             {
                 SetProperty(ref _dateFrom, value);
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -99,6 +102,7 @@ namespace BookIraModule.ViewModels
             set
             {
                 SetProperty(ref _dateTo, value);
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -309,7 +313,7 @@ namespace BookIraModule.ViewModels
             return item;
         }
 
-        private async Task<List<AccountingJournalModel>> CreateJournalEntries()
+        private List<AccountingJournalModel> CreateJournalEntries()
         {
             var mappings = MapColumnToPropertyValue();
             var entry = SelectedBookItem;
@@ -350,7 +354,7 @@ namespace BookIraModule.ViewModels
             }
             else
             {
-                await SendToProcessingDialog();
+                SendToProcessingDialog();
             }
         }
 
@@ -359,11 +363,11 @@ namespace BookIraModule.ViewModels
             foreach (var item in _filteredView)
             {
                 SelectedBookItem = (CashRegisterModel)item;
-                var entries = await CreateJournalEntries();
+                var entries = CreateJournalEntries();
                 if (!await _processToJournalService.ProcessEntries(entries))
                 {
                     AutomaticProcess = false;
-                    await SendToProcessingDialog();
+                    SendToProcessingDialog();
                     break;
                 }
                 else
@@ -374,10 +378,10 @@ namespace BookIraModule.ViewModels
             }
         }
 
-        private async Task SendToProcessingDialog()
+        private void SendToProcessingDialog()
         {
 
-            var entries = await CreateJournalEntries();
+            var entries = CreateJournalEntries();
             var parameters = new DialogParameters();
             parameters.Add("entries", entries);
             _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
@@ -388,6 +392,22 @@ namespace BookIraModule.ViewModels
                     _cashRegisterBookEndpoint.MarkAsProcessed(SelectedBookItem.RedniBroj);
                 }
             });
+        }
+        #endregion
+
+        #region Remove processed checked status
+        private bool CanUnmark()
+        {
+            return DateFrom != null && DateTo != null;
+        }
+
+        private void UnmarkProcessed()
+        {
+            foreach (object item in _filteredView)
+            {
+                SelectedBookItem = (CashRegisterModel)item;
+                SelectedBookItem.Knjizen = false;
+            }
         }
         #endregion
     }

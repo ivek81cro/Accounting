@@ -140,6 +140,8 @@
             <TextBox Margin="5" MinWidth="150" Text="{Binding FilterName}"/>
             <Button Content="Filtriraj" Command="{Binding FilterDataCommand}"
                     Margin="5" Padding="5" Width="75"/>
+            <Button Content="Odznači knjiženo" Command="{Binding UnmarkProcessedCommand}"
+                    Margin="5" Padding="5" Width="105"/>
         </StackPanel>
 
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
@@ -149,6 +151,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Redni broj" 
                                     Binding="{Binding RedniBroj}"/>
+                <DataGridCheckBoxColumn Header="Knjižen"
+                                        Binding="{Binding Knjizen}"/>
                 <DataGridTextColumn Header="Datum" 
                                     Binding="{Binding Datum, 
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>

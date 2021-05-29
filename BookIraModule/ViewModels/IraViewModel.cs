@@ -41,6 +41,7 @@ namespace BookIraModule.ViewModels
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
             _accoutPairsEndpoint = accoutPairsEndpoint;
+            _processToJournalService = processToJournalService;
 
             _bookName = "Knjiga izlaznih računa";
 
@@ -49,8 +50,8 @@ namespace BookIraModule.ViewModels
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
-            CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
-            _processToJournalService = processToJournalService;
+            CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog); ;
+            UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
         }
 
         #region Delegate commands
@@ -60,6 +61,7 @@ namespace BookIraModule.ViewModels
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
         public DelegateCommand CalculationsReportCommand { get; private set; }
+        public DelegateCommand UnmarkProcessedCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -93,6 +95,7 @@ namespace BookIraModule.ViewModels
             set
             {
                 SetProperty(ref _dateFrom, value);
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -103,6 +106,7 @@ namespace BookIraModule.ViewModels
             set
             {
                 SetProperty(ref _dateTo, value);
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -448,6 +452,22 @@ namespace BookIraModule.ViewModels
 
                 }
             });
+        }
+        #endregion
+
+        #region Remove processed checked status
+        private bool CanUnmark()
+        {
+            return DateFrom != null && DateTo != null;
+        }
+
+        private void UnmarkProcessed()
+        {
+            foreach (object item in _filteredView)
+            {
+                SelectedIra = (BookIraModel)item;
+                SelectedIra.Knjizen = false;
+            }
         }
         #endregion
     }

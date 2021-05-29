@@ -111,13 +111,17 @@
             </DatePicker>
             <Button Content="Filtriraj" Command="{Binding FilterDataCommand}"
                     Margin="5" Padding="5" Width="75"/>
+
+            <Button Content="Odznači knjiženo" Command="{Binding UnmarkProcessedCommand}"
+                    Margin="5" Padding="5" Width="105"/>
+            
         </StackPanel>
 
         <Border BorderBrush="Black" BorderThickness="1"
                 Grid.Row="4" Grid.Column="0">
             <StackPanel Orientation="Horizontal" Margin="0">
                 <Border BorderThickness="0 0 1 0" BorderBrush="Black">
-                    <TextBlock Text="Ukupno:" FontWeight="Bold" Width="205" Padding="5"/>
+                    <TextBlock Text="Ukupno:" FontWeight="Bold" Width="220" Padding="5"/>
                 </Border>
                 <Border BorderThickness="0 0 1 0" BorderBrush="Black">
                     <TextBlock Text="{Binding CashSum, StringFormat=N2}" 
@@ -144,8 +148,10 @@
                   SelectedItem="{Binding SelectedBookItem}"
                   Grid.Row="5" Grid.Column="0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Redni broj" Width="100"
+                <DataGridTextColumn Header="Redni broj" Width="65"
                                     Binding="{Binding RedniBroj}"/>
+                <DataGridCheckBoxColumn Header="Knjižen" Width="50"
+                                        Binding="{Binding Knjizen}"/>
                 <DataGridTextColumn Header="Datum"  Width="100"
                                     Binding="{Binding Datum, 
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>
@@ -157,8 +163,6 @@
                                     Binding="{Binding Sveukupno, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Iznos sudjelovanja"  Width="110"
                                     Binding="{Binding IznosSudjelovanja, StringFormat=N2}"/>
-                <DataGridCheckBoxColumn Header="Knjižen" Width="80"
-                                        Binding="{Binding Knjizen}"/>
             </DataGrid.Columns>
         </DataGrid>
 

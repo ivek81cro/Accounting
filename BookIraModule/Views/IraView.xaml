@@ -116,6 +116,8 @@
             <TextBox Margin="5" MinWidth="150" Text="{Binding FilterName}"/>
             <Button Content="Filtriraj" Command="{Binding FilterDataCommand}"
                     Margin="5" Padding="5" Width="75"/>
+            <Button Content="Odznači knjiženo" Command="{Binding UnmarkProcessedCommand}"
+                    Margin="5" Padding="5" Width="105"/>
         </StackPanel>
 
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
@@ -125,6 +127,8 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Redni broj" 
                                     Binding="{Binding RedniBroj}"/>
+                <DataGridCheckBoxColumn Header="Knjižen"
+                                        Binding="{Binding Knjizen}"/>
                 <DataGridTextColumn Header="Broj računa" 
                                     Binding="{Binding BrojRacuna}"/>
                 <DataGridCheckBoxColumn Header="Storno" 
@@ -189,9 +193,6 @@
                                     Binding="{Binding DanaOdZaprimanja}"/>
                 <DataGridTextColumn Header="Dana neplaćanja" 
                                     Binding="{Binding DanaNeplacanja}"/>
-                <DataGridCheckBoxColumn Header="Knjižen" 
-                                        Binding="{Binding Knjizen, Mode=TwoWay, 
-                                        UpdateSourceTrigger=PropertyChanged}"/>
 
             </DataGrid.Columns>
         </DataGrid>

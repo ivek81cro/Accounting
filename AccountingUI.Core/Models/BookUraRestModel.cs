@@ -51,7 +51,12 @@ namespace AccountingUI.Core.Models
         public decimal UkupnoUplaceno { get; set; }
         public decimal PreostaloZaUplatit { get; set; }
         public int DospijeceDana { get; set; }
-        public bool Knjizen { get; set; }
+        private bool _knjizen;
+        public bool Knjizen
+        {
+            get { return _knjizen; }
+            set { SetProperty(ref _knjizen, value); }
+        }
         public int TemeljnicaId { get; set; }
     }
 }

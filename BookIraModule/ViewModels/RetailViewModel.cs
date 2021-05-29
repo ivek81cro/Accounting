@@ -47,6 +47,7 @@ namespace BookIraModule.ViewModels
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
             CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
+            UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
         }
 
         #region Delegate commands
@@ -56,6 +57,7 @@ namespace BookIraModule.ViewModels
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
         public DelegateCommand CalculationsReportCommand { get; private set; }
+        public DelegateCommand UnmarkProcessedCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -89,6 +91,7 @@ namespace BookIraModule.ViewModels
             set
             {
                 SetProperty(ref _dateFrom, value);
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -99,6 +102,7 @@ namespace BookIraModule.ViewModels
             set
             {
                 SetProperty(ref _dateTo, value);
+                UnmarkProcessedCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -382,6 +386,22 @@ namespace BookIraModule.ViewModels
 
                 }
             });
+        }
+        #endregion
+
+        #region Remove processed checked status
+        private bool CanUnmark()
+        {
+            return DateFrom != null && DateTo != null;
+        }
+
+        private void UnmarkProcessed()
+        {
+            foreach (object item in _filteredView)
+            {
+                SelectedItem = (RetailIraModel)item;
+                SelectedItem.Knjizen = false;
+            }
         }
         #endregion
     }

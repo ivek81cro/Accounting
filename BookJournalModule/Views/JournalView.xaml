@@ -31,7 +31,7 @@
         <i:Interaction.Triggers>
             <i:EventTrigger EventName="Loaded">
                 <i:CallMethodAction TargetObject="{Binding}"
-                                    MethodName="LoadData"/>
+                                    MethodName="LoadHeaders"/>
             </i:EventTrigger>
         </i:Interaction.Triggers>
         <Grid.RowDefinitions>
@@ -92,11 +92,11 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="75"/>
-                        <ColumnDefinition Width="95"/>
+                        <ColumnDefinition Width="125"/>
                         <ColumnDefinition Width="75"/>
-                        <ColumnDefinition Width="95"/>
+                        <ColumnDefinition Width="125"/>
                         <ColumnDefinition Width="75"/>
-                        <ColumnDefinition Width="95"/>
+                        <ColumnDefinition Width="125"/>
                     </Grid.ColumnDefinitions>
                     
                     <TextBlock Text="Dugovna" Margin="5" Padding="5"
@@ -141,8 +141,7 @@
 
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="True"
                   CanUserDeleteRows="True" SelectedItem="{Binding SelectedJournalDetail}"
-                  ItemsSource="{Binding JournalDetails, IsAsync=True}"
-                  Width="auto" EnableRowVirtualization="False"                  
+                  ItemsSource="{Binding JournalDetails, IsAsync=True}" Width="auto"               
                   Grid.Row="3" Grid.Column="0">
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding SumColumnsCommand}"/>

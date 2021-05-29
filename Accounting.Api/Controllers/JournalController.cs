@@ -34,7 +34,13 @@ namespace Accounting.Api.Controllers
         {
             return _data.GetUnprocessedHeaders();
         }
-        
+
+        [HttpGet("Latest/")]
+        public int GetLatestNumber()
+        {
+            return _data.LatestNumber();
+        }
+
         [HttpPost("Details/")]
         public List<AccountingJournalModel> GetDetails([FromBody] AccountingJournalModel model)
         {
@@ -58,7 +64,19 @@ namespace Accounting.Api.Controllers
         [HttpPost]
         public void Post([FromBody] List<AccountingJournalModel> list)
         {
-            _data.Insert(list);
+            if (list.ElementAt(0).BrojTemeljnice != 0)
+            {
+                Update(list);
+            }
+            else
+            {
+                _data.Insert(list);
+            }
+        }
+
+        public void Update(List<AccountingJournalModel> list)
+        {
+            _data.Update(list);
         }
     }
 }

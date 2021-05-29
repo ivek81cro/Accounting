@@ -191,6 +191,8 @@
     <Build Include="dbo\Stored Procedures\spBookIraRetail_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spBookIraRetail_SetProcessed.sql" />
     <Build Include="dbo\Stored Procedures\spAccountingJournal_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\spAccountingJournal_GetLatestNumber.sql" />
+    <Build Include="dbo\Stored Procedures\spAccountingJournal_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

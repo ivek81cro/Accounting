@@ -11,5 +11,7 @@ namespace Accounting.DataManager.DataAccess
         List<AccountingJournalModel> GetUnprocessedHeaders();
         List<AccountingJournalModel> GetJournalDetails(AccountingJournalModel model);
         void DeleteJournal(AccountingJournalModel model);
+        int LatestNumber();
+        void Update(List<AccountingJournalModel> list);
     }
 }

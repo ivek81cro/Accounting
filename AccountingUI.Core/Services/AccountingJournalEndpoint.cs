@@ -78,5 +78,22 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<int> LatestJournalNumber()
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync("/api/Journal/Latest"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<int>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }
+

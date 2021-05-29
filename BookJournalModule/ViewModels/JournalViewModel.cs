@@ -93,6 +93,7 @@ namespace BookJournalModule.ViewModels
         }
         #endregion
 
+        #region Load headers and journal details
         public async void LoadHeaders()
         {
             var list = await _accountingJournalEndpoint.LoadUnprocessedJournals();
@@ -121,6 +122,7 @@ namespace BookJournalModule.ViewModels
                             });
 
             JournalDetails = new ObservableCollection<AccountingJournalModel>(list);
+            DeleteJournalCommand.RaiseCanExecuteChanged();
             SumColumns();
         }
 
@@ -131,6 +133,7 @@ namespace BookJournalModule.ViewModels
             SumStanje = SumDugovna - SumPotrazna;
             SidesEqual = SumStanje == 0;
         }
+        #endregion
 
         private void ProcessJournal()
         {
@@ -139,8 +142,28 @@ namespace BookJournalModule.ViewModels
                 if (result.Result == ButtonResult.OK)
                 {
                     SelectedJournal.DatumKnjizenja = result.Parameters.GetValue<DateTime?>("date");
+                    ProcessJournalToMainLedger();
                 }
             });
+        }
+
+        private async void ProcessJournalToMainLedger()
+        {
+            int journamNumber = await _accountingJournalEndpoint.LatestJournalNumber();
+            foreach (var item in JournalDetails)
+            {
+                item.DatumKnjizenja = SelectedJournal.DatumKnjizenja;
+                item.BrojTemeljnice = journamNumber + 1;
+            }
+            await _accountingJournalEndpoint.Post(JournalDetails.ToList());
+            ResetCommandsAndView();
+        }
+
+        private void ResetCommandsAndView()
+        {
+            LoadHeaders();
+            JournalDetails = null;
+            DeleteJournalCommand.RaiseCanExecuteChanged();
         }
 
         private void DeleteRow()
@@ -170,8 +193,7 @@ namespace BookJournalModule.ViewModels
                         BrojTemeljnice = SelectedJournal.BrojTemeljnice,
                         VrstaTemeljnice = SelectedJournal.VrstaTemeljnice
                     });
-                    LoadHeaders();
-                    JournalDetails = null;
+                    ResetCommandsAndView();
                 }
             });
         }

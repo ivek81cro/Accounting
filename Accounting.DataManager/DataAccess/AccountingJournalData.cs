@@ -1,5 +1,6 @@
 ﻿using Accounting.DataManager.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Accounting.DataManager.DataAccess
 {
@@ -92,6 +93,21 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
+        public void Update(List<AccountingJournalModel> journal)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spAccountingJournal_Update", journal);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
         public void DeleteJournal(AccountingJournalModel model)
         {
             try
@@ -103,6 +119,22 @@ namespace Accounting.DataManager.DataAccess
                     VrstaTemeljnice = model.VrstaTemeljnice,
                     BrojTemeljnice = model.BrojTemeljnice
                 });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
+
+        public int LatestNumber()
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                var result = _sql.LoadDataInTransaction<int, dynamic>("dbo.spAccountingJournal_GetLatestNumber", new { });
+                return result.FirstOrDefault();
             }
             catch (System.Exception)
             {

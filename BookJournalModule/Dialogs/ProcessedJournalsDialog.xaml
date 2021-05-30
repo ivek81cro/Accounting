@@ -20,18 +20,24 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Knjižene temeljnice" Margin="5" FontSize="18"
                    Grid.Row="0" Grid.Column="0"/>
 
+        <Button Content="Otvori" Command="{Binding OpenJournalCommand}"
+                Margin="5" Padding="5" Width="85" HorizontalAlignment="Left"
+                Grid.Row="1" Grid.Column="0"/>
+
         <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
                   IsReadOnly="True"
-                  CanUserDeleteRows="False" SelectedItem="{Binding SelectedJournal}"
+                  CanUserDeleteRows="False" 
+                  SelectedItem="{Binding SelectedJournal}"
                   ItemsSource="{Binding JournalHeaders, IsAsync=True}"
                   Width="auto" Margin="5 0 0 0"
-                  Grid.Row="1" Grid.Column="0">
+                  Grid.Row="2" Grid.Column="0">
             <DataGrid.InputBindings>
                 <MouseBinding MouseAction="LeftDoubleClick"
                               Command="{Binding LoadJournalCommand}"/>

@@ -100,6 +100,8 @@ namespace Accounting.DataManager.DataAccess
                 _sql.StartTransaction("AccountingConnStr");
 
                 _sql.SaveDataInTransaction("dbo.spAccountingJournal_Insert", journal);
+
+                _sql.CommitTransaction();
             }
             catch (System.Exception)
             {
@@ -134,6 +136,7 @@ namespace Accounting.DataManager.DataAccess
                     VrstaTemeljnice = model.VrstaTemeljnice,
                     BrojTemeljnice = model.BrojTemeljnice
                 });
+                _sql.CommitTransaction();
             }
             catch (System.Exception)
             {

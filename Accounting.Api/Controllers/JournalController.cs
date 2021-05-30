@@ -72,7 +72,7 @@ namespace Accounting.Api.Controllers
         {
             if (list.ElementAt(0).BrojTemeljnice != 0)
             {
-                Update(list);
+                _data.Update(list);
             }
             else
             {
@@ -80,9 +80,11 @@ namespace Accounting.Api.Controllers
             }
         }
 
-        public void Update(List<AccountingJournalModel> list)
+        [HttpPost("Update/")]
+        public void Update([FromBody] List<AccountingJournalModel> list)
         {
-            _data.Update(list);
+            DeleteEntries(list.ElementAt(0));
+            _data.Insert(list);
         }
     }
 }

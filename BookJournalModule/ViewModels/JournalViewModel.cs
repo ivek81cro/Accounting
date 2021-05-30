@@ -23,11 +23,12 @@ namespace BookJournalModule.ViewModels
             _showDialog = showDialog;
 
             LoadJournalCommand = new DelegateCommand(LoadJournalDetails);
-            ProcessItemCommand = new DelegateCommand(ProcessJournal);
+            ProcessItemCommand = new DelegateCommand(ProcessJournal, CanProcess);
             DeleteJournalCommand = new DelegateCommand(DeleteJournal, CanDelete);
             SumColumnsCommand = new DelegateCommand(DeleteRow);
             LoadSavedCommand = new DelegateCommand(LoadProcessedHeaders);
-        }        
+            SaveChangesCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
+        }
 
         #region Delegate commands
         public DelegateCommand LoadJournalCommand { get; private set; }
@@ -35,6 +36,7 @@ namespace BookJournalModule.ViewModels
         public DelegateCommand DeleteJournalCommand { get; private set; }
         public DelegateCommand SumColumnsCommand { get; private set; }
         public DelegateCommand LoadSavedCommand { get; private set; }
+        public DelegateCommand SaveChangesCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -49,14 +51,24 @@ namespace BookJournalModule.ViewModels
         public JournalHeaders SelectedJournal
         {
             get { return _selectedJournal; }
-            set { SetProperty(ref _selectedJournal, value); }
+            set 
+            { 
+                SetProperty(ref _selectedJournal, value);
+                ProcessItemCommand.RaiseCanExecuteChanged();
+                SaveChangesCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private ObservableCollection<AccountingJournalModel> _journalDetails;
         public ObservableCollection<AccountingJournalModel> JournalDetails
         {
             get { return _journalDetails; }
-            set { SetProperty(ref _journalDetails, value); }
+            set 
+            { 
+                SetProperty(ref _journalDetails, value);
+                ProcessItemCommand.RaiseCanExecuteChanged();
+                SaveChangesCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private AccountingJournalModel _selectedJournalDetail;
@@ -134,7 +146,8 @@ namespace BookJournalModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-
+                    SelectedJournal = result.Parameters.GetValue<JournalHeaders>("selectedJournal");
+                    LoadJournalDetails();
                 }
             });
         }
@@ -147,6 +160,9 @@ namespace BookJournalModule.ViewModels
             SidesEqual = SumStanje == 0;
         }
         #endregion
+
+        private bool CanProcess() => 
+            JournalDetails != null && SelectedJournal != null && SelectedJournal.BrojTemeljnice == 0;
 
         private void ProcessJournal()
         {
@@ -176,7 +192,10 @@ namespace BookJournalModule.ViewModels
         {
             LoadHeaders();
             JournalDetails = null;
+            SelectedJournal = null;
             DeleteJournalCommand.RaiseCanExecuteChanged();
+            ProcessItemCommand.RaiseCanExecuteChanged();
+            SaveChangesCommand.RaiseCanExecuteChanged();
         }
 
         private void DeleteRow()
@@ -185,10 +204,7 @@ namespace BookJournalModule.ViewModels
             SumColumns();
         }
 
-        private bool CanDelete() 
-        {
-            return JournalDetails != null;
-        }
+        private bool CanDelete() => JournalDetails != null;
 
         private void DeleteJournal()
         {
@@ -209,6 +225,14 @@ namespace BookJournalModule.ViewModels
                     ResetCommandsAndView();
                 }
             });
+        }
+
+        private bool CanSaveChanges() => SelectedJournal != null && SelectedJournal.BrojTemeljnice != 0;
+
+        private async void SaveChanges()
+        {
+            await _accountingJournalEndpoint.Update(JournalDetails.ToList());
+            ResetCommandsAndView();
         }
     }
 }

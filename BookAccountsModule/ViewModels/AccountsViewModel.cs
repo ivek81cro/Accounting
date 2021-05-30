@@ -22,10 +22,12 @@ namespace BookAccountsModule.ViewModels
 
             EditAccountCommand = new DelegateCommand(OpenEditDialog, CanEdit);
             AddAccountCommand = new DelegateCommand(AddAccount);
+            OpenBalanceCommand = new DelegateCommand(OpenBalanceCard, CanOpenBalance);
         }
 
         public DelegateCommand EditAccountCommand { get; private set; }
         public DelegateCommand AddAccountCommand { get; private set; }
+        public DelegateCommand OpenBalanceCommand { get; private set; }
 
         private ObservableCollection<BookAccountModel> _accounts;
         public ObservableCollection<BookAccountModel> Accounts
@@ -42,6 +44,7 @@ namespace BookAccountsModule.ViewModels
             { 
                 SetProperty(ref _selectedAccount, value);
                 EditAccountCommand.RaiseCanExecuteChanged();
+                OpenBalanceCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -86,6 +89,21 @@ namespace BookAccountsModule.ViewModels
                 if (result.Result == ButtonResult.OK)
                 {
                     LoadAccounts();
+                }
+            });
+        }
+
+        private bool CanOpenBalance() => SelectedAccount != null;
+
+        private void OpenBalanceCard()
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("accountNumber", SelectedAccount.Konto);
+            _showDialog.ShowDialog("BalanceCardDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
                 }
             });
         }

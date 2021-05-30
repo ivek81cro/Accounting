@@ -30,6 +30,12 @@ namespace Accounting.Api.Controllers
             return _bookAccount.GetAll();
         }
 
+        [HttpPost("ByNumber/")]
+        public BookAccountModel GetByNumber([FromBody] string number)
+        {
+            return _bookAccount.GetByNumber(number);
+        }
+
         // POST api/<BookIraController>
         [HttpPost]
         public void Post([FromBody] BookAccountModel account)

@@ -2,6 +2,7 @@
 using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
 using AccountingUI.Core.Services;
+using AccountingUI.Wpf.Dialogs.AccountBalanceCard;
 using AccountingUI.Wpf.Dialogs.AccountingProcessing;
 using AccountingUI.Wpf.Dialogs.AccountingSettings;
 using AccountingUI.Wpf.Dialogs.AccountPairing;
@@ -55,6 +56,7 @@ namespace AccountingUI.WPF
             containerRegistry.RegisterDialog<AccountsSelectionDialog>();
             containerRegistry.RegisterDialog<ProcessToJournal>();
             containerRegistry.RegisterDialog<AccountPairDialog>();
+            containerRegistry.RegisterDialog<BalanceCardDialog>();
         }
 
         private IMapper ConfigureAutomapper()

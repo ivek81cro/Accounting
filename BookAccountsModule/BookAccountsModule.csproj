@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Images\accountCard.PNG" />
     <None Remove="Views\Images\add.PNG" />
     <None Remove="Views\Images\edit.PNG" />
     <None Remove="Views\Images\kanta.PNG" />
@@ -20,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Views\Images\accountCard.PNG" />
     <Resource Include="Views\Images\add.PNG" />
     <Resource Include="Views\Images\edit.PNG" />
     <Resource Include="Views\Images\kanta.PNG" />

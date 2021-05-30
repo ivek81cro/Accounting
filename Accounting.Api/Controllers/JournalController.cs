@@ -47,6 +47,12 @@ namespace Accounting.Api.Controllers
             return _data.LatestNumber();
         }
 
+        [HttpGet("Card/{accountNumber}")]
+        public List<AccountBalanceModel> GetAccountCard(string accountNumber)
+        {
+            return _data.GetAccountBalance(accountNumber);
+        }
+
         [HttpPost("Details/")]
         public List<AccountingJournalModel> GetDetails([FromBody] AccountingJournalModel model)
         {

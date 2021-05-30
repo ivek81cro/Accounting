@@ -50,6 +50,14 @@
                     <TextBlock Text="Izmjeni"/>
                 </StackPanel>
             </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                    Command="{Binding OpenBalanceCommand}"
+                    Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\accountCard.png" Height="30"/>
+                    <TextBlock Text="Kartica"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 

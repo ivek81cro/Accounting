@@ -2,6 +2,7 @@
 using AccountingUI.Core.Service;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -119,6 +120,22 @@ namespace AccountingUI.Core.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsAsync<int>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<List<AccountBalanceModel>> LoadAccountCard(string accountNumber)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Journal/Card/{accountNumber}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<AccountBalanceModel>>();
                     return result;
                 }
                 else

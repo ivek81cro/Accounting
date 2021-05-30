@@ -160,5 +160,21 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public List<AccountBalanceModel> GetAccountBalance(string accountNumber)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<AccountBalanceModel, dynamic>(
+                    "dbo.spAccountingJournal_GetAccountBalance", new { Konto=accountNumber });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

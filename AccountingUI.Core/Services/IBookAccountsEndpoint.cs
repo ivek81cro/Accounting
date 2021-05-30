@@ -7,6 +7,7 @@ namespace AccountingUI.Core.Services
     public interface IBookAccountsEndpoint
     {
         Task<List<BookAccountModel>> GetAll();
+        Task<BookAccountModel> GetByNumber(string number);
         Task<bool> Insert(BookAccountModel account);
     }
 }

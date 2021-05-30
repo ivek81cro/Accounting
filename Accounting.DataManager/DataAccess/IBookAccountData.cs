@@ -9,5 +9,6 @@ namespace Accounting.DataManager.DataAccess
         bool Exists(BookAccountModel account);
         void Insert(BookAccountModel account);
         void Update(BookAccountModel account);
+        BookAccountModel GetByNumber(string number);
     }
 }

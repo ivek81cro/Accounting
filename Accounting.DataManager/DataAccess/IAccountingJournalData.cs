@@ -14,5 +14,6 @@ namespace Accounting.DataManager.DataAccess
         int LatestNumber();
         void Update(List<AccountingJournalModel> list);
         List<AccountingJournalModel> GetProcessedHeaders();
+        List<AccountBalanceModel> GetAccountBalance(string accountNumber);
     }
 }

@@ -50,14 +50,6 @@
                     <TextBlock Text="Izmjeni"/>
                 </StackPanel>
             </Button>
-            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                    Command="{Binding OpenBalanceCommand}"
-                    Background="Transparent" BorderBrush="Gray">
-                <StackPanel>
-                    <Image Source="images\accountCard.png" Height="30"/>
-                    <TextBlock Text="Kartica"/>
-                </StackPanel>
-            </Button>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" 
@@ -72,6 +64,20 @@
                   CanUserDeleteRows="False" AutoGenerateColumns="False"
                   SelectedItem="{Binding SelectedAccount}"
                   Grid.Row="2" Grid.Column="0">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},
+                            Path=DataContext}"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, 
+                                         RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Otvori karticu" Command="{Binding OpenCardCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Konto" Binding="{Binding Konto}"/>
                 <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"/>

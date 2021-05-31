@@ -143,9 +143,23 @@
                   CanUserDeleteRows="True" SelectedItem="{Binding SelectedJournalDetail}"
                   ItemsSource="{Binding JournalDetails, IsAsync=True}" Width="auto"               
                   Grid.Row="3" Grid.Column="0">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},
+                            Path=DataContext}"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, 
+                                         RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Otvori karticu" Command="{Binding OpenCardCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.InputBindings>
                 <KeyBinding Key="Delete" Command="{Binding SumColumnsCommand}"/>
-            </DataGrid.InputBindings>
+            </DataGrid.InputBindings>            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Opis" Width="200"
                                     Binding="{Binding Opis}"/>
@@ -153,7 +167,7 @@
                                     Binding="{Binding Dokument}"/>
                 <DataGridTextColumn Header="Broj" Width="50" 
                                     Binding="{Binding Broj}"/>
-                <DataGridTextColumn Header="Konto"  Width="80"
+                <DataGridTextColumn Header="Konto" Width="80"
                                     Binding="{Binding Konto}"/>
                 <DataGridTextColumn Header="Datum" Width="100"
                                     Binding="{Binding Datum,

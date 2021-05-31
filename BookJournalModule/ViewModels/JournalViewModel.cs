@@ -28,6 +28,7 @@ namespace BookJournalModule.ViewModels
             SumColumnsCommand = new DelegateCommand(DeleteRow);
             LoadSavedCommand = new DelegateCommand(LoadProcessedHeaders);
             SaveChangesCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
+            OpenCardCommand = new DelegateCommand(OpenAccountBalance);
         }
 
         #region Delegate commands
@@ -37,6 +38,7 @@ namespace BookJournalModule.ViewModels
         public DelegateCommand SumColumnsCommand { get; private set; }
         public DelegateCommand LoadSavedCommand { get; private set; }
         public DelegateCommand SaveChangesCommand { get; private set; }
+        public DelegateCommand OpenCardCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -161,6 +163,7 @@ namespace BookJournalModule.ViewModels
         }
         #endregion
 
+        #region Processing to main ledger
         private bool CanProcess() => 
             JournalDetails != null && SelectedJournal != null && SelectedJournal.BrojTemeljnice == 0;
 
@@ -187,25 +190,10 @@ namespace BookJournalModule.ViewModels
             await _accountingJournalEndpoint.Post(JournalDetails.ToList());
             ResetCommandsAndView();
         }
+        #endregion        
 
-        private void ResetCommandsAndView()
-        {
-            LoadHeaders();
-            JournalDetails = null;
-            SelectedJournal = null;
-            DeleteJournalCommand.RaiseCanExecuteChanged();
-            ProcessItemCommand.RaiseCanExecuteChanged();
-            SaveChangesCommand.RaiseCanExecuteChanged();
-        }
-
-        private void DeleteRow()
-        {
-            JournalDetails.Remove(SelectedJournalDetail);
-            SumColumns();
-        }
-
+        #region Delete journal
         private bool CanDelete() => JournalDetails != null;
-
         private void DeleteJournal()
         {
             var parameter = new DialogParameters();
@@ -226,13 +214,44 @@ namespace BookJournalModule.ViewModels
                 }
             });
         }
+        #endregion
 
+        #region Save changes to journal
         private bool CanSaveChanges() => SelectedJournal != null && SelectedJournal.BrojTemeljnice != 0;
-
         private async void SaveChanges()
         {
             await _accountingJournalEndpoint.Update(JournalDetails.ToList());
             ResetCommandsAndView();
+        }
+        #endregion
+
+        private void ResetCommandsAndView()
+        {
+            LoadHeaders();
+            JournalDetails = null;
+            SelectedJournal = null;
+            DeleteJournalCommand.RaiseCanExecuteChanged();
+            ProcessItemCommand.RaiseCanExecuteChanged();
+            SaveChangesCommand.RaiseCanExecuteChanged();
+        }
+
+        private void DeleteRow()
+        {
+            JournalDetails.Remove(SelectedJournalDetail);
+            SumColumns();
+        }
+
+        private void OpenAccountBalance()
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("accountNumber", SelectedJournalDetail.Konto);
+            _showDialog.Show("BalanceCardDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
     }
 }

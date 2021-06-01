@@ -37,6 +37,7 @@ namespace BankkStatementsModule.ViewModels
             ChangeDataCommand = new DelegateCommand(ChangeData);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
             DeleteReportCommand = new DelegateCommand(DeleteReport, CanDelete);
+            OpenCardCommand = new DelegateCommand(OpenBalanceCard);
         }
 
         public DelegateCommand LoadDataCommand { get; private set; }
@@ -44,6 +45,7 @@ namespace BankkStatementsModule.ViewModels
         public DelegateCommand ChangeDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
         public DelegateCommand DeleteReportCommand { get; private set; }
+        public DelegateCommand OpenCardCommand { get; private set; }
 
         private BankReportModel _reportHeader;
         public BankReportModel ReportHeader
@@ -64,6 +66,13 @@ namespace BankkStatementsModule.ViewModels
         {
             get { return _reportItems; }
             set { SetProperty(ref _reportItems, value); }
+        }
+
+        private BankReportItemModel _selectedReportItem;
+        public BankReportItemModel SelectedReportItem
+        {
+            get { return _selectedReportItem; }
+            set { SetProperty(ref _selectedReportItem, value); }
         }
 
         private decimal _sumDugovna;
@@ -251,6 +260,19 @@ namespace BankkStatementsModule.ViewModels
         private void DeleteReport()
         {
             _bankReportEndpoint.Delete(ReportHeader.Id);
+        }
+
+        private void OpenBalanceCard()
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("accountNumber", SelectedReportItem.Konto);
+            _showDialog.Show("BalanceCardDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
     }
 }

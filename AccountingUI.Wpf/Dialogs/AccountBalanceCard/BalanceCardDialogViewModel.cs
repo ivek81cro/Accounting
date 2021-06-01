@@ -5,6 +5,7 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace AccountingUI.Wpf.Dialogs.AccountBalanceCard
 {
@@ -45,6 +46,27 @@ namespace AccountingUI.Wpf.Dialogs.AccountBalanceCard
             set { SetProperty(ref _accountName, value); }
         }
 
+        private decimal _sumDugovna;
+        public decimal SumDugovna
+        {
+            get { return _sumDugovna; }
+            set { SetProperty(ref _sumDugovna, value); }
+        }
+
+        private decimal _sumPotrazna;
+        public decimal SumPotrazna
+        {
+            get { return _sumPotrazna; }
+            set { SetProperty(ref _sumPotrazna, value); }
+        }
+
+        private decimal _stanje;
+        public decimal Stanje
+        {
+            get { return _stanje; }
+            set { SetProperty(ref _stanje, value); }
+        }
+
         public bool CanCloseDialog()
         {
             return true;
@@ -73,6 +95,9 @@ namespace AccountingUI.Wpf.Dialogs.AccountBalanceCard
                 sum += item.Dugovna - item.Potrazna;
                 item.Stanje = sum;
             }
+            SumDugovna = list.Sum(x => x.Dugovna);
+            SumPotrazna = list.Sum(x => x.Potrazna);
+            Stanje = sum;
         }
     }
 }

@@ -138,8 +138,23 @@
                    Grid.Row="1" Grid.Column="0"/>
 
         <DataGrid ItemsSource="{Binding ReportItems}" AutoGenerateColumns="False"
+                  SelectedItem="{Binding SelectedReportItem}"
                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
                   Grid.Row="3" Grid.Column="0">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},
+                            Path=DataContext}"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, 
+                                         RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Otvori karticu" Command="{Binding OpenCardCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Partner" Binding="{Binding Naziv}"
                                     ElementStyle="{StaticResource WrapText}"

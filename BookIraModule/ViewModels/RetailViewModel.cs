@@ -46,7 +46,6 @@ namespace BookIraModule.ViewModels
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
-            CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
             UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
         }
 
@@ -56,7 +55,6 @@ namespace BookIraModule.ViewModels
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
-        public DelegateCommand CalculationsReportCommand { get; private set; }
         public DelegateCommand UnmarkProcessedCommand { get; private set; }
         #endregion
 
@@ -368,22 +366,6 @@ namespace BookIraModule.ViewModels
                 {
                     SelectedItem.Knjizen = true;
                     _bookRetailEndpoint.MarkAsProcessed(SelectedItem.RedniBroj);
-                }
-            });
-        }
-        #endregion
-
-        #region Calculations dialog
-        private void ShowCalculationDialog()
-        {
-            var parameters = new DialogParameters();
-            var filteredItems = _filteredView.Cast<RetailIraModel>().ToList();
-            parameters.Add("collection", filteredItems);
-            _showDialog.ShowDialog("IraCalculation", parameters, result =>
-            {
-                if (result.Result == ButtonResult.OK)
-                {
-
                 }
             });
         }

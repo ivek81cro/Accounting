@@ -8,6 +8,8 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace BookJournalModule.ViewModels
 {
@@ -151,6 +153,9 @@ namespace BookJournalModule.ViewModels
             JournalDetails = new ObservableCollection<AccountingJournalModel>(list);
             DeleteJournalCommand.RaiseCanExecuteChanged();
             SumColumns();
+
+            //TODO: Loadig Animation
+            //await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
         }
 
         private void LoadProcessedHeaders()

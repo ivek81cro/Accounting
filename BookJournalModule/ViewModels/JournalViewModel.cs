@@ -6,7 +6,6 @@ using BookJournalModule.LocalModels;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -29,6 +28,7 @@ namespace BookJournalModule.ViewModels
             LoadSavedCommand = new DelegateCommand(LoadProcessedHeaders);
             SaveChangesCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
             OpenCardCommand = new DelegateCommand(OpenAccountBalance);
+            NewJournalCommand = new DelegateCommand(OpenNewJournal);
         }
 
         #region Delegate commands
@@ -39,6 +39,7 @@ namespace BookJournalModule.ViewModels
         public DelegateCommand LoadSavedCommand { get; private set; }
         public DelegateCommand SaveChangesCommand { get; private set; }
         public DelegateCommand OpenCardCommand { get; private set; }
+        public DelegateCommand NewJournalCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -66,7 +67,7 @@ namespace BookJournalModule.ViewModels
         {
             get { return _journalDetails; }
             set 
-            { 
+            {                 
                 SetProperty(ref _journalDetails, value);
                 ProcessItemCommand.RaiseCanExecuteChanged();
                 SaveChangesCommand.RaiseCanExecuteChanged();
@@ -77,7 +78,17 @@ namespace BookJournalModule.ViewModels
         public AccountingJournalModel SelectedJournalDetail
         {
             get { return _selectedJournalDetail; }
-            set { SetProperty(ref _selectedJournalDetail, value); }
+            set 
+            {
+                if (value != null)
+                {
+                    if (value.VrstaTemeljnice == null)
+                    {
+                        value.VrstaTemeljnice = SelectedJournal.VrstaTemeljnice;
+                    }
+                }
+                SetProperty(ref _selectedJournalDetail, value);
+            }
         }
 
         private decimal _sumDugovna;
@@ -253,5 +264,28 @@ namespace BookJournalModule.ViewModels
                 }
             });
         }
+
+        #region Create new journal
+        private void OpenNewJournal()
+        {
+            _showDialog.Show("JournalNameDialog", null, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    var journalHeader = new JournalHeaders
+                    {
+                        Broj = 0,
+                        BrojTemeljnice = 0,
+                        Valuta="HRK",
+                        VrstaTemeljnice = result.Parameters.GetValue<string>("name")
+                    };
+                    JournalHeaders.Add(journalHeader);
+                    SelectedJournal = journalHeader;
+
+                    JournalDetails = new ObservableCollection<AccountingJournalModel>();
+                }
+            });
+        }
+        #endregion
     }
 }

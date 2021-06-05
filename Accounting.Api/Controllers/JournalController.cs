@@ -76,14 +76,7 @@ namespace Accounting.Api.Controllers
         [HttpPost]
         public void Post([FromBody] List<AccountingJournalModel> list)
         {
-            if (list.ElementAt(0).BrojTemeljnice != 0)
-            {
-                _data.Update(list);
-            }
-            else
-            {
-                _data.Insert(list);
-            }
+            _data.Insert(list);
         }
 
         [HttpPost("Update/")]

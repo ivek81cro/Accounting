@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:BookJournalModule.Views"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
@@ -79,6 +79,14 @@
                 <StackPanel>
                     <Image Source="images\delete.png" Height="30"/>
                     <TextBlock Text="Briši"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding NewJournalCommand}" ToolTip="CTRL + K"
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="images\addNew.png" Height="30"/>
+                    <TextBlock Text="Nova"/>
                 </StackPanel>
             </Button>
             <TextBlock Text="{Binding StatusMessage}" FontSize="24" Margin="50 0 0 0"

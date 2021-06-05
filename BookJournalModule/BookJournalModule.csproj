@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\Images\addNew.PNG" />
     <None Remove="Views\Images\cogs.PNG" />
     <None Remove="Views\Images\delete.PNG" />
     <None Remove="Views\Images\edit.PNG" />
@@ -24,6 +25,7 @@
     <Resource Include="Views\Images\cogs.PNG" />
     <Resource Include="Views\Images\delete.PNG" />
     <Resource Include="Views\Images\edit.PNG" />
+    <Resource Include="Views\Images\addNew.PNG" />
     <Resource Include="Views\Images\loadFile.PNG" />
   </ItemGroup>
 

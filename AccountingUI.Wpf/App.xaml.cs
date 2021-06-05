@@ -26,8 +26,11 @@ using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
 using System;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Windows;
+using System.Windows.Markup;
 using VATModule;
 
 namespace AccountingUI.WPF
@@ -37,6 +40,17 @@ namespace AccountingUI.WPF
     /// </summary>
     public partial class App : PrismApplication
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("hr-HR");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("hr-HR");
+
+            FrameworkElement.LanguageProperty.OverrideMetadata(
+                typeof(FrameworkElement),
+                new FrameworkPropertyMetadata(
+                    XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+            base.OnStartup(e);
+        }
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();

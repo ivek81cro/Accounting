@@ -8,7 +8,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Dialogs\AreYouSure\Images\questionmark.PNG" />
+    <None Remove="Images\add.PNG" />
+    <None Remove="Images\calculate.PNG" />
+    <None Remove="Images\cogs.PNG" />
+    <None Remove="Images\delete.PNG" />
+    <None Remove="Images\discounts.PNG" />
+    <None Remove="Images\edit.PNG" />
+    <None Remove="Images\epor.PNG" />
+    <None Remove="Images\filter.PNG" />
+    <None Remove="Images\loadFile.PNG" />
+    <None Remove="Images\questionmark.PNG" />
+    <None Remove="Images\save.PNG" />
+    <None Remove="Images\settings.PNG" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +47,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Dialogs\AreYouSure\Images\questionmark.PNG" />
+    <Resource Include="Images\add.PNG" />
+    <Resource Include="Images\calculate.PNG" />
+    <Resource Include="Images\cogs.PNG" />
+    <Resource Include="Images\delete.PNG" />
+    <Resource Include="Images\discounts.PNG" />
+    <Resource Include="Images\edit.PNG" />
+    <Resource Include="Images\epor.PNG" />
+    <Resource Include="Images\filter.PNG" />
+    <Resource Include="Images\loadFile.PNG" />
+    <Resource Include="Images\questionmark.PNG" />
+    <Resource Include="Images\save.PNG" />
+    <Resource Include="Images\settings.PNG" />
   </ItemGroup>
 
   <ItemGroup>

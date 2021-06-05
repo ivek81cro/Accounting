@@ -49,7 +49,7 @@
                         Command="{Binding ProcessItemCommand}" ToolTip="CTRL + K"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\cogs.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/cogs.png" Height="30"/>
                     <TextBlock Text="Knjiži"/>
                 </StackPanel>
             </Button>
@@ -57,7 +57,7 @@
                         Command="{Binding AccountsSettingsCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\settings.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/settings.png" Height="30"/>
                     <TextBlock Text="Postavke"/>
                 </StackPanel>
             </Button>
@@ -65,7 +65,7 @@
                         Command="{Binding CalculationsReportCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\discounts.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/discounts.png" Height="30"/>
                     <TextBlock Text="Izračuni"/>
                 </StackPanel>
             </Button>

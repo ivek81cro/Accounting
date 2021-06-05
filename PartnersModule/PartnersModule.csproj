@@ -30,10 +30,4 @@
     <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Views\Images\edit.PNG" />
-    <Resource Include="Views\Images\folder.PNG" />
-    <Resource Include="Views\Images\kanta.PNG" />
-  </ItemGroup>
-
 </Project>

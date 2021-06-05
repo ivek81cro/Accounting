@@ -47,7 +47,7 @@
                         Command="{Binding LoadDataCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\loadFile.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/loadFile.png" Height="30"/>
                     <TextBlock Text="Učitaj"/>
                 </StackPanel>
             </Button>
@@ -55,7 +55,7 @@
                         Command="{Binding ChangeDataCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\save.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/save.png" Height="30"/>
                     <TextBlock Text="Izmijeni"/>
                 </StackPanel>
             </Button>
@@ -63,7 +63,7 @@
                         Command="{Binding ProcessItemCommand}" ToolTip="CTRL + K"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\cogs.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/cogs.png" Height="30"/>
                     <TextBlock Text="Knjiži"/>
                 </StackPanel>
             </Button>
@@ -71,7 +71,7 @@
                         Command="{Binding DeleteReportCommand}" ToolTip="CTRL + K"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\kanta.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/delete.png" Height="30"/>
                     <TextBlock Text="Briši"/>
                 </StackPanel>
             </Button>

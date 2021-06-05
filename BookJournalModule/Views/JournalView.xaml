@@ -52,7 +52,7 @@
                         Command="{Binding LoadSavedCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\loadfile.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/loadfile.png" Height="30"/>
                     <TextBlock Text="Knjižene temeljnice" TextWrapping="Wrap"
                                FontSize="10" VerticalAlignment="Bottom"/>
                 </StackPanel>
@@ -61,7 +61,7 @@
                     Command="{Binding SaveChangesCommand}" 
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\edit.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/edit.png" Height="30"/>
                     <TextBlock Text="Izmijeni"/>
                 </StackPanel>
             </Button>
@@ -69,7 +69,7 @@
                     Command="{Binding ProcessItemCommand}" ToolTip="CTRL + K"
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\cogs.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/cogs.png" Height="30"/>
                     <TextBlock Text="Knjiži"/>
                 </StackPanel>
             </Button>
@@ -77,7 +77,7 @@
                         Command="{Binding DeleteJournalCommand}" ToolTip="CTRL + K"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\delete.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/delete.png" Height="30"/>
                     <TextBlock Text="Briši"/>
                 </StackPanel>
             </Button>
@@ -85,7 +85,7 @@
                         Command="{Binding NewJournalCommand}" ToolTip="CTRL + K"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\addNew.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/add.png" Height="30"/>
                     <TextBlock Text="Nova"/>
                 </StackPanel>
             </Button>

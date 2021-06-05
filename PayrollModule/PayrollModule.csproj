@@ -6,17 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Views\Images\calculate.PNG" />
-    <None Remove="Views\Images\cogs.PNG" />
-    <None Remove="Views\Images\edit.PNG" />
-    <None Remove="Views\Images\epor.PNG" />
-    <None Remove="Views\Images\folder.PNG" />
-    <None Remove="Views\Images\kanta.PNG" />
-    <None Remove="Views\Images\save.PNG" />
-    <None Remove="Views\Images\settings.PNG" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
@@ -25,17 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Views\Images\calculate.PNG" />
-    <Resource Include="Views\Images\cogs.PNG" />
-    <Resource Include="Views\Images\edit.PNG" />
-    <Resource Include="Views\Images\epor.PNG" />
-    <Resource Include="Views\Images\folder.PNG" />
-    <Resource Include="Views\Images\kanta.PNG" />
-    <Resource Include="Views\Images\save.PNG" />
-    <Resource Include="Views\Images\settings.PNG" />
   </ItemGroup>
 
 </Project>

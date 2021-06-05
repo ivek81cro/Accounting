@@ -42,7 +42,7 @@
                         Command="{Binding DeletePayrollCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\kanta.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/delete.png" Height="30"/>
                     <TextBlock Text="Briši arhivu" TextWrapping="Wrap"/>
                 </StackPanel>
             </Button>
@@ -50,7 +50,7 @@
                         Command="{Binding ProcessPayrollCommand}" ToolTip="CTRL + K"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\cogs.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/cogs.png" Height="30"/>
                     <TextBlock Text="Knjiži"/>
                 </StackPanel>
             </Button>
@@ -58,7 +58,7 @@
                         Command="{Binding AccountsSettingsCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\settings.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/settings.png" Height="30"/>
                     <TextBlock Text="Postavke"/>
                 </StackPanel>
             </Button>
@@ -66,7 +66,7 @@
                         Command="{Binding CreateJoppdFormCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\epor.png" Height="40"/>
+                    <Image Source="pack://application:,,,/Images/epor.png" Height="40"/>
                     <TextBlock Text="JOPPD" TextWrapping="Wrap"/>
                 </StackPanel>
             </Button>

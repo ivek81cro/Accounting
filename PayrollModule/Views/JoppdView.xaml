@@ -42,7 +42,7 @@
                         Command="{Binding GenerateJoppdCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\cogs.png" Height="40"/>
+                    <Image Source="pack://application:,,,/Images/cogs.png" Height="40"/>
                     <TextBlock Text="Generiraj" TextWrapping="Wrap"/>
                 </StackPanel>
             </Button>
@@ -50,7 +50,7 @@
                         Command="{Binding CreateJoppdFormCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\save.png" Height="40"/>
+                    <Image Source="pack://application:,,,/Images/save.png" Height="40"/>
                     <TextBlock Text="Spremi" TextWrapping="Wrap"/>
                 </StackPanel>
             </Button>

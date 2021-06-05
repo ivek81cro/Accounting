@@ -23,7 +23,7 @@
                         Command="{Binding CalculatePayrollCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                     <StackPanel>
-                        <Image Source="images\calculate.png" Height="30"/>
+                        <Image Source="pack://application:,,,/Images/calculate.png" Height="30"/>
                         <TextBlock Text="Obračunaj"/>
                     </StackPanel>
                 </Button>
@@ -31,7 +31,7 @@
                         Command="{Binding SaveToArchiveCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                     <StackPanel>
-                        <Image Source="images\save.png" Height="30"/>
+                        <Image Source="pack://application:,,,/Images/save.png" Height="30"/>
                         <TextBlock Text="Spremi obračun" TextWrapping="Wrap"/>
                     </StackPanel>
                 </Button>

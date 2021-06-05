@@ -7,12 +7,6 @@
 
   <ItemGroup>
     <None Remove="Dialogs\Images\save.PNG" />
-    <None Remove="Views\Images\cogs.PNG" />
-    <None Remove="Views\Images\kanta.PNG" />
-    <None Remove="Views\Images\linking.PNG" />
-    <None Remove="Views\Images\loadFile.PNG" />
-    <None Remove="Views\Images\save.PNG" />
-    <None Remove="Views\Images\settings.PNG" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,12 +19,7 @@
 
   <ItemGroup>
     <Resource Include="Dialogs\Images\save.PNG" />
-    <Resource Include="Views\Images\cogs.PNG" />
     <Resource Include="Dialogs\Images\linking.PNG" />
-    <Resource Include="Views\Images\kanta.PNG" />
-    <Resource Include="Views\Images\loadFile.PNG" />
-    <Resource Include="Views\Images\save.PNG" />
-    <Resource Include="Views\Images\settings.PNG" />
   </ItemGroup>
 
 </Project>

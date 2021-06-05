@@ -44,7 +44,7 @@
                     CommandParameter="new"
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\add.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/add.png" Height="30"/>
                     <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
@@ -53,7 +53,7 @@
                     CommandParameter="edit"
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\edit.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/edit.png" Height="30"/>
                     <TextBlock Text="Izmijeni"/>
                 </StackPanel>
             </Button>
@@ -61,7 +61,7 @@
                         Command="{Binding ProcessItemCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\cogs.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/cogs.png" Height="30"/>
                     <TextBlock Text="Obračun"/>
                 </StackPanel>
             </Button>
@@ -69,7 +69,7 @@
                         Command="{Binding DeleteItemCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\delete.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/delete.png" Height="30"/>
                     <TextBlock Text="Otpis"/>
                 </StackPanel>
             </Button>

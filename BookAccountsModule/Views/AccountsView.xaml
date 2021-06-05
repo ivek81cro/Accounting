@@ -38,7 +38,7 @@
                     Command="{Binding AddAccountCommand}" 
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\add.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/add.png" Height="30"/>
                     <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
@@ -46,7 +46,7 @@
                     Command="{Binding EditAccountCommand}"
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\edit.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/edit.png" Height="30"/>
                     <TextBlock Text="Izmjeni"/>
                 </StackPanel>
             </Button>

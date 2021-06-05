@@ -29,21 +29,21 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0" Background="White">
             <Button Height="60" Width="60" Margin="10 5 0 5" Command="{Binding NewEmployeeCommand}">
                 <StackPanel>
-                    <Image Source="images\folder.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/add.png" Height="30"/>
                     <TextBlock Text="Dodaj"/>
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Command="{Binding EditEmployeeCommand}"
                     Margin="5">
                 <StackPanel>
-                    <Image Source="images\edit.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/edit.png" Height="30"/>
                     <TextBlock Text="Uredi"/>
                 </StackPanel>
             </Button>
             <Button Height="60" Width="60" Command="{Binding DeleteEmployeeCommand}"
                     Margin="5">
                 <StackPanel>
-                    <Image Source="images\kanta.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/delete.png" Height="30"/>
                     <TextBlock Text="Briši"/>
                 </StackPanel>
             </Button>

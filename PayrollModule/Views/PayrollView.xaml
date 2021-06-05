@@ -21,7 +21,7 @@
                         Command="{Binding CalculatePayrollCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                     <StackPanel>
-                        <Image Source="images\calculate.png" Height="30"/>
+                        <Image Source="pack://application:,,,/Images/calculate.png" Height="30"/>
                         <TextBlock Text="Izračun"/>
                     </StackPanel>
                 </Button>

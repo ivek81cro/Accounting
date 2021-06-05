@@ -39,7 +39,7 @@
             <StackPanel Orientation="Horizontal">
                 <Button Height="60" Width="60" Command="{Binding SaveCompanyCommand}">
                     <StackPanel>
-                        <Image Source="images\edit.png" Height="30"/>
+                        <Image Source="pack://application:,,,/Images/edit.png" Height="30"/>
                         <TextBlock Text="Spremi"/>
                     </StackPanel>
                 </Button>

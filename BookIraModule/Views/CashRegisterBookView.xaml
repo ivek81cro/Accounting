@@ -47,7 +47,7 @@
                     Command="{Binding LoadDataCommand}"
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\loadFile.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/loadFile.png" Height="30"/>
                     <TextBlock Text="Uč.blag."/>
                 </StackPanel>
             </Button>
@@ -55,7 +55,7 @@
                     Command="{Binding SaveDataCommand}"
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\save.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/save.png" Height="30"/>
                     <TextBlock Text="Spremi"/>
                 </StackPanel>
             </Button>
@@ -63,7 +63,7 @@
                     Command="{Binding ProcessItemCommand}" ToolTip="CTRL + K"
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\cogs.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/cogs.png" Height="30"/>
                     <TextBlock Text="Knjiži"/>
                 </StackPanel>
             </Button>
@@ -71,7 +71,7 @@
                     Command="{Binding AccountsSettingsCommand}" 
                     Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\settings.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/settings.png" Height="30"/>
                     <TextBlock Text="Postavke"/>
                 </StackPanel>
             </Button>

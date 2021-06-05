@@ -41,7 +41,7 @@
                         Command="{Binding CalculateVatCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\cogs.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/calculate.png" Height="30"/>
                     <TextBlock Text="Izračun"/>
                 </StackPanel>
             </Button>

@@ -11,7 +11,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace BookUraModule.ViewModels
 {
@@ -143,17 +145,29 @@ namespace BookUraModule.ViewModels
             get { return _automaticProcess; }
             set { SetProperty(ref _automaticProcess, value); }
         }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
+        }
         #endregion
 
         public async void LoadPrimke()
         {
+            IsLoading = true;
             StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookUraEndpoint.GetAll();
             StatusMessage = "";
             UraPrimke = new ObservableCollection<BookUraPrimkaReproModel>(primke);
             FilterPrimke();
             LoadAccountingSettings();
+
+            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
         }
+
+        private void DatagridLoaded() => IsLoading = false;
 
         #region Filtering datagrid
         private void FilterPrimke()

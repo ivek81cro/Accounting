@@ -11,7 +11,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace BookIraModule.ViewModels
 {
@@ -139,17 +141,29 @@ namespace BookIraModule.ViewModels
             get { return _automaticProcess; }
             set { SetProperty(ref _automaticProcess, value); }
         }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
+        }
         #endregion
 
         public async void LoadRetail()
         {
+            IsLoading = true;
             StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookRetailEndpoint.GetAll();
             StatusMessage = "";
             RetailItems = new ObservableCollection<RetailIraModel>(primke);
             FilterPrimke();
             LoadAccountingSettings();
+
+            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
         }
+
+        private void DatagridLoaded() => IsLoading = false;
 
         #region Load data from file
         private void LoadDataFromFile()
@@ -288,7 +302,7 @@ namespace BookIraModule.ViewModels
             return item;
         }
 
-        private async Task<List<AccountingJournalModel>> CreateJournalEntries()
+        private List<AccountingJournalModel> CreateJournalEntries()
         {
 
             var mappings = MapColumnToPropertyValue();
@@ -330,7 +344,7 @@ namespace BookIraModule.ViewModels
             }
             else
             {
-                await SendToProcessingDialog();
+                SendToProcessingDialog();
             }
         }
 
@@ -339,11 +353,11 @@ namespace BookIraModule.ViewModels
             foreach (var item in _filteredView)
             {
                 SelectedItem = (RetailIraModel)item;
-                var entries = await CreateJournalEntries();
+                var entries = CreateJournalEntries();
                 if (!await _processToJournalService.ProcessEntries(entries))
                 {
                     AutomaticProcess = false;
-                    await SendToProcessingDialog();
+                    SendToProcessingDialog();
                     break;
                 }
                 else
@@ -354,10 +368,10 @@ namespace BookIraModule.ViewModels
             }
         }
 
-        private async Task SendToProcessingDialog()
+        private void SendToProcessingDialog()
         {
 
-            var entries = await CreateJournalEntries();
+            var entries = CreateJournalEntries();
             var parameters = new DialogParameters();
             parameters.Add("entries", entries);
             _showDialog.ShowDialog("ProcessToJournal", parameters, result =>

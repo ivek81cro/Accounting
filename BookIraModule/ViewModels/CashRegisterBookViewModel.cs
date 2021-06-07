@@ -11,7 +11,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace BookIraModule.ViewModels
 {
@@ -161,17 +163,29 @@ namespace BookIraModule.ViewModels
             get { return _automaticProcess; }
             set { SetProperty(ref _automaticProcess, value); }
         }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
+        }
         #endregion
 
         public async void LoadBook()
         {
+            IsLoading = true;
             StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _cashRegisterBookEndpoint.GetAll();
             StatusMessage = "";
             BookItems = new ObservableCollection<CashRegisterModel>(primke);
             FilterItems();
             LoadAccountingSettings();
+
+            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
         }
+
+        private void DatagridLoaded() => IsLoading = false;
 
         #region Load accounting settings
         private void OpenAccountsSettings()

@@ -11,7 +11,9 @@ using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
+using System.Windows.Threading;
 
 namespace BookUraModule.ViewModels
 {
@@ -133,13 +135,6 @@ namespace BookUraModule.ViewModels
             set { SetProperty(ref _filePath, value); }
         }
 
-        private string _statusMessage;
-        public string StatusMessage
-        {
-            get { return _statusMessage; }
-            set { SetProperty(ref _statusMessage, value); }
-        }
-
         private List<BookAccountsSettingsModel> _accountingSettings;
         public List<BookAccountsSettingsModel> AccountingSettings
         {
@@ -153,39 +148,55 @@ namespace BookUraModule.ViewModels
             get { return _automaticProcess; }
             set { SetProperty(ref _automaticProcess, value); }
         }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
+        }
         #endregion
 
         #region Data loading
         public async void LoadPrimke()
         {
+            IsLoading = true;
             await LoadInitialData();
             FilterPrimke();
             LoadAccountingSettings();
+
+            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
         }
 
         private async Task LoadInitialData()
         {
-            StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookUraEndpoint.GetAll();
-            StatusMessage = "";
             UraRestInvoices = new ObservableCollection<BookUraRestModel>(primke);
         }
 
+        private void DatagridLoaded() => IsLoading = false;
+
         public async void LoadOnlyRestExpenditures()
         {
+            IsLoading = true;
             await LoadInitialData();
             var expenditures = UraRestInvoices.Where(x => (x.BrojPrimke == 0 && x.IznosSPorezom > 0 && !x.Storno) 
                                                             || (x.BrojPrimke == 0 && x.IznosSPorezom < 0 && x.Storno)).ToList();
             UraRestInvoices = new ObservableCollection<BookUraRestModel>(expenditures);
             FilterPrimke();
+
+            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
         }
         
         public async void LoadRetailInvoices()
         {
+            IsLoading = true;
             await LoadInitialData();
             var expenditures = UraRestInvoices.Where(x => x.BrojPrimke != 0 ).ToList();
             UraRestInvoices = new ObservableCollection<BookUraRestModel>(expenditures);
             FilterPrimke();
+
+            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
         }
         #endregion
 
@@ -346,9 +357,7 @@ namespace BookUraModule.ViewModels
             IEnumerable<BookUraRestModel> primke = UraRestInvoices.Where(x => x.RedniBroj > _maxPrimka);
             var list = new List<BookUraRestModel>(primke);
 
-            StatusMessage = "Zapisujem u bazu podataka...";
             await _bookUraEndpoint.PostPrimke(list);
-            StatusMessage = ""; ;
 
             _loaded = false;
             LoadPrimke();

@@ -115,13 +115,6 @@ namespace BookUraModule.ViewModels
             set { SetProperty(ref _filePath, value); }
         }
 
-        private string _statusMessage;
-        public string StatusMessage
-        {
-            get { return _statusMessage; }
-            set { SetProperty(ref _statusMessage, value); }
-        }
-
         private List<BookAccountsSettingsModel> _accountingSettings;
         public List<BookAccountsSettingsModel> AccountingSettings
         {
@@ -151,12 +144,11 @@ namespace BookUraModule.ViewModels
         }
         #endregion
 
+        #region Data loading
         public async void LoadPrimke()
         {
             IsLoading = true;
-            StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookUraEndpoint.GetDiscounts();
-            StatusMessage = "";
             UraRestInvoices = new ObservableCollection<BookUraRestModel>(primke);
             FilterPrimke();
             LoadAccountingSettings();
@@ -165,6 +157,7 @@ namespace BookUraModule.ViewModels
         }
 
         private void DatagridLoaded() => IsLoading = false;
+        #endregion
 
         #region Filtering datagrid
         private void FilterPrimke()

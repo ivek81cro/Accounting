@@ -127,13 +127,6 @@ namespace BookIraModule.ViewModels
             set { SetProperty(ref _filePath, value); }
         }
 
-        private string _statusMessage;
-        public string StatusMessage
-        {
-            get { return _statusMessage; }
-            set { SetProperty(ref _statusMessage, value); }
-        }
-
         private List<BookAccountsSettingsModel> _accountingSettings;
         public List<BookAccountsSettingsModel> AccountingSettings
         {
@@ -156,12 +149,11 @@ namespace BookIraModule.ViewModels
         }
         #endregion
 
+        #region Data loading
         public async void LoadIra()
         {
             IsLoading = true;
-            StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookIraEndpoint.GetAll();
-            StatusMessage = "";
             IraItems = new ObservableCollection<BookIraModel>(primke);
             FilterPrimke();
             LoadAccountingSettings();
@@ -170,6 +162,7 @@ namespace BookIraModule.ViewModels
         }
 
         private void DatagridLoaded() => IsLoading = false;
+        #endregion
 
         #region Load accounting settings
         private void OpenAccountsSettings()
@@ -224,7 +217,7 @@ namespace BookIraModule.ViewModels
         #endregion
 
         #region Load data from file
-        private void LoadDataFromFile()
+        private async void LoadDataFromFile()
         {
             _maxRedniBroj = IraItems.Count > 0 ? IraItems.Max(y => y.RedniBroj) : 0;
 
@@ -238,6 +231,7 @@ namespace BookIraModule.ViewModels
             Nullable<bool> result = ofd.ShowDialog();
             if (result != null && result == true)
             {
+                IsLoading = true;
                 FilePath = ofd.FileName;
                 var data = _xlsFileReader.Convert(FilePath, _bookName);
                 if (data != null)
@@ -245,6 +239,7 @@ namespace BookIraModule.ViewModels
                     FromStringToList(data);
                     _loaded = true;
                 }
+                await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
             }
         }
 
@@ -311,9 +306,8 @@ namespace BookIraModule.ViewModels
             IEnumerable<BookIraModel> primke = IraItems.Where(x => x.RedniBroj > _maxRedniBroj);
             var list = new List<BookIraModel>(primke);
 
-            StatusMessage = "Zapisujem u bazu podataka...";
+            IsLoading = true;
             await _bookIraEndpoint.PostPrimke(list);
-            StatusMessage = ""; ;
 
             _loaded = false;
             LoadIra();

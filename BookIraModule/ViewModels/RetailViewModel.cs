@@ -121,13 +121,6 @@ namespace BookIraModule.ViewModels
             set { SetProperty(ref _filePath, value); }
         }
 
-        private string _statusMessage;
-        public string StatusMessage
-        {
-            get { return _statusMessage; }
-            set { SetProperty(ref _statusMessage, value); }
-        }
-
         private List<BookAccountsSettingsModel> _accountingSettings;
         public List<BookAccountsSettingsModel> AccountingSettings
         {
@@ -150,12 +143,11 @@ namespace BookIraModule.ViewModels
         }
         #endregion
 
+        #region Data loading
         public async void LoadRetail()
         {
             IsLoading = true;
-            StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookRetailEndpoint.GetAll();
-            StatusMessage = "";
             RetailItems = new ObservableCollection<RetailIraModel>(primke);
             FilterPrimke();
             LoadAccountingSettings();
@@ -164,9 +156,10 @@ namespace BookIraModule.ViewModels
         }
 
         private void DatagridLoaded() => IsLoading = false;
+        #endregion
 
         #region Load data from file
-        private void LoadDataFromFile()
+        private async void LoadDataFromFile()
         {
             _maxRedniBroj = RetailItems.Count > 0 ? RetailItems.Max(y => y.RedniBroj) : 0;
 
@@ -180,6 +173,7 @@ namespace BookIraModule.ViewModels
             Nullable<bool> result = ofd.ShowDialog();
             if (result != null && result == true)
             {
+                IsLoading = true;
                 FilePath = ofd.FileName;
                 var data = _xlsFileReader.Convert(FilePath, "REKAPITULACIJA POREZA");
                 if (data != null)
@@ -187,6 +181,7 @@ namespace BookIraModule.ViewModels
                     FromStringToList(data);
                     _loaded = true;
                 }
+                await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
             }
         }
 
@@ -233,9 +228,8 @@ namespace BookIraModule.ViewModels
             IEnumerable<RetailIraModel> primke = RetailItems.Where(x => x.RedniBroj > _maxRedniBroj);
             var list = new List<RetailIraModel>(primke);
 
-            StatusMessage = "Zapisujem u bazu podataka...";
+            IsLoading = true;
             await _bookRetailEndpoint.Post(list);
-            StatusMessage = ""; ;
 
             _loaded = false;
             LoadRetail();

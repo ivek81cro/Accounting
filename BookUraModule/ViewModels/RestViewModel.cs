@@ -256,7 +256,7 @@ namespace BookUraModule.ViewModels
         #endregion
 
         #region Load data from file
-        private void LoadDataFromFile()
+        private async void LoadDataFromFile()
         {
             _maxPrimka = UraRestInvoices.Count > 0 ? UraRestInvoices.Max(y => y.RedniBroj) : 0;
 
@@ -270,6 +270,7 @@ namespace BookUraModule.ViewModels
             Nullable<bool> result = ofd.ShowDialog();
             if (result != null && result == true)
             {
+                IsLoading = true;
                 FilePath = ofd.FileName;
                 var data = _xlsFileReader.Convert(FilePath, _bookName);
                 if (data != null)
@@ -277,6 +278,7 @@ namespace BookUraModule.ViewModels
                     FromStringToList(data);
                     _loaded = true;
                 }
+                await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
             }
         }
 
@@ -356,7 +358,8 @@ namespace BookUraModule.ViewModels
         {
             IEnumerable<BookUraRestModel> primke = UraRestInvoices.Where(x => x.RedniBroj > _maxPrimka);
             var list = new List<BookUraRestModel>(primke);
-
+            
+            IsLoading = true;
             await _bookUraEndpoint.PostPrimke(list);
 
             _loaded = false;

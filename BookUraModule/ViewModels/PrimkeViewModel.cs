@@ -93,13 +93,6 @@ namespace BookUraModule.ViewModels
             set { SetProperty(ref _filePath, value); }
         }
 
-        private string _statusMessage;
-        public string StatusMessage
-        {
-            get { return _statusMessage; }
-            set { SetProperty(ref _statusMessage, value); }
-        }
-
         private List<BookAccountsSettingsModel> _accountingSettings;
         public List<BookAccountsSettingsModel> AccountingSettings
         {
@@ -153,20 +146,19 @@ namespace BookUraModule.ViewModels
         }
         #endregion
 
+        #region Data loading
         public async void LoadPrimke()
         {
             IsLoading = true;
-            StatusMessage = "Učitavam podatke iz baze...";
             var primke = await _bookUraEndpoint.GetAll();
-            StatusMessage = "";
             UraPrimke = new ObservableCollection<BookUraPrimkaModel>(primke);
-
             LoadAccountingSettings();
 
             await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
         }
 
         private void DatagridLoaded() => IsLoading = false;
+        #endregion
 
         #region Load accounting settings
         private void OpenAccountsSettings()
@@ -222,7 +214,7 @@ namespace BookUraModule.ViewModels
         #endregion
         
         #region Loading data from excel
-        private void LoadDataFromFile()
+        private async void LoadDataFromFile()
         {
             _maxPrimka = UraPrimke.Count > 0 ? UraPrimke.Max(y => y.BrojUKnjiziUra) : 0;
 
@@ -236,6 +228,7 @@ namespace BookUraModule.ViewModels
             Nullable<bool> result = ofd.ShowDialog();
             if (result != null && result == true)
             {
+                IsLoading = true;
                 FilePath = ofd.FileName;
                 var data = _xlsFileReader.Convert(FilePath, _bookName);
                 if (data != null)
@@ -243,6 +236,7 @@ namespace BookUraModule.ViewModels
                     FromStringToList(data);
                     _loaded = true;
                 }
+                await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
             }
         }
 
@@ -301,9 +295,8 @@ namespace BookUraModule.ViewModels
             IEnumerable<BookUraPrimkaModel> primke = UraPrimke.Where(x=>x.BrojUKnjiziUra > _maxPrimka);
             var list = new List<BookUraPrimkaModel>(primke);
 
-            StatusMessage = "Zapisujem u bazu podataka...";
+            IsLoading = true;
             await _bookUraEndpoint.PostPrimke(list);
-            StatusMessage = ""; ;
 
             _loaded = false;
             LoadPrimke();

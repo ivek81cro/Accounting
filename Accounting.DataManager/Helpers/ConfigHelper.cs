@@ -8,7 +8,7 @@ namespace Accounting.DataManager.Helpers
     {
         public static void GetTaxRates()
         {
-            //TODO: resolve tax rates
+            //TODO: load taxrates from appsettings
             var rates =  ConfigurationManager.GetSection("TaxRates");
 
             TaxRates taxRates = new TaxRates();

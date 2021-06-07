@@ -10,6 +10,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <Style TargetType="TabItem">
             <Setter Property="Header" Value="{Binding DataContext.Title}"/>
         </Style>
@@ -46,6 +47,20 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <!--#region Loading band section-->
+        <StackPanel HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center" Background="#4695fb"
+                    Visibility="{Binding IsLoading, Mode=TwoWay, 
+                                 UpdateSourceTrigger=PropertyChanged,
+                                 Converter={StaticResource booleanToVisibilityConverter}}"
+                    Panel.ZIndex="10" Opacity="0.5"
+                    Grid.Row="0" Grid.Column="0" 
+                    Grid.RowSpan="4" Grid.ColumnSpan="3">
+            <TextBlock Text="Učitavam..."  Padding="10" FontSize="48" 
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+        <!--#endregion-->
+        
         <StackPanel Orientation="Horizontal" Margin="0" Grid.ColumnSpan="3"
                     Grid.Row="0" Grid.Column="0">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="0"

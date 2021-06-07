@@ -10,6 +10,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
         <Style TargetType="TabItem">
             <Setter Property="Header" Value="{Binding DataContext.Title}"/>
         </Style>
@@ -36,6 +37,20 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+
+        <!--#region Loading band section-->
+        <StackPanel HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center" Background="#4695fb"
+                    Visibility="{Binding IsLoading, Mode=TwoWay, 
+                                 UpdateSourceTrigger=PropertyChanged,
+                                 Converter={StaticResource booleanToVisibilityConverter}}"
+                    Panel.ZIndex="10" Opacity="0.5"
+                    Grid.Row="0" Grid.Column="0" 
+                    Grid.RowSpan="5">
+            <TextBlock Text="Učitavam..."  Padding="10" FontSize="48" 
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+        <!--#endregion-->
 
         <!--Custom Menu-->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0"
@@ -100,12 +115,10 @@
                         Command="{Binding CreateUraXmlCommand}" 
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="images\epor.png" Height="30"/>
+                    <Image Source="pack://application:,,,/Images/epor.png" Height="30"/>
                     <TextBlock Text="U-RA"/>
                 </StackPanel>
             </Button>
-            <TextBlock Text="{Binding StatusMessage}" FontSize="24" Margin="50 0 0 0"
-                       Foreground="OrangeRed" VerticalAlignment="Center"/>
         </StackPanel>
 
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"

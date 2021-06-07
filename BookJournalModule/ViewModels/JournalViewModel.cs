@@ -120,6 +120,13 @@ namespace BookJournalModule.ViewModels
             get { return _sidesEqual; }
             set { SetProperty(ref _sidesEqual, value); }
         }
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
+        }
         #endregion
 
         #region Load headers and journal details
@@ -143,6 +150,7 @@ namespace BookJournalModule.ViewModels
 
         private async void LoadJournalDetails()
         {
+            IsLoading = true;
             var list = await _accountingJournalEndpoint
                             .LoadJournalDetails(new AccountingJournalModel
                             {
@@ -154,8 +162,12 @@ namespace BookJournalModule.ViewModels
             DeleteJournalCommand.RaiseCanExecuteChanged();
             SumColumns();
 
-            //TODO: Loadig Animation
-            //await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
+            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
+        }
+
+        private void DatagridLoaded()
+        {
+            IsLoading = false;
         }
 
         private void LoadProcessedHeaders()

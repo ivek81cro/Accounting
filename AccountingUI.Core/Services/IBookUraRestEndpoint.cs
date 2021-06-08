@@ -10,5 +10,6 @@ namespace AccountingUI.Core.Services
         Task<bool> PostPrimke(List<BookUraRestModel> list);
         Task<List<BookUraRestModel>> GetDiscounts();
         Task<bool> MarkAsProcessed(int numberInUra);
+        Task PostRow(BookUraRestModel selectedUraPrimke);
     }
 }

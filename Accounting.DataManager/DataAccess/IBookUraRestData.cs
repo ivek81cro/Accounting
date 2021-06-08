@@ -9,5 +9,6 @@ namespace Accounting.DataManager.DataAccess
         void Insert(List<BookUraRestModel> data);
         List<BookUraRestModel> GetDiscounts();
         void SetProcessed(int uraNumber);
+        void Update(BookUraRestModel item);
     }
 }

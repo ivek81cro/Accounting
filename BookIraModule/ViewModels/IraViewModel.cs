@@ -52,8 +52,9 @@ namespace BookIraModule.ViewModels
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
-            CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog); ;
+            CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
             UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
+            OpenEditCommand = new DelegateCommand(EditSelectedRow, CanEditRow);
 
             LoadIra();
         }
@@ -66,6 +67,7 @@ namespace BookIraModule.ViewModels
         public DelegateCommand ProcessItemCommand { get; private set; }
         public DelegateCommand CalculationsReportCommand { get; private set; }
         public DelegateCommand UnmarkProcessedCommand { get; private set; }
+        public DelegateCommand OpenEditCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -479,6 +481,15 @@ namespace BookIraModule.ViewModels
                 SelectedIra.Knjizen = false;
             }
         }
+        #endregion
+
+        #region Row editing
+        private async void EditSelectedRow()
+        {
+            await _bookIraEndpoint.PostRow(SelectedIra);
+        }
+
+        private bool CanEditRow() => SelectedIra != null;
         #endregion
     }
 }

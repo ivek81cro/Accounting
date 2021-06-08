@@ -57,6 +57,7 @@ namespace BookUraModule.ViewModels
             LoadRetailCommand = new DelegateCommand(LoadRetailInvoices);
             CreateUraXmlCommand = new DelegateCommand(CreateUraXml, CanCreateXml);
             UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
+            OpenEditCommand = new DelegateCommand(EditSelectedRow, CanEditRow);
 
             LoadPrimke();
         }
@@ -72,6 +73,7 @@ namespace BookUraModule.ViewModels
         public DelegateCommand LoadRetailCommand { get; private set; }
         public DelegateCommand CreateUraXmlCommand { get; private set; }
         public DelegateCommand UnmarkProcessedCommand { get; private set; }
+        public DelegateCommand OpenEditCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -561,6 +563,15 @@ namespace BookUraModule.ViewModels
                 SelectedUraPrimke.Knjizen = false;
             }
         }
+        #endregion
+
+        #region Row editing
+        private async void EditSelectedRow()
+        {
+            await _bookUraEndpoint.PostRow(SelectedUraPrimke);
+        }
+
+        private bool CanEditRow() => SelectedUraPrimke != null;
         #endregion
     }
 }

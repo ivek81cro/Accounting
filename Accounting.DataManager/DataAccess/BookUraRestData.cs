@@ -71,5 +71,20 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void Update(BookUraRestModel item)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spBookUraRest_Update", item);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

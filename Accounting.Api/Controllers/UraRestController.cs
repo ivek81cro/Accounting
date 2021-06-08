@@ -47,6 +47,12 @@ namespace Accounting.Api.Controllers
             _data.SetProcessed(uraNumber);
         }
 
+        [HttpPost("Update/")]
+        public void Update([FromBody] BookUraRestModel item)
+        {
+            _data.Update(item);
+        }
+
         // DELETE api/<UraRestController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)

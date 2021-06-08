@@ -63,5 +63,20 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task PostRow(BookIraModel selectedIra)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync($"/api/BookIra/Update", selectedIra))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

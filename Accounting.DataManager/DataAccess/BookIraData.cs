@@ -56,5 +56,20 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void Update(BookIraModel item)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spBookIra_Update", item);
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

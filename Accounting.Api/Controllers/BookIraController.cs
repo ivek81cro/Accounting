@@ -42,5 +42,11 @@ namespace Accounting.Api.Controllers
         {
             _data.SetProcessed(iraNumber);
         }
+
+        [HttpPost("Update/")]
+        public void Update([FromBody] BookIraModel item)
+        {
+            _data.Update(item);
+        }
     }
 }

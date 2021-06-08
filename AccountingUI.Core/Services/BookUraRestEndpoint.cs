@@ -79,5 +79,20 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task PostRow(BookUraRestModel selectedUraPrimke)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync($"/api/UraRest/Update", selectedUraPrimke))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

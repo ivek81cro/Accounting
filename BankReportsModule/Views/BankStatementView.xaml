@@ -21,13 +21,6 @@
     </UserControl.InputBindings>
 
     <Grid>
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="Loaded">
-                <i:CallMethodAction TargetObject="{Binding}"
-                                    MethodName="LoadReports"/>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>

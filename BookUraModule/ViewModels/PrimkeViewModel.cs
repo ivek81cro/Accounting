@@ -52,6 +52,8 @@ namespace BookUraModule.ViewModels
             FilterDataCommand = new DelegateCommand(FilterPrimke);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
             UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
+
+            LoadPrimke();
         }
 
         #region DelegateCommands

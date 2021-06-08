@@ -10,7 +10,6 @@ using Prism.Regions;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -32,11 +31,15 @@ namespace PayrollModule.ViewModels
 
             EditEmployeeCommand = new DelegateCommand(EditEmployee, CanEditEmployee);
             GenerateJoppdCommand = new DelegateCommand(GenerateJoppd, CanGenerateJoppd);
+            
+            LoadJoppdEmployees();
+
         }
 
         public DelegateCommand EditEmployeeCommand { get; private set; }
         public DelegateCommand GenerateJoppdCommand { get; private set; }
 
+        #region Properties
         private PayrollArchiveModel _archive;
         public PayrollArchiveModel Archive
         {
@@ -92,6 +95,14 @@ namespace PayrollModule.ViewModels
             }
         }
 
+        private ObservableCollection<sPrimateljiP> _irsRecipients;
+        public ObservableCollection<sPrimateljiP> IrsRecipients
+        {
+            get { return _irsRecipients; }
+            set { SetProperty(ref _irsRecipients, value); }
+        }
+        #endregion
+
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
             base.OnNavigatedTo(navigationContext);
@@ -104,12 +115,6 @@ namespace PayrollModule.ViewModels
             JoppdEmployees = new ObservableCollection<JoppdEmployeeModel>(list);
         }
 
-        private ObservableCollection<sPrimateljiP> _irsRecipients;
-        public ObservableCollection<sPrimateljiP> IrsRecipients
-        {
-            get { return _irsRecipients; }
-            set { SetProperty(ref _irsRecipients, value); }
-        }
         private bool CanEditEmployee()
         {
             return SelectedEmployee != null;

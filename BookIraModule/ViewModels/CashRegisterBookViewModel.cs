@@ -50,6 +50,8 @@ namespace BookIraModule.ViewModels
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
             CalculationsReportCommand = new DelegateCommand(SumColumns);
             UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
+
+            LoadBook();
         }
 
         #region Delegate commands

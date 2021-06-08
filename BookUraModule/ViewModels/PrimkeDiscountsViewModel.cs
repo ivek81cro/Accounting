@@ -46,6 +46,8 @@ namespace BookUraModule.ViewModels
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
             CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
             UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
+
+            LoadPrimke();
         }
 
         #region Delegate commands

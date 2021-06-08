@@ -31,6 +31,8 @@ namespace BookJournalModule.ViewModels
             SaveChangesCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
             OpenCardCommand = new DelegateCommand(OpenAccountBalance);
             NewJournalCommand = new DelegateCommand(OpenNewJournal);
+
+            LoadHeaders();
         }
 
         #region Delegate commands

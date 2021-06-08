@@ -38,6 +38,8 @@ namespace BankkStatementsModule.ViewModels
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess);
             DeleteReportCommand = new DelegateCommand(DeleteReport, CanDelete);
             OpenCardCommand = new DelegateCommand(OpenBalanceCard);
+
+            LoadReports();
         }
 
         public DelegateCommand LoadDataCommand { get; private set; }

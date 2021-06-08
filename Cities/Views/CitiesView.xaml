@@ -13,13 +13,6 @@
         </UserControl.Resources>
 
         <Grid>
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="Loaded">
-                    <i:CallMethodAction TargetObject="{Binding}"
-                                    MethodName="LoadCities"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-            
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>

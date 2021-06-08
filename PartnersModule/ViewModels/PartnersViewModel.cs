@@ -28,6 +28,8 @@ namespace PartnersModule.ViewModels
             NewPartnerCommand = new DelegateCommand(AddNewPartner);
             EditPartnerCommand = new DelegateCommand(EditPartner, IsSelected);
             DeletePartnerCommand = new DelegateCommand(DeletePartner, IsSelected);
+
+            LoadPartners();
         }
 
         public DelegateCommand NewPartnerCommand { get; private set; }

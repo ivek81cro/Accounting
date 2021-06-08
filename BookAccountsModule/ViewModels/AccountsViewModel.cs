@@ -23,6 +23,8 @@ namespace BookAccountsModule.ViewModels
             EditAccountCommand = new DelegateCommand(OpenEditDialog, CanEdit);
             AddAccountCommand = new DelegateCommand(AddAccount);
             OpenCardCommand = new DelegateCommand(OpenBalanceCard);
+
+            LoadAccounts();
         }
 
         public DelegateCommand EditAccountCommand { get; private set; }

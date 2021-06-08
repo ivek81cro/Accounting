@@ -10,14 +10,7 @@
         </Style>
     </UserControl.Resources>
 
-    <DockPanel>
-        <i:Interaction.Triggers>
-            <i:EventTrigger EventName="Loaded">
-                <i:CallMethodAction TargetObject="{Binding}"
-                                    MethodName="LoadPartners"/>
-            </i:EventTrigger>
-        </i:Interaction.Triggers>
-        
+    <DockPanel>        
         <!--Custom Menu-->
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0" Background="White">
             <Button Height="60" Width="60" Margin="10 5 5 5" Command="{Binding NewPartnerCommand}">

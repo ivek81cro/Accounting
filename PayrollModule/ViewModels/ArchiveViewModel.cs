@@ -42,6 +42,8 @@ namespace PayrollModule.ViewModels
             CreateJoppdFormCommand = new DelegateCommand(CreateJoppdDialog, CanCreateJoppd);
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             ProcessPayrollCommand = new DelegateCommand(ProcessItem, CanProcess);
+
+            LoadArchive();
         }
 
         #region Delegate commands

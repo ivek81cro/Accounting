@@ -26,12 +26,15 @@ namespace CitiesModule.ViewModels
             NewCityCommand = new DelegateCommand(AddNewCity);
             EditCityCommand = new DelegateCommand(EditCity);
             DeleteCityCommand = new DelegateCommand(DeleteCity, CanDelete);
+
+            LoadCities();
         }
 
         public DelegateCommand NewCityCommand { get; private set; }
         public DelegateCommand EditCityCommand { get; private set; }
         public DelegateCommand DeleteCityCommand { get; private set; }
 
+        #region Properties
         private ObservableCollection<CityModel> _cities;
         public ObservableCollection<CityModel> Cities
         {
@@ -61,6 +64,7 @@ namespace CitiesModule.ViewModels
                 _citiesView.Refresh();
             }
         }
+        #endregion
 
         public async void LoadCities()
         {

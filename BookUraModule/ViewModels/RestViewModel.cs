@@ -57,6 +57,8 @@ namespace BookUraModule.ViewModels
             LoadRetailCommand = new DelegateCommand(LoadRetailInvoices);
             CreateUraXmlCommand = new DelegateCommand(CreateUraXml, CanCreateXml);
             UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
+
+            LoadPrimke();
         }
 
         #region Delegate commands

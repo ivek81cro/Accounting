@@ -53,6 +53,8 @@ namespace BookUraModule.ViewModels
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             ProcessItemCommand = new DelegateCommand(ProcessItem, CanProcess); 
             UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
+
+            LoadPrimke();
         }
 
         #region DelegateCommands

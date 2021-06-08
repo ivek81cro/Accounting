@@ -19,7 +19,7 @@ namespace BookJournalModule
 
             containerRegistry.RegisterDialog<EnterDateDialog>();
             containerRegistry.RegisterDialog<ProcessedJournalsDialog>();
-            containerRegistry.RegisterDialog<JournalNameDialog>();
+            containerRegistry.RegisterDialog<NewJournalDialog>();
 
             containerRegistry.RegisterScoped<IAccountingJournalEndpoint, AccountingJournalEndpoint>();
         }

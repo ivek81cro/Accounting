@@ -287,7 +287,7 @@ namespace BookJournalModule.ViewModels
         #region Create new journal
         private void OpenNewJournal()
         {
-            _showDialog.Show("JournalNameDialog", null, result =>
+            _showDialog.Show("NewJournalDialog", null, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {

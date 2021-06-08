@@ -17,7 +17,8 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
 
         private bool _automatic;
 
-        public ProcessToJournalViewModel(IDialogService openDialog, IAccountingJournalEndpoint accountingJournalEndpoint)
+        public ProcessToJournalViewModel(IDialogService openDialog,
+                                         IAccountingJournalEndpoint accountingJournalEndpoint)
         {
             _showDialog = openDialog;
             _accountingJournalEndpoint = accountingJournalEndpoint;

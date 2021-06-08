@@ -42,8 +42,23 @@ namespace AccountingUI.Core.Models
         }
 
         public string Valuta { get; set; }
-        public decimal Dugovna { get; set; }
-        public decimal Potrazna { get; set; }
+
+        private decimal _dugovna;
+        [Required]
+        public decimal Dugovna
+        {
+            get { return _dugovna; }
+            set { SetProperty(ref _dugovna, value); }
+        }
+
+        private decimal _potrazna;
+        [Required]
+        public decimal Potrazna
+        {
+            get { return _potrazna; }
+            set { SetProperty(ref _potrazna, value); }
+        }
+
         public string VrstaTemeljnice { get; set; }
         public int BrojTemeljnice { get; set; }
         public DateTime? DatumKnjizenja { get; set; }

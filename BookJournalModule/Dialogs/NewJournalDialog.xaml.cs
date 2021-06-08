@@ -18,9 +18,9 @@ namespace BookJournalModule.Dialogs
     /// <summary>
     /// Interaction logic for JournalNameDialog.xaml
     /// </summary>
-    public partial class JournalNameDialog : UserControl
+    public partial class NewJournalDialog : UserControl
     {
-        public JournalNameDialog()
+        public NewJournalDialog()
         {
             InitializeComponent();
         }

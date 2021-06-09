@@ -1,5 +1,5 @@
 ﻿using AccountingUI.Core.Models;
-using BookJournalModule.LocalModels;
+using AccountingUI.Core.Services;
 using Microsoft.Extensions.Configuration;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -7,7 +7,7 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
+using System.Linq;
 
 namespace BookJournalModule.Dialogs
 {
@@ -15,21 +15,26 @@ namespace BookJournalModule.Dialogs
     {
         private readonly IConfiguration _config;
         private readonly IDialogService _showDialog;
+        private readonly IAccountingJournalEndpoint _accountingJournalEndpoint;
 
         public NewJournalDialogViewModel(IConfiguration config,
-                                         IDialogService showDialog)
+                                         IDialogService showDialog,
+                                         IAccountingJournalEndpoint accountingJournalEndpoint)
         {
             _config = config;
             _showDialog = showDialog;
+            _accountingJournalEndpoint = accountingJournalEndpoint;
 
             OpenCommand = new DelegateCommand(OpenJournal);
             AddDetailCommand = new DelegateCommand(AddNewDetail);
             OpenCardCommand = new DelegateCommand(OpenAccountBalance);
+            SaveJournalCommand = new DelegateCommand(SaveJournal);
         }
 
         public DelegateCommand OpenCommand { get; private set; }
         public DelegateCommand AddDetailCommand { get; private set; }
         public DelegateCommand OpenCardCommand { get; private set; }
+        public DelegateCommand SaveJournalCommand { get; private set; }
 
         public string Title => "Nova temeljnica";
 
@@ -117,6 +122,7 @@ namespace BookJournalModule.Dialogs
             SelectedJournalDetail = new AccountingJournalModel
             {
                 VrstaTemeljnice = SelectedJournalName,
+                Dokument = SelectedJournalName,
                 BrojTemeljnice = 0,
                 Broj = 0,
                 Valuta ="HRK"
@@ -134,7 +140,7 @@ namespace BookJournalModule.Dialogs
             {
                 JournalDetails.Add(SelectedJournalDetail);
             }
-
+            SumColumns();
             OpenJournal();
         }
 
@@ -158,8 +164,22 @@ namespace BookJournalModule.Dialogs
                 if (result.Result == ButtonResult.OK)
                 {
                     SelectedJournalDetail.Konto = result.Parameters.GetValue<BookAccountModel>("account").Konto;
+                    SelectedJournalDetail.Opis = result.Parameters.GetValue<BookAccountModel>("account").Opis;
                 }
             });
+        }
+
+        private void SumColumns()
+        {
+            SumDugovna = JournalDetails.Sum(x => x.Dugovna);
+            SumPotrazna = JournalDetails.Sum(x => x.Potrazna);
+            SumStanje = SumDugovna - SumPotrazna;
+            SidesEqual = SumStanje == 0;
+        }
+
+        private async void SaveJournal()
+        {
+            await _accountingJournalEndpoint.Post(JournalDetails.ToList());
         }
     }
 }

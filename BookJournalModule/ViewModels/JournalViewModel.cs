@@ -247,7 +247,7 @@ namespace BookJournalModule.ViewModels
         #endregion
 
         #region Save changes to journal
-        private bool CanSaveChanges() => SelectedJournal != null && SelectedJournal.BrojTemeljnice != 0;
+        private bool CanSaveChanges() => SelectedJournal != null;
         private async void SaveChanges()
         {
             await _accountingJournalEndpoint.Update(JournalDetails.ToList());
@@ -303,6 +303,18 @@ namespace BookJournalModule.ViewModels
                 if (result.Result == ButtonResult.OK)
                 {
 
+                }
+            });
+        }
+
+        public void OpenAccountsDialog()
+        {
+            _showDialog.ShowDialog("AccountsSelectionDialog", null, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    SelectedJournalDetail.Konto = result.Parameters.GetValue<BookAccountModel>("account").Konto;
+                    SelectedJournalDetail.Opis = result.Parameters.GetValue<BookAccountModel>("account").Opis;
                 }
             });
         }

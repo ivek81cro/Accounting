@@ -8,6 +8,21 @@
              xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:date="clr-namespace:AccountingUI.Core.Validation;assembly=AccountingUI.Core">
+    <UserControl.Resources>
+        <Style x:Key="controlSidesSum" TargetType="TextBlock">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SidesEqual, UpdateSourceTrigger=PropertyChanged}" 
+                             Value="False">
+                    <Setter Property="Foreground" Value="Red"/>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding SidesEqual, UpdateSourceTrigger=PropertyChanged}"
+                             Value="True">
+                    <Setter Property="Foreground" Value="Green"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
@@ -49,7 +64,57 @@
                 Width="85" Height="25"
                 Grid.Row="3"/>
 
-        <Grid Grid.Row="4" Grid.Column="0" Margin="0 10 0 0">
+        <Border BorderBrush="Black" BorderThickness="1" Padding="5" Margin="50 0 0 0"
+                Grid.RowSpan="3"
+                Grid.Row="1" Grid.Column="1">
+            <Grid HorizontalAlignment="Left">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="125"/>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="125"/>
+                    <ColumnDefinition Width="75"/>
+                    <ColumnDefinition Width="125"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Dugovna" Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="0"/>
+                <TextBlock Text="{Binding SumDugovna, StringFormat=N2,
+                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource controlSidesSum}"
+                               Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="1"/>
+
+                <TextBlock Text="Potražna" Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="2"/>
+                <TextBlock Text="{Binding SumPotrazna, StringFormat=N2,
+                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource controlSidesSum}"
+                               FontSize="14" FontWeight="Bold"
+                               Margin="5" Padding="5"
+                               Grid.Row="0" Grid.Column="3"/>
+
+                <TextBlock Text="Stanje" Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="4"/>
+                <TextBlock Text="{Binding SumStanje, StringFormat=N2,
+                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               Style="{StaticResource controlSidesSum}"
+                               Margin="5" Padding="5"
+                               FontSize="14" FontWeight="Bold"
+                               Grid.Row="0" Grid.Column="5"/>
+            </Grid>
+        </Border>
+
+        <Grid Margin="0 10 0 0"
+              Grid.Row="4" Grid.Column="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="200"/>
@@ -113,17 +178,19 @@
             <TextBlock Text="Valuta" Margin="5" Padding="5"
                        Grid.Row="5" Grid.Column="0"/>
             <TextBox Text="{Binding SelectedJournalDetail.Valuta}" Margin="5" Padding="5"
-                       Grid.Row="5" Grid.Column="1"/>
+                     Grid.Row="5" Grid.Column="1"/>
 
             <TextBlock Text="Dugovna" Margin="5" Padding="5"
                        Grid.Row="6" Grid.Column="0"/>
-            <TextBox Text="{Binding SelectedJournalDetail.Dugovna}" Margin="5" Padding="5"
-                       Grid.Row="6" Grid.Column="1"/>
+            <TextBox Text="{Binding SelectedJournalDetail.Dugovna, StringFormat=N2}" 
+                     Margin="5" Padding="5"
+                     Grid.Row="6" Grid.Column="1"/>
 
             <TextBlock Text="Potražna" Margin="5" Padding="5"
                        Grid.Row="7" Grid.Column="0"/>
-            <TextBox Text="{Binding SelectedJournalDetail.Potrazna}" Margin="5" Padding="5"
-                       Grid.Row="7" Grid.Column="1"/>
+            <TextBox Text="{Binding SelectedJournalDetail.Potrazna, StringFormat=N2}" 
+                     Margin="5" Padding="5"
+                     Grid.Row="7" Grid.Column="1"/>
 
             <Button Content="Dodaj red" Command="{Binding AddDetailCommand}" 
                     Margin="5" Padding="5"
@@ -181,6 +248,11 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
+
+        <Button Content="Spremi temeljnicu" Command="{Binding SaveJournalCommand}" 
+                    Margin="5" Padding="5"
+                    Width="115" Height="28" Grid.ColumnSpan="2"
+                    Grid.Row="8"/>
 
     </Grid>
 </UserControl>

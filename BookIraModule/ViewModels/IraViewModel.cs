@@ -490,6 +490,11 @@ namespace BookIraModule.ViewModels
         }
 
         private bool CanEditRow() => SelectedIra != null;
+        
+        public void ResetSelectedItem()
+        {
+            SelectedIra = null;
+        }
         #endregion
     }
 }

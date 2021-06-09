@@ -572,6 +572,11 @@ namespace BookUraModule.ViewModels
         }
 
         private bool CanEditRow() => SelectedUraPrimke != null;
+
+        public void ResetSelectedItem()
+        {
+            SelectedUraPrimke = null;
+        }
         #endregion
     }
 }

@@ -78,7 +78,7 @@ namespace BookUraModule.Dialogs
         public void OnDialogOpened(IDialogParameters parameters)
         {
             var list = parameters.GetValue<List<BookUraRestModel>>("collection");
-            UraList = new ObservableCollection<BookUraRestModel>(list.Where(x=>x.UkupniPretporez != 0));
+            UraList = new ObservableCollection<BookUraRestModel>(list);
             Period = parameters.GetValue<DateTime[]>("period");
         }
 

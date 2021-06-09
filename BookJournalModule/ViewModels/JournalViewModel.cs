@@ -255,6 +255,29 @@ namespace BookJournalModule.ViewModels
         }
         #endregion
 
+        #region Create new journal
+        private void OpenNewJournal()
+        {
+            _showDialog.Show("NewJournalDialog", null, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    var journalHeader = new JournalHeaders
+                    {
+                        Broj = 0,
+                        BrojTemeljnice = 0,
+                        Valuta="HRK",
+                        VrstaTemeljnice = result.Parameters.GetValue<string>("name")
+                    };
+                    JournalHeaders.Add(journalHeader);
+                    SelectedJournal = journalHeader;
+
+                    JournalDetails = new ObservableCollection<AccountingJournalModel>();
+                }
+            });
+        }
+        #endregion
+
         private void ResetCommandsAndView()
         {
             LoadHeaders();
@@ -283,28 +306,5 @@ namespace BookJournalModule.ViewModels
                 }
             });
         }
-
-        #region Create new journal
-        private void OpenNewJournal()
-        {
-            _showDialog.Show("NewJournalDialog", null, result =>
-            {
-                if (result.Result == ButtonResult.OK)
-                {
-                    var journalHeader = new JournalHeaders
-                    {
-                        Broj = 0,
-                        BrojTemeljnice = 0,
-                        Valuta="HRK",
-                        VrstaTemeljnice = result.Parameters.GetValue<string>("name")
-                    };
-                    JournalHeaders.Add(journalHeader);
-                    SelectedJournal = journalHeader;
-
-                    JournalDetails = new ObservableCollection<AccountingJournalModel>();
-                }
-            });
-        }
-        #endregion
     }
 }

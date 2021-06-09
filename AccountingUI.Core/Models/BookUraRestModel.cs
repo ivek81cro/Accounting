@@ -22,7 +22,14 @@ namespace AccountingUI.Core.Models
         public string NapomenaORacunu { get; set; }
         public decimal NettoNabavnaVrijednost { get; set; }
         public string SjedisteDobavljaca { get; set; }
-        public string OIB { get; set; }
+
+        private string _oib;
+        public string OIB
+        {
+            get { return _oib; }
+            set { SetProperty(ref _oib, value); }
+        }
+
         public decimal IznosSPorezom { get; set; }
         public decimal PoreznaOsnovica0 { get; set; }
         public decimal PoreznaOsnovica5 { get; set; }
@@ -51,6 +58,7 @@ namespace AccountingUI.Core.Models
         public decimal UkupnoUplaceno { get; set; }
         public decimal PreostaloZaUplatit { get; set; }
         public int DospijeceDana { get; set; }
+
         private bool _knjizen;
         public bool Knjizen
         {

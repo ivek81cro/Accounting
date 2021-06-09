@@ -154,6 +154,12 @@
                   CanUserDeleteRows="False" SelectedItem="{Binding SelectedUraPrimke}"
                   ItemsSource="{Binding UraRestInvoices, IsAsync=True}"
                   Grid.Row="4" Grid.Column="0">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CellEditEnding">
+                    <i:CallMethodAction TargetObject="{Binding}" 
+                                        MethodName="ResetSelectedItem"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
                     <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},

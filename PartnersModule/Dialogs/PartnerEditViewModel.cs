@@ -112,42 +112,26 @@ namespace PartnersModule.Dialogs
         {
             Partner = await _partnersEndpoint.GetByOib(oib);
 
-            if (IsBuyer)
-            {
-                Partner.KontoK = "12";
-            }
-            if (IsSupplier)
-            {
-                Partner.KontoD = "22";
-            }
-
             string sifra = Partner.Id.ToString();
-            string kontoK = Partner.KontoK;
-            string kontoD = Partner.KontoD;
+            string kontoK = "12";
+            string kontoD = "22";
 
-            if (kontoK != null && kontoK.StartsWith("12"))
+            while (kontoK.Length + sifra.Length < 8)
             {
-                while (kontoK.Length + sifra.Length < 8)
-                { 
-                    kontoK += "0"; 
-                }
-                kontoK += sifra;
-                await _bookAccountsEndpoint.Insert(new BookAccountModel { Konto = kontoK, Opis = Partner.Naziv });
+                kontoK += "0";
             }
+            kontoK += sifra;
+            await _bookAccountsEndpoint.Insert(new BookAccountModel { Konto = kontoK, Opis = Partner.Naziv });
 
-            if (kontoD != null && kontoD.StartsWith("22"))
+            while (kontoD.Length + sifra.Length < 8)
             {
-                while (kontoD.Length + sifra.Length < 8)
-                {
-                    kontoD += "0";
-                }
-                kontoD += sifra;
-                await _bookAccountsEndpoint.Insert(new BookAccountModel { Konto = kontoD, Opis = Partner.Naziv });
+                kontoD += "0";
             }
+            kontoD += sifra;
+            await _bookAccountsEndpoint.Insert(new BookAccountModel { Konto = kontoD, Opis = Partner.Naziv });
 
             Partner.KontoK = kontoK;
             Partner.KontoD = kontoD;
-
             await _partnersEndpoint.PostPartner(Partner);
         }
     }

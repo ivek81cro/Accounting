@@ -43,7 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VATModule", "VATModule\VATM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssetsModule", "AssetsModule\AssetsModule.csproj", "{5D7131FE-C884-445A-87AC-4FD644E8B0EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookJournalModule", "BookJournalModule\BookJournalModule.csproj", "{5C80B478-CB03-4B81-951A-BC8BB9FFAE8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookJournalModule", "BookJournalModule\BookJournalModule.csproj", "{5C80B478-CB03-4B81-951A-BC8BB9FFAE8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceSheetModule", "BalanceSheetModule\BalanceSheetModule.csproj", "{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +127,10 @@ Global
 		{5C80B478-CB03-4B81-951A-BC8BB9FFAE8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C80B478-CB03-4B81-951A-BC8BB9FFAE8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C80B478-CB03-4B81-951A-BC8BB9FFAE8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +154,7 @@ Global
 		{82DCE133-BF7B-4B6C-86EA-3F4B70992707} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{5D7131FE-C884-445A-87AC-4FD644E8B0EA} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{5C80B478-CB03-4B81-951A-BC8BB9FFAE8B} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
+		{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C146DCE3-AE73-4C23-A973-F16BCE354B0B}

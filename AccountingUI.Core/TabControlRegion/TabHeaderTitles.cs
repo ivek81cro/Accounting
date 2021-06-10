@@ -26,7 +26,8 @@ namespace AccountingUI.Core.TabControlRegion
             AssetsFixedView,
             AssetsCurrentView,
             JournalView,
-            RetailView
+            RetailView,
+            BalanceView
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -74,6 +75,8 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Temeljnice";
                 case ViewNames.RetailView:
                     return "Maloprodaja";
+                case ViewNames.BalanceView:
+                    return "Bilanca";
                 default:
                     return "";
             }

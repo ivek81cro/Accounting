@@ -198,6 +198,7 @@
     <Build Include="dbo\Stored Procedures\spAccountingJournal_GetAccountBalance.sql" />
     <Build Include="dbo\Stored Procedures\spBookUraRest_Update.sql" />
     <Build Include="dbo\Stored Procedures\spBookIra_Update.sql" />
+    <Build Include="dbo\Stored Procedures\spBalance_GetAll.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

@@ -110,6 +110,8 @@
             <MenuItem Header="Financijsko" Margin="5">
                 <MenuItem Header="Kontni plan" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="AccountsView"/>
+                <MenuItem Header="Bilanca" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="BalanceView"/>
                 <MenuItem Header="PDV" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="VatCalculation"/>
             </MenuItem>

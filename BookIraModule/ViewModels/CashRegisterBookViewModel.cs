@@ -379,6 +379,13 @@ namespace BookIraModule.ViewModels
 
                 SelectedBookItem = (CashRegisterModel)item;
                 var entries = CreateJournalEntries();
+                bool check = entries.Sum(x => x.Dugovna) == entries.Sum(x => x.Potrazna);
+                if (!check)
+                {
+                    AutomaticProcess = false;
+                    SendToProcessingDialog();
+                    break;
+                }
                 if (!await _processToJournalService.ProcessEntries(entries))
                 {
                     AutomaticProcess = false;

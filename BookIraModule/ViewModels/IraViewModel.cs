@@ -426,6 +426,13 @@ namespace BookIraModule.ViewModels
 
                 SelectedIra = (BookIraModel)item;
                 var entries = await CreateJournalEntries();
+                bool check = entries.Sum(x => x.Dugovna) == entries.Sum(x => x.Potrazna);
+                if (!check)
+                {
+                    AutomaticProcess = false;
+                    await SendToProcessingDialog();
+                    break;
+                }
                 if (!await _processToJournalService.ProcessEntries(entries))
                 {
                     AutomaticProcess = false;

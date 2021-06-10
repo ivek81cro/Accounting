@@ -10,6 +10,7 @@ using AccountingUI.Wpf.Dialogs.AccountsSelection;
 using AccountingUI.Wpf.Views;
 using AssetsModule;
 using AutoMapper;
+using BalanceSheetModule;
 using BankkStatementsModule;
 using BookAccountsModule;
 using BookIraModule;
@@ -101,6 +102,7 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleVAT>();
             moduleCatalog.AddModule<ModuleAssets>();
             moduleCatalog.AddModule<ModuleBookJournal>();
+            moduleCatalog.AddModule<ModuleBalanceSheet>();
         }
 
         private IConfiguration AddConfiguration()

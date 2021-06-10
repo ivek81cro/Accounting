@@ -30,16 +30,19 @@ namespace BankkStatementsModule.Dialogs
             AccountsLinkCommand = new DelegateCommand(AddNewPair, CanAddPair);
             CellValueChanged = new DelegateCommand(SumSides);
             SaveDataCommand = new DelegateCommand(SaveReportToDatabase, CanSaveReport);
+            OpenCardCommand = new DelegateCommand(OpenAccountBalance);
         }
 
         public DelegateCommand AccountsLinkCommand { get; private set; }
         public DelegateCommand CellValueChanged { get; private set; }
         public DelegateCommand SaveDataCommand { get; private set; }
+        public DelegateCommand OpenCardCommand { get; private set; }
 
         public string Title => "Pojedinačni izvod";
 
         public event Action<IDialogResult> RequestClose;
 
+        #region Properties
         private BankReportModel _reportHeader;
         public BankReportModel ReportHeader
         {
@@ -86,6 +89,7 @@ namespace BankkStatementsModule.Dialogs
             get { return _controlFlag; }
             set { SetProperty(ref _controlFlag, value); }
         }
+        #endregion
 
         public bool CanCloseDialog()
         {
@@ -119,6 +123,7 @@ namespace BankkStatementsModule.Dialogs
             ControlFlag = ReportHeader.StanjePrethodnogIzvoda + SumPotrazna - SumDugovna == ReportHeader.NovoStanje;
         }
 
+        #region Load and find pairs
         private async void LoadAccountPairs()
         {
             var pairs = await _accoutPairsEndpoint.GetByBookName(_bookName);
@@ -141,7 +146,11 @@ namespace BankkStatementsModule.Dialogs
                     .DefaultIfEmpty(new AccountPairModel()).ToList();
             }
 
-            if (result.Count > 1)
+            if (result.Count == 1)
+            {
+                reportEntry.Konto = result.DefaultIfEmpty(new AccountPairModel()).First().Account;
+            }
+            else if (result.Count > 1)
             {
                 foreach (var item in result)
                 {
@@ -152,12 +161,10 @@ namespace BankkStatementsModule.Dialogs
                     }
                 }
             }
-            else
-            {
-                reportEntry.Konto = result.DefaultIfEmpty(new AccountPairModel()).First().Account;
-            }
         }
+        #endregion
 
+        #region Pair accounts
         private bool CanAddPair()
         {
             return SelectedEntry != null;
@@ -175,7 +182,9 @@ namespace BankkStatementsModule.Dialogs
                 }
             });
         }
+        #endregion
 
+        #region Save to database
         private bool CanSaveReport()
         {
             foreach (var item in ReportItems)
@@ -213,6 +222,20 @@ namespace BankkStatementsModule.Dialogs
                 var dialogResult = ButtonResult.OK;
                 RequestClose?.Invoke(new DialogResult(dialogResult));
             }
+        }
+        #endregion
+
+        private void OpenAccountBalance()
+        {
+            var parameters = new DialogParameters();
+            parameters.Add("accountNumber", SelectedEntry.Konto);
+            _showDialog.Show("BalanceCardDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
     }
 }

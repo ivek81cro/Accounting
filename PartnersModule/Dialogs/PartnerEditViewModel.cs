@@ -20,7 +20,7 @@ namespace PartnersModule.Dialogs
             _partnersEndpoint = partnersEndpoint;
             _bookAccountsEndpoint = bookAccountsEndpoint;
 
-            SavePartnerCommand = new DelegateCommand(SavePartner, CanSavePartner);
+            SavePartnerCommand = new DelegateCommand(SavePartner);
         }
 
         public DelegateCommand SavePartnerCommand { get; private set; }
@@ -36,28 +36,6 @@ namespace PartnersModule.Dialogs
             set 
             { 
                 SetProperty(ref _partner, value);
-            }
-        }
-
-        private bool _isBuyer;
-        public bool IsBuyer
-        {
-            get { return _isBuyer; }
-            set 
-            { 
-                SetProperty(ref _isBuyer, value);
-                SavePartnerCommand.RaiseCanExecuteChanged();
-            }
-        }
-
-        private bool _isSupplier;
-        public bool IsSupplier
-        {
-            get { return _isSupplier; }
-            set 
-            {
-                SetProperty(ref _isSupplier, value);
-                SavePartnerCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -87,13 +65,6 @@ namespace PartnersModule.Dialogs
         private async void GetPartnerFromDatabase(int partnerId)
         {
             Partner = await _partnersEndpoint.GetById(partnerId);
-            IsBuyer = Partner.KontoK != null && Partner.KontoK.StartsWith("12");
-            IsSupplier = Partner.KontoD != null && Partner.KontoD.StartsWith("22");
-        }
-
-        private bool CanSavePartner()
-        {
-            return IsBuyer || IsSupplier;
         }
 
         private async void SavePartner()

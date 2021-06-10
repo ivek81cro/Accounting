@@ -133,6 +133,20 @@
                   CanUserDeleteRows="False" CanUserAddRows="False" 
                   Grid.ColumnSpan="3" SelectedItem="{Binding SelectedEntry, Mode=TwoWay}"
                   Grid.Row="4" Grid.Column="0">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},
+                            Path=DataContext}"/>
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu DataContext="{Binding Path=PlacementTarget.Tag, 
+                                         RelativeSource={RelativeSource Self}}">
+                                <MenuItem Header="Otvori karticu" Command="{Binding OpenCardCommand}"/>
+                            </ContextMenu>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CellEditEnding">
                     <i:InvokeCommandAction Command="{Binding CellValueChanged}"/>

@@ -419,6 +419,11 @@ namespace BookIraModule.ViewModels
         {
             foreach (var item in _filteredView)
             {
+                if (SelectedIra.Knjizen)
+                {
+                    continue;
+                }
+
                 SelectedIra = (BookIraModel)item;
                 var entries = await CreateJournalEntries();
                 if (!await _processToJournalService.ProcessEntries(entries))

@@ -389,6 +389,11 @@ namespace BookUraModule.ViewModels
         {
             foreach (var item in _filteredView)
             {
+                if (SelectedUraPrimke.Knjizen)
+                {
+                    continue;
+                }
+
                 SelectedUraPrimke = (BookUraPrimkaReproModel)item;
                 var entries = await CreateJournalEntries();
                 if (!await _processToJournalService.ProcessEntries(entries))

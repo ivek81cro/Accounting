@@ -120,6 +120,8 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
             Potrazna = Entries.Sum(x => x.Potrazna);
 
             SidesEqual = Dugovna == Potrazna;
+
+            ProcessCommand.RaiseCanExecuteChanged();
         }
 
         private bool CanAddPair()
@@ -158,6 +160,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountingProcessing
             SelectedEntry.Konto = null;
             SelectedEntry.Dokument = null;
             SelectedEntry.Opis = null;
+            SelectedEntry.Valuta = "HRK";
             SumSidesAndCompare();
         }
 

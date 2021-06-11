@@ -152,19 +152,22 @@ namespace BookJournalModule.ViewModels
 
         private async void LoadJournalDetails()
         {
-            IsLoading = true;
-            var list = await _accountingJournalEndpoint
-                            .LoadJournalDetails(new AccountingJournalModel
-                            {
-                                BrojTemeljnice = SelectedJournal.BrojTemeljnice,
-                                VrstaTemeljnice = SelectedJournal.VrstaTemeljnice
-                            });
+            if (SelectedJournal != null)
+            {
+                IsLoading = true;
+                var list = await _accountingJournalEndpoint
+                                .LoadJournalDetails(new AccountingJournalModel
+                                {
+                                    BrojTemeljnice = SelectedJournal.BrojTemeljnice,
+                                    VrstaTemeljnice = SelectedJournal.VrstaTemeljnice
+                                });
 
-            JournalDetails = new ObservableCollection<AccountingJournalModel>(list);
-            DeleteJournalCommand.RaiseCanExecuteChanged();
-            SumColumns();
+                JournalDetails = new ObservableCollection<AccountingJournalModel>(list);
+                DeleteJournalCommand.RaiseCanExecuteChanged();
+                SumColumns();
 
-            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
+                await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
+            }
         }
 
         private void DatagridLoaded()
@@ -314,14 +317,17 @@ namespace BookJournalModule.ViewModels
 
         public void OpenAccountsDialog()
         {
-            _showDialog.ShowDialog("AccountsSelectionDialog", null, result =>
+            if (JournalDetails != null)
             {
-                if (result.Result == ButtonResult.OK)
+                _showDialog.ShowDialog("AccountsSelectionDialog", null, result =>
                 {
-                    SelectedJournalDetail.Konto = result.Parameters.GetValue<BookAccountModel>("account").Konto;
-                    SelectedJournalDetail.Opis = result.Parameters.GetValue<BookAccountModel>("account").Opis;
-                }
-            });
+                    if (result.Result == ButtonResult.OK)
+                    {
+                        SelectedJournalDetail.Konto = result.Parameters.GetValue<BookAccountModel>("account").Konto;
+                        SelectedJournalDetail.Opis = result.Parameters.GetValue<BookAccountModel>("account").Opis;
+                    }
+                });
+            }
         }
     }
 }

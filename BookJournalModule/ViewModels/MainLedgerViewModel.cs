@@ -28,6 +28,7 @@ namespace BookJournalModule.ViewModels
             LoadJournalDetails();
         }
 
+        #region Properties
         public DelegateCommand SaveChangesCommand { get; private set; }
         public DelegateCommand OpenCardCommand { get; private set; }
 
@@ -79,7 +80,9 @@ namespace BookJournalModule.ViewModels
             get { return _sidesEqual; }
             set { SetProperty(ref _sidesEqual, value); }
         }
+        #endregion
 
+        #region Data load
         private async void LoadJournalDetails()
         {
             IsLoading = true;
@@ -95,6 +98,8 @@ namespace BookJournalModule.ViewModels
         {
             IsLoading = false;
         }
+        #endregion
+
 
         private bool CanSaveChanges() => SelectedJournalDetail != null;
 

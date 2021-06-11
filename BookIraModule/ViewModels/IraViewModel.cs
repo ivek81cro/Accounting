@@ -419,12 +419,12 @@ namespace BookIraModule.ViewModels
         {
             foreach (var item in _filteredView)
             {
+                SelectedIra = (BookIraModel)item;
                 if (SelectedIra.Knjizen)
                 {
                     continue;
                 }
 
-                SelectedIra = (BookIraModel)item;
                 var entries = await CreateJournalEntries();
                 bool check = entries.Sum(x => x.Dugovna) == entries.Sum(x => x.Potrazna);
                 if (!check)

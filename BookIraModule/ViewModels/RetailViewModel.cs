@@ -348,12 +348,12 @@ namespace BookIraModule.ViewModels
         {
             foreach (var item in _filteredView)
             {
+                SelectedItem = (RetailIraModel)item;
                 if (SelectedItem.Knjizen)
                 {
                     continue;
                 }
 
-                SelectedItem = (RetailIraModel)item;
                 var entries = CreateJournalEntries();
                 bool check = entries.Sum(x => x.Dugovna) == entries.Sum(x => x.Potrazna);
                 if (!check)

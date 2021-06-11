@@ -323,12 +323,12 @@ namespace BookUraModule.ViewModels
         {
             foreach (var item in _filteredView)
             {
+                SelectedUraPrimke = (BookUraRestModel)item;
                 if (SelectedUraPrimke.Knjizen)
                 {
                     continue;
                 }
 
-                SelectedUraPrimke = (BookUraRestModel)item;
                 var entries = await CreateJournalEntries();
                 bool check = entries.Sum(x => x.Dugovna) == entries.Sum(x => x.Potrazna);
                 if (!check)

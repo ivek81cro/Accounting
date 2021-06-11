@@ -42,13 +42,16 @@ namespace BankkStatementsModule.ViewModels
             LoadReports();
         }
 
+        #region Delegate commands
         public DelegateCommand LoadDataCommand { get; private set; }
         public DelegateCommand LoadReportCommand { get; private set; }
         public DelegateCommand ChangeDataCommand { get; private set; }
         public DelegateCommand ProcessItemCommand { get; private set; }
         public DelegateCommand DeleteReportCommand { get; private set; }
         public DelegateCommand OpenCardCommand { get; private set; }
+        #endregion
 
+        #region Properties
         private BankReportModel _reportHeader;
         public BankReportModel ReportHeader
         {
@@ -90,13 +93,17 @@ namespace BankkStatementsModule.ViewModels
             get { return _sumPotrazna; }
             set { SetProperty(ref _sumPotrazna, value); }
         }
+        #endregion
 
+        #region Load reports list
         public async void LoadReports()
         {
             var list = await _bankReportEndpoint.GetAllHeaders();
             AllHeaders = new ObservableCollection<BankReportModel>(list);
         }
+        #endregion
 
+        #region Open XML file, deserialize
         private void OpenStatementFile()
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog
@@ -178,7 +185,9 @@ namespace BankkStatementsModule.ViewModels
                 }
             });
         }
+        #endregion
 
+        #region Load selected report details
         private async void LoadReport()
         {
             if (ReportHeader != null && ReportHeader.Id > 0)
@@ -189,21 +198,9 @@ namespace BankkStatementsModule.ViewModels
                 DeleteReportCommand.RaiseCanExecuteChanged();
             }
         }
+        #endregion
 
-        private void SumSides()
-        {
-            SumDugovna = ReportItems.Sum(x => x.Dugovna);
-            SumPotrazna = ReportItems.Sum(x => x.Potrazna);
-        }
-
-        private void ChangeData()
-        {
-            if (ReportHeader != null && ReportHeader.Id > 0 && ReportItems != null)
-            {
-                OpenIndividualReportDialog();
-            }
-        }
-
+        #region Processing to journal
         private List<AccountingJournalModel> CreateJournalEntries()
         {
             var entries = new List<AccountingJournalModel>();
@@ -253,7 +250,9 @@ namespace BankkStatementsModule.ViewModels
                 }
             });
         }
+        #endregion
 
+        #region Delete report
         private bool CanDelete()
         {
             return ReportHeader != null && !ReportHeader.Knjizen;
@@ -263,6 +262,7 @@ namespace BankkStatementsModule.ViewModels
         {
             _bankReportEndpoint.Delete(ReportHeader.Id);
         }
+        #endregion
 
         private void OpenBalanceCard()
         {
@@ -275,6 +275,20 @@ namespace BankkStatementsModule.ViewModels
 
                 }
             });
+        }
+
+        private void SumSides()
+        {
+            SumDugovna = ReportItems.Sum(x => x.Dugovna);
+            SumPotrazna = ReportItems.Sum(x => x.Potrazna);
+        }
+
+        private void ChangeData()
+        {
+            if (ReportHeader != null && ReportHeader.Id > 0 && ReportItems != null)
+            {
+                OpenIndividualReportDialog();
+            }
         }
     }
 }

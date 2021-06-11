@@ -196,7 +196,7 @@ namespace BookJournalModule.ViewModels
         #region Processing to main ledger
         private bool CanProcess() => 
             JournalDetails != null && SelectedJournal != null && SelectedJournal.BrojTemeljnice == 0;
-
+        //TODO: Revise what happens to journal with number 0 when it get's processed (separate table?? delete??) 
         private void ProcessJournal()
         {
             _showDialog.ShowDialog(nameof(EnterDateDialog), null, result =>
@@ -211,6 +211,7 @@ namespace BookJournalModule.ViewModels
 
         private async void ProcessJournalToMainLedger()
         {
+            IsLoading = true;
             int journamNumber = await _accountingJournalEndpoint.LatestJournalNumber();
             foreach (var item in JournalDetails)
             {
@@ -218,6 +219,7 @@ namespace BookJournalModule.ViewModels
                 item.BrojTemeljnice = journamNumber + 1;
             }
             await _accountingJournalEndpoint.Post(JournalDetails.ToList());
+
             ResetCommandsAndView();
         }
         #endregion        
@@ -250,6 +252,7 @@ namespace BookJournalModule.ViewModels
         private bool CanSaveChanges() => SelectedJournal != null;
         private async void SaveChanges()
         {
+            IsLoading = true;
             await _accountingJournalEndpoint.Update(JournalDetails.ToList());
             ResetCommandsAndView();
         }
@@ -278,7 +281,7 @@ namespace BookJournalModule.ViewModels
         }
         #endregion
 
-        private void ResetCommandsAndView()
+        private async void ResetCommandsAndView()
         {
             LoadHeaders();
             JournalDetails = null;
@@ -286,6 +289,8 @@ namespace BookJournalModule.ViewModels
             DeleteJournalCommand.RaiseCanExecuteChanged();
             ProcessItemCommand.RaiseCanExecuteChanged();
             SaveChangesCommand.RaiseCanExecuteChanged();
+
+            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
         }
 
         private void DeleteRow()

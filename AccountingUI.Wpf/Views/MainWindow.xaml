@@ -85,6 +85,9 @@
                 <MenuItem Header="Temeljnice"
                           Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="JournalView"/>
+                <MenuItem Header="Dnevnik knjiženja"
+                          Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="MainLedger"/>
                 <Separator/>
                 <MenuItem Header="Osnovna sredstva">
                     <MenuItem Header="Dugotrajna imovina" 

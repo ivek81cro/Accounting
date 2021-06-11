@@ -35,6 +35,12 @@ namespace Accounting.Api.Controllers
             return _data.GetUnprocessedHeaders();
         }
 
+        [HttpGet("Ledger/")]
+        public List<AccountingJournalModel> LoadLedger()
+        {
+            return _data.LoadLedger();
+        }
+
         [HttpGet("Processed/")]
         public List<AccountingJournalModel> GetProcessed()
         {

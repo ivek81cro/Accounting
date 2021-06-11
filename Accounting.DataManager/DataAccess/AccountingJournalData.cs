@@ -176,5 +176,21 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public List<AccountingJournalModel> LoadLedger()
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<AccountingJournalModel, dynamic>(
+                    "dbo.spAccountingJournal_LoadLedger", new {  });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

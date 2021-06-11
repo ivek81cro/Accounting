@@ -2,7 +2,6 @@
 using AccountingUI.Core.Service;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -136,6 +135,22 @@ namespace AccountingUI.Core.Services
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadAsAsync<List<AccountBalanceModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task<List<AccountingJournalModel>> LoadLedger()
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/Journal/Ledger"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<AccountingJournalModel>>();
                     return result;
                 }
                 else

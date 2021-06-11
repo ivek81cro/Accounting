@@ -16,6 +16,7 @@ namespace BookJournalModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<JournalView>();
+            containerRegistry.RegisterForNavigation<MainLedger>();
 
             containerRegistry.RegisterDialog<EnterDateDialog>();
             containerRegistry.RegisterDialog<ProcessedJournalsDialog>();

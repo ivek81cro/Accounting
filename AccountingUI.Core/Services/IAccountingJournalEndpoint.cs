@@ -15,5 +15,6 @@ namespace AccountingUI.Core.Services
         Task<List<AccountingJournalModel>> LoadProcessedJournals();
         Task<bool> Update(List<AccountingJournalModel> list);
         Task<List<AccountBalanceModel>> LoadAccountCard(string accountNumber);
+        Task<List<AccountingJournalModel>> LoadLedger();
     }
 }

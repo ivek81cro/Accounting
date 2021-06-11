@@ -71,6 +71,16 @@
 
         <Border BorderBrush="Black" BorderThickness="1"
                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Filter Konto" Margin="5" Padding="5"/>
+                <TextBox Margin="5" Padding="5"
+                         Text="{Binding FilterKonto, UpdateSourceTrigger=PropertyChanged}"
+                         MinWidth="250"/>
+            </StackPanel>
+        </Border>
+        
+        <Border BorderBrush="Black" BorderThickness="1"
+                Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>

@@ -4,8 +4,11 @@ using AccountingUI.Core.TabControlRegion;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Windows.Data;
 
 namespace BalanceSheetModule.ViewModels
 {
@@ -18,10 +21,11 @@ namespace BalanceSheetModule.ViewModels
                                 IDialogService showDialog)
         {
             _balanceSheetEndpoint = balanceSheetEndpoint;
+            _showDialog = showDialog;
 
             OpenCardCommand = new DelegateCommand(OpenBalanceCard);
+            
             LoadBalanceSheet();
-            _showDialog = showDialog;
         }
 
         public DelegateCommand OpenCardCommand { get; private set; }
@@ -61,13 +65,35 @@ namespace BalanceSheetModule.ViewModels
             set { SetProperty(ref _sumStanje, value); }
         }
 
+        private ICollectionView _filterView;
+        private string _filterKonto;
+        public string FilterKonto
+        {
+            get { return _filterKonto; }
+            set
+            {
+                SetProperty(ref _filterKonto, value);
+                _filterView.Refresh();
+                SumColumns();
+            }
+        }
+
         private async void LoadBalanceSheet()
         {
             var list = await _balanceSheetEndpoint.LoadFullBalanceSheet();
+            BalanceList = new ObservableCollection<BalanceSheetModel>(list);
+            _filterView = CollectionViewSource.GetDefaultView(BalanceList);
+            _filterView.Filter = o => string.IsNullOrEmpty(FilterKonto) ?
+                true : ((BalanceSheetModel)o).Konto.StartsWith(FilterKonto);
+            SumColumns();
+        }
+
+        private void SumColumns()
+        {
+            var list = _filterView.Cast<BalanceSheetModel>();
             SumDugovna = list.Sum(x => x.Dugovna);
             SumPotrazna = list.Sum(x => x.Potrazna);
             SumStanje = SumDugovna - SumPotrazna;
-            BalanceList = new ObservableCollection<BalanceSheetModel>(list);
         }
 
         private void OpenBalanceCard()

@@ -222,6 +222,12 @@ namespace BookJournalModule.ViewModels
                 item.BrojTemeljnice = journamNumber + 1;
             }
             await _accountingJournalEndpoint.Post(JournalDetails.ToList());
+            //Delete temporary journal with number 0
+            await _accountingJournalEndpoint.Delete(new AccountingJournalModel
+            {
+                BrojTemeljnice = SelectedJournal.BrojTemeljnice,
+                VrstaTemeljnice = SelectedJournal.VrstaTemeljnice
+            });
 
             ResetCommandsAndView();
         }

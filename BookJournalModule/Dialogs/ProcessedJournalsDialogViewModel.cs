@@ -17,6 +17,7 @@ namespace BookJournalModule.Dialogs
             _accountingJournalEndpoint = accountingJournalEndpoint;
 
             OpenJournalCommand = new DelegateCommand(OpenSelectedJournal, CanOpenJournal);
+            LoadJournalCommand = new DelegateCommand(OpenSelectedJournal, CanOpenJournal);
         }
 
         public string Title => "Knižene temeljnice";
@@ -24,6 +25,7 @@ namespace BookJournalModule.Dialogs
         public event Action<IDialogResult> RequestClose;
 
         public DelegateCommand OpenJournalCommand { get; private set; }
+        public DelegateCommand LoadJournalCommand { get; private set; }
 
         private ObservableCollection<JournalHeaders> _journalHeaders;
         public ObservableCollection<JournalHeaders> JournalHeaders

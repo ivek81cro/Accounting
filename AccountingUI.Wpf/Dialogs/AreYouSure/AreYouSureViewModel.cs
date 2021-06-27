@@ -39,6 +39,7 @@ namespace Accounting.MainModule.Dialogs.AreYouSure
             get { return _answer; }
             set { SetProperty(ref _answer, value); }
         }
+
         public bool CanCloseDialog()
         {
             return true;

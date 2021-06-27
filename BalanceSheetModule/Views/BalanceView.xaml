@@ -76,6 +76,9 @@
                 <TextBox Margin="5" Padding="5"
                          Text="{Binding FilterKonto, UpdateSourceTrigger=PropertyChanged}"
                          MinWidth="250"/>
+                <Button Content="Ispis" Width="80" Height="28"
+                        Command="{Binding PrintCommand, Mode=OneWay}" 
+                        CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}" />
             </StackPanel>
         </Border>
         
@@ -117,6 +120,7 @@
                   SelectedItem="{Binding SelectedBalanceItem}"
                   AutoGenerateColumns="False" CanUserAddRows="False" 
                   CanUserDeleteRows="False" IsReadOnly="True"
+                  x:Name="dataGrid"
                   Grid.Row="3" Grid.Column="0">
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">

@@ -20,6 +20,7 @@ namespace BookIraModule.Dialogs
             get { return _calculation; }
             set { SetProperty(ref _calculation, value); }
         }
+
         public bool CanCloseDialog()
         {
             return true;

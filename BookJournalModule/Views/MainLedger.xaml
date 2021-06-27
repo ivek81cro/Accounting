@@ -130,9 +130,6 @@
                     </Setter>
                 </Style>
             </DataGrid.Resources>
-            <DataGrid.InputBindings>
-                <KeyBinding Key="Delete" Command="{Binding SumColumnsCommand}"/>
-            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum knjiženja" Width="100"
                                     Binding="{Binding DatumKnjizenja,

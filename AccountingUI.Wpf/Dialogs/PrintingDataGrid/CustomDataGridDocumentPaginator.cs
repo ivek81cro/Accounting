@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Documents;
 using System.Windows.Controls;
 using System.Windows;
 using System.Collections.ObjectModel;
-using System.Collections;
 using System.Windows.Markup;
 using System.Windows.Data;
 using System.ComponentModel;
 
-namespace BalanceSheetModule.ViewModels
+namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 {
     //Originally from http://www.codeproject.com/Articles/138233/Custom-Data-Grid-Document-Paginator
     //Added comment from user 'Member 10789205'

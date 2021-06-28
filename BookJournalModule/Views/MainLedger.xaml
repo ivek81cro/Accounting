@@ -111,7 +111,13 @@
                    Grid.ColumnSpan="3"
                    Grid.Row="1" Grid.Column="0"/>
 
-        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False"
+        <Button Content="Ispis" Width="80" Height="28"
+                Command="{Binding PrintCommand, Mode=OneWay}" 
+                CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}"
+                Grid.Row="2"/>
+
+        <DataGrid x:Name="dataGrid"
+                  AutoGenerateColumns="False" CanUserAddRows="False"
                   CanUserDeleteRows="False" SelectedItem="{Binding SelectedJournalDetail}"
                   ItemsSource="{Binding JournalDetails, IsAsync=True}" Width="auto"
                   IsReadOnly="True" Grid.ColumnSpan="3"

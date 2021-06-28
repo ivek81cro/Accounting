@@ -4,6 +4,7 @@ using AccountingUI.Core.TabControlRegion;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -32,7 +33,7 @@ namespace BalanceSheetModule.ViewModels
             _showDialog = showDialog;
 
             OpenCardCommand = new DelegateCommand(OpenBalanceCard);
-            PrintCommand = new DelegateCommand<Visual>(OpenPrintDialog);
+            PrintCommand = new DelegateCommand<Visual>(ShowPreview);
 
             LoadBalanceSheet();
         }
@@ -102,7 +103,7 @@ namespace BalanceSheetModule.ViewModels
 
         private void SumColumns()
         {
-            var list = _filterView.Cast<BalanceSheetModel>();
+            IEnumerable<BalanceSheetModel> list = _filterView.Cast<BalanceSheetModel>();
             SumDugovna = list.Sum(x => x.Dugovna);
             SumPotrazna = list.Sum(x => x.Potrazna);
             SumStanje = SumDugovna - SumPotrazna;
@@ -110,7 +111,7 @@ namespace BalanceSheetModule.ViewModels
 
         private void OpenBalanceCard()
         {
-            var parameters = new DialogParameters();
+            DialogParameters parameters = new DialogParameters();
             parameters.Add("accountNumber", SelectedBalanceItem.Konto);
             _showDialog.Show("BalanceCardDialog", parameters, result =>
             {
@@ -121,43 +122,15 @@ namespace BalanceSheetModule.ViewModels
             });
         }
 
-        private void OpenPrintDialog(Visual v)
+        private void ShowPreview(Visual v)
         {
-            PrintDialog printDialog = new PrintDialog();
-            printDialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
-            printDialog.PrintTicket.PageMediaSize = new PageMediaSize(PageMediaSizeName.ISOA4);
-
-            if (printDialog.ShowDialog() == false)
-                return;
-
-            string documentTitle = "Bilanca";
-            Size pageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
-
-            CustomDataGridDocumentPaginator paginator = new(v as DataGrid, documentTitle, pageSize, new Thickness(30, 20, 30, 20), true);
-            CreateDocument(printDialog, paginator);
-        }
-
-        private void CreateDocument(PrintDialog printDialog, CustomDataGridDocumentPaginator paginator)
-        {
-            string tempFileName = Path.GetTempFileName();
-            File.Delete(tempFileName);
-            using (XpsDocument xpsDocument = new XpsDocument(tempFileName, FileAccess.ReadWrite))
-            {
-                XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
-                writer.Write(paginator);
-                ShowPreview(xpsDocument.GetFixedDocumentSequence(), printDialog, paginator);
-            }
-        }
-
-        private void ShowPreview(FixedDocumentSequence document, PrintDialog printDialog, CustomDataGridDocumentPaginator paginator)
-        {
-            var parameters = new DialogParameters();
-            parameters.Add("document", document);
-            _showDialog.Show("ReportDialog", parameters, result =>
+            DialogParameters parameters = new DialogParameters();
+            parameters.Add("datagrid", v);
+            _showDialog.Show("PrintDialogView", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    printDialog.PrintDocument(paginator, "Ispis bilance");
+
                 }
             });
         }

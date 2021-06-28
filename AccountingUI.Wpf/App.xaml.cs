@@ -7,6 +7,7 @@ using AccountingUI.Wpf.Dialogs.AccountingProcessing;
 using AccountingUI.Wpf.Dialogs.AccountingSettings;
 using AccountingUI.Wpf.Dialogs.AccountPairing;
 using AccountingUI.Wpf.Dialogs.AccountsSelection;
+using AccountingUI.Wpf.Dialogs.PrintingDataGrid;
 using AccountingUI.Wpf.Views;
 using AssetsModule;
 using AutoMapper;
@@ -72,6 +73,8 @@ namespace AccountingUI.WPF
             containerRegistry.RegisterDialog<ProcessToJournal>();
             containerRegistry.RegisterDialog<AccountPairDialog>();
             containerRegistry.RegisterDialog<BalanceCardDialog>();
+            containerRegistry.RegisterDialog<PrintDialogView>();
+
         }
 
         private IMapper ConfigureAutomapper()

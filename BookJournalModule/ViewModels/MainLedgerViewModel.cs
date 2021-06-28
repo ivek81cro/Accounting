@@ -6,7 +6,9 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace BookJournalModule.ViewModels
@@ -24,14 +26,18 @@ namespace BookJournalModule.ViewModels
 
             SaveChangesCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
             OpenCardCommand = new DelegateCommand(OpenAccountBalance);
+            PrintCommand = new DelegateCommand<Visual>(ShowPreview);
 
             LoadJournalDetails();
         }
 
-        #region Properties
+        #region DelegateCommands
         public DelegateCommand SaveChangesCommand { get; private set; }
         public DelegateCommand OpenCardCommand { get; private set; }
+        public DelegateCommand<Visual> PrintCommand { get; private set; }
+        #endregion
 
+        #region Properties
         private ObservableCollection<AccountingJournalModel> _journalDetails;
         public ObservableCollection<AccountingJournalModel> JournalDetails
         {
@@ -121,6 +127,19 @@ namespace BookJournalModule.ViewModels
             var parameters = new DialogParameters();
             parameters.Add("accountNumber", SelectedJournalDetail.Konto);
             _showDialog.Show("BalanceCardDialog", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
+        }
+
+        private void ShowPreview(Visual v)
+        {
+            DialogParameters parameters = new DialogParameters();
+            parameters.Add("datagrid", v);
+            _showDialog.ShowDialog("PrintDialogView", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {

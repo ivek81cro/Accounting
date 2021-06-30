@@ -148,7 +148,7 @@
                                     Binding="{Binding Opis}"/>
                 <DataGridTextColumn Header="Dokument" Width="100" 
                                     Binding="{Binding Dokument}"/>
-                <DataGridTextColumn Header="Broj temeljnice" Width="50" 
+                <DataGridTextColumn Header="Broj" Width="50" 
                                     Binding="{Binding Broj}"/>
                 <DataGridTextColumn Header="Konto" Width="80"
                                     Binding="{Binding Konto}"/>

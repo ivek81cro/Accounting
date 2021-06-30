@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using AccountingUI.Core.Services;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -15,11 +16,14 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 {
     public class PrintDialogViewModel : BindableBase, IDialogAware
     {
+        private readonly ICompanyEndpoint _companyEndpoint;
+
         public string Title => "Ispis";
 
-        public PrintDialogViewModel()
+        public PrintDialogViewModel(ICompanyEndpoint companyEndpoint)
         {
             OkPrintCommand = new DelegateCommand<string>(SetPrintOk);
+            _companyEndpoint = companyEndpoint;
         }
 
         public DelegateCommand<string> OkPrintCommand { get; private set; }
@@ -49,7 +53,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
             OpenPrintDialog(visual);
         }
 
-        private void OpenPrintDialog(Visual v)
+        private async void OpenPrintDialog(Visual v)
         {
             PrintDialog printDialog = new PrintDialog();
             printDialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
@@ -58,11 +62,13 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
             string documentTitle = "Bilanca";
             Size pageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
 
-            CustomDataGridDocumentPaginator paginator = new(v as DataGrid, documentTitle, pageSize, new Thickness(30, 20, 30, 20), true);
-            CreateDocument(printDialog, paginator);
+            var company = await _companyEndpoint.Get();
+
+            CustomDataGridDocumentPaginator paginator = new(v as DataGrid, documentTitle, company, pageSize, new Thickness(30, 20, 30, 20), true);
+            CreateDocument(paginator);
         }
 
-        private void CreateDocument(PrintDialog printDialog, CustomDataGridDocumentPaginator paginator)
+        private void CreateDocument(CustomDataGridDocumentPaginator paginator)
         {
             string tempFileName = Path.GetTempFileName();
             File.Delete(tempFileName);

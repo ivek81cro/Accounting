@@ -8,6 +8,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Markup;
 using System.Windows.Data;
 using System.ComponentModel;
+using AccountingUI.Core.Services;
+using System.Threading.Tasks;
+using AccountingUI.Core.Models;
 
 namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 {
@@ -39,6 +42,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
         private List<double> _actualHeights;
         private List<int> _startRows;
         private List<DependencyObject> _columns;
+        private CompanyModel _company;
 
         private Collection<ColumnDefinition> _tableColumnDefinitions;
 
@@ -49,11 +53,17 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
         #region Constructor
 
-        public CustomDataGridDocumentPaginator(DataGrid documentSource, string documentTitle, Size pageSize, Thickness pageMargin, bool wrap_text)
+        public CustomDataGridDocumentPaginator(DataGrid documentSource,
+                                               string documentTitle,
+                                               CompanyModel company,
+                                               Size pageSize,
+                                               Thickness pageMargin,
+                                               bool wrap_text)
         {
             _tableColumnDefinitions = new Collection<ColumnDefinition>();
             _viewSource = documentSource.Items;
             _columns = documentSource.Columns.Select(c => (DependencyObject)c).ToList();
+            _company = company;
 
             this.DocumentTitle = documentTitle;
             this.PageSize = pageSize;
@@ -111,6 +121,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
         //changing most of these requires a re-Measure(), if you make the set's non-private you'll want to address that
         public Style AlternatingRowBorderStyle { get; private set; }
         public Style DocumentHeaderTextStyle { get; private set; }
+        public Style CompanyNameTextStyle { get; private set; }
         public Style DocumentFooterTextStyle { get; private set; }
         public Style TableCellTextStyle { get; private set; }
         public Style TableHeaderTextStyle { get; private set; }
@@ -309,17 +320,32 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
         private object CreateDocumentHeader()
         {
             Border headerBorder = new Border();
+            StackPanel stackPanel = new StackPanel();
+            stackPanel.Orientation = Orientation.Vertical;
+            headerBorder.Child = stackPanel;
+
+            TextBlock companyData = new();
+            companyData.Text = _company.Naziv
+                + '\n' + _company.Ulica + ' ' + _company.Broj
+                + '\n' + _company.Mjesto
+                + '\n' + "OIB: " + _company.Oib;
+            companyData.Style = CompanyNameTextStyle;
+            stackPanel.Children.Add(companyData);
+
             TextBlock titleText = new TextBlock();
             titleText.Style = this.DocumentHeaderTextStyle;
             if (WrapText)
-                titleText.TextWrapping = TextWrapping.Wrap;
+            { 
+                titleText.TextWrapping = TextWrapping.Wrap; 
+            }
             else
+            {
                 titleText.TextTrimming = TextTrimming.CharacterEllipsis;
+            }
             titleText.Text = this.DocumentTitle;
             titleText.HorizontalAlignment = HorizontalAlignment.Center;
-            titleText.TextAlignment = TextAlignment.Center;
 
-            headerBorder.Child = titleText;
+            stackPanel.Children.Add(titleText);
             headerBorder.FlowDirection = PageDirection;
 
             return headerBorder;
@@ -546,6 +572,10 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
                     text.SetValue(Grid.ColumnProperty, columnIndex);
                     text.SetValue(Grid.RowProperty, rowIndex);
+                    if (decimal.TryParse(text.Text, out _))
+                    {
+                        text.TextAlignment = TextAlignment.Right;
+                    }
 
                     grid.Children.Add(text);
                     return true;

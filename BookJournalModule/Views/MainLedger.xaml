@@ -108,13 +108,38 @@
         </StackPanel>
 
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
-                   Grid.ColumnSpan="3"
+                   Grid.ColumnSpan="3"                   
                    Grid.Row="1" Grid.Column="0"/>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <TextBlock Text="Filter datum knjiženja od:" Margin="5" Padding="5"/>
+            <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
+                        MinWidth="150">
+                <DatePicker.SelectedDate>
+                    <Binding Path="DateFrom"
+                             Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
+            <TextBlock Text="do:" Margin="5" Padding="5"/>
+            <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
+                        MinWidth="150">
+                <DatePicker.SelectedDate>
+                    <Binding Path="DateTo"
+                             Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </DatePicker.SelectedDate>
+            </DatePicker>
+            
+            <Button Content="Filtriraj" Command="{Binding FilterDataCommand}"
+                    Margin="5" Padding="5" Width="75"/>
 
-        <Button Content="Ispis" Width="80" Height="28" Margin="5"
+            <Button Content="Ispis" Width="80" Height="28" Margin="5"
                 Command="{Binding PrintCommand, Mode=OneWay}" 
-                CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}"
-                Grid.Row="2"/>
+                CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}"/>
+        </StackPanel>
 
         <DataGrid x:Name="dataGrid"
                   AutoGenerateColumns="False" CanUserAddRows="False"

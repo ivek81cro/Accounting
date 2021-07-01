@@ -5,9 +5,11 @@ using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -27,6 +29,7 @@ namespace BookJournalModule.ViewModels
             SaveChangesCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
             OpenCardCommand = new DelegateCommand(OpenAccountBalance);
             PrintCommand = new DelegateCommand<Visual>(ShowPreview);
+            FilterDataCommand = new DelegateCommand(FilterJournal);
 
             LoadJournalDetails();
         }
@@ -35,6 +38,7 @@ namespace BookJournalModule.ViewModels
         public DelegateCommand SaveChangesCommand { get; private set; }
         public DelegateCommand OpenCardCommand { get; private set; }
         public DelegateCommand<Visual> PrintCommand { get; private set; }
+        public DelegateCommand FilterDataCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -86,6 +90,27 @@ namespace BookJournalModule.ViewModels
             get { return _sidesEqual; }
             set { SetProperty(ref _sidesEqual, value); }
         }
+
+        private ICollectionView _filteredView;
+        private DateTime? _dateFrom;
+        public DateTime? DateFrom
+        {
+            get { return _dateFrom; }
+            set
+            {
+                SetProperty(ref _dateFrom, value);
+            }
+        }
+
+        private DateTime? _dateTo;
+        public DateTime? DateTo
+        {
+            get { return _dateTo; }
+            set
+            {
+                SetProperty(ref _dateTo, value);
+            }
+        }
         #endregion
 
         #region Data load
@@ -95,6 +120,7 @@ namespace BookJournalModule.ViewModels
             var list = await _accountingJournalEndpoint.LoadLedger();
 
             JournalDetails = new ObservableCollection<AccountingJournalModel>(list);
+            FilterJournal();
             SumColumns();
 
             await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
@@ -121,6 +147,25 @@ namespace BookJournalModule.ViewModels
             SumStanje = SumDugovna - SumPotrazna;
             SidesEqual = SumStanje == 0;
         }
+
+        #region Filtering datagrid
+        private void FilterJournal()
+        {
+            _filteredView = CollectionViewSource.GetDefaultView(JournalDetails);
+            _filteredView.Filter = o => FilterData((AccountingJournalModel)o);
+            SumColumns();
+        }
+
+        private bool FilterData(AccountingJournalModel o)
+        {
+            if (DateFrom != null || DateTo != null)
+            {
+                return o.DatumKnjizenja >= DateFrom && o.DatumKnjizenja <= DateTo;
+            }
+
+            return true;
+        }
+        #endregion
 
         private void OpenAccountBalance()
         {

@@ -3,21 +3,12 @@ using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using Prism.Commands;
 using Prism.Services.Dialogs;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Printing;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Markup;
 using System.Windows.Media;
-using System.Windows.Xps;
-using System.Windows.Xps.Packaging;
 
 namespace BalanceSheetModule.ViewModels
 {

@@ -50,16 +50,17 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
         public void OnDialogOpened(IDialogParameters parameters)
         {
             var visual = parameters.GetValue<Visual>("datagrid");
-            OpenPrintDialog(visual);
+            string title = parameters.GetValue<string>("title");
+            OpenPrintDialog(visual, title);
         }
 
-        private async void OpenPrintDialog(Visual v)
+        private async void OpenPrintDialog(Visual v, string title)
         {
             PrintDialog printDialog = new PrintDialog();
             printDialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
             printDialog.PrintTicket.PageMediaSize = new PageMediaSize(PageMediaSizeName.ISOA4);
 
-            string documentTitle = "Bilanca";
+            string documentTitle = title;
             Size pageSize = new Size(printDialog.PrintableAreaWidth, printDialog.PrintableAreaHeight);
 
             var company = await _companyEndpoint.Get();
@@ -92,6 +93,8 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
                 PrintDialog printDialog = new PrintDialog();
                 if (printDialog.ShowDialog() == true)
                 {
+                    printDialog.PrintTicket.PageOrientation = PageOrientation.Landscape;
+                    printDialog.PrintTicket.PageMediaSize = new PageMediaSize(PageMediaSizeName.ISOA4);
                     printDialog.PrintDocument(PrintDocument.DocumentPaginator, "Print document");
                     RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
                 }

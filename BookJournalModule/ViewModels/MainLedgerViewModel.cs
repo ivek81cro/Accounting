@@ -139,6 +139,7 @@ namespace BookJournalModule.ViewModels
         {
             DialogParameters parameters = new DialogParameters();
             parameters.Add("datagrid", v);
+            parameters.Add("title", "Dnevnik knjiženja");
             _showDialog.ShowDialog("PrintDialogView", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)

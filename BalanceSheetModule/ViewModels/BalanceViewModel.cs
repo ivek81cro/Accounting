@@ -126,6 +126,7 @@ namespace BalanceSheetModule.ViewModels
         {
             DialogParameters parameters = new DialogParameters();
             parameters.Add("datagrid", v);
+            parameters.Add("title", "Bilanca");
             _showDialog.Show("PrintDialogView", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)

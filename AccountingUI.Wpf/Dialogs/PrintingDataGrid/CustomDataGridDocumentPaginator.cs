@@ -8,8 +8,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Markup;
 using System.Windows.Data;
 using System.ComponentModel;
-using AccountingUI.Core.Services;
-using System.Threading.Tasks;
 using AccountingUI.Core.Models;
 
 namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
@@ -327,7 +325,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
             TextBlock companyData = new();
             companyData.Text = _company.Naziv
                 + '\n' + _company.Ulica + ' ' + _company.Broj
-                + '\n' + _company.Mjesto
+                + '\n' + _company.Posta + " " + _company.Mjesto
                 + '\n' + "OIB: " + _company.Oib;
             companyData.Style = CompanyNameTextStyle;
             stackPanel.Children.Add(companyData);
@@ -367,11 +365,11 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
             switch (PageDirection)
             {
                 case FlowDirection.LeftToRight:
-                    dateTimeText.Text = DateTime.Now.ToString("dd-MMM-yyy HH:mm");
+                    dateTimeText.Text = DateTime.Now.ToString("dd.MM.yyyy HH:mm");
 
                     break;
                 case FlowDirection.RightToLeft:
-                    dateTimeText.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                    dateTimeText.Text = DateTime.Now.ToString("dd.MM.yyyy");
                     break;
             }
             dateTimeText.FlowDirection = PageDirection;
@@ -380,7 +378,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
             TextBlock pageNumberText = new TextBlock();
             pageNumberText.Style = this.DocumentFooterTextStyle;
-            pageNumberText.Text = "Page " + pageNumber.ToString() + " of " + this.PageCount.ToString();
+            pageNumberText.Text = "Str. " + pageNumber.ToString() + " od " + this.PageCount.ToString();
             pageNumberText.SetValue(Grid.ColumnProperty, 1);
             pageNumberText.HorizontalAlignment = HorizontalAlignment.Right;
             pageNumberText.FlowDirection = PageDirection;

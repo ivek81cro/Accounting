@@ -77,13 +77,8 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
             {
                 XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
                 writer.Write(paginator);
-                ShowPreview(xpsDocument.GetFixedDocumentSequence());
+                PrintDocument = xpsDocument.GetFixedDocumentSequence();
             }
-        }
-
-        private void ShowPreview(FixedDocumentSequence fixedDocumentSequence)
-        {
-            PrintDocument = fixedDocumentSequence;
         }
 
         private void SetPrintOk(string obj)

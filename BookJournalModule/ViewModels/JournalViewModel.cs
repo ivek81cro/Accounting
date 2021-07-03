@@ -7,8 +7,10 @@ using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace BookJournalModule.ViewModels
@@ -31,6 +33,7 @@ namespace BookJournalModule.ViewModels
             SaveChangesCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
             OpenCardCommand = new DelegateCommand(OpenAccountBalance);
             NewJournalCommand = new DelegateCommand(OpenNewJournal);
+            PrintCommand = new DelegateCommand<Visual>(ShowPreview);
 
             LoadHeaders();
         }
@@ -44,6 +47,7 @@ namespace BookJournalModule.ViewModels
         public DelegateCommand SaveChangesCommand { get; private set; }
         public DelegateCommand OpenCardCommand { get; private set; }
         public DelegateCommand NewJournalCommand { get; private set; }
+        public DelegateCommand<Visual> PrintCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -128,6 +132,19 @@ namespace BookJournalModule.ViewModels
         {
             get { return _isLoading; }
             set { SetProperty(ref _isLoading, value); }
+        }
+
+        private ICollectionView _filterView;
+        private string _filterTemeljnicaBroj;
+        public string FilterTemeljnicaBroj
+        {
+            get { return _filterTemeljnicaBroj; }
+            set
+            {
+                SetProperty(ref _filterTemeljnicaBroj, value);
+                _filterView.Refresh();
+                SumColumns();
+            }
         }
         #endregion
 
@@ -334,6 +351,25 @@ namespace BookJournalModule.ViewModels
                     }
                 });
             }
+        }
+
+        private void ShowPreview(Visual v)
+        {
+            if (SelectedJournal == null)
+            {
+                return;
+            }
+
+            DialogParameters parameters = new DialogParameters();
+            parameters.Add("datagrid", v);
+            parameters.Add("title", $"Temeljnica broj {SelectedJournal.BrojTemeljnice}");
+            _showDialog.ShowDialog("PrintDialogView", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
     }
 }

@@ -106,17 +106,23 @@
             <StackPanel>
                 <TextBlock Text="Detalji odabranog zapisa iz arhive" Margin="5"
                        FontSize="16" Height="auto"/>
-                <TextBlock Text="Plaće" Margin="5" FontSize="14"/>
-                <DataGrid ItemsSource="{Binding Payrolls}"
-                      AutoGenerateColumns="False" CanUserAddRows="False" 
-                      CanUserDeleteRows="False" IsReadOnly="True">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Plaće" Margin="5" FontSize="14"/>
+                    <Button Content="Ispis" Width="80" Height="28" Margin="5"
+                            Command="{Binding PrintCommand, Mode=OneWay}" 
+                            CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}"/>
+                </StackPanel>
+                <DataGrid x:Name="dataGrid" 
+                          ItemsSource="{Binding Payrolls}"
+                          AutoGenerateColumns="False" CanUserAddRows="False" 
+                          CanUserDeleteRows="False" IsReadOnly="True">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Oib" 
-                                            Binding="{Binding Oib}" MinWidth="100"/>
+                                            Binding="{Binding Oib}" MinWidth="120"/>
                         <DataGridTextColumn Header="Ime" 
-                                            Binding="{Binding Ime}" MinWidth="100"/>
+                                            Binding="{Binding Ime}" MinWidth="90"/>
                         <DataGridTextColumn Header="Prezime" 
-                                            Binding="{Binding Prezime}" MinWidth="100"/>
+                                            Binding="{Binding Prezime}" MinWidth="90"/>
                         <DataGridTextColumn Header="Bruto" 
                                             Binding="{Binding Bruto, StringFormat=N2}" 
                                             MinWidth="90"/>

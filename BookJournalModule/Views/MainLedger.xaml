@@ -171,7 +171,7 @@
                                     Binding="{Binding BrojTemeljnice}"/>
                 <DataGridTextColumn Header="Opis" Width="200"
                                     Binding="{Binding Opis}"/>
-                <DataGridTextColumn Header="Dokument" Width="100" 
+                <DataGridTextColumn Header="Dokument" Width="200" 
                                     Binding="{Binding Dokument}"/>
                 <DataGridTextColumn Header="Broj" Width="50" 
                                     Binding="{Binding Broj}"/>

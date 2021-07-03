@@ -8,6 +8,7 @@ using Prism.Services.Dialogs;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 
 namespace PayrollModule.ViewModels
 {
@@ -42,6 +43,7 @@ namespace PayrollModule.ViewModels
             CreateJoppdFormCommand = new DelegateCommand(CreateJoppdDialog, CanCreateJoppd);
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             ProcessPayrollCommand = new DelegateCommand(ProcessItem, CanProcess);
+            PrintCommand = new DelegateCommand<Visual>(ShowPreview);
 
             LoadArchive();
         }
@@ -51,6 +53,7 @@ namespace PayrollModule.ViewModels
         public DelegateCommand DeletePayrollCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand ProcessPayrollCommand { get; private set; }
+        public DelegateCommand<Visual> PrintCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -263,7 +266,30 @@ namespace PayrollModule.ViewModels
                     _archiveEndpoint.MarkAsProcessed(SelectedArchive.Id);
                 }
             });
-        }        
+        }
+        #endregion
+
+        #region Printing
+        private void ShowPreview(Visual v)
+        {
+            if (SelectedArchive == null)
+            {
+                return;
+            }
+
+            DialogParameters parameters = new DialogParameters();
+            parameters.Add("datagrid", v);
+            parameters.Add("title", $"{SelectedArchive.Opis}, za razdoblje " +
+                $"{SelectedArchive.DatumOd.Value.Date.ToShortDateString()} " +
+                $"- {SelectedArchive.DatumDo.Value.Date.ToShortDateString()}");
+            _showDialog.ShowDialog("PrintDialogView", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
+        }
         #endregion
     }
 }

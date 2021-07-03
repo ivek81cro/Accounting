@@ -150,6 +150,7 @@ namespace PayrollModule.ViewModels
 
             _archivePayrolls = new();
             _archivePayrolls = await _archiveEndpoint.GetArchivePayrolls(SelectedArchive.Id);
+            SetPayrollSum();
             Payrolls = new ObservableCollection<PayrollArchivePayrollModel>(_archivePayrolls);
 
             _archiveSupplements = new();
@@ -157,6 +158,28 @@ namespace PayrollModule.ViewModels
             Supplements = new ObservableCollection<PayrollArchiveSupplementModel>(_archiveSupplements);
 
             SetSums();
+        }
+
+        private void SetPayrollSum()
+        {
+            _archivePayrolls.Add(
+                new PayrollArchivePayrollModel
+                {
+                    Prezime ="UKUPNO",
+                    Mio1 = _archivePayrolls.Sum(x=> x.Mio1),
+                    Mio2 = _archivePayrolls.Sum(x=> x.Mio2),
+                    Bruto = _archivePayrolls.Sum(x=> x.Bruto),
+                    Neto = _archivePayrolls.Sum(x=> x.Neto),
+                    Dohodak = _archivePayrolls.Sum(x=> x.Dohodak),
+                    DoprinosZdravstvo = _archivePayrolls.Sum(x=> x.DoprinosZdravstvo),
+                    PoreznaOsnovica = _archivePayrolls.Sum(x=> x.PoreznaOsnovica),
+                    PoreznaStopa1 = _archivePayrolls.Sum(x=> x.PoreznaStopa1),
+                    PoreznaStopa2 = _archivePayrolls.Sum(x=> x.PoreznaStopa2),
+                    Prirez = _archivePayrolls.Sum(x=> x.Prirez),
+                    Odbitak = _archivePayrolls.Sum(x=> x.Odbitak),
+                    UkupnoPorez = _archivePayrolls.Sum(x=> x.UkupnoPorez),
+                    UkupnoPorezPrirez = _archivePayrolls.Sum(x=> x.UkupnoPorezPrirez),
+                });
         }
 
         private void SetSums()
@@ -167,7 +190,7 @@ namespace PayrollModule.ViewModels
                 HealthcareSum += p.DoprinosZdravstvo;
             }
 
-            foreach(var s in Supplements)
+            foreach (var s in Supplements)
             {
                 SupplementsSum += s.Iznos;
             }

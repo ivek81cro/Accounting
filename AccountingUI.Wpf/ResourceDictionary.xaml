@@ -50,4 +50,12 @@
     <Style x:Key="GridContainerStyle" TargetType="Grid">
         <Setter Property="Background" Value="#FFFCFCFC"/>
     </Style>
+    <Style TargetType="Button">
+        <Setter Property="BorderBrush" Value="#a3a3a3"/>
+        <Style.Resources>
+            <Style TargetType="Border">
+                <Setter Property="CornerRadius" Value="5" />
+            </Style>
+        </Style.Resources>
+    </Style>
 </ResourceDictionary>

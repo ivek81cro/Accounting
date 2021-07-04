@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Threading;
 using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
 
@@ -37,6 +38,13 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
             set { SetProperty(ref _printDocument, value); }
         }
 
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
+        }
+
         public bool CanCloseDialog()
         {
             return true;
@@ -47,11 +55,19 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
         }
 
-        public void OnDialogOpened(IDialogParameters parameters)
+        public async void OnDialogOpened(IDialogParameters parameters)
         {
+            IsLoading = true;
             var visual = parameters.GetValue<Visual>("datagrid");
             string title = parameters.GetValue<string>("title");
             OpenPrintDialog(visual, title);
+
+            await Application.Current.Dispatcher.BeginInvoke(new Action(DatagridLoaded), DispatcherPriority.ContextIdle, null);
+        }
+
+        private void DatagridLoaded()
+        {
+            IsLoading = false;
         }
 
         private async void OpenPrintDialog(Visual v, string title)

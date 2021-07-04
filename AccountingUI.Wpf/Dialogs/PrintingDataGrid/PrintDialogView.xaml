@@ -13,12 +13,30 @@
             <Setter Property="Width" Value="auto"/>
         </Style>
     </prism:Dialog.WindowStyle>
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
+        <!--#region Loading band section-->
+        <StackPanel HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center" Background="#4695fb"
+                    Visibility="{Binding IsLoading, Mode=TwoWay, 
+                                 UpdateSourceTrigger=PropertyChanged,
+                                 Converter={StaticResource booleanToVisibilityConverter}}"
+                    Panel.ZIndex="10" Opacity="0.5"
+                    Grid.Row="0" Grid.Column="0" 
+                    Grid.RowSpan="4" Grid.ColumnSpan="3">
+
+            <TextBlock Text="Generiram ispis, sačekajte molim..."  Padding="10" FontSize="48" 
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+        <!--#endregion-->
 
         <StackPanel Orientation="Horizontal"
                     Grid.Row="0">

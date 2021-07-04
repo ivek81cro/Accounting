@@ -8,6 +8,7 @@ using Prism.Services.Dialogs;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace PayrollModule.ViewModels
@@ -300,11 +301,23 @@ namespace PayrollModule.ViewModels
                 return;
             }
 
+            string title;
+            var dg = (DataGrid)v;
+            if (dg.Name == "dataGridSupplement")
+            {
+                title = $"{SelectedArchive.Opis}" + " - Dodaci, za razdoblje " +
+                    $"{SelectedArchive.DatumOd.Value.Date.ToShortDateString()} " +
+                    $"- {SelectedArchive.DatumDo.Value.Date.ToShortDateString()}";
+            }
+            else
+            {
+                title = $"{SelectedArchive.Opis}, za razdoblje " +
+                    $"{SelectedArchive.DatumOd.Value.Date.ToShortDateString()} " +
+                    $"- {SelectedArchive.DatumDo.Value.Date.ToShortDateString()}";
+            }
             DialogParameters parameters = new DialogParameters();
             parameters.Add("datagrid", v);
-            parameters.Add("title", $"{SelectedArchive.Opis}, za razdoblje " +
-                $"{SelectedArchive.DatumOd.Value.Date.ToShortDateString()} " +
-                $"- {SelectedArchive.DatumDo.Value.Date.ToShortDateString()}");
+            parameters.Add("title", title);
             _showDialog.ShowDialog("PrintDialogView", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)

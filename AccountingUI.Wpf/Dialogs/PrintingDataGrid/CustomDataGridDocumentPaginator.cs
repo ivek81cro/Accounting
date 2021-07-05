@@ -556,9 +556,27 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
                     text.Style = this.TableCellTextStyle;
                     if (WrapText)
+                    {
                         text.TextWrapping = TextWrapping.Wrap;
+                    }
                     else
+                    {
                         text.TextTrimming = TextTrimming.CharacterEllipsis;
+                    }
+
+                    if(item is BalanceSheetModel)
+                    {
+                        var k = (BalanceSheetModel)item;
+                        if (k.Konto.Length == 3)
+                        {
+                            text.FontWeight = FontWeights.Bold;
+                        }
+                        else
+                        {
+                            text.Padding = new Thickness(10, 0, 0, 0);
+                            text.FontSize = 10;
+                        }
+                    }
                     text.DataContext = item;
 
                     Binding binding = textColumn.Binding as Binding;
@@ -570,6 +588,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
                     text.SetValue(Grid.ColumnProperty, columnIndex);
                     text.SetValue(Grid.RowProperty, rowIndex);
+                    
                     if (decimal.TryParse(text.Text, out _))
                     {
                         text.TextAlignment = TextAlignment.Right;

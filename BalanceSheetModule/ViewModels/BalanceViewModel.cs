@@ -3,6 +3,7 @@ using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using Prism.Commands;
 using Prism.Services.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,12 +17,15 @@ namespace BalanceSheetModule.ViewModels
     {
         private readonly IBalanceSheetEndpoint _balanceSheetEndpoint;
         private readonly IDialogService _showDialog;
+        private readonly IBookAccountsEndpoint _bookAccountsEndpoint;
 
         public BalanceViewModel(IBalanceSheetEndpoint balanceSheetEndpoint,
-                                IDialogService showDialog)
+                                IDialogService showDialog, 
+                                IBookAccountsEndpoint bookAccountsEndpoint)
         {
             _balanceSheetEndpoint = balanceSheetEndpoint;
             _showDialog = showDialog;
+            _bookAccountsEndpoint = bookAccountsEndpoint;
 
             OpenCardCommand = new DelegateCommand(OpenBalanceCard);
             PrintCommand = new DelegateCommand<Visual>(ShowPreview);
@@ -80,12 +84,24 @@ namespace BalanceSheetModule.ViewModels
                 SumColumns();
             }
         }
+
+        private bool _isGroupAccount;
+        public bool IsGroupAccount
+        {
+            get { return _isGroupAccount; }
+            set { SetProperty(ref _isGroupAccount, value); }
+        }
         #endregion
 
         private async void LoadBalanceSheet()
         {
             var list = await _balanceSheetEndpoint.LoadFullBalanceSheet();
             BalanceList = new ObservableCollection<BalanceSheetModel>(list);
+            FilterData();
+        }
+
+        private void FilterData()
+        {
             _filterView = CollectionViewSource.GetDefaultView(BalanceList);
             _filterView.Filter = o => string.IsNullOrEmpty(FilterKonto) ?
                 true : ((BalanceSheetModel)o).Konto.StartsWith(FilterKonto);
@@ -115,6 +131,7 @@ namespace BalanceSheetModule.ViewModels
 
         private void ShowPreview(Visual v)
         {
+            InsertGroupAccountSumRows();
             DialogParameters parameters = new DialogParameters();
             parameters.Add("datagrid", v);
             parameters.Add("title", "Bilanca");
@@ -125,6 +142,48 @@ namespace BalanceSheetModule.ViewModels
 
                 }
             });
+        }
+
+        private async void InsertGroupAccountSumRows()
+        {
+            List<BalanceSheetModel> list = _filterView.Cast<BalanceSheetModel>().ToList();
+            BalanceList = new ObservableCollection<BalanceSheetModel>();
+            var accounts = await _bookAccountsEndpoint.GetAll();
+
+            for(int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    for (int k = 0; k < 10; k++)
+                    {
+                        string param = i.ToString() + j.ToString() + k.ToString();
+                        BalanceList.AddRange(list.Where(x => x.Konto.StartsWith(param)));
+
+                        decimal potrazna = list.Where(x => x.Konto.StartsWith(param)).Sum(y => y.Potrazna);
+                        decimal dugovna = list.Where(x => x.Konto.StartsWith(param)).Sum(y => y.Dugovna);
+                        decimal stanje = list.Where(x => x.Konto.StartsWith(param)).Sum(y => y.Stanje);
+
+                        if(dugovna == 0 && potrazna == 0)
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            IsGroupAccount = true;
+                            BalanceList.Add(new BalanceSheetModel
+                            {
+                                Konto = param,
+                                Dugovna = dugovna,
+                                Potrazna = potrazna,
+                                Stanje = stanje,
+                                Opis = accounts.FirstOrDefault(x => x.Konto == param).Opis
+                            });
+                        }
+                        IsGroupAccount = false;
+                    }
+                }
+            }
+            FilterData();
         }
     }
 }

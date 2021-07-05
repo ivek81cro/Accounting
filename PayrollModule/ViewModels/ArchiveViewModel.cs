@@ -187,6 +187,10 @@ namespace PayrollModule.ViewModels
         {
             foreach(var p in Payrolls)
             {
+                if(p.Oib == null)
+                {
+                    continue;
+                }
                 BrutoSum += p.Bruto;
                 HealthcareSum += p.DoprinosZdravstvo;
             }
@@ -279,7 +283,8 @@ namespace PayrollModule.ViewModels
 
         private async void ProcessItem()
         {
-            var entries = await _payrollArchivePrepare.CreateJournalEntries(Payrolls.ToList(), SelectedArchive, AccountingSettings, Supplements.ToList());
+            var payrolls = Payrolls.Where(x => x.Oib != null).ToList();
+            var entries = await _payrollArchivePrepare.CreateJournalEntries(payrolls, SelectedArchive, AccountingSettings, Supplements.ToList());
             var parameters = new DialogParameters();
             parameters.Add("entries", entries);
             _showDialog.ShowDialog("ProcessToJournal", parameters, result =>

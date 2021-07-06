@@ -580,8 +580,9 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
                     text.SetValue(Grid.ColumnProperty, columnIndex);
                     text.SetValue(Grid.RowProperty, rowIndex);
-                    
-                    if (decimal.TryParse(text.Text, out _))
+
+                    //if currency align right
+                    if (text.Text.Contains(',') && text.Text.Split(',').Length == 2)
                     {
                         text.TextAlignment = TextAlignment.Right;
                     }
@@ -590,6 +591,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
                     return true;
                 }
             }
+
             if (column is GridViewColumn)
             {
                 var gridviewcolumn = column as GridViewColumn;

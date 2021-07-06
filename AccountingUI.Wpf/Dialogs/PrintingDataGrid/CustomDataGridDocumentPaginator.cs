@@ -564,18 +564,10 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
                         text.TextTrimming = TextTrimming.CharacterEllipsis;
                     }
 
+                    //TODO switch/case based on class, property change in method
                     if(item is BalanceSheetModel)
                     {
-                        var k = (BalanceSheetModel)item;
-                        if (k.Konto.Length == 3)
-                        {
-                            text.FontWeight = FontWeights.Bold;
-                        }
-                        else
-                        {
-                            text.Padding = new Thickness(10, 0, 0, 0);
-                            text.FontSize = 10;
-                        }
+                        FormatForBalanceSheet(item, text);
                     }
                     text.DataContext = item;
 
@@ -662,7 +654,26 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
             grid.RowDefinitions.Add(rowDef);
         }
+        #endregion
 
+        #region BalanceSheetFormating
+        private void FormatForBalanceSheet(object item, TextBlock text)
+        {
+            var k = (BalanceSheetModel)item;
+            if (k.Konto.Length == 1)
+            {
+                text.Text = text.Text.ToUpper();
+            }
+            if (k.Konto.Length == 3 || k.Konto.Length == 1)
+            {
+                text.FontWeight = FontWeights.Bold;
+            }
+            else
+            {
+                text.Padding = new Thickness(10, 0, 0, 0);
+                text.FontSize = 10;
+            }
+        }
         #endregion
 
     }

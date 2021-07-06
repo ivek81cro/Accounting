@@ -138,7 +138,8 @@
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"/>
-                <DataGridTextColumn Header="Konto" Binding="{Binding Konto}"/>
+                <DataGridTextColumn Header="Konto" Binding="{Binding Konto}"
+                                    TextBlock.TextAlignment="Left"/>
                 <DataGridTextColumn Header="Dugovna" 
                                     Binding="{Binding Dugovna, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Potražna" 

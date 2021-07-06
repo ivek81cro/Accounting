@@ -84,13 +84,6 @@ namespace BalanceSheetModule.ViewModels
                 SumColumns();
             }
         }
-
-        private bool _isGroupAccount;
-        public bool IsGroupAccount
-        {
-            get { return _isGroupAccount; }
-            set { SetProperty(ref _isGroupAccount, value); }
-        }
         #endregion
 
         private async void LoadBalanceSheet()
@@ -139,9 +132,10 @@ namespace BalanceSheetModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-
                 }
             });
+
+            LoadBalanceSheet();
         }
 
         private async void InsertGroupAccountSumRows()
@@ -152,16 +146,35 @@ namespace BalanceSheetModule.ViewModels
 
             for(int i = 0; i < 10; i++)
             {
+                string par = i.ToString();
+                decimal potrazna = list.Where(x => x.Konto.StartsWith(par)).Sum(y => y.Potrazna);
+                decimal dugovna = list.Where(x => x.Konto.StartsWith(par)).Sum(y => y.Dugovna);
+                decimal stanje = list.Where(x => x.Konto.StartsWith(par)).Sum(y => y.Stanje);
+                if (dugovna == 0 && potrazna == 0 && stanje == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    BalanceList.Add(new BalanceSheetModel
+                    {
+                        Konto = i.ToString(),
+                        Dugovna = dugovna,
+                        Potrazna = potrazna,
+                        Stanje = stanje,
+                        Opis = accounts.FirstOrDefault(x => x.Konto == par).Opis
+                    });
+                }
                 for (int j = 0; j < 10; j++)
                 {
                     for (int k = 0; k < 10; k++)
                     {
                         string param = i.ToString() + j.ToString() + k.ToString();
-                        BalanceList.AddRange(list.Where(x => x.Konto.StartsWith(param)));
+                        potrazna = list.Where(x => x.Konto.StartsWith(param)).Sum(y => y.Potrazna);
+                        dugovna = list.Where(x => x.Konto.StartsWith(param)).Sum(y => y.Dugovna);
+                        stanje = list.Where(x => x.Konto.StartsWith(param)).Sum(y => y.Stanje);
 
-                        decimal potrazna = list.Where(x => x.Konto.StartsWith(param)).Sum(y => y.Potrazna);
-                        decimal dugovna = list.Where(x => x.Konto.StartsWith(param)).Sum(y => y.Dugovna);
-                        decimal stanje = list.Where(x => x.Konto.StartsWith(param)).Sum(y => y.Stanje);
+                        BalanceList.AddRange(list.Where(x => x.Konto.StartsWith(param) && x.Konto.Length > 3));
 
                         if(dugovna == 0 && potrazna == 0)
                         {
@@ -169,7 +182,6 @@ namespace BalanceSheetModule.ViewModels
                         }
                         else
                         {
-                            IsGroupAccount = true;
                             BalanceList.Add(new BalanceSheetModel
                             {
                                 Konto = param,
@@ -179,7 +191,6 @@ namespace BalanceSheetModule.ViewModels
                                 Opis = accounts.FirstOrDefault(x => x.Konto == param).Opis
                             });
                         }
-                        IsGroupAccount = false;
                     }
                 }
             }

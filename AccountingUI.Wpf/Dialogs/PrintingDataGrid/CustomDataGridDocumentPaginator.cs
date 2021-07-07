@@ -582,7 +582,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
                     text.SetValue(Grid.RowProperty, rowIndex);
 
                     //if currency align right
-                    if (text.Text.Contains(',') && text.Text.Split(',').Length == 2)
+                    if (text.Text.Contains(',') && text.Text.Split(',')[1].Length == 2)
                     {
                         text.TextAlignment = TextAlignment.Right;
                     }

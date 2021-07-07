@@ -1,30 +1,40 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
+using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Media;
 
 namespace AccountingUI.Wpf.Dialogs.AccountBalanceCard
 {
     public class BalanceCardDialogViewModel : BindableBase, IDialogAware
     {
         private readonly IBookAccountsEndpoint _bookAccountsEndpoint;
-        private readonly IAccountingJournalEndpoint _accountingJournalEndpoint;
+        private readonly IAccountingJournalEndpoint _accountingJournalEndpoint; 
+        private readonly IDialogService _showDialog;
 
         public BalanceCardDialogViewModel(IBookAccountsEndpoint bookAccountsEndpoint,
-                                          IAccountingJournalEndpoint accountingJournalEndpoint)
+                                          IAccountingJournalEndpoint accountingJournalEndpoint, 
+                                          IDialogService showDialog)
         {
             _bookAccountsEndpoint = bookAccountsEndpoint;
             _accountingJournalEndpoint = accountingJournalEndpoint;
+            _showDialog = showDialog;
+
+            PrintCommand = new DelegateCommand<Visual>(ShowPreview);
         }
+
+        public DelegateCommand<Visual> PrintCommand { get; private set; }
 
         public string Title => "Kartica konta";
 
         public event Action<IDialogResult> RequestClose;
 
+        #region Properties
         private ObservableCollection<AccountBalanceModel> _accountCard;
         public ObservableCollection<AccountBalanceModel> AccountCard
         {
@@ -66,6 +76,7 @@ namespace AccountingUI.Wpf.Dialogs.AccountBalanceCard
             get { return _stanje; }
             set { SetProperty(ref _stanje, value); }
         }
+        #endregion
 
         public bool CanCloseDialog()
         {
@@ -98,6 +109,19 @@ namespace AccountingUI.Wpf.Dialogs.AccountBalanceCard
             SumDugovna = list.Sum(x => x.Dugovna);
             SumPotrazna = list.Sum(x => x.Potrazna);
             Stanje = sum;
+        }
+
+        private void ShowPreview(Visual v)
+        {
+            DialogParameters parameters = new DialogParameters();
+            parameters.Add("datagrid", v);
+            parameters.Add("title", $"Kartica konta {AccountNumber}, {AccountName}");
+            _showDialog.Show("PrintDialogView", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                }
+            });
         }
     }
 }

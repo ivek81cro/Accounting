@@ -93,7 +93,14 @@
                            Grid.Row="0" Grid.Column="5"/>
             </Grid>
         </Border>
-        <DataGrid AutoGenerateColumns="False" CanUserAddRows="False" 
+        <StackPanel Orientation="Horizontal" Margin="5"
+                    Grid.Row="2">            
+            <Button Content="Ispis" Width="80" Height="28"
+                        Command="{Binding PrintCommand, Mode=OneWay}" 
+                        CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}" />
+        </StackPanel>
+        <DataGrid x:Name="dataGrid" 
+                  AutoGenerateColumns="False" CanUserAddRows="False" 
                   CanUserDeleteRows="False" CanUserReorderColumns="False" 
                   ItemsSource="{Binding AccountCard}"
                   Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5">

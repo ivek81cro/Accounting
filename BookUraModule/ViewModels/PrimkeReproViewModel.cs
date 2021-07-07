@@ -426,6 +426,7 @@ namespace BookUraModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
+                    SelectedUraPrimke.Knjizen = true;
                     _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.BrojUKnjiziUra);
                 }
             });

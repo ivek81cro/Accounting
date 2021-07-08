@@ -235,7 +235,7 @@ namespace PayrollModule.ViewModels
             PayrollArchiveModel archive = new PayrollArchiveModel
             {
                 Calculation = SelectedArchive,
-                Payrolls = _archivePayrolls,
+                Payrolls = _archivePayrolls.Where(x => x.Oib != null).ToList(),
                 Supplements = _archiveSupplements
             };
 

@@ -1,10 +1,11 @@
 ﻿<UserControl x:Class="BalanceSheetModule.Views.BalanceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:BalanceSheetModule.Views"
-              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
@@ -17,7 +18,9 @@
         </Style>
     </UserControl.Resources>
     <UserControl.InputBindings>
-        <KeyBinding Command="{Binding ProcessItemCommand}" Modifiers="Ctrl" Key="K"/>
+        <KeyBinding Command="{Binding ProcessItemCommand}"
+                    CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}" 
+                    Modifiers="Ctrl" Key="P"/>
     </UserControl.InputBindings>
 
     <Grid>
@@ -36,53 +39,56 @@
         <StackPanel Orientation="Horizontal" Margin="0" Grid.ColumnSpan="3"
                     Grid.Row="0" Grid.Column="0">
             <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding LoadDataCommand}" 
+                        Command="{Binding PrintCommand, Mode=OneWay}"
+                        CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}" 
+                        ToolTip="CTRL + P"
                         Background="Transparent" BorderBrush="Gray">
                 <StackPanel>
-                    <Image Source="pack://application:,,,/Images/loadFile.png" Height="30"/>
-                    <TextBlock Text="Učitaj"/>
-                </StackPanel>
-            </Button>
-            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding ChangeDataCommand}" 
-                        Background="Transparent" BorderBrush="Gray">
-                <StackPanel>
-                    <Image Source="pack://application:,,,/Images/save.png" Height="30"/>
-                    <TextBlock Text="Izmijeni"/>
-                </StackPanel>
-            </Button>
-            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding ProcessItemCommand}" ToolTip="CTRL + K"
-                        Background="Transparent" BorderBrush="Gray">
-                <StackPanel>
-                    <Image Source="pack://application:,,,/Images/cogs.png" Height="30"/>
-                    <TextBlock Text="Knjiži"/>
-                </StackPanel>
-            </Button>
-            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
-                        Command="{Binding DeleteReportCommand}" ToolTip="CTRL + K"
-                        Background="Transparent" BorderBrush="Gray">
-                <StackPanel>
-                    <Image Source="pack://application:,,,/Images/delete.png" Height="30"/>
-                    <TextBlock Text="Briši"/>
+                    <Image Source="pack://application:,,,/Images/print.png" Height="30"/>
+                    <TextBlock Text="Ispis"/>
                 </StackPanel>
             </Button>
         </StackPanel>
 
         <Border BorderBrush="Black" BorderThickness="1"
                 Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Filter Konto" Margin="5" Padding="5"/>
-                <TextBox Margin="5" Padding="5"
+            <StackPanel>
+                <Border BorderBrush="Black" BorderThickness="0 0 0 1">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Filter Konto" Margin="5" Padding="5"/>
+                        <TextBox Margin="5" Padding="5"
                          Text="{Binding FilterKonto, UpdateSourceTrigger=PropertyChanged}"
                          MinWidth="250"/>
-                <Button Content="Ispis" Width="80" Height="28"
-                        Command="{Binding PrintCommand, Mode=OneWay}" 
-                        CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}" />
+                    </StackPanel>
+                </Border>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Filter razdoblja po datumu knjiženja:" Margin="5" Padding="5"/>
+                    <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
+                        MinWidth="150">
+                        <DatePicker.SelectedDate>
+                            <Binding Path="DateFrom"
+                             Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                            </Binding>
+                        </DatePicker.SelectedDate>
+                    </DatePicker>
+                    <TextBlock Text="do:" Margin="5" Padding="5"/>
+                    <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
+                        MinWidth="150">
+                        <DatePicker.SelectedDate>
+                            <Binding Path="DateTo"
+                             Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                            </Binding>
+                        </DatePicker.SelectedDate>
+                    </DatePicker>
+                    <Button Content="Filtriraj" Width="80" Height="28"
+                        Command="{Binding SelectPeriodCommand, Mode=OneWay}" />
+                </StackPanel>
             </StackPanel>
         </Border>
         
-        <Border BorderBrush="Black" BorderThickness="1"
+        <Border BorderBrush="Black" BorderThickness="1 0 1 1"
                 Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3">
             <Grid>
                 <Grid.ColumnDefinitions>

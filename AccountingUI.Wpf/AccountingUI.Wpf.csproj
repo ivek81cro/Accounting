@@ -17,6 +17,7 @@
     <None Remove="Images\epor.PNG" />
     <None Remove="Images\filter.PNG" />
     <None Remove="Images\loadFile.PNG" />
+    <None Remove="Images\print.PNG" />
     <None Remove="Images\questionmark.PNG" />
     <None Remove="Images\save.PNG" />
     <None Remove="Images\settings.PNG" />
@@ -57,6 +58,7 @@
     <Resource Include="Images\epor.PNG" />
     <Resource Include="Images\filter.PNG" />
     <Resource Include="Images\loadFile.PNG" />
+    <Resource Include="Images\print.PNG" />
     <Resource Include="Images\questionmark.PNG" />
     <Resource Include="Images\save.PNG" />
     <Resource Include="Images\settings.PNG" />

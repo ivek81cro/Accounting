@@ -1,6 +1,7 @@
 ﻿using Accounting.DataManager.DataAccess;
 using Accounting.DataManager.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -25,29 +26,11 @@ namespace Accounting.Api.Controllers
             return _data.GetBalance();
         }
 
-        // GET api/<BalanceController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<BalanceController>
+        // GET api/<BalanceController>/{dateFrom, dateTo}
         [HttpPost]
-        public void Post([FromBody] string value)
+        public List<BalanceSheetModel> Post([FromBody] List<DateTime> dates)
         {
-        }
-
-        // PUT api/<BalanceController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<BalanceController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return _data.GetBalancePeriod(dates);
         }
     }
 }

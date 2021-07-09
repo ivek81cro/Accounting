@@ -31,5 +31,21 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<List<BalanceSheetModel>> LoadPeriodBalanceSheet(List<DateTime> dates)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync($"/api/Balance", dates))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<BalanceSheetModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

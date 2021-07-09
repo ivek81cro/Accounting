@@ -29,12 +29,14 @@ namespace BalanceSheetModule.ViewModels
 
             OpenCardCommand = new DelegateCommand(OpenBalanceCard);
             PrintCommand = new DelegateCommand<Visual>(ShowPreview);
+            SelectPeriodCommand = new DelegateCommand(LoadSelectedPeriod);
 
             LoadBalanceSheet();
         }
 
         public DelegateCommand OpenCardCommand { get; private set; }
         public DelegateCommand<Visual> PrintCommand { get; private set; }
+        public DelegateCommand SelectPeriodCommand { get; private set; }
 
         #region Properties
         private ObservableCollection<BalanceSheetModel> _balanceList;
@@ -84,13 +86,41 @@ namespace BalanceSheetModule.ViewModels
                 SumColumns();
             }
         }
+
+        private DateTime? _dateFrom;
+        public DateTime? DateFrom
+        {
+            get { return _dateFrom; }
+            set { SetProperty(ref _dateFrom, value); }
+        }
+
+        private DateTime? _dateTo;
+        public DateTime? DateTo
+        {
+            get { return _dateTo; }
+            set { SetProperty(ref _dateTo, value); }
+        }
         #endregion
 
+        #region Loading and filtering data
         private async void LoadBalanceSheet()
         {
             var list = await _balanceSheetEndpoint.LoadFullBalanceSheet();
             BalanceList = new ObservableCollection<BalanceSheetModel>(list);
             FilterData();
+        }
+
+        private async void LoadSelectedPeriod()
+        {
+            if (DateFrom != null && DateTo != null)
+            {
+                List<DateTime> dates = new();
+                dates.Add((DateTime)DateFrom);
+                dates.Add((DateTime)DateTo);
+                var list = await _balanceSheetEndpoint.LoadPeriodBalanceSheet(dates);
+                BalanceList = new ObservableCollection<BalanceSheetModel>(list);
+                FilterData();
+            }
         }
 
         private void FilterData()
@@ -108,7 +138,9 @@ namespace BalanceSheetModule.ViewModels
             SumPotrazna = list.Sum(x => x.Potrazna);
             SumStanje = SumDugovna - SumPotrazna;
         }
+        #endregion
 
+        #region Open Balance card
         private void OpenBalanceCard()
         {
             DialogParameters parameters = new DialogParameters();
@@ -121,7 +153,9 @@ namespace BalanceSheetModule.ViewModels
                 }
             });
         }
+        #endregion
 
+        #region Print preview building
         private void ShowPreview(Visual v)
         {
             InsertGroupAccountSumRows();
@@ -135,7 +169,14 @@ namespace BalanceSheetModule.ViewModels
                 }
             });
 
-            LoadBalanceSheet();
+            if (DateFrom != null)
+            {
+                LoadSelectedPeriod();
+            }
+            else
+            {
+                LoadBalanceSheet();
+            }
         }
 
         private async void InsertGroupAccountSumRows()
@@ -196,5 +237,6 @@ namespace BalanceSheetModule.ViewModels
             }
             FilterData();
         }
+        #endregion
     }
 }

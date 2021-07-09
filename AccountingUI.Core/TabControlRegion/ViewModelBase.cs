@@ -5,7 +5,6 @@ namespace AccountingUI.Core.TabControlRegion
 {
     public class ViewModelBase : BindableBase, INavigationAware
     {
-
         private string _title;
         public string Title
         {

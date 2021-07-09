@@ -200,6 +200,7 @@
     <Build Include="dbo\Stored Procedures\spBookIra_Update.sql" />
     <Build Include="dbo\Stored Procedures\spBalance_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spAccountingJournal_LoadLedger.sql" />
+    <Build Include="dbo\Stored Procedures\spBalance_GetForPeriod.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

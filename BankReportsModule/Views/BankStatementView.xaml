@@ -180,7 +180,7 @@
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridCheckBoxColumn Header="Knjižen" Binding="{Binding Knjizen, 
                                         UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                                        IsReadOnly="True"/>
+                                        IsReadOnly="False"/>
             </DataGrid.Columns>            
         </DataGrid>
 

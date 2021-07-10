@@ -227,6 +227,10 @@ namespace BankkStatementsModule.Dialogs
 
         private void OpenAccountBalance()
         {
+            if(SelectedEntry.Konto == null)
+            {
+                return;
+            }
             var parameters = new DialogParameters();
             parameters.Add("accountNumber", SelectedEntry.Konto);
             _showDialog.Show("BalanceCardDialog", parameters, result =>

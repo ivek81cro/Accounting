@@ -92,10 +92,17 @@ namespace AccountingUI.Wpf.Dialogs.AccountBalanceCard
         {
             AccountNumber = parameters.GetValue<string>("accountNumber");
             var result = await _bookAccountsEndpoint.GetByNumber(AccountNumber);
-            AccountName = result.Opis;
-            var list = await _accountingJournalEndpoint.LoadAccountCard(AccountNumber);
-            CalculateCurrentSum(list);
-            AccountCard = new ObservableCollection<AccountBalanceModel>(list);
+            if (result != null)
+            {
+                AccountName = result.Opis;
+                var list = await _accountingJournalEndpoint.LoadAccountCard(AccountNumber);
+                CalculateCurrentSum(list);
+                AccountCard = new ObservableCollection<AccountBalanceModel>(list);
+            }
+            else
+            {
+                AccountName = $"Ne postoji konto sa brojem {AccountNumber}";
+            }
         }
 
         private void CalculateCurrentSum(List<AccountBalanceModel> list)

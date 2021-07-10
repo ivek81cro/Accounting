@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
 
@@ -19,6 +20,8 @@ namespace BalanceSheetModule.ViewModels
         private readonly IDialogService _showDialog;
         private readonly IBookAccountsEndpoint _bookAccountsEndpoint;
 
+        private string _title;
+
         public BalanceViewModel(IBalanceSheetEndpoint balanceSheetEndpoint,
                                 IDialogService showDialog, 
                                 IBookAccountsEndpoint bookAccountsEndpoint)
@@ -29,7 +32,7 @@ namespace BalanceSheetModule.ViewModels
 
             OpenCardCommand = new DelegateCommand(OpenBalanceCard);
             PrintCommand = new DelegateCommand<Visual>(ShowPreview);
-            SelectPeriodCommand = new DelegateCommand(LoadSelectedPeriod);
+            SelectPeriodCommand = new DelegateCommand(LoadBalanceSheet);
 
             LoadBalanceSheet();
         }
@@ -105,12 +108,25 @@ namespace BalanceSheetModule.ViewModels
         #region Loading and filtering data
         private async void LoadBalanceSheet()
         {
+            if(DateFrom== null && DateTo == null)
+            {
+                await LoadAllData();
+            }
+            else
+            {
+                await LoadSelectedData();
+            }
+        }
+
+        private async Task LoadAllData()
+        {
             var list = await _balanceSheetEndpoint.LoadFullBalanceSheet();
             BalanceList = new ObservableCollection<BalanceSheetModel>(list);
             FilterData();
+            _title = "Bilanca - sve";
         }
 
-        private async void LoadSelectedPeriod()
+        private async Task LoadSelectedData()
         {
             if (DateFrom != null && DateTo != null)
             {
@@ -120,6 +136,7 @@ namespace BalanceSheetModule.ViewModels
                 var list = await _balanceSheetEndpoint.LoadPeriodBalanceSheet(dates);
                 BalanceList = new ObservableCollection<BalanceSheetModel>(list);
                 FilterData();
+                _title = $"Bilanca za razdoblje {DateFrom.Value.Date.ToShortDateString()} do {DateTo.Value.Date.ToShortDateString()}";
             }
         }
 
@@ -161,7 +178,7 @@ namespace BalanceSheetModule.ViewModels
             InsertGroupAccountSumRows();
             DialogParameters parameters = new DialogParameters();
             parameters.Add("datagrid", v);
-            parameters.Add("title", "Bilanca");
+            parameters.Add("title", _title);
             _showDialog.Show("PrintDialogView", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
@@ -169,14 +186,7 @@ namespace BalanceSheetModule.ViewModels
                 }
             });
 
-            if (DateFrom != null)
-            {
-                LoadSelectedPeriod();
-            }
-            else
-            {
-                LoadBalanceSheet();
-            }
+            LoadBalanceSheet();
         }
 
         private async void InsertGroupAccountSumRows()

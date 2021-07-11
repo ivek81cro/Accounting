@@ -5,4 +5,5 @@ BEGIN
 
 	SELECT Id, UniqueId, Opis, SatiRada, SatiPraznika, DatumOd, DatumDo, DatumObracuna, Knjizen, TemeljnicaId
 	FROM PayrollArchiveHeader
+	ORDER BY DatumObracuna ASC
 END

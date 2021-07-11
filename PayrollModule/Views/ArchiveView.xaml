@@ -73,7 +73,7 @@
                   SelectedItem="{Binding SelectedArchive}"
                   AutoGenerateColumns="False" CanUserAddRows="False" 
                   CanUserDeleteRows="False" IsReadOnly="True"
-                  Width="400" MaxHeight="150" HorizontalAlignment="Left"
+                  Width="500" MaxHeight="150" HorizontalAlignment="Left"
                   Grid.Row="2" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum Od" Binding="{Binding DatumOd, 

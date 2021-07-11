@@ -143,7 +143,8 @@
                 </Style>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Opis" Binding="{Binding Opis}"/>
+                <DataGridTextColumn Header="Opis" Width="400"
+                                    Binding="{Binding Opis}"/>
                 <DataGridTextColumn Header="Konto" Binding="{Binding Konto}"
                                     TextBlock.TextAlignment="Left"/>
                 <DataGridTextColumn Header="Dugovna" 

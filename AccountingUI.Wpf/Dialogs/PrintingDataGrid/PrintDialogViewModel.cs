@@ -5,6 +5,7 @@ using Prism.Services.Dialogs;
 using System;
 using System.IO;
 using System.Printing;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -58,6 +59,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
         public async void OnDialogOpened(IDialogParameters parameters)
         {
             IsLoading = true;
+            Thread.Sleep(100);//Allow message to load before locking up UI thread
             var visual = parameters.GetValue<Visual>("datagrid");
             string title = parameters.GetValue<string>("title");
             OpenPrintDialog(visual, title);

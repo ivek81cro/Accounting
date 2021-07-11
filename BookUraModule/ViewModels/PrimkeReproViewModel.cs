@@ -205,7 +205,7 @@ namespace BookUraModule.ViewModels
                 Multiselect = false
             };
 
-            Nullable<bool> result = ofd.ShowDialog();
+            bool? result = ofd.ShowDialog();
             if (result != null && result == true)
             {
                 IsLoading = true;

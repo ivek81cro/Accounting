@@ -23,8 +23,10 @@ namespace BookIraModule
             containerRegistry.RegisterScoped<IBookIraEndpoint, BookIraEndpoint>();
             containerRegistry.RegisterScoped<IBookRetailEndpoint, BookRetailEndpoint>();
             containerRegistry.RegisterScoped<ICashRegisterBookEndpoint, CashRegisterBookEndpoint>();
+            containerRegistry.RegisterScoped<IBookIraHzzoEndpoint, BookIraHzzoEndpoint>();
 
             containerRegistry.RegisterDialog<CalculationDialog>("IraCalculation");
+            containerRegistry.RegisterDialog<HzzoPaymentsDialog>("HzzoPaymentsDialog");
         }
     }
 }

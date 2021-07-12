@@ -88,6 +88,14 @@
                     <TextBlock Text="Postavke"/>
                 </StackPanel>
             </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding HzzoCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="pack://application:,,,/Images/hzzo.png" Height="30"/>
+                    <TextBlock Text="HZZO"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"
@@ -174,41 +182,59 @@
                                     Binding="{Binding NazivISjedisteKupca}"/>
                 <DataGridTextColumn Header="Oib" 
                                     Binding="{Binding Oib}"/>
-                <DataGridTextColumn Header="Iznos s Pdv" 
+                <DataGridTextColumn Header="Iznos s Pdv"
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding IznosSPdv, StringFormat=N2}"/>
                 <DataGridCheckBoxColumn Header="Oslobođeno Pdv-a EU" 
+                                        CellStyle="{StaticResource Currency}"
                                         Binding="{Binding OslobodjenoPdvEU, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Oslobođeno Pdv-a ostalo" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding OslobodjenoPdvOstalo, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Prolazna stavka" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding ProlaznaStavka, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 0%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding PoreznaOsnovica0, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 5%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding PoreznaOsnovica5, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 5%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Pdv5, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 10%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding PoreznaOsnovica10, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 10%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Pdv10, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 13%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding PoreznaOsnovica13, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 13%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Pdv13, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 23%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding PoreznaOsnovica23, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 23%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Pdv23, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Osnovica 25%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding PoreznaOsnovica25, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv 25%" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Pdv25, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pdv ukupno" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding UkupniPdv, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Ukupno uplaćeno" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding UkupnoUplaceno, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Preostalo za uplatiti" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding PreostaloZaUplatit, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Napomena o računu" 
                                     Binding="{Binding NapomenaORacunu}"/>

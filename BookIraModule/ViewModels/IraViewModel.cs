@@ -55,6 +55,7 @@ namespace BookIraModule.ViewModels
             CalculationsReportCommand = new DelegateCommand(ShowCalculationDialog);
             UnmarkProcessedCommand = new DelegateCommand(UnmarkProcessed, CanUnmark);
             OpenEditCommand = new DelegateCommand(EditSelectedRow, CanEditRow);
+            HzzoCommand = new DelegateCommand(OpenHzzoDialog);
 
             LoadIra();
         }
@@ -68,6 +69,7 @@ namespace BookIraModule.ViewModels
         public DelegateCommand CalculationsReportCommand { get; private set; }
         public DelegateCommand UnmarkProcessedCommand { get; private set; }
         public DelegateCommand OpenEditCommand { get; private set; }
+        public DelegateCommand HzzoCommand { get; private set; }
         #endregion
 
         #region Properties
@@ -506,6 +508,19 @@ namespace BookIraModule.ViewModels
         public void ResetSelectedItem()
         {
             SelectedIra = null;
+        }
+        #endregion
+
+        #region HZZO payment tracking
+        private void OpenHzzoDialog()
+        {
+            _showDialog.ShowDialog("HzzoPaymentsDialog", null, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
         #endregion
     }

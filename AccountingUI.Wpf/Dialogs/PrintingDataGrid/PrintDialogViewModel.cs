@@ -1,4 +1,5 @@
-﻿using AccountingUI.Core.Services;
+﻿using AccountingUI.Core.Helpers;
+using AccountingUI.Core.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -24,11 +25,14 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
         public PrintDialogViewModel(ICompanyEndpoint companyEndpoint)
         {
-            OkPrintCommand = new DelegateCommand<string>(SetPrintOk);
             _companyEndpoint = companyEndpoint;
+
+            OkPrintCommand = new DelegateCommand<string>(SetPrintOk);
+            LoadDocViewCommand = new DelegateCommand<Visual>(DocumentViewer_Loaded);
         }
 
         public DelegateCommand<string> OkPrintCommand { get; private set; }
+        public DelegateCommand<Visual> LoadDocViewCommand { get; private set; }
 
         public event Action<IDialogResult> RequestClose;
 
@@ -116,6 +120,17 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
             {
                 RequestClose?.Invoke(new DialogResult(ButtonResult.Cancel));
             }
+        }
+
+        /// <summary>
+        /// Remove print button from control
+        /// </summary>
+        /// <param name="documentViewer"></param>
+        private void DocumentViewer_Loaded(Visual documentViewer)
+        {
+            var dv = (DocumentViewer)documentViewer;
+            var button = UIHelper.FindChild<Button>(dv, "PrintButton");
+            button.Visibility = Visibility.Collapsed;
         }
     }
 }

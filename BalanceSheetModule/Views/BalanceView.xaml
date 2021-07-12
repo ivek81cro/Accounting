@@ -127,6 +127,7 @@
                   AutoGenerateColumns="False" CanUserAddRows="False" 
                   CanUserDeleteRows="False" IsReadOnly="True"
                   x:Name="dataGrid"
+                  ClipboardCopyMode="IncludeHeader"
                   Grid.Row="3" Grid.Column="0">
             <DataGrid.Resources>
                 <Style TargetType="DataGridCell">

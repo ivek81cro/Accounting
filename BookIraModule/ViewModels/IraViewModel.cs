@@ -266,7 +266,7 @@ namespace BookIraModule.ViewModels
             {
                 RedniBroj = int.Parse(val[1].ToString()),
                 BrojRacuna = val[2].ToString(),
-                Storno = val[3].ToString() == "1",
+                Storno = val[3].ToString() == "*",
                 IzRacuna = int.Parse(val[4].ToString()),
                 Datum = DateTime.Parse(val[5].ToString()),
                 Dospijece = DateTime.Parse(val[6].ToString()),

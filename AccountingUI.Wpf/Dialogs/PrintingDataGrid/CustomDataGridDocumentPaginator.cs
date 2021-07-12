@@ -97,7 +97,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
 
         private void ReadStyles()
         {
-            var resources = new ResourceDictionary { Source = new Uri("ResourceDictionary.xaml", UriKind.Relative) };
+            var resources = new ResourceDictionary { Source = new Uri("Styles/PrintStyle.xaml", UriKind.Relative) };
             if (resources != null)
             {
                 this.DocumentHeaderTextStyle = (Style)resources["DocumentHeaderTextStyle"];
@@ -564,7 +564,7 @@ namespace AccountingUI.Wpf.Dialogs.PrintingDataGrid
                         text.TextTrimming = TextTrimming.CharacterEllipsis;
                     }
 
-                    //TODO switch/case based on class, property change in method
+                    //style cell based on class, property change in method
                     if(item is BalanceSheetModel)
                     {
                         FormatForBalanceSheet(item, text);

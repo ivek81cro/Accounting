@@ -7,7 +7,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/ResourceDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Styles/PrintStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Styles/ButtonStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Styles/DataGridStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

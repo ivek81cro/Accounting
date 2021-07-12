@@ -1,6 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"                    
-                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors" xmlns:events="clr-namespace:AccountingUI.Core.Events;assembly=AccountingUI.Core">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <Style x:Key="DocumentHeaderTextStyle" TargetType="TextBlock">
         <Setter Property="FontWeight" Value="Bold"/>
@@ -50,24 +49,5 @@
     <Style x:Key="GridContainerStyle" TargetType="Grid">
         <Setter Property="Background" Value="#FFFCFCFC"/>
     </Style>
-    <Style TargetType="Button">
-        <Setter Property="BorderBrush" Value="#a3a3a3"/>
-        <Style.Resources>
-            <Style TargetType="Border">
-                <Setter Property="CornerRadius" Value="5" />
-            </Style>
-        </Style.Resources>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Foreground" Value="Red"/>
-            </Trigger>
-        </Style.Triggers>
-    </Style>
-    <Style TargetType="DataGrid">
-        <Style.Resources>
-            <Style TargetType="DataGridColumnHeader">
-                <Setter Property="FontWeight" Value="Bold"/>
-            </Style>
-        </Style.Resources>
-    </Style>
+    
 </ResourceDictionary>

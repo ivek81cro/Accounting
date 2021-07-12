@@ -69,5 +69,8 @@
                 <Setter Property="FontWeight" Value="Bold"/>
             </Style>
         </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="ClipboardCopyMode" Value="IncludeHeader"/>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>

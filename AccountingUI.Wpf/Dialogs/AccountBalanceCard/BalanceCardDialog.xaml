@@ -110,10 +110,13 @@
                 <DataGridTextColumn Header="Datum" Binding="{Binding Datum, 
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Dugovna" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Dugovna, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Potražna" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Potrazna, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Stanje" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Stanje, StringFormat=N2}"/>
             </DataGrid.Columns>
         </DataGrid>

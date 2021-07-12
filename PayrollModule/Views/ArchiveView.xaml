@@ -124,42 +124,55 @@
                         <DataGridTextColumn Header="Prezime" 
                                             Binding="{Binding Prezime}" MinWidth="90"/>
                         <DataGridTextColumn Header="Bruto" 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding Bruto, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="MIO I." 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding Mio1, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="MIO II." 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding Mio2, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Dohodak" 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding Dohodak, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Odbitak" 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding Odbitak, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Osnovica" 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding PoreznaOsnovica, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Por. stopa I." 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding PoreznaStopa1, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Por. stopa II." 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding PoreznaStopa2, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Ukupno porezi" 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding UkupnoPorez, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Prirez" 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding Prirez, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Por. i prirez" 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding UkupnoPorezPrirez, StringFormat=N2}" 
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Neto" 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding Neto, StringFormat=N2}"  
                                             MinWidth="90"/>
                         <DataGridTextColumn Header="Dop. zdravstvo" 
+                                            CellStyle="{StaticResource Currency}"
                                             Binding="{Binding DoprinosZdravstvo, StringFormat=N2}" 
                                             MinWidth="80"/>
                     </DataGrid.Columns>
@@ -178,7 +191,9 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Oib" Binding="{Binding Oib}"/>
                         <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
-                        <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
+                        <DataGridTextColumn Header="Iznos" 
+                                            CellStyle="{StaticResource Currency}"
+                                            Binding="{Binding Iznos}"/>
                         <DataGridTextColumn Header="Opis" Binding="{Binding Naziv}">
                             <DataGridTextColumn.ElementStyle>
                                 <Style>

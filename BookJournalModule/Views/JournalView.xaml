@@ -228,10 +228,13 @@
                 <DataGridTextColumn Header="Vrsta" Width="100" 
                                     Binding="{Binding VrstaTemeljnice}"/>
                 <DataGridTextColumn Header="Dugovna"  Width="80"
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Dugovna, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Potražna" Width="80"
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Potrazna, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Stanje" Width="80"
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Stanje, StringFormat=N2}"/>
             </DataGrid.Columns>
         </DataGrid>

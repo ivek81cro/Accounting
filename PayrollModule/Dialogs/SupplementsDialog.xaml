@@ -25,7 +25,9 @@
                       AutoGenerateColumns="False" CanUserAddRows="False"
                       Height="400" Width="450">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Iznos" Binding="{Binding Iznos}"/>
+                    <DataGridTextColumn Header="Iznos" 
+                                        CellStyle="{StaticResource Currency}"
+                                        Binding="{Binding Iznos}"/>
                     <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
                     <DataGridTextColumn Header="Naziv" Binding="{Binding Naziv}"
                                         MaxWidth="350">

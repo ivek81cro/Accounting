@@ -155,11 +155,13 @@
                                     Width="300"/>
                 <DataGridTextColumn Header="Konto" Binding="{Binding Konto}"
                                     Width="78"/>
-                <DataGridTextColumn Header="Dugovna" Binding="{Binding Dugovna,
-                                    StringFormat=N2}"
+                <DataGridTextColumn Header="Dugovna" 
+                                    Binding="{Binding Dugovna, StringFormat=N2}"
+                                    CellStyle="{StaticResource Currency}"
                                     Width="90"/>
-                <DataGridTextColumn Header="Potražna" Binding="{Binding Potrazna,
-                                    StringFormat=N2}"
+                <DataGridTextColumn Header="Potražna" 
+                                    Binding="{Binding Potrazna, StringFormat=N2}"
+                                    CellStyle="{StaticResource Currency}"
                                     Width="90"/>
             </DataGrid.Columns>
         </DataGrid>

@@ -92,15 +92,20 @@
                 <DataGridTextColumn Header="Dokument" Binding="{Binding Dokument}"/>
                 <DataGridTextColumn Header="Datum uporabe" Binding="{Binding DatumUporabe,
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
-                <DataGridTextColumn Header="Nabavna vrijednost" 
+                <DataGridTextColumn Header="Nabavna vrijednost"
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding NabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Skupina" Binding="{Binding Skupina}"/>
                 <DataGridTextColumn Header="Vijek trajanja" Binding="{Binding VijekTrajanja}"/>
                 <DataGridTextColumn Header="Stopa otp." Binding="{Binding StopaOtpisa}"/>
                 <DataGridTextColumn Header="Sintetički konto" Binding="{Binding SintetickiKonto}"/>
                 <DataGridTextColumn Header="Konto otpisa" Binding="{Binding KontoOtpisa}"/>
-                <DataGridTextColumn Header="Iznos otpisa" Binding="{Binding IznosOtpisa}"/>
-                <DataGridTextColumn Header="Sadašnja vrijednost" Binding="{Binding SadasnjaVrijednost,
+                <DataGridTextColumn Header="Iznos otpisa" 
+                                    CellStyle="{StaticResource Currency}"
+                                    Binding="{Binding IznosOtpisa, StringFormat=N2}"/>
+                <DataGridTextColumn Header="Sadašnja vrijednost" 
+                                    CellStyle="{StaticResource Currency}"
+                                    Binding="{Binding SadasnjaVrijednost,
                                     StringFormat=N2}"/>
                 <DataGridTextColumn Header="Datum otpisa" Binding="{Binding DatumOtpisa,
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>

@@ -183,8 +183,10 @@
                 <DataGridTextColumn Header="Valuta" Width="80"
                                     Binding="{Binding Valuta}"/>
                 <DataGridTextColumn Header="Dugovna" Width="80"
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Dugovna, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Potražna" Width="80"
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Potrazna, StringFormat=N2}"/>
             </DataGrid.Columns>
         </DataGrid>

@@ -162,9 +162,11 @@
                 <DataGridTextColumn Header="Konto" Width="78"
                                     Binding="{Binding Konto}"/>
                 <DataGridTextColumn Header="Dugovna" Width="90"
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Dugovna, StringFormat=N2, Mode=TwoWay, 
                                     UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Potražna" Width="90"
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Potrazna, StringFormat=N2, Mode=TwoWay, 
                                     UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>

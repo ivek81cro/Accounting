@@ -133,39 +133,56 @@
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridCheckBoxColumn Header="Storno" Binding="{Binding Storno}"/>
                 <DataGridTextColumn Header="Maloprodajna vrijednost" 
-                                    Binding="{Binding MaloprodajnaVrijednost, StringFormat=N2}"/>
+                                    CellStyle="{StaticResource Currency}"
+                                    Binding="{Binding MaloprodajnaVrijednost, 
+                                              StringFormat=N2}"/>
                 <DataGridTextColumn Header="Naziv dobavljača" 
                                     Binding="{Binding NazivDobavljaca}"/>
-                <DataGridTextColumn Header="Broj racuna" Binding="{Binding BrojRacuna}"/>
-                <DataGridTextColumn Header="Datum računa" Binding="{Binding DatumRacuna, 
+                <DataGridTextColumn Header="Broj racuna" 
+                                    Binding="{Binding BrojRacuna}"/>
+                <DataGridTextColumn Header="Datum računa" 
+                                    Binding="{Binding DatumRacuna, 
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>
-                <DataGridCheckBoxColumn Header="Otpremnica" Binding="{Binding Otpremnica}"/>
+                <DataGridCheckBoxColumn Header="Otpremnica" 
+                                        Binding="{Binding Otpremnica}"/>
                 <DataGridTextColumn Header="Dospijeće plaćanja" 
                                     Binding="{Binding DospijecePlacanja, 
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>
                 <DataGridTextColumn Header="Fakturna vrijednost" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding FakturnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Maloprodajna marža" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding MaloprodajnaMarza, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Iznos PDV-a" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding IznosPdv, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Vrijednost bez poreza" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding VrijednostBezPoreza, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Nabavna vrijednost" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding NabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Maloprodajni rabat" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding MaloprodajniRabat, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Netto nabavna vrijednost" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding NettoNabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pretporez" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Pretporez, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Veleprodajni rabat" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding VeleprodajniRabat, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Cassa sconto" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding CassaSconto, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Netto ruc" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding NettoRuc, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Povratna naknada" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding PovratnaNaknada, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Porezni broj" 
                                     Binding="{Binding PorezniBroj}"/>

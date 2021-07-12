@@ -119,9 +119,11 @@
                 <DataGridTextColumn Header="Konto" 
                                     Binding="{Binding Konto, UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Duguje" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Dugovna, StringFormat=N2, 
                                     UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Potražuje" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Potrazna, StringFormat=N2, 
                                     UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>

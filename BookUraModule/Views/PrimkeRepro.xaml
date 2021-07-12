@@ -146,20 +146,28 @@
                 <DataGridTextColumn Header="Dospijeće plaćanja" 
                                     Binding="{Binding DospijecePlacanja}"/>
                 <DataGridTextColumn Header="Fakturna vrijednost" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding FakturnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Nabavna vrijednost" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding NabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Netto nabavna vrijednost" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding NettoNabavnaVrijednost, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Pretporez" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Pretporez, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Rabat" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding Rabat, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Veleprodajni Rabat" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding VeleprodajniRabat, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Cassa sconto" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding CassaSconto, StringFormat=N2}"/>
                 <DataGridTextColumn Header="Porezni broj" 
+                                    CellStyle="{StaticResource Currency}"
                                     Binding="{Binding PorezniBroj}"/>
             </DataGrid.Columns>
         </DataGrid>

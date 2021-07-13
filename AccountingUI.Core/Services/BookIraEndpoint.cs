@@ -79,7 +79,7 @@ namespace AccountingUI.Core.Services
             }
         }
 
-        public async Task UpdateInvoice(BookIraHzzoModel item)
+        public async Task UpdateInvoice(List<BookIraHzzoModel> item)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync($"/api/BookIra/UpdateHzzo", item))
             {

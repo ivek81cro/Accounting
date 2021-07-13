@@ -4,5 +4,6 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT Id, DatumPlacanja, Dokument, OriginalniBroj, DatumDokumenta, Program, Opis, IznosRacuna, PlaceniIznos, Povezan 
-	FROM BookIraHzzo;
+	FROM BookIraHzzo
+	ORDER BY DatumPlacanja;
 END

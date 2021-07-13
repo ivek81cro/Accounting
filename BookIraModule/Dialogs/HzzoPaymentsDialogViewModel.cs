@@ -218,10 +218,7 @@ namespace BookIraModule.Dialogs
         private async void ConnectPaymentsToInvoice()
         {
             List<BookIraHzzoModel> unprocessed = Payments.Where(x => x.Povezan == false && !x.Opis.StartsWith("CEZ")).ToList();
-            foreach(var item in unprocessed)
-            {
-                await _bookIraEndpoint.UpdateInvoice(item);
-            }
+            await _bookIraEndpoint.UpdateInvoice(unprocessed);
         }
         #endregion
     }

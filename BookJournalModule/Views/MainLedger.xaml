@@ -148,7 +148,7 @@
                   IsReadOnly="True" Grid.ColumnSpan="3"
                   Grid.Row="3" Grid.Column="0">
             <DataGrid.Resources>
-                <Style TargetType="DataGridCell">
+                <Style TargetType="DataGridRow">
                     <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},
                             Path=DataContext}"/>
                     <Setter Property="ContextMenu">

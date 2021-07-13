@@ -50,9 +50,9 @@ namespace Accounting.Api.Controllers
         }
 
         [HttpPost("UpdateHzzo/")]
-        public void UpdateHzzo([FromBody] BookIraHzzoModel item)
+        public void UpdateHzzo([FromBody] List<BookIraHzzoModel> items)
         {
-            _data.UpdateHzzo(item);
+            _data.UpdateHzzo(items);
         }
     }
 }

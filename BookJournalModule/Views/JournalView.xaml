@@ -172,7 +172,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <DataGrid.Resources>
-                <Style TargetType="DataGridCell">
+                <Style TargetType="DataGridRow">
                     <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},
                             Path=DataContext}"/>
                     <Setter Property="ContextMenu">

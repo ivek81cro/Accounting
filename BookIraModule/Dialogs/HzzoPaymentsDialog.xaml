@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:BookIraModule.Dialogs"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
-             xmlns:prism="http://prismlibrary.com/">
+             xmlns:prism="http://prismlibrary.com/" 
+             prism:ViewModelLocator.AutoWireViewModel="True">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
     </UserControl.Resources>

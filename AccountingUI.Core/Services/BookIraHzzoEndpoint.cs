@@ -34,7 +34,7 @@ namespace AccountingUI.Core.Services
 
         public async Task<List<BookIraHzzoModel>> GetAll()
         {
-            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync("/api/BookIra"))
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync("/api/BookIraHzzo"))
             {
                 if (response.IsSuccessStatusCode)
                 {

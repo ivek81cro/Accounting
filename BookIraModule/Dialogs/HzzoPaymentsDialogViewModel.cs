@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
@@ -46,7 +47,15 @@ namespace BookIraModule.Dialogs
             set { SetProperty(ref _payments, value); }
         }
 
-        public bool IsLoading { get; set; }
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get { return _isLoading; }
+            set
+            {
+                SetProperty(ref _isLoading, value);
+            }
+        }
 
         private ICollectionView _filterView;
         private string _filterKonto;
@@ -93,7 +102,7 @@ namespace BookIraModule.Dialogs
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
-            //LoadDataFromDatabase();
+            LoadDataFromDatabase();
         }
 
         private void DatagridLoaded() => IsLoading = false;
@@ -174,7 +183,7 @@ namespace BookIraModule.Dialogs
 
         private bool FilterData(BookIraHzzoModel o)
         {
-            if (DateFrom == null && DateTo == null)
+            if (DateFrom != null && DateTo != null)
             {
                 return o.DatumPlacanja >= DateFrom && o.DatumPlacanja <= DateTo;
             }
@@ -188,7 +197,7 @@ namespace BookIraModule.Dialogs
         #region Save data to database
         private void SaveToDatabase()
         {
-
+            _bookIraHzzoEndpoint.PostPayments(Payments.ToList());
         }
 
         private bool CanSaveItems()

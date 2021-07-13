@@ -48,5 +48,11 @@ namespace Accounting.Api.Controllers
         {
             _data.Update(item);
         }
+
+        [HttpPost("UpdateHzzo/")]
+        public void UpdateHzzo([FromBody] BookIraHzzoModel item)
+        {
+            _data.UpdateHzzo(item);
+        }
     }
 }

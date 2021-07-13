@@ -10,5 +10,6 @@ namespace AccountingUI.Core.Services
         Task<bool> PostPrimke(List<BookIraModel> primke);
         Task<bool> MarkAsProcessed(int redniBroj);
         Task PostRow(BookIraModel selectedIra);
+        Task UpdateInvoice(BookIraHzzoModel item);
     }
 }

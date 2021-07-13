@@ -71,5 +71,24 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void UpdateHzzo(BookIraHzzoModel item)
+        {
+            string racun = item.OriginalniBroj.Split('-')[0];
+            string godina = item.OriginalniBroj.Split('/')[1];
+            decimal iznos = item.PlaceniIznos;
+            int id = item.Id;
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.SaveDataInTransaction("dbo.spBookIraHzzo_Update", new { Racun = racun, Godina = godina, Iznos = iznos, Id = id });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

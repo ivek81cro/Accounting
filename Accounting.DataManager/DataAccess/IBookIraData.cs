@@ -9,5 +9,6 @@ namespace Accounting.DataManager.DataAccess
         void Insert(List<BookIraModel> primke);
         void SetProcessed(int iraNumber);
         void Update(BookIraModel item);
+        void UpdateHzzo(BookIraHzzoModel item);
     }
 }

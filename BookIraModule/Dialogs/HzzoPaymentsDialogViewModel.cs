@@ -5,6 +5,7 @@ using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
@@ -19,21 +20,26 @@ namespace BookIraModule.Dialogs
     {
         private readonly IBookIraHzzoEndpoint _bookIraHzzoEndpoint;
         private readonly IXlsFileReader _xlsFileReader;
+        private readonly IBookIraEndpoint _bookIraEndpoint;
 
-        public HzzoPaymentsDialogViewModel(IXlsFileReader xlsFileReader, 
-            IBookIraHzzoEndpoint bookIraHzzoEndpoint)
+        public HzzoPaymentsDialogViewModel(IXlsFileReader xlsFileReader,
+                                           IBookIraHzzoEndpoint bookIraHzzoEndpoint,
+                                           IBookIraEndpoint bookIraEndpoint)
         {
             _xlsFileReader = xlsFileReader;
             _bookIraHzzoEndpoint = bookIraHzzoEndpoint;
+            _bookIraEndpoint = bookIraEndpoint;
 
             FilterDataCommand = new DelegateCommand(FilterData);
             LoadDataCommand = new DelegateCommand(LoadDataFromFileAsync);
             SaveDataCommand = new DelegateCommand(SaveToDatabase, CanSaveItems);
+            ConnectPaymentCommand = new DelegateCommand(ConnectPaymentsToInvoice);
         }
 
         public DelegateCommand FilterDataCommand { get; private set; }
         public DelegateCommand LoadDataCommand { get; private set; }
         public DelegateCommand SaveDataCommand { get; private set; }
+        public DelegateCommand ConnectPaymentCommand { get; private set; }
 
         public string Title => "Evidencija i povezivanje uplata HZZO-a";
 
@@ -203,6 +209,17 @@ namespace BookIraModule.Dialogs
         private bool CanSaveItems()
         {
             return true;
+        }
+        #endregion
+
+        #region Connect payments to invoice
+        private async void ConnectPaymentsToInvoice()
+        {
+            List<BookIraHzzoModel> unprocessed = Payments.Where(x => x.Povezan == false && !x.Program.StartsWith("10014")).ToList();
+            foreach(var item in unprocessed)
+            {
+                await _bookIraEndpoint.UpdateInvoice(item);
+            }
         }
         #endregion
     }

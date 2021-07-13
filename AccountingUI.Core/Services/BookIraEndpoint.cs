@@ -78,5 +78,20 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task UpdateInvoice(BookIraHzzoModel item)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync($"/api/BookIra/UpdateHzzo", item))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

@@ -65,6 +65,14 @@
                     <TextBlock Text="Spremi"/>
                 </StackPanel>
             </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding ConnectPaymentCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="pack://application:,,,/Images/save.png" Height="30"/>
+                    <TextBlock Text="Poveži"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <Separator HorizontalAlignment="Stretch" Height="2" Margin="0 5 0 5"

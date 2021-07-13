@@ -2,7 +2,7 @@
 (
 	[Id] INT NOT NULL IDENTITY,
 	[DatumPlacanja] DATETIME2 NOT NULL,
-	[Dokument] NVARCHAR(255) UNIQUE NOT NULL,
+	[Dokument] NVARCHAR(255) NOT NULL,
 	[OriginalniBroj] NVARCHAR(255) NOT NULL,
 	[DatumDokumenta] DATETIME2 NOT NULL,
 	[Program] NVARCHAR(255) NOT NULL,

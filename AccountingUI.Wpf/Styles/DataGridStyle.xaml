@@ -8,8 +8,10 @@
             </Style>
         </Style.Resources>
     </Style>
-    <Style TargetType="{x:Type DataGridCell}" x:Key="Currency">
-        <Setter Property="FrameworkElement.HorizontalAlignment" Value="Right"/>
+    <Style TargetType="DataGridCell" x:Key="Currency">
+        <Style.Setters>
+            <Setter Property="TextBlock.TextAlignment" Value="Right" />
+        </Style.Setters>
     </Style>
 
 </ResourceDictionary>

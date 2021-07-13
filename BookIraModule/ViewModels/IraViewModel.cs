@@ -72,7 +72,7 @@ namespace BookIraModule.ViewModels
         public DelegateCommand HzzoCommand { get; private set; }
         #endregion
 
-        #region Properties
+        #region Properties        
         private ObservableCollection<BookIraModel> _iraItems;
         public ObservableCollection<BookIraModel> IraItems
         {

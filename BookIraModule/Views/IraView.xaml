@@ -158,6 +158,18 @@
                     </Setter>
                 </Style>
             </DataGrid.Resources>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding PreostaloZaUplatit}" Value="0">
+                            <Setter Property="Background" Value="#FF8FCD8F"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Storno}" Value="True">
+                            <Setter Property="Background" Value="Red"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Redni broj" 
                                     Binding="{Binding RedniBroj}"/>

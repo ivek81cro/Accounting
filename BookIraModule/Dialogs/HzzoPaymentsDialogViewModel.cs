@@ -131,7 +131,7 @@ namespace BookIraModule.Dialogs
         {
             OpenFileDialog ofd = new OpenFileDialog
             {
-                Filter = "Xlsx Files *.xlsx|*.xlsx|Xls Files *.xls|*.xls|Csv files *.csv|*.csv",
+                Filter = "Xls Files *.xls|*.xls|Xlsx Files *.xlsx|*.xlsx|Csv files *.csv|*.csv",
                 FilterIndex = 1,
                 Multiselect = false
             };
@@ -201,9 +201,11 @@ namespace BookIraModule.Dialogs
         #endregion
 
         #region Save data to database
-        private void SaveToDatabase()
+        private async void SaveToDatabase()
         {
-            _bookIraHzzoEndpoint.PostPayments(Payments.ToList());
+            IsLoading = true;
+            await _bookIraHzzoEndpoint.PostPayments(Payments.ToList());
+            LoadDataFromDatabase();
         }
 
         private bool CanSaveItems()
@@ -215,7 +217,7 @@ namespace BookIraModule.Dialogs
         #region Connect payments to invoice
         private async void ConnectPaymentsToInvoice()
         {
-            List<BookIraHzzoModel> unprocessed = Payments.Where(x => x.Povezan == false && !x.Program.StartsWith("10014")).ToList();
+            List<BookIraHzzoModel> unprocessed = Payments.Where(x => x.Povezan == false && !x.Opis.StartsWith("CEZ")).ToList();
             foreach(var item in unprocessed)
             {
                 await _bookIraEndpoint.UpdateInvoice(item);

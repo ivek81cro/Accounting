@@ -120,6 +120,8 @@
                 <DataGridTextColumn Header="Datum dokumenta" 
                                     Binding="{Binding DatumDokumenta, 
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Opis" 
+                                    Binding="{Binding Opis}"/>
                 <DataGridTextColumn Header="Program/Aktivnost" 
                                     Binding="{Binding Program}"/>
                 <DataGridTextColumn Header="Iznos računa" CellStyle="{StaticResource Currency}"

@@ -35,8 +35,9 @@ namespace Accounting.DataManager.DataAccess
 
                 _sql.SaveDataInTransaction("dbo.spBookIraHzzo_Insert", paymebts);
             }
-            catch (System.Exception)
+            catch (System.Exception e)
             {
+                _ = e.Message;
                 _sql.RollBackTransaction();
                 throw;
             }

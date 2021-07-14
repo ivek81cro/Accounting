@@ -94,7 +94,7 @@ namespace BookUraModule.ServiceLocal
                         U8 = uraList.Sum(x => x.PoreznaOsnovica5),
                         U9 = uraList.Sum(x => x.PoreznaOsnovica13),
                         U10 = uraList.Sum(x => x.PoreznaOsnovica25),
-                        U11 = uraList.Sum(x => x.IznosSPorezom) - uraList.Sum(x => x.PoreznaOsnovica0),
+                        U11 = uraList.Sum(x => x.IznosSPorezom),
                         U12 = uraList.Sum(x => x.UkupniPretporez),
                         U13 = uraList.Sum(x => x.PretporezT5),
                         U14 = 0,

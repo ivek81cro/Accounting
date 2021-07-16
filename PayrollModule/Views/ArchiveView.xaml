@@ -64,6 +64,14 @@
                     <TextBlock Text="JOPPD" TextWrapping="Wrap"/>
                 </StackPanel>
             </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="0" 
+                        Command="{Binding PrintPayrollCommand}" 
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <Image Source="pack://application:,,,/Images/epor.png" Height="40"/>
+                    <TextBlock Text="Lista" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <TextBlock Text="Arhiva isplata zaposlenicima" Margin="5" Padding="5" FontSize="18"

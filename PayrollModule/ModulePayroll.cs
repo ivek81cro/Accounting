@@ -1,5 +1,6 @@
 ﻿using AccountingUI.Core.Services;
 using PayrollModule.Dialogs;
+using PayrollModule.PrintFlow;
 using PayrollModule.ServiceLocal;
 using PayrollModule.Views;
 using Prism.Ioc;
@@ -24,6 +25,7 @@ namespace PayrollModule
             containerRegistry.RegisterDialog<PayrollCalculationDialog>();
             containerRegistry.RegisterDialog<SupplementsDialog>();
             containerRegistry.RegisterDialog<JoppdEmployee>();
+            containerRegistry.RegisterDialog<PayrollReport>();
 
             containerRegistry.RegisterScoped<IPayrollEndpoint, PayrollEndpoint>();
             containerRegistry.RegisterScoped<IPayrollSupplementEndpoint, PayrollSupplementEndpoint>();

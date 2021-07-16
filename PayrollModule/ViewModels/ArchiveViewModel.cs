@@ -16,7 +16,7 @@ namespace PayrollModule.ViewModels
 {
     public class ArchiveViewModel : ViewModelBase
     {
-        private readonly IPayrollArchiveEndpoint _archiveEndpoint; 
+        private readonly IPayrollArchiveEndpoint _archiveEndpoint;
         private readonly IDialogService _showDialog;
         private readonly IRegionManager _regionManager;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
@@ -45,6 +45,7 @@ namespace PayrollModule.ViewModels
             CreateJoppdFormCommand = new DelegateCommand(CreateJoppdDialog, CanCreateJoppd);
             AccountsSettingsCommand = new DelegateCommand(OpenAccountsSettings);
             ProcessPayrollCommand = new DelegateCommand(ProcessItem, CanProcess);
+            PrintPayrollCommand = new DelegateCommand(PrintPayroll, CanPrint);
             PrintCommand = new DelegateCommand<Visual>(ShowPreview);
 
             LoadArchive();
@@ -55,6 +56,7 @@ namespace PayrollModule.ViewModels
         public DelegateCommand DeletePayrollCommand { get; private set; }
         public DelegateCommand AccountsSettingsCommand { get; private set; }
         public DelegateCommand ProcessPayrollCommand { get; private set; }
+        public DelegateCommand PrintPayrollCommand { get; private set; }
         public DelegateCommand<Visual> PrintCommand { get; private set; }
         #endregion
 
@@ -80,6 +82,7 @@ namespace PayrollModule.ViewModels
                 DeletePayrollCommand.RaiseCanExecuteChanged();
                 CreateJoppdFormCommand.RaiseCanExecuteChanged();
                 ProcessPayrollCommand.RaiseCanExecuteChanged();
+                PrintPayrollCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -299,7 +302,7 @@ namespace PayrollModule.ViewModels
         }
         #endregion
 
-        #region Printing
+        #region DataGrid printing
         private void ShowPreview(Visual v)
         {
             if (SelectedArchive == null)
@@ -325,6 +328,24 @@ namespace PayrollModule.ViewModels
             parameters.Add("datagrid", v);
             parameters.Add("title", title);
             _showDialog.ShowDialog("PrintDialogView", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
+        }
+        #endregion
+
+        #region Payroll print
+        private bool CanPrint() => SelectedArchive != null;
+
+        private void PrintPayroll()
+        {
+            DialogParameters parameters = new DialogParameters();
+            parameters.Add("archiveId", SelectedArchive.Id);
+            parameters.Add("period", new DateTime[] { (DateTime)SelectedArchive.DatumOd, (DateTime)SelectedArchive.DatumDo});
+            _showDialog.ShowDialog("PayrollReport", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {

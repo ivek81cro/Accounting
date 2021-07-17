@@ -343,8 +343,7 @@ namespace PayrollModule.ViewModels
         private void PrintPayroll()
         {
             DialogParameters parameters = new DialogParameters();
-            parameters.Add("archiveId", SelectedArchive.Id);
-            parameters.Add("period", new DateTime[] { (DateTime)SelectedArchive.DatumOd, (DateTime)SelectedArchive.DatumDo});
+            parameters.Add("archiveHeader", SelectedArchive);
             _showDialog.ShowDialog("PayrollReport", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)

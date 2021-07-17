@@ -28,14 +28,7 @@ namespace PayrollModule.PrintFlow
 
             Grid table = new();
 
-            CreateTable(table);
-
             return page;
-        }
-
-        private void CreateTable(Grid table)
-        {
-
         }
     }
 }

@@ -99,69 +99,55 @@ namespace PayrollModule.PrintFlow
 
         private async void PrintGridView()
         {
-            #region Main grid
-            Grid grid = new Grid { Margin = new Thickness(45, 25, 25, 25) };
-
-            AddDocumentTitle(grid, 0);
-
-            await AddDocumentHeader(grid, 1);
-
-            AddGeneralData(grid, 2);
-
-            AddDateSection(grid, 3);
-
-            AddPeriodSection(grid, 4);
-
-            AddWorkHoursSection(grid, 5);
-
-            AddRetirementTaxSection(grid, 6);
-
-            AddPayedTaxSection(grid, 7);
-            #endregion
-
             PrintDialog pd = new PrintDialog();
             pd.PrintTicket.PageOrientation = PageOrientation.Portrait;
             pd.PrintTicket.PageMediaSize = new PageMediaSize(PageMediaSizeName.ISOA4);
 
             FixedDocument doc = new FixedDocument();
-            doc.DocumentPaginator.PageSize = new Size(pd.PrintableAreaWidth, pd.PrintableAreaHeight);
-            FixedPage fxpg = new FixedPage();
-            fxpg.Width = doc.DocumentPaginator.PageSize.Width;
-            fxpg.Height = doc.DocumentPaginator.PageSize.Height;
-            fxpg.Children.Add(grid);
 
-            PageContent pc = new PageContent();
-            ((IAddChild)pc).AddChild(fxpg);
+            #region Main grid
+            //Page 1
+            Grid gridPage1 = new Grid { Margin = new Thickness(50, 50, 25, 25) };
 
-            doc.Pages.Add(pc);
+            AddDocumentTitle(gridPage1, 0);
+
+            await AddDocumentHeader(gridPage1, 1);
+
+            AddGeneralData(gridPage1, 2);
+
+            AddDateSection(gridPage1, 3);
+
+            AddPeriodSection(gridPage1, 4);
+
+            AddWorkHoursSection(gridPage1, 5);
+
+            AddRetirementTaxSection(gridPage1, 6);
+
+            PageContent pc1 = CreatePage(gridPage1, pd, doc);
+
+            //Page 2
+            Grid gridPage2 = new Grid { Margin = new Thickness(50, 50, 25, 25) };
+            AddPayedTaxSection(gridPage2, 0);
+
+            PageContent pc2 = CreatePage(gridPage2, pd, doc);
+            #endregion
+
+            doc.Pages.Add(pc1);
+            doc.Pages.Add(pc2);
             CreateDocument(doc.DocumentPaginator);
-
-        }
-
-        private void CreateDocument(DocumentPaginator paginator)
-        {
-            string tempFileName = Path.GetTempFileName();
-            File.Delete(tempFileName);
-            using (XpsDocument xpsDocument = new XpsDocument(tempFileName, FileAccess.ReadWrite))
-            {
-                XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
-                writer.Write(paginator);
-                PrintDocument = xpsDocument.GetFixedDocumentSequence();
-            }
         }
 
         private void AddDocumentTitle(Grid grid, int rowIndex)
         {
             Border tBorder = AddRowToMainGrid(grid, rowIndex);
 
-            Grid tGrid = new();
-            tGrid.ColumnDefinitions.Add(new ColumnDefinition());
-            tGrid.ColumnDefinitions.Add(new ColumnDefinition());
+            Grid tGrid = new Grid { Width = 700 };
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             TextBlock tLeft = new TextBlock
             {
-                Text = "OBRAČUN ISPLAĆENE PLAĆENE NAKNADE PLAĆE",
-                Width = 350
+                Text = "OBRAČUN ISPLAĆENE PLAĆENE NAKNADE PLAĆE"
             };
             tLeft.Style = TextBoxCustom;
             tLeft.SetCurrentValue(Grid.ColumnProperty, 0);
@@ -170,8 +156,7 @@ namespace PayrollModule.PrintFlow
             {
                 Text = "OBRAZAC IP1",
                 TextAlignment = TextAlignment.Right,
-                HorizontalAlignment = HorizontalAlignment.Right,
-                Width = 350
+                HorizontalAlignment = HorizontalAlignment.Right
             };
             tRight.Style = TextBoxCustom;
             tRight.SetCurrentValue(Grid.ColumnProperty, 1);
@@ -327,7 +312,7 @@ namespace PayrollModule.PrintFlow
             address.SetCurrentValue(Grid.ColumnProperty, 0);
             cGrid.Children.Add(address);
 
-            TextBlock addressD = new TextBlock 
+            TextBlock addressD = new TextBlock
             {
                 Text = _company.Ulica + " " + _company.Broj + ", " + _company.Mjesto,
                 TextWrapping = TextWrapping.Wrap
@@ -535,7 +520,7 @@ namespace PayrollModule.PrintFlow
             #endregion
 
             #region ROW 4
-            AddRowToSection(tGrid, 
+            AddRowToSection(tGrid,
                 "PODACI O VRSTI I IZNOSIMA OSTVARENE PLAĆE / NAKNADE I BROJU OSTVARENIH SATI RADA / NAKNADE NA TERET POSLODAVCA",
                 4, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
             AddRowToSection(tGrid, "", 4, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
@@ -707,7 +692,7 @@ namespace PayrollModule.PrintFlow
 
             #region ROW 2
             AddRowToSection(tGrid, "1", 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "2", 2, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, "2", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 3
@@ -725,8 +710,8 @@ namespace PayrollModule.PrintFlow
             #region ROW 5
             AddRowToSection(tGrid,
                 "1.2. doprinos za mirovinsko osiguranje na temelju individsualne kapitalizirane štednje",
-                5, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 5, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+                5, 0, new Thickness(0, 1, 1, 1), TextAlignment.Left);
+            AddRowToSection(tGrid, "", 5, 3, new Thickness(0, 1, 0, 1), TextAlignment.Center);
             #endregion
             #endregion
 
@@ -739,7 +724,7 @@ namespace PayrollModule.PrintFlow
         {
             Border tBorder = AddRowToMainGrid(grid, rowIndex);
 
-            Grid tGrid = new();
+            Grid tGrid = new Grid { Width = 700 };
             for (int i = 0; i < 21; i++)
             {
                 tGrid.RowDefinitions.Add(new RowDefinition());
@@ -833,5 +818,32 @@ namespace PayrollModule.PrintFlow
             tBorder.SetCurrentValue(Grid.RowProperty, rowIndex);
             return tBorder;
         }
+
+        #region Create page
+        private PageContent CreatePage(Grid gridPage1, PrintDialog pd, FixedDocument doc)
+        {
+            doc.DocumentPaginator.PageSize = new Size(pd.PrintableAreaWidth, pd.PrintableAreaHeight);
+            FixedPage fxpg = new FixedPage();
+            fxpg.Width = doc.DocumentPaginator.PageSize.Width;
+            fxpg.Height = doc.DocumentPaginator.PageSize.Height;
+            fxpg.Children.Add(gridPage1);
+
+            PageContent pc = new PageContent();
+            ((IAddChild)pc).AddChild(fxpg);
+            return pc;
+        }
+
+        private void CreateDocument(DocumentPaginator paginator)
+        {
+            string tempFileName = Path.GetTempFileName();
+            File.Delete(tempFileName);
+            using (XpsDocument xpsDocument = new XpsDocument(tempFileName, FileAccess.ReadWrite))
+            {
+                XpsDocumentWriter writer = XpsDocument.CreateXpsDocumentWriter(xpsDocument);
+                writer.Write(paginator);
+                PrintDocument = xpsDocument.GetFixedDocumentSequence();
+            }
+        }
+        #endregion
     }
 }

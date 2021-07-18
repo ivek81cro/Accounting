@@ -777,7 +777,7 @@ namespace PayrollModule.PrintFlow
             #region ROW 6
             AddRowToSection(tGrid, "4. NEOPOREZIVI ODBITAK (UKUPAN FAKTOR OSOBNOG ODBITKA 2.22)",
                 6, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 6, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].Odbitak}", 6, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 7

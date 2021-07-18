@@ -107,7 +107,7 @@ namespace PayrollModule.PrintFlow
 
             #region Main grid
             //Page 1
-            Grid gridPage1 = new Grid { Margin = new Thickness(50, 50, 25, 25) };
+            Grid gridPage1 = new Grid { Margin = new Thickness(70, 50, 0, 0) };
 
             AddDocumentTitle(gridPage1, 0);
 
@@ -124,16 +124,16 @@ namespace PayrollModule.PrintFlow
             AddRetirementTaxSection(gridPage1, 6);
 
             PageContent pc1 = CreatePage(gridPage1, pd, doc);
+            doc.Pages.Add(pc1);
 
             //Page 2
-            Grid gridPage2 = new Grid { Margin = new Thickness(50, 50, 25, 25) };
+            Grid gridPage2 = new Grid { Margin = new Thickness(70, 50, 0, 0) };
             AddPayedTaxSection(gridPage2, 0);
 
             PageContent pc2 = CreatePage(gridPage2, pd, doc);
+            doc.Pages.Add(pc2);
             #endregion
 
-            doc.Pages.Add(pc1);
-            doc.Pages.Add(pc2);
             CreateDocument(doc.DocumentPaginator);
         }
 
@@ -530,7 +530,7 @@ namespace PayrollModule.PrintFlow
 
             #region ROW 5
             AddRowToSection(tGrid, "1.1. redoviti rad prema rasporedu dnevnog vremena", 5, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 5, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_header.SatiRada}", 5, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddRowToSection(tGrid, "", 5, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddRowToSection(tGrid, "", 5, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
@@ -697,21 +697,21 @@ namespace PayrollModule.PrintFlow
 
             #region ROW 3
             AddRowToSection(tGrid, "OSNOVICA ZA UTVRĐIVANJE DOPRINOSA PREMA OPOREZIVIM NAKNADAMA", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].Bruto}", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 4
             AddRowToSection(tGrid,
                 "1.1. doprinos za mirovinsko osiguranje na temelju generacijske solidarnosti",
                 4, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 4, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].Mio1}", 4, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 5
             AddRowToSection(tGrid,
                 "1.2. doprinos za mirovinsko osiguranje na temelju individsualne kapitalizirane štednje",
                 5, 0, new Thickness(0, 1, 1, 1), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 5, 3, new Thickness(0, 1, 0, 1), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].Mio2}", 5, 3, new Thickness(0, 1, 0, 1), TextAlignment.Center);
             #endregion
             #endregion
 
@@ -734,7 +734,7 @@ namespace PayrollModule.PrintFlow
 
             TextBlock tText = new TextBlock
             {
-                Text = "VIII. UTVRĐIVANJE POREZA NA DOHODAK IPRIREZA POREZU NA DOHODAK"
+                Text = "VIII. UTVRĐIVANJE POREZA NA DOHODAK I PRIREZA POREZU NA DOHODAK"
             };
             tText.SetCurrentValue(Grid.RowProperty, 0);
             tText.SetCurrentValue(Grid.ColumnProperty, 0);
@@ -745,33 +745,33 @@ namespace PayrollModule.PrintFlow
             #region Data Rows Determined ammount
             #region ROW 1
             AddRowToSection(tGrid, "1. IZNOS OSTVARENOG OPOREZIVOG PRIMITKA", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].Bruto}", 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 2
             AddRowToSection(tGrid, "2. IZDACI (VIII.2.1. + VIII.2.2.)",
                 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].Mio1 + _payroll[0].Mio2}", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 3
             AddRowToSection(tGrid,
-                "2.2. plaćeni iznosi doprinosa za mirovinsko osiguranje na temelju individsualne kapitalizirane štednje",
+                "2.1. plaćeni iznosi doprinosa za mirovinsko osiguranje na temelju generacijske solidarnosti",
                 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].Mio1}", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 4
             AddRowToSection(tGrid,
-                "2.2. plaćeni iznosi doprinosa za mirovinsko osiguranje na temelju individsualne kapitalizirane štednje",
+                "2.2. plaćeni iznosi doprinosa za mirovinsko osiguranje na temelju individualne kapitalizirane štednje",
                 4, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 4, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].Mio2}", 4, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 5
             AddRowToSection(tGrid, "3. DOHODAK (VIII.1. - VIII.2.)",
                 5, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 5, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].Dohodak}", 5, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 6
@@ -783,13 +783,13 @@ namespace PayrollModule.PrintFlow
             #region ROW 7
             AddRowToSection(tGrid, "5. POREZNA OSNOVICA (VIII.3. - VIII.4.)",
                 7, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 7, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].PoreznaOsnovica}", 7, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 8
             AddRowToSection(tGrid, "6. UKUPAN IZNOS POREZA (VIII.6.1. + VIII.6.2. + VIII.6.3.)",
                 8, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 8, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddRowToSection(tGrid, $"{_payroll[0].UkupnoPorez}", 8, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
             #endregion
 

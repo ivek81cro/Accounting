@@ -25,6 +25,7 @@ namespace PayrollModule.PrintFlow
         private readonly ICompanyEndpoint _companyEndpoint;
         private readonly IPayrollArchiveEndpoint _archiveEndpoint;
         private readonly IEmployeeEndpoint _employeeEndpoint;
+        private readonly ICityEndpoint _cityEndpoint;
 
         private CompanyModel _company;
         private PayrollArchiveHeaderModel _header;
@@ -34,16 +35,18 @@ namespace PayrollModule.PrintFlow
 
         public PayrollReportViewModel(ICompanyEndpoint companyEndpoint,
                                       IPayrollArchiveEndpoint archiveEndpoint,
-                                      IEmployeeEndpoint employeeEndpoint)
+                                      IEmployeeEndpoint employeeEndpoint,
+                                      ICityEndpoint cityEndpoint)
         {
             _companyEndpoint = companyEndpoint;
+            _archiveEndpoint = archiveEndpoint;
+            _employeeEndpoint = employeeEndpoint;
+            _cityEndpoint = cityEndpoint;
 
             PrintCommand = new DelegateCommand(PrintGridView);
             //PrintCommand2 = new DelegateCommand<Visual>(PrintGridView2);
 
             ReadStyles();
-            _archiveEndpoint = archiveEndpoint;
-            _employeeEndpoint = employeeEndpoint;
         }
 
         public DelegateCommand PrintCommand { get; private set; }
@@ -94,7 +97,6 @@ namespace PayrollModule.PrintFlow
         private async void LoadDataFromDatabase(int idArchive)
         {
             _payroll = await _archiveEndpoint.GetArchivePayrolls(idArchive);
-            _supplement = await _archiveEndpoint.GetArchiveSupplements(idArchive);
         }
 
         private async void PrintGridView()
@@ -128,7 +130,20 @@ namespace PayrollModule.PrintFlow
 
             //Page 2
             Grid gridPage2 = new Grid { Margin = new Thickness(70, 50, 0, 0) };
+
             AddPayedTaxSection(gridPage2, 0);
+
+            AddLocalTaxSection(gridPage2, 1);
+
+            await AddTaxDeductionSection(gridPage2, 2);
+
+            await AddSupplementsSection(gridPage2, 3);
+
+            AddSuspensionsSection(gridPage2, 4);
+
+            AddTotalPayoutSection(gridPage2, 5);
+
+            AddTaxAddedToPayroll(gridPage2, 6);
 
             PageContent pc2 = CreatePage(gridPage2, pd, doc);
             doc.Pages.Add(pc2);
@@ -392,20 +407,27 @@ namespace PayrollModule.PrintFlow
             tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
-            TextBlock tText = new TextBlock { Text = "IV. DATUM ISPLATE/OBRAČUNA" };
+            TextBlock tText = new TextBlock
+            {
+                Text = "IV. DATUM ISPLATE/OBRAČUNA"
+            };
             tText.SetCurrentValue(Grid.RowProperty, 0);
             tText.SetCurrentValue(Grid.ColumnProperty, 0);
             tText.SetCurrentValue(Grid.ColumnSpanProperty, 2);
             tText.Style = TextBoxCustom;
             tGrid.Children.Add(tText);
 
+            #region Data Rows
+            #region ROW 1
             Border r1Border = new Border { BorderThickness = new Thickness(0, 1, 1, 0), BorderBrush = Brushes.Black };
             TextBlock r1Text = new TextBlock { Text = "1.1. Datum isplate plaće/naknade plaće u cijelosti" };
             r1Border.SetCurrentValue(Grid.RowProperty, 1);
             r1Border.SetCurrentValue(Grid.ColumnProperty, 0);
             r1Border.Child = r1Text;
             tGrid.Children.Add(r1Border);
+            #endregion
 
+            #region ROW 2
             Border r1Border2 = new Border { BorderThickness = new Thickness(0, 1, 0, 0), BorderBrush = Brushes.Black };
             TextBlock r1Text2 = new TextBlock
             {
@@ -417,34 +439,44 @@ namespace PayrollModule.PrintFlow
             r1Border2.SetCurrentValue(Grid.ColumnProperty, 1);
             r1Border2.Child = r1Text2;
             tGrid.Children.Add(r1Border2);
+            #endregion
 
+            #region ROW 3
             Border r2Border = new Border { BorderThickness = new Thickness(0, 1, 1, 0), BorderBrush = Brushes.Black };
             TextBlock r2Text = new TextBlock { Text = "1.2. Datum djelomične isplate plaće/naknade plaće u cijelosti" };
             r2Border.SetCurrentValue(Grid.RowProperty, 2);
             r2Border.SetCurrentValue(Grid.ColumnProperty, 0);
             r2Border.Child = r2Text;
             tGrid.Children.Add(r2Border);
+            #endregion
 
+            #region ROW 4
             Border r2Border2 = new Border { BorderThickness = new Thickness(0, 1, 0, 0), BorderBrush = Brushes.Black };
             TextBlock r2Text2 = new TextBlock { Text = "" };
             r2Border2.SetCurrentValue(Grid.RowProperty, 2);
             r2Border2.SetCurrentValue(Grid.ColumnProperty, 1);
             r2Border2.Child = r2Text2;
             tGrid.Children.Add(r2Border2);
+            #endregion
 
+            #region ROW 5
             Border r3Border = new Border { BorderThickness = new Thickness(0, 1, 1, 0), BorderBrush = Brushes.Black };
             TextBlock r3Text = new TextBlock { Text = "1.3. Datum obračuna u slučaju neisplate plaće/naknade plaće" };
             r3Border.SetCurrentValue(Grid.RowProperty, 3);
             r3Border.SetCurrentValue(Grid.ColumnProperty, 0);
             r3Border.Child = r3Text;
             tGrid.Children.Add(r3Border);
+            #endregion
 
+            #region ROW 6
             Border r3Border2 = new Border { BorderThickness = new Thickness(0, 1, 0, 0), BorderBrush = Brushes.Black };
             TextBlock r3Text2 = new TextBlock { Text = "" };
             r3Border2.SetCurrentValue(Grid.RowProperty, 3);
             r3Border2.SetCurrentValue(Grid.ColumnProperty, 1);
             r3Border2.Child = r3Text2;
             tGrid.Children.Add(r3Border2);
+            #endregion
+            #endregion
 
             tBorder.Child = tGrid;
 
@@ -499,161 +531,161 @@ namespace PayrollModule.PrintFlow
 
             #region Data Rows
             #region ROW 1
-            AddRowToSection(tGrid, "OPIS", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "SATI", 1, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "ELEMENT\n OBRAČUNA", 1, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "IZNOS", 1, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "OPIS", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "SATI", 1, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "ELEMENT\n OBRAČUNA", 1, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "IZNOS", 1, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 2
-            AddRowToSection(tGrid, "1", 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "2", 2, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "3", 2, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "4", 2, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1", 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "2", 2, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "3", 2, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "4", 2, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 3
-            AddRowToSection(tGrid, "REDOVNI MJESEČNI FOND SATI", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_header.SatiRada}", 3, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 3, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 3, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "REDOVNI MJESEČNI FOND SATI", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_header.SatiRada}", 3, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 3, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 3, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 4
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "PODACI O VRSTI I IZNOSIMA OSTVARENE PLAĆE / NAKNADE I BROJU OSTVARENIH SATI RADA / NAKNADE NA TERET POSLODAVCA",
                 4, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 4, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 4, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 4, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 4, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 4, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 4, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 5
-            AddRowToSection(tGrid, "1.1. redoviti rad prema rasporedu dnevnog vremena", 5, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_header.SatiRada}", 5, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 5, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 5, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1.1. redoviti rad prema rasporedu dnevnog vremena", 5, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_header.SatiRada}", 5, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 5, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 5, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 6
-            AddRowToSection(tGrid, "1.2. redoviti rad nedjeljom", 6, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 6, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 6, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 6, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1.2. redoviti rad nedjeljom", 6, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 6, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 6, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 6, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 7
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "1.3. redoviti rad blagdanom i neradnim danom utvrđenim posebnim zakonom",
                 7, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 7, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 7, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 7, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 7, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 7, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 7, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 8
-            AddRowToSection(tGrid, "1.4. redoviti rad noću", 8, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 8, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 8, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 8, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1.4. redoviti rad noću", 8, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 8, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 8, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 8, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 9
-            AddRowToSection(tGrid, "1.5. prekovremeni rad", 9, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 9, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 9, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 9, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1.5. prekovremeni rad", 9, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 9, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 9, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 9, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 10
-            AddRowToSection(tGrid, "1.6. prekovremeni rad nedjeljom", 10, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 10, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 10, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 10, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1.6. prekovremeni rad nedjeljom", 10, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 10, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 10, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 10, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 11
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "1.7. prekovremeni rad blagdanom i neradnim danom utvrđenim posebnim zakonom",
                 11, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 11, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 11, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 11, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 11, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 11, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 11, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 12
-            AddRowToSection(tGrid, "1.8. prekovremeni rad noću", 12, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 12, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 12, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 12, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1.8. prekovremeni rad noću", 12, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 12, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 12, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 12, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 13
-            AddRowToSection(tGrid, "1.9. propravnost", 13, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 13, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 13, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 13, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1.9. propravnost", 13, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 13, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 13, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 13, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 14
-            AddRowToSection(tGrid, "2.1. naknada za godišnji odmor", 14, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 14, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 14, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 14, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "2.1. naknada za godišnji odmor", 14, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 14, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 14, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 14, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 15
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "2.2. naknada za vrijeme privremene nesposobnosti za rad zbog bolesti na teret poslodavca",
                 15, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 15, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 15, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 15, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 15, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 15, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 15, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 16
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "2.3. naknada za vrijeme privremene nesposobnosti za rad zbog bolesti na teret HZZO",
                 16, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 16, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 16, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 16, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 16, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 16, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 16, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 17
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "2.4. naknada za dane blagdana i neradne dane utvrđene posebnim zakonom",
                 17, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 17, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 17, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 17, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 17, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 17, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 17, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 18
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "2.5. naknada za vrijeme u kojem je radnik odbio raditi zbog neprovedenih mjera zaštite zdravlja i sigurnosti na radu",
                 18, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 18, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 18, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 18, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 18, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 18, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 18, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 19
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "2.6. naknada za vrijeme prekida rada do kojeg je došlo krivnjom poslodavca ili uslijed drugih okolnosti za koje radnik nije odgovoran",
                 19, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 19, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 19, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 19, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 19, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 19, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 19, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 20
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "2.7. naknada za vrijeme kada radnik ne radi zbog drugih opravdanih razloga određenih zakonom, dr. propisom, kol. ugovorom",
                 20, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, "", 20, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 20, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "", 20, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 20, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 20, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 20, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
             #endregion
 
@@ -686,32 +718,32 @@ namespace PayrollModule.PrintFlow
 
             #region Data Rows Determined ammount
             #region ROW 1
-            AddRowToSection(tGrid, "OPIS", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "IZNOS", 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "OPIS", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "IZNOS", 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 2
-            AddRowToSection(tGrid, "1", 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddRowToSection(tGrid, "2", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1", 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "2", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 3
-            AddRowToSection(tGrid, "OSNOVICA ZA UTVRĐIVANJE DOPRINOSA PREMA OPOREZIVIM NAKNADAMA", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].Bruto}", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "OSNOVICA ZA UTVRĐIVANJE DOPRINOSA PREMA OPOREZIVIM NAKNADAMA", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Bruto}", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
 
             #region ROW 4
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "1.1. doprinos za mirovinsko osiguranje na temelju generacijske solidarnosti",
                 4, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].Mio1}", 4, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Mio1}", 4, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
 
             #region ROW 5
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "1.2. doprinos za mirovinsko osiguranje na temelju individsualne kapitalizirane štednje",
                 5, 0, new Thickness(0, 1, 1, 1), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].Mio2}", 5, 3, new Thickness(0, 1, 0, 1), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Mio2}", 5, 3, new Thickness(0, 1, 0, 1), TextAlignment.Right);
             #endregion
             #endregion
 
@@ -738,58 +770,58 @@ namespace PayrollModule.PrintFlow
             };
             tText.SetCurrentValue(Grid.RowProperty, 0);
             tText.SetCurrentValue(Grid.ColumnProperty, 0);
-            tText.SetCurrentValue(Grid.ColumnSpanProperty, 4);
+            tText.SetCurrentValue(Grid.ColumnSpanProperty, 2);
             tText.Style = TextBoxCustom;
             tGrid.Children.Add(tText);
 
-            #region Data Rows Determined ammount
+            #region Data Rows
             #region ROW 1
-            AddRowToSection(tGrid, "1. IZNOS OSTVARENOG OPOREZIVOG PRIMITKA", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].Bruto}", 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "1. IZNOS OSTVARENOG OPOREZIVOG PRIMITKA", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Bruto}", 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
 
             #region ROW 2
-            AddRowToSection(tGrid, "2. IZDACI (VIII.2.1. + VIII.2.2.)",
+            AddDataToRowCell(tGrid, "2. IZDACI (VIII.2.1. + VIII.2.2.)",
                 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].Mio1 + _payroll[0].Mio2}", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Mio1 + _payroll[0].Mio2}", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
 
             #region ROW 3
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "2.1. plaćeni iznosi doprinosa za mirovinsko osiguranje na temelju generacijske solidarnosti",
                 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].Mio1}", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Mio1}", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
 
             #region ROW 4
-            AddRowToSection(tGrid,
+            AddDataToRowCell(tGrid,
                 "2.2. plaćeni iznosi doprinosa za mirovinsko osiguranje na temelju individualne kapitalizirane štednje",
                 4, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].Mio2}", 4, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Mio2}", 4, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
 
             #region ROW 5
-            AddRowToSection(tGrid, "3. DOHODAK (VIII.1. - VIII.2.)",
+            AddDataToRowCell(tGrid, "3. DOHODAK (VIII.1. - VIII.2.)",
                 5, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].Dohodak}", 5, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Dohodak}", 5, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
 
             #region ROW 6
-            AddRowToSection(tGrid, "4. NEOPOREZIVI ODBITAK (UKUPAN FAKTOR OSOBNOG ODBITKA 2.22)",
+            AddDataToRowCell(tGrid, "4. NEOPOREZIVI ODBITAK (UKUPAN FAKTOR OSOBNOG ODBITKA 2.22)",
                 6, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].Odbitak}", 6, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Odbitak}", 6, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
 
             #region ROW 7
-            AddRowToSection(tGrid, "5. POREZNA OSNOVICA (VIII.3. - VIII.4.)",
+            AddDataToRowCell(tGrid, "5. POREZNA OSNOVICA (VIII.3. - VIII.4.)",
                 7, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].PoreznaOsnovica}", 7, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].PoreznaOsnovica}", 7, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
 
             #region ROW 8
-            AddRowToSection(tGrid, "6. UKUPAN IZNOS POREZA (VIII.6.1. + VIII.6.2. + VIII.6.3.)",
+            AddDataToRowCell(tGrid, "6. UKUPAN IZNOS POREZA (VIII.6.1. + VIII.6.2. + VIII.6.3.)",
                 8, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddRowToSection(tGrid, $"{_payroll[0].UkupnoPorez}", 8, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].UkupnoPorez}", 8, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
             #endregion
 
@@ -798,10 +830,294 @@ namespace PayrollModule.PrintFlow
             grid.Children.Add(tBorder);
         }
 
-        private void AddRowToSection(Grid tGrid, string data, int rowIndex, int colIndex, Thickness thickness, TextAlignment alignment)
+        private void AddLocalTaxSection(Grid grid, int rowIndex)
+        {
+            Border tBorder = AddRowToMainGrid(grid, rowIndex);
+
+            Grid tGrid = new();
+            for (int i = 0; i < 4; i++)
+            {
+                tGrid.RowDefinitions.Add(new RowDefinition());
+            }
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(300, GridUnitType.Pixel) });
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(300, GridUnitType.Pixel) });
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            #region Data Rows
+            #region ROW 0
+            AddDataToRowCell(tGrid, "STOPA (%)", 0, 0, new Thickness(0, 0, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "OSNOVICA", 0, 1, new Thickness(0, 0, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 0, 2, new Thickness(0, 0, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 1
+            AddDataToRowCell(tGrid, "6.1. 20%", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 1, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].PoreznaStopa1}", 1, 2, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 2
+            AddDataToRowCell(tGrid, "6.2. 30%", 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 2, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_payroll[0].PoreznaStopa2}", 2, 2, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 3
+            AddDataToRowCell(tGrid, "6.3.", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 3, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 3, 2, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+            #endregion
+
+            tBorder.Child = tGrid;
+
+            grid.Children.Add(tBorder);
+        }
+
+        private async Task AddTaxDeductionSection(Grid grid, int rowIndex)
+        {
+            var city = await _cityEndpoint.GetByName(_employee.Mjesto);
+            Border tBorder = AddRowToMainGrid(grid, rowIndex);
+
+            Grid tGrid = new();
+            for (int i = 0; i < 7; i++)
+            {
+                tGrid.RowDefinitions.Add(new RowDefinition());
+            }
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(6, GridUnitType.Star) });
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            #region Data Rows
+            #region ROW 0
+            AddDataToRowCell(tGrid, "7.1. IZNOS UMANJENJA ZA PREBIVALIŠTE I. SKUPINA I GRAD VUKOVAR (0.00%)",
+                0, 0, new Thickness(0, 0, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 0, 1, new Thickness(0, 0, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 1
+            AddDataToRowCell(tGrid, "7.2. IZNOS UMANJENJA OBVEZE POREZA ZA POSTOTAK INVALIDNOSTI HRVI-a (0.00%)",
+                1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 2
+            AddDataToRowCell(tGrid, $"8. IZNOS PRIREZA ({city.Prirez}%)",
+                2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Prirez}", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 3
+            AddDataToRowCell(tGrid, $"9. KOREKCIJE POREZA I PRIREZA +/- (VIII.9.1 + VIII.9.2)",
+                3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 4
+            AddDataToRowCell(tGrid, $"9.1.",
+                4, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 4, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 5
+            AddDataToRowCell(tGrid, $"9.2.",
+                5, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 5, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 6
+            AddDataToRowCell(tGrid, $"10. UKUPNO POREZ I PRIREZ (VIII.6. - VIII.7. + VIII.8. + VIII.9.)",
+                6, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_payroll[0].UkupnoPorezPrirez}", 6, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+            #endregion
+
+            tBorder.Child = tGrid;
+
+            grid.Children.Add(tBorder);
+        }
+
+        private async Task AddSupplementsSection(Grid grid, int rowIndex)
+        {
+            _supplement = await _archiveEndpoint.GetArchiveSupplements(_header.Id);
+            var supp = _supplement.Where(x => x.Oib == _payroll[0].Oib).ToList();
+            Border tBorder = AddRowToMainGrid(grid, rowIndex);
+
+            Grid tGrid = new();
+            for (int i = 0; i < 7; i++)
+            {
+                tGrid.RowDefinitions.Add(new RowDefinition());
+            }
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(600, GridUnitType.Pixel) });
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            #region ROW 0
+            TextBlock tText = new TextBlock
+            {
+                Text = "X. VRSTE I IZNOSI NEOPOREZIVIH NAKNADA (X.1. + ... + X.n)"
+            };
+            tText.SetCurrentValue(Grid.RowProperty, 0);
+            tText.SetCurrentValue(Grid.ColumnProperty, 0);
+            tText.Style = TextBoxCustom;
+            tGrid.Children.Add(tText);
+
+            AddDataToRowCell(tGrid, $"{supp.Sum(x => x.Iznos)}", 0, 1, new Thickness(1, 0, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region Data Rows
+            #region ROWS 1-n
+            int j = 1;
+            foreach (var item in supp)
+            {
+                AddDataToRowCell(tGrid, $"{j}. {item.Naziv}", j, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+                AddDataToRowCell(tGrid, $"{item.Iznos}", j, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+                j++;
+            }
+            #endregion
+            #endregion
+
+            tBorder.Child = tGrid;
+
+            grid.Children.Add(tBorder);
+        }
+
+        private void AddSuspensionsSection(Grid grid, int rowIndex)
+        {
+            Border tBorder = AddRowToMainGrid(grid, rowIndex);
+
+            Grid tGrid = new();
+            tGrid.RowDefinitions.Add(new RowDefinition());
+
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(600, GridUnitType.Pixel) });
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            #region ROW 0
+            TextBlock tText = new TextBlock
+            {
+                Text = "XI. VRSTE I IZNOSI OBUSTAVA IZ PLAĆE (XI.1. + ... + XI.n)"
+            };
+            tText.SetCurrentValue(Grid.RowProperty, 0);
+            tText.SetCurrentValue(Grid.ColumnProperty, 0);
+            tText.Style = TextBoxCustom;
+            tGrid.Children.Add(tText);
+
+            AddDataToRowCell(tGrid, "", 0, 1, new Thickness(1, 0, 0, 0), TextAlignment.Right);
+            #endregion
+
+            //No data rows
+
+            tBorder.Child = tGrid;
+
+            grid.Children.Add(tBorder);
+        }
+
+        private void AddTotalPayoutSection(Grid grid, int rowIndex)
+        {
+            Border tBorder = AddRowToMainGrid(grid, rowIndex);
+
+            Grid tGrid = new();
+            for (int i = 0; i < 4; i++)
+            {
+                tGrid.RowDefinitions.Add(new RowDefinition());
+            }
+
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(600, GridUnitType.Pixel) });
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            #region ROW 0
+            TextBlock tText = new TextBlock
+            {
+                Text = "XII. IZNOS ZA ISPLATU NAKON OBUSTAVA (IX. + X. - XI.)"
+            };
+            tText.SetCurrentValue(Grid.RowProperty, 0);
+            tText.SetCurrentValue(Grid.ColumnProperty, 0);
+            tText.Style = TextBoxCustom;
+            tGrid.Children.Add(tText);
+
+            var sumSupp = _supplement.Where(x => x.Oib == _payroll[0].Oib).Sum(y => y.Iznos);
+            var ammount = _payroll[0].Neto + sumSupp;
+            AddDataToRowCell(tGrid, $"{ammount}", 0, 1, new Thickness(1, 0, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region Data Rows
+            #region ROW 1
+            AddDataToRowCell(tGrid, "1. Iznos za isplatu isplaćen radniku na redovan račun", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{ammount}", 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 2
+            AddDataToRowCell(tGrid, "1. Iznos plaće/naknade plaće isplaćen radniku za račun iz čl.212 Ovršnog zakona", 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 3
+            AddDataToRowCell(tGrid, "1. Iznos za isplatu isplaćen radniku u gotovini", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+            #endregion
+
+            tBorder.Child = tGrid;
+
+            grid.Children.Add(tBorder);
+        }
+
+        private void AddTaxAddedToPayroll(Grid grid, int rowIndex)
+        {
+            Border tBorder = AddRowToMainGrid(grid, rowIndex);
+
+            Grid tGrid = new();
+            for (int i = 0; i < 7; i++)
+            {
+                tGrid.RowDefinitions.Add(new RowDefinition());
+            }
+
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(600, GridUnitType.Pixel) });
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            #region ROW 0
+            TextBlock tText = new TextBlock
+            {
+                Text = "XIII. DOPRINOSI NA OSNOVICU"
+            };
+            tText.SetCurrentValue(Grid.RowProperty, 0);
+            tText.SetCurrentValue(Grid.ColumnProperty, 0);
+            tText.SetCurrentValue(Grid.ColumnSpanProperty, 2);
+            tText.Style = TextBoxCustom;
+            tGrid.Children.Add(tText);
+            #endregion
+
+            #region DataRows
+            #region ROW 1
+            AddDataToRowCell(tGrid, "1. OSNOVICA ZA UTVRĐIVANJE DOPRINOSA NA OSNOVICU", 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_payroll[0].Bruto}", 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 2
+            AddDataToRowCell(tGrid, "2. IZNOS DOPRINOSA NA OSNOVICU (XIII.2.1. + ... + XIII.2.n)", 2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_payroll[0].DoprinosZdravstvo}", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 3
+            AddDataToRowCell(tGrid, "2.1. Doprinos za zdravstveno osiguranje prema plaći/naknadi plaće", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_payroll[0].DoprinosZdravstvo}", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #endregion
+
+            tBorder.Child = tGrid;
+
+            grid.Children.Add(tBorder);
+        }
+
+        private static void AddDataToRowCell(Grid tGrid, string data, int rowIndex, int colIndex, Thickness thickness, TextAlignment alignment)
         {
             Border rBorder = new Border { BorderThickness = thickness, BorderBrush = Brushes.Black };
-            TextBlock rText = new TextBlock { Text = data, TextAlignment = alignment, TextWrapping = TextWrapping.Wrap };
+            TextBlock rText = new TextBlock
+            {
+                Text = data,
+                TextAlignment = alignment,
+                TextWrapping = TextWrapping.Wrap,
+                VerticalAlignment = VerticalAlignment.Center
+            };
             rBorder.SetCurrentValue(Grid.RowProperty, rowIndex);
             rBorder.SetCurrentValue(Grid.ColumnProperty, colIndex);
             rBorder.Child = rText;

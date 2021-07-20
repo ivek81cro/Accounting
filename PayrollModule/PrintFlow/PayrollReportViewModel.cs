@@ -145,6 +145,8 @@ namespace PayrollModule.PrintFlow
 
             AddTaxAddedToPayroll(gridPage2, 6);
 
+            AddTotalCostSection(gridPage2, 7);
+
             PageContent pc2 = CreatePage(gridPage2, pd, doc);
             doc.Pages.Add(pc2);
             #endregion
@@ -372,22 +374,22 @@ namespace PayrollModule.PrintFlow
             tGrid.RowDefinitions.Add(new RowDefinition());
             tGrid.RowDefinitions.Add(new RowDefinition());
 
+            #region ROW 0
             TextBlock tText = new TextBlock { Text = "III. OPĆI PODACI POTREBNI ZA OBRAČUN PLAĆE" };
             tText.SetCurrentValue(Grid.RowProperty, 0);
             tText.Style = TextBoxCustom;
             tGrid.Children.Add(tText);
+            #endregion
 
-            Border r1Border = new Border { BorderThickness = new Thickness(0, 1, 0, 0), BorderBrush = Brushes.Black };
-            TextBlock r1Text = new TextBlock { Text = "1.1. Ugovorena bruto plaća" };
-            r1Border.SetCurrentValue(Grid.RowProperty, 1);
-            r1Border.Child = r1Text;
-            tGrid.Children.Add(r1Border);
+            #region Data Rows
+            #region ROW 1
+            AddDataToRowCell(tGrid, "1.1. Ugovorena bruto plaća", 1, 0, new Thickness(0, 1, 0, 0), TextAlignment.Left);
+            #endregion
 
-            Border r2Border = new Border { BorderThickness = new Thickness(0, 1, 0, 0), BorderBrush = Brushes.Black };
-            TextBlock r2Text = new TextBlock { Text = "1.n." };
-            r2Border.SetCurrentValue(Grid.RowProperty, 2);
-            r2Border.Child = r2Text;
-            tGrid.Children.Add(r2Border);
+            #region ROW 2
+            AddDataToRowCell(tGrid, "1.n.", 2, 0, new Thickness(0, 1, 0, 0), TextAlignment.Left);
+            #endregion
+            #endregion
 
             tBorder.Child = tGrid;
 
@@ -399,11 +401,10 @@ namespace PayrollModule.PrintFlow
             Border tBorder = AddRowToMainGrid(grid, rowIndex);
 
             Grid tGrid = new();
-            tGrid.RowDefinitions.Add(new RowDefinition());
-            tGrid.RowDefinitions.Add(new RowDefinition());
-            tGrid.RowDefinitions.Add(new RowDefinition());
-            tGrid.RowDefinitions.Add(new RowDefinition());
-
+            for (int i = 0; i < 4; i++)
+            {
+                tGrid.RowDefinitions.Add(new RowDefinition());
+            }
             tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
             tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
@@ -419,62 +420,22 @@ namespace PayrollModule.PrintFlow
 
             #region Data Rows
             #region ROW 1
-            Border r1Border = new Border { BorderThickness = new Thickness(0, 1, 1, 0), BorderBrush = Brushes.Black };
-            TextBlock r1Text = new TextBlock { Text = "1.1. Datum isplate plaće/naknade plaće u cijelosti" };
-            r1Border.SetCurrentValue(Grid.RowProperty, 1);
-            r1Border.SetCurrentValue(Grid.ColumnProperty, 0);
-            r1Border.Child = r1Text;
-            tGrid.Children.Add(r1Border);
+            AddDataToRowCell(tGrid, "1.1. Datum isplate plaće/naknade plaće u cijelosti",
+                1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_header.DatumObracuna.Value.ToShortDateString()}",
+                1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 2
-            Border r1Border2 = new Border { BorderThickness = new Thickness(0, 1, 0, 0), BorderBrush = Brushes.Black };
-            TextBlock r1Text2 = new TextBlock
-            {
-                Text = $"{_header.DatumObracuna.Value.ToShortDateString()}",
-                Padding = new Thickness(5, 0, 0, 0),
-                TextAlignment = TextAlignment.Center
-            };
-            r1Border2.SetCurrentValue(Grid.RowProperty, 1);
-            r1Border2.SetCurrentValue(Grid.ColumnProperty, 1);
-            r1Border2.Child = r1Text2;
-            tGrid.Children.Add(r1Border2);
+            AddDataToRowCell(tGrid, "1.2. Datum djelomične isplate plaće/naknade plaće u cijelosti",
+                2, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 2, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 3
-            Border r2Border = new Border { BorderThickness = new Thickness(0, 1, 1, 0), BorderBrush = Brushes.Black };
-            TextBlock r2Text = new TextBlock { Text = "1.2. Datum djelomične isplate plaće/naknade plaće u cijelosti" };
-            r2Border.SetCurrentValue(Grid.RowProperty, 2);
-            r2Border.SetCurrentValue(Grid.ColumnProperty, 0);
-            r2Border.Child = r2Text;
-            tGrid.Children.Add(r2Border);
-            #endregion
-
-            #region ROW 4
-            Border r2Border2 = new Border { BorderThickness = new Thickness(0, 1, 0, 0), BorderBrush = Brushes.Black };
-            TextBlock r2Text2 = new TextBlock { Text = "" };
-            r2Border2.SetCurrentValue(Grid.RowProperty, 2);
-            r2Border2.SetCurrentValue(Grid.ColumnProperty, 1);
-            r2Border2.Child = r2Text2;
-            tGrid.Children.Add(r2Border2);
-            #endregion
-
-            #region ROW 5
-            Border r3Border = new Border { BorderThickness = new Thickness(0, 1, 1, 0), BorderBrush = Brushes.Black };
-            TextBlock r3Text = new TextBlock { Text = "1.3. Datum obračuna u slučaju neisplate plaće/naknade plaće" };
-            r3Border.SetCurrentValue(Grid.RowProperty, 3);
-            r3Border.SetCurrentValue(Grid.ColumnProperty, 0);
-            r3Border.Child = r3Text;
-            tGrid.Children.Add(r3Border);
-            #endregion
-
-            #region ROW 6
-            Border r3Border2 = new Border { BorderThickness = new Thickness(0, 1, 0, 0), BorderBrush = Brushes.Black };
-            TextBlock r3Text2 = new TextBlock { Text = "" };
-            r3Border2.SetCurrentValue(Grid.RowProperty, 3);
-            r3Border2.SetCurrentValue(Grid.ColumnProperty, 1);
-            r3Border2.Child = r3Text2;
-            tGrid.Children.Add(r3Border2);
+            AddDataToRowCell(tGrid, "1.3. Datum obračuna u slučaju neisplate plaće/naknade plaće",
+                3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, "", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
             #endregion
 
@@ -951,6 +912,7 @@ namespace PayrollModule.PrintFlow
             tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             #region ROW 0
+            Border bottom = new Border() { BorderThickness = new Thickness(0, 0, 1, 0), BorderBrush = Brushes.Black };
             TextBlock tText = new TextBlock
             {
                 Text = "X. VRSTE I IZNOSI NEOPOREZIVIH NAKNADA (X.1. + ... + X.n)"
@@ -958,9 +920,10 @@ namespace PayrollModule.PrintFlow
             tText.SetCurrentValue(Grid.RowProperty, 0);
             tText.SetCurrentValue(Grid.ColumnProperty, 0);
             tText.Style = TextBoxCustom;
-            tGrid.Children.Add(tText);
+            bottom.Child = tText;
+            tGrid.Children.Add(bottom);
 
-            AddDataToRowCell(tGrid, $"{supp.Sum(x => x.Iznos)}", 0, 1, new Thickness(1, 0, 0, 0), TextAlignment.Right);
+            AddDataToRowCell(tGrid, $"{supp.Sum(x => x.Iznos)}", 0, 1, new Thickness(0, 0, 0, 0), TextAlignment.Right);
             #endregion
 
             #region Data Rows
@@ -991,6 +954,7 @@ namespace PayrollModule.PrintFlow
             tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             #region ROW 0
+            Border bottom = new Border() { BorderThickness = new Thickness(0, 0, 1, 0), BorderBrush = Brushes.Black };
             TextBlock tText = new TextBlock
             {
                 Text = "XI. VRSTE I IZNOSI OBUSTAVA IZ PLAĆE (XI.1. + ... + XI.n)"
@@ -998,9 +962,10 @@ namespace PayrollModule.PrintFlow
             tText.SetCurrentValue(Grid.RowProperty, 0);
             tText.SetCurrentValue(Grid.ColumnProperty, 0);
             tText.Style = TextBoxCustom;
-            tGrid.Children.Add(tText);
+            bottom.Child = tText;
+            tGrid.Children.Add(bottom);
 
-            AddDataToRowCell(tGrid, "", 0, 1, new Thickness(1, 0, 0, 0), TextAlignment.Right);
+            AddDataToRowCell(tGrid, "", 0, 1, new Thickness(0, 0, 0, 0), TextAlignment.Right);
             #endregion
 
             //No data rows
@@ -1024,6 +989,7 @@ namespace PayrollModule.PrintFlow
             tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
             #region ROW 0
+            Border bottom = new Border() { BorderThickness = new Thickness(0, 0, 1, 0), BorderBrush = Brushes.Black };
             TextBlock tText = new TextBlock
             {
                 Text = "XII. IZNOS ZA ISPLATU NAKON OBUSTAVA (IX. + X. - XI.)"
@@ -1031,11 +997,12 @@ namespace PayrollModule.PrintFlow
             tText.SetCurrentValue(Grid.RowProperty, 0);
             tText.SetCurrentValue(Grid.ColumnProperty, 0);
             tText.Style = TextBoxCustom;
-            tGrid.Children.Add(tText);
+            bottom.Child = tText;
+            tGrid.Children.Add(bottom);
 
             var sumSupp = _supplement.Where(x => x.Oib == _payroll[0].Oib).Sum(y => y.Iznos);
             var ammount = _payroll[0].Neto + sumSupp;
-            AddDataToRowCell(tGrid, $"{ammount}", 0, 1, new Thickness(1, 0, 0, 0), TextAlignment.Right);
+            AddDataToRowCell(tGrid, $"{ammount}", 0, 1, new Thickness(0, 0, 0, 0), TextAlignment.Right);
             #endregion
 
             #region Data Rows
@@ -1063,7 +1030,6 @@ namespace PayrollModule.PrintFlow
         private void AddTaxAddedToPayroll(Grid grid, int rowIndex)
         {
             Border tBorder = AddRowToMainGrid(grid, rowIndex);
-
             Grid tGrid = new();
             for (int i = 0; i < 7; i++)
             {
@@ -1100,7 +1066,36 @@ namespace PayrollModule.PrintFlow
             AddDataToRowCell(tGrid, "2.1. Doprinos za zdravstveno osiguranje prema plaći/naknadi plaće", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
             AddDataToRowCell(tGrid, $"{_payroll[0].DoprinosZdravstvo}", 3, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
+            #endregion
 
+            tBorder.Child = tGrid;
+
+            grid.Children.Add(tBorder);
+        }
+
+        private void AddTotalCostSection(Grid grid, int rowIndex)
+        {
+            Border tBorder = AddRowToMainGrid(grid, rowIndex);
+            tBorder.BorderThickness = new Thickness(1);
+            Grid tGrid = new();
+            tGrid.RowDefinitions.Add(new RowDefinition());
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(600, GridUnitType.Pixel) });
+            tGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+            #region ROW 0
+            Border bottom = new Border() { BorderThickness = new Thickness(0, 0, 1, 0), BorderBrush= Brushes.Black };
+            TextBlock tText = new TextBlock
+            {
+                Text = "XIV. UKUPNI TROŠAK RADA (V.2. + X. + VIII.2.)"
+            };
+            tText.SetCurrentValue(Grid.RowProperty, 0);
+            tText.SetCurrentValue(Grid.ColumnProperty, 0);
+            tText.SetCurrentValue(Grid.ColumnSpanProperty, 2);
+            tText.Style = TextBoxCustom;
+            bottom.Child = tText;
+            tGrid.Children.Add(bottom);
+
+            AddDataToRowCell(tGrid, $"{_payroll[0].Bruto + _payroll[0].DoprinosZdravstvo}", 0, 1, new Thickness(0, 0, 0, 0), TextAlignment.Right);
             #endregion
 
             tBorder.Child = tGrid;

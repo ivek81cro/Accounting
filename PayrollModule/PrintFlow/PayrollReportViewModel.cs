@@ -147,6 +147,8 @@ namespace PayrollModule.PrintFlow
 
             AddTotalCostSection(gridPage2, 7);
 
+            AddSignatureSection(gridPage2, 8);
+
             PageContent pc2 = CreatePage(gridPage2, pd, doc);
             doc.Pages.Add(pc2);
             #endregion
@@ -1101,6 +1103,23 @@ namespace PayrollModule.PrintFlow
             tBorder.Child = tGrid;
 
             grid.Children.Add(tBorder);
+        }
+
+        private void AddSignatureSection(Grid grid, int rowIndex)
+        {
+            grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(100, GridUnitType.Pixel)});
+
+            Grid tGrid = new();
+            tGrid.SetCurrentValue(Grid.RowProperty, rowIndex);
+            tGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(50, GridUnitType.Pixel)});
+            tGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(50, GridUnitType.Pixel)});
+
+            #region ROWS
+            AddDataToRowCell(tGrid, "Potpis ovlaštene osobe poslodavca", 0, 0, new Thickness(0, 0, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "_________________________________", 1, 0, new Thickness(0, 0, 0, 0), TextAlignment.Center);
+            #endregion
+
+            grid.Children.Add(tGrid);
         }
 
         private static void AddDataToRowCell(Grid tGrid, string data, int rowIndex, int colIndex, Thickness thickness, TextAlignment alignment)

@@ -16,7 +16,6 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Xps;
 using System.Windows.Xps.Packaging;
-using System.Xml;
 
 namespace PayrollModule.PrintFlow
 {

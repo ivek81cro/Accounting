@@ -29,7 +29,6 @@ namespace PayrollModule.PrintFlow
 
         private CompanyModel _company;
         private PayrollArchiveHeaderModel _header;
-        private List<PayrollArchivePayrollModel> _payroll;
         private PayrollArchivePayrollModel _selectedPayroll;
         private List<PayrollArchiveSupplementModel> _supplement;
         private EmployeeModel _employee;
@@ -45,11 +44,15 @@ namespace PayrollModule.PrintFlow
             _cityEndpoint = cityEndpoint;
 
             PrintCommand = new DelegateCommand(PrintGridView);
+            SelectEmployeeCommand = new DelegateCommand(SelectedEmployeeReport);
+            SelectAllCommand = new DelegateCommand(AllEmployeesReport);
 
             ReadStyles();
         }
 
         public DelegateCommand PrintCommand { get; private set; }
+        public DelegateCommand SelectEmployeeCommand { get; private set; }
+        public DelegateCommand SelectAllCommand { get; private set; }
 
         public string Title => "Ispis obračuna plaće";
 
@@ -58,6 +61,35 @@ namespace PayrollModule.PrintFlow
         public Style BorderTitleStyle { get; private set; }
         public Style BorderHeaderStyle { get; private set; }
         public Style TextBoxCustom { get; private set; }
+
+
+        private List<PayrollArchivePayrollModel> _payroll;
+        public List<PayrollArchivePayrollModel> Payroll
+        {
+            get { return _payroll; }
+            set { SetProperty(ref _payroll, value); }
+        }
+
+        private FixedDocumentSequence _printDocument;
+        public FixedDocumentSequence PrintDocument
+        {
+            get { return _printDocument; }
+            set { SetProperty(ref _printDocument, value); }
+        }
+
+        private List<EmployeeModel> _employees = new();
+        public List<EmployeeModel> Employees
+        {
+            get { return _employees; }
+            set { SetProperty(ref _employees, value); }
+        }
+
+        private EmployeeModel _selectedEmployee;
+        public EmployeeModel SelectedEmployee
+        {
+            get { return _selectedEmployee; }
+            set { SetProperty(ref _selectedEmployee, value); }
+        }
 
         private void ReadStyles()
         {
@@ -68,13 +100,6 @@ namespace PayrollModule.PrintFlow
                 this.BorderHeaderStyle = (Style)resources["BorderHeaderStyle"];
                 this.TextBoxCustom = (Style)resources["TextBoxCustom"];
             }
-        }
-
-        private FixedDocumentSequence _printDocument;
-        public FixedDocumentSequence PrintDocument
-        {
-            get { return _printDocument; }
-            set { SetProperty(ref _printDocument, value); }
         }
 
         public bool CanCloseDialog()
@@ -90,12 +115,43 @@ namespace PayrollModule.PrintFlow
         public void OnDialogOpened(IDialogParameters parameters)
         {
             _header = parameters.GetValue<PayrollArchiveHeaderModel>("archiveHeader");
-            LoadDataFromDatabase(_header.Id);
+            LoadInitData();            
         }
 
-        private async void LoadDataFromDatabase(int idArchive)
+        private async void LoadInitData()
+        {
+            await LoadDataFromDatabase(_header.Id);
+        }
+
+        private async Task LoadDataFromDatabase(int idArchive)
         {
             _payroll = await _archiveEndpoint.GetArchivePayrolls(idArchive);
+            foreach (var emp in Payroll)
+            {
+                Employees.Add(new EmployeeModel
+                {
+                    Ime = emp.Ime,
+                    Prezime = emp.Prezime,
+                    Oib = emp.Oib
+                });
+            }
+        }
+
+        private async void AllEmployeesReport()
+        {
+            if(_payroll.Count <= 1)
+            {
+                await LoadDataFromDatabase(_header.Id);
+            }
+            PrintGridView();
+        }
+
+        private void SelectedEmployeeReport()
+        {
+            if (SelectedEmployee.Ime != null)
+            {
+                Payroll = Payroll.Where(x => x.Oib == SelectedEmployee.Oib).ToList();
+            }
             PrintGridView();
         }
 

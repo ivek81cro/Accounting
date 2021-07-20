@@ -23,6 +23,30 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <ComboBox Width="200" Margin="5" Padding="5"
+                      HorizontalAlignment="Left" 
+                      ItemsSource="{Binding Employees}"
+                      SelectedItem="{Binding SelectedEmployee}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} {1} {2}">
+                                    <Binding Path="Ime"/>
+                                    <Binding Path="Prezime"/>
+                                    <Binding Path="Oib"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Content="Odaberi pojedinačno" Width="125" Margin="5" Padding="5"
+                    Command="{Binding SelectEmployeeCommand}"/>
+            <Button Content="Odaberi sve" Width="125" Margin="5" Padding="5"
+                    Command="{Binding SelectAllCommand}"/>
+        </StackPanel>
 
         <DocumentViewer Document="{Binding PrintDocument}" Margin="5"
                         Grid.Row="1">

@@ -42,7 +42,7 @@ namespace PayrollModule.PrintFlow
             _employeeEndpoint = employeeEndpoint;
             _cityEndpoint = cityEndpoint;
 
-            PrintCommand = new DelegateCommand(PrintGridView);
+            PrintCommand = new DelegateCommand(CreateReportPreview);
             SelectEmployeeCommand = new DelegateCommand(SelectedEmployeeReport);
             SelectAllCommand = new DelegateCommand(AllEmployeesReport);
 
@@ -142,19 +142,19 @@ namespace PayrollModule.PrintFlow
             {
                 await LoadDataFromDatabase(_header.Id);
             }
-            PrintGridView();
+            CreateReportPreview();
         }
 
         private void SelectedEmployeeReport()
         {
-            if (SelectedEmployee.Ime != null)
+            if (SelectedEmployee != null && SelectedEmployee.Ime != null)
             {
                 Payroll = Payroll.Where(x => x.Oib == SelectedEmployee.Oib).ToList();
             }
-            PrintGridView();
+            CreateReportPreview();
         }
 
-        private async void PrintGridView()
+        private async void CreateReportPreview()
         {
             PrintDialog pd = new PrintDialog();
             pd.PrintTicket.PageOrientation = PageOrientation.Portrait;
@@ -178,6 +178,7 @@ namespace PayrollModule.PrintFlow
             CreateDocument(doc.DocumentPaginator);
         }
 
+        #region Generate document preview
         private async Task AddPage1(PrintDialog pd, FixedDocument doc)
         {
             Grid gridPage1 = new Grid { Margin = new Thickness(70, 50, 0, 0) };
@@ -1218,21 +1219,24 @@ namespace PayrollModule.PrintFlow
             tBorder.SetCurrentValue(Grid.RowProperty, rowIndex);
             return tBorder;
         }
+        #endregion
 
         #region Create page
-        private PageContent CreatePage(Grid gridPage1, PrintDialog pd, FixedDocument doc)
+        private PageContent CreatePage(Grid gridPage, PrintDialog pd, FixedDocument doc)
         {
             doc.DocumentPaginator.PageSize = new Size(pd.PrintableAreaWidth, pd.PrintableAreaHeight);
             FixedPage fxpg = new FixedPage();
             fxpg.Width = doc.DocumentPaginator.PageSize.Width;
             fxpg.Height = doc.DocumentPaginator.PageSize.Height;
-            fxpg.Children.Add(gridPage1);
+            fxpg.Children.Add(gridPage);
 
             PageContent pc = new PageContent();
             ((IAddChild)pc).AddChild(fxpg);
             return pc;
         }
+        #endregion
 
+        #region Create document
         private void CreateDocument(DocumentPaginator paginator)
         {
             string tempFileName = Path.GetTempFileName();

@@ -45,7 +45,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssetsModule", "AssetsModul
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookJournalModule", "BookJournalModule\BookJournalModule.csproj", "{5C80B478-CB03-4B81-951A-BC8BB9FFAE8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BalanceSheetModule", "BalanceSheetModule\BalanceSheetModule.csproj", "{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BalanceSheetModule", "BalanceSheetModule\BalanceSheetModule.csproj", "{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TravelOrdersModule", "TravelOrdersModule\TravelOrdersModule.csproj", "{7D604C3A-99E1-49F3-9140-2DD0E77B0D5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +133,10 @@ Global
 		{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D604C3A-99E1-49F3-9140-2DD0E77B0D5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D604C3A-99E1-49F3-9140-2DD0E77B0D5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D604C3A-99E1-49F3-9140-2DD0E77B0D5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D604C3A-99E1-49F3-9140-2DD0E77B0D5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -155,6 +161,7 @@ Global
 		{5D7131FE-C884-445A-87AC-4FD644E8B0EA} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{5C80B478-CB03-4B81-951A-BC8BB9FFAE8B} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 		{B5833CF8-2C0D-49ED-8891-2C2D6C1E1BDC} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
+		{7D604C3A-99E1-49F3-9140-2DD0E77B0D5C} = {0E92B5F6-3120-4291-B3A1-300E6462F0A7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C146DCE3-AE73-4C23-A973-F16BCE354B0B}

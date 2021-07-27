@@ -33,6 +33,7 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
+using TravelOrdersModule;
 using VATModule;
 
 namespace AccountingUI.WPF
@@ -106,6 +107,7 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleAssets>();
             moduleCatalog.AddModule<ModuleBookJournal>();
             moduleCatalog.AddModule<ModuleBalanceSheet>();
+            moduleCatalog.AddModule<ModuleTravelOrders>();
         }
 
         private IConfiguration AddConfiguration()

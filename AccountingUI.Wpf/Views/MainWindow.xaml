@@ -118,6 +118,12 @@
                 <MenuItem Header="PDV" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="VatCalculation"/>
             </MenuItem>
+            <MenuItem Header="Prijevoz" Margin="5">
+                <MenuItem Header="Putni nalozi" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="TravelOrdersView"/>
+                <MenuItem Header="Loko vožnja" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="LocoOrdersView"/>
+            </MenuItem>
         </Menu>
 
         <TabControl DockPanel.Dock="Top" Margin="5"

@@ -46,6 +46,7 @@
     <ProjectReference Include="..\LoginModule\LoginModule.csproj" />
     <ProjectReference Include="..\PartnersModule\PartnersModule.csproj" />
     <ProjectReference Include="..\PayrollModule\PayrollModule.csproj" />
+    <ProjectReference Include="..\TravelOrdersModule\TravelOrdersModule.csproj" />
     <ProjectReference Include="..\VATModule\VATModule.csproj" />
   </ItemGroup>
 

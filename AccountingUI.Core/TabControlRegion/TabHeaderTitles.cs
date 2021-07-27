@@ -28,7 +28,9 @@ namespace AccountingUI.Core.TabControlRegion
             JournalView,
             RetailView,
             BalanceView,
-            MainLedger
+            MainLedger,
+            TravelOrdersView,
+            LocoOrdersView
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -80,6 +82,10 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Bilanca";
                 case ViewNames.MainLedger:
                     return "Dnevnik knjiženja";
+                case ViewNames.TravelOrdersView:
+                    return "Putni nalozi";
+                case ViewNames.LocoOrdersView:
+                    return "Loko vožnja";
                 default:
                     return "";
             }

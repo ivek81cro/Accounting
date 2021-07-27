@@ -20,7 +20,8 @@ BEGIN
 
 	IF(@Racun <> @Godina)
 	BEGIN
-		UPDATE BookIra SET UkupnoUplaceno+=@PlaceniIznos, PreostaloZaUplatit-=@PlaceniIznos WHERE BrojRacuna=@Racun AND year(Datum)=@Godina;
+		UPDATE BookIra SET UkupnoUplaceno+=@PlaceniIznos, PreostaloZaUplatit-=@PlaceniIznos 
+		WHERE BrojRacuna=@Racun OR (IzRacuna=@Racun AND IznosSPdv > 0) AND year(Datum)=@Godina;
 		UPDATE BookIraHzzo SET Povezan=1 WHERE Id=@Id;
 	END
 

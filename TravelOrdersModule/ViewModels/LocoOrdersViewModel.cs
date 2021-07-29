@@ -1,6 +1,7 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.TabControlRegion;
 using Prism.Commands;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.ObjectModel;
 
@@ -8,8 +9,12 @@ namespace TravelOrdersModule.ViewModels
 {
     public class LocoOrdersViewModel : ViewModelBase
     {
-        public LocoOrdersViewModel()
+        private readonly IDialogService _showDialog;
+
+        public LocoOrdersViewModel(IDialogService showDialog)
         {
+            _showDialog = showDialog;
+
             GenerateList = new DelegateCommand(GenerateOrders);
         }
 
@@ -24,33 +29,13 @@ namespace TravelOrdersModule.ViewModels
 
         private void GenerateOrders()
         {
-            DateTime futureDate = new DateTime(2021, 12, 01);
-            DateTime date = new DateTime(2021, 01, 01);
-            int pocetno = 0;
-            int zavrsno = 0;
-            LocoOrdersList = new();
-            for (DateTime startDate = date; startDate < futureDate; startDate = startDate.AddDays(1.0))
+            _showDialog.ShowDialog("GeneratorDialog", null, result =>
             {
-                int random = new Random().Next(40, 90);
-                if (startDate.DayOfWeek != DayOfWeek.Saturday && startDate.DayOfWeek != DayOfWeek.Sunday)
+                if (result.Result == ButtonResult.OK)
                 {
-                    pocetno = zavrsno;
-                    zavrsno += random;
-                    _locoOrdersList.Add(
-                        new LocoOrderModel
-                        {
-                            Datum = startDate,
-                            MarkaVozila = "Osobni 1.9",
-                            Registracija = "ZG123AB",
-                            Opis = "Dostava",
-                            Relacija = "ZG-ZG-ZG",
-                            PocetnoStanje = pocetno,
-                            ZavrsnoStanje = zavrsno,
-                            PrijedeniKilometri = random
-                        });
-                    zavrsno += new Random().Next(10, 20);
+
                 }
-            }
+            });
         }
     }
 }

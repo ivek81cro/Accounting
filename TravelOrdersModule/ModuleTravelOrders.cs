@@ -1,5 +1,6 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
+using TravelOrdersModule.Dialogs;
 using TravelOrdersModule.Views;
 
 namespace TravelOrdersModule
@@ -13,6 +14,8 @@ namespace TravelOrdersModule
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterDialog<GeneratorDialog>();
+
             containerRegistry.RegisterForNavigation<TravelOrdersView>();
             containerRegistry.RegisterForNavigation<LocoOrdersView>();
         }

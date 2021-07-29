@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="TravelOrdersModule.Dialogs.GeneratorDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TravelOrdersModule.Dialogs"
+             xmlns:prism="http://prismlibrary.com/">
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize"/>
+            <Setter Property="ShowInTaskbar" Value="False"/>
+            <Setter Property="Height" Value="350"/>
+            <Setter Property="Width" Value="600"/>
+        </Style>
+    </prism:Dialog.WindowStyle>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Djelatnik:" Margin="5" Padding="5"
+                   Grid.Row="0" Grid.Column="0"/>
+        <ComboBox Width="200" Margin="5" Padding="5"
+                  HorizontalAlignment="Left" 
+                  ItemsSource="{Binding Employees}"
+                  SelectedItem="{Binding SelectedEmployee}"
+                  Grid.Row="0" Grid.Column="1">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} {1} {2}">
+                                <Binding Path="Ime"/>
+                                <Binding Path="Prezime"/>
+                                <Binding Path="Oib"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Text="Vozilo:" Margin="5" Padding="5"
+                   Grid.Row="0" Grid.Column="2"/>
+        <TextBox Text="{Binding VehicleName}" Margin="5" Padding="5"
+                 MinWidth="150"
+                 Grid.Row="0" Grid.Column="3"/>
+
+        <TextBlock Text="Reg. oznaka:" Margin="5" Padding="5"
+                   Grid.Row="1" Grid.Column="0"/>
+        <TextBox Text="{Binding VehicleRegistration}" Margin="5" Padding="5"
+                 MinWidth="150"
+                 Grid.Row="1" Grid.Column="1"/>
+
+        <TextBlock Text="Početna km.:" Margin="5" Padding="5"
+                   Grid.Row="1" Grid.Column="2"/>
+        <TextBox Text="{Binding StartingKilometers}" Margin="5" Padding="5"
+                 MinWidth="150"
+                 Grid.Row="1" Grid.Column="3"/>
+
+        <TextBlock Text="Poč. datum.:" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="0"/>
+        <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
+                    MinWidth="150"
+                    Grid.Row="2" Grid.Column="1">
+            <DatePicker.SelectedDate>
+                <Binding Path="StartDate"
+                             Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                </Binding>
+            </DatePicker.SelectedDate>
+        </DatePicker>
+
+        <TextBlock Text="Zavr. datum.:" Margin="5" Padding="5"
+                   Grid.Row="2" Grid.Column="2"/>
+        <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
+                    MinWidth="150"
+                    Grid.Row="2" Grid.Column="3">
+            <DatePicker.SelectedDate>
+                <Binding Path="FinishDate"
+                             Mode="TwoWay" 
+                             UpdateSourceTrigger="PropertyChanged">
+                </Binding>
+            </DatePicker.SelectedDate>
+        </DatePicker>
+
+        <Button Content="Generiraj" Margin="5" Padding="5" Width="85"
+                Command="{Binding GenerateList}"
+                Grid.Row="3" Grid.Column="0"/>
+
+        <DataGrid
+            ItemsSource="{Binding LocoOrdersList}"
+            AutoGenerateColumns="False" CanUserAddRows="False"
+            CanUserDeleteRows="False" Grid.ColumnSpan="5"
+            Grid.Row="4" Grid.Column="0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Datum" 
+                                    Binding="{Binding Datum, 
+                                              StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Marka vozila" 
+                                    Binding="{Binding MarkaVozila}"/>
+                <DataGridTextColumn Header="Registracija" 
+                                    Binding="{Binding Registracija}"/>
+                <DataGridTextColumn Header="Početno stanje" 
+                                    Binding="{Binding PocetnoStanje}"/>
+                <DataGridTextColumn Header="Završno stanje" 
+                                    Binding="{Binding ZavrsnoStanje}"/>
+                <DataGridTextColumn Header="Relacija" 
+                                    Binding="{Binding Relacija}"/>
+                <DataGridTextColumn Header="Prijeđeni kilometri" 
+                                    Binding="{Binding PrijedeniKilometri}"/>
+                <DataGridTextColumn Header="Opis"                                  
+                                    Binding="{Binding Opis}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>

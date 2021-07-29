@@ -13,8 +13,4 @@
     <ProjectReference Include="..\AccountingUI.Core\AccountingUI.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dialogs\" />
-  </ItemGroup>
-
 </Project>

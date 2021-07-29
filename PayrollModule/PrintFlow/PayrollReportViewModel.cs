@@ -114,7 +114,7 @@ namespace PayrollModule.PrintFlow
         public void OnDialogOpened(IDialogParameters parameters)
         {
             _header = parameters.GetValue<PayrollArchiveHeaderModel>("archiveHeader");
-            LoadInitData();            
+            LoadInitData();
         }
 
         private async void LoadInitData()

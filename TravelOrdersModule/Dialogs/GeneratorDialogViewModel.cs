@@ -17,7 +17,7 @@ namespace TravelOrdersModule.Dialogs
         {
             _employeeEndpoint = employeeEndpoint;
 
-            GenerateList = new DelegateCommand(GenerateOrders);
+            GenerateList = new DelegateCommand(GenerateOrders, CanGenerate);
         }
 
         public string Title => "Generiranje naloga";
@@ -44,42 +44,66 @@ namespace TravelOrdersModule.Dialogs
         public EmployeeModel SelectedEmployee
         {
             get { return _selectedEmployee; }
-            set { SetProperty(ref _selectedEmployee, value); }
+            set
+            {
+                SetProperty(ref _selectedEmployee, value);
+                GenerateList.RaiseCanExecuteChanged();
+            }
         }
 
         private string _vehicleName;
         public string VehicleName
         {
             get { return _vehicleName; }
-            set { SetProperty(ref _vehicleName, value); }
+            set
+            {
+                SetProperty(ref _vehicleName, value);
+                GenerateList.RaiseCanExecuteChanged();
+            }
         }
 
         private string _vehicleRegistration;
         public string VehicleRegistration
         {
             get { return _vehicleRegistration; }
-            set { SetProperty(ref _vehicleRegistration, value); }
+            set
+            {
+                SetProperty(ref _vehicleRegistration, value);
+                GenerateList.RaiseCanExecuteChanged();
+            }
         }
 
         private DateTime? _startDate;
         public DateTime? StartDate
         {
             get { return _startDate; }
-            set { SetProperty(ref _startDate, value); }
+            set
+            {
+                SetProperty(ref _startDate, value);
+                GenerateList.RaiseCanExecuteChanged();
+            }
         }
 
         private DateTime? _finishDate;
         public DateTime? FinishDate
         {
             get { return _finishDate; }
-            set { SetProperty(ref _finishDate, value); }
+            set
+            {
+                SetProperty(ref _finishDate, value);
+                GenerateList.RaiseCanExecuteChanged();
+            }
         }
 
         private int _startingKilometers;
         public int StartingKilometers
         {
             get { return _startingKilometers; }
-            set { SetProperty(ref _startingKilometers, value); }
+            set
+            {
+                SetProperty(ref _startingKilometers, value);
+                GenerateList.RaiseCanExecuteChanged();
+            }
         }
 
         public bool CanCloseDialog()
@@ -102,6 +126,18 @@ namespace TravelOrdersModule.Dialogs
             Employees = await _employeeEndpoint.GetAll();
         }
 
+        private bool CanGenerate()
+        {
+            return SelectedEmployee != null
+                && VehicleRegistration != null
+                && VehicleName != null
+                && VehicleRegistration != ""
+                && VehicleName != ""
+                && StartDate != null
+                && FinishDate != null
+                && StartingKilometers != 0;
+        }
+
         private void GenerateOrders()
         {
             DateTime futureDate = (DateTime)FinishDate;
@@ -121,8 +157,8 @@ namespace TravelOrdersModule.Dialogs
                         {
                             ZaposlenikId = SelectedEmployee.Id,
                             Datum = startDate,
-                            MarkaVozila = "Osobni 1.9",
-                            Registracija = "ZG123AB",
+                            MarkaVozila = VehicleName,
+                            Registracija = VehicleRegistration,
                             Opis = "Dostava",
                             Relacija = "ZG-ZG-ZG",
                             PocetnoStanje = pocetno,

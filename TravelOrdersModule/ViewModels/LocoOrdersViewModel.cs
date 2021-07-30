@@ -20,13 +20,6 @@ namespace TravelOrdersModule.ViewModels
 
         public DelegateCommand GenerateList { get; private set; }
 
-        private ObservableCollection<LocoOrderModel> _locoOrdersList;
-        public ObservableCollection<LocoOrderModel> LocoOrdersList
-        {
-            get { return _locoOrdersList; }
-            set { SetProperty(ref _locoOrdersList, value); }
-        }
-
         private void GenerateOrders()
         {
             _showDialog.ShowDialog("GeneratorDialog", null, result =>

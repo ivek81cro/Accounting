@@ -75,6 +75,13 @@ namespace TravelOrdersModule.Dialogs
             set { SetProperty(ref _finishDate, value); }
         }
 
+        private int _startingKilometers;
+        public int StartingKilometers
+        {
+            get { return _startingKilometers; }
+            set { SetProperty(ref _startingKilometers, value); }
+        }
+
         public bool CanCloseDialog()
         {
             return true;
@@ -97,10 +104,10 @@ namespace TravelOrdersModule.Dialogs
 
         private void GenerateOrders()
         {
-            DateTime futureDate = new DateTime(2021, 12, 01);
-            DateTime date = new DateTime(2021, 01, 01);
-            int pocetno = 0;
-            int zavrsno = 0;
+            DateTime futureDate = (DateTime)FinishDate;
+            DateTime date = (DateTime)StartDate;
+            int pocetno;
+            int zavrsno = StartingKilometers;
             LocoOrdersList = new();
             for (DateTime startDate = date; startDate < futureDate; startDate = startDate.AddDays(1.0))
             {
@@ -112,6 +119,7 @@ namespace TravelOrdersModule.Dialogs
                     _locoOrdersList.Add(
                         new LocoOrderModel
                         {
+                            ZaposlenikId = SelectedEmployee.Id,
                             Datum = startDate,
                             MarkaVozila = "Osobni 1.9",
                             Registracija = "ZG123AB",

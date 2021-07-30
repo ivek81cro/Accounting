@@ -17,28 +17,11 @@
                 Margin="5" Padding="5" Width="85"
                 Grid.Row="0" Grid.Column="0"/>
         <DataGrid
-            ItemsSource="{Binding LocoOrdersList}"
+            ItemsSource="{Binding }"
             AutoGenerateColumns="False" CanUserAddRows="False"
             CanUserDeleteRows="False"
             Grid.Row="1" Grid.Column="0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Datum" 
-                                    Binding="{Binding Datum, 
-                                              StringFormat=\{0:dd.MM.yyyy\}}"/>
-                <DataGridTextColumn Header="Marka vozila" 
-                                    Binding="{Binding MarkaVozila}"/>
-                <DataGridTextColumn Header="Registracija" 
-                                    Binding="{Binding Registracija}"/>
-                <DataGridTextColumn Header="Početno stanje" 
-                                    Binding="{Binding PocetnoStanje}"/>
-                <DataGridTextColumn Header="Završno stanje" 
-                                    Binding="{Binding ZavrsnoStanje}"/>
-                <DataGridTextColumn Header="Relacija" 
-                                    Binding="{Binding Relacija}"/>
-                <DataGridTextColumn Header="Prijeđeni kilometri" 
-                                    Binding="{Binding PrijedeniKilometri}"/>
-                <DataGridTextColumn Header="Opis"                                  
-                                    Binding="{Binding Opis}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

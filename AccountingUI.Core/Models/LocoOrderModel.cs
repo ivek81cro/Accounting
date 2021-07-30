@@ -12,6 +12,13 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _id, value); }
         }
 
+        private int _zaposlenikId;
+        public int ZaposlenikId
+        {
+            get { return _zaposlenikId; }
+            set { SetProperty(ref _zaposlenikId, value); }
+        }
+
         private DateTime _datum;
         public DateTime Datum
         {
@@ -66,6 +73,13 @@ namespace AccountingUI.Core.Models
         {
             get { return _opis; }
             set { SetProperty(ref _opis, value); }
+        }
+
+        private int _obracunId;
+        public int ObracunId
+        {
+            get { return _obracunId; }
+            set { SetProperty(ref _obracunId, value); }
         }
     }
 }

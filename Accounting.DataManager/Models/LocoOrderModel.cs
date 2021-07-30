@@ -4,22 +4,26 @@ namespace Accounting.DataManager.Models
 {
     public class LocoOrderModel
     {
-        public int Id;
+        public int Id { get; set; }
 
-        public DateTime Datum;
+        public int ZaposlenikId { get; set; }
 
-        public string MarkaVozila;
+        public DateTime Datum { get; set; }
 
-        public string Registracija;
+        public string MarkaVozila { get; set; }
 
-        public int PocetnoStanje;
+        public string Registracija { get; set; }
 
-        public int ZavrsnoStanje;
+        public int PocetnoStanje { get; set; }
 
-        public string Relacija;
+        public int ZavrsnoStanje { get; set; }
 
-        public int PrijedeniKilometri;
+        public string Relacija { get; set; }
 
-        public string Opis;
+        public int PrijedeniKilometri { get; set; }
+
+        public string Opis { get; set; }
+
+        public int ObracunId { get; set; }
     }
 }

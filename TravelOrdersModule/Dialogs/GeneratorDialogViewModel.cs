@@ -106,6 +106,20 @@ namespace TravelOrdersModule.Dialogs
             }
         }
 
+        private decimal _totalKm;
+        public decimal TotalKm
+        {
+            get { return _totalKm; }
+            set { SetProperty(ref _totalKm, value); }
+        }
+
+        private decimal _totalCost;
+        public decimal TotalCost
+        {
+            get { return _totalCost; }
+            set { SetProperty(ref _totalCost, value); }
+        }
+
         public bool CanCloseDialog()
         {
             return true;
@@ -140,6 +154,8 @@ namespace TravelOrdersModule.Dialogs
 
         private void GenerateOrders()
         {
+            TotalKm = 0;
+            TotalCost = 0;
             DateTime futureDate = (DateTime)FinishDate;
             DateTime date = (DateTime)StartDate;
             int pocetno;
@@ -166,8 +182,10 @@ namespace TravelOrdersModule.Dialogs
                             PrijedeniKilometri = random
                         });
                     zavrsno += new Random().Next(10, 20);
+                    TotalKm += random;
                 }
             }
+            TotalCost = TotalKm * 2.0m;
         }
     }
 }

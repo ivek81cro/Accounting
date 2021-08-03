@@ -101,6 +101,17 @@
                 Command="{Binding GenerateList}"
                 Grid.Row="3" Grid.Column="0"/>
 
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="3" Grid.Column="1">
+            <TextBlock Text="Ukupno km: " Margin="5" Padding="5"/>
+            <TextBlock Text="{Binding TotalKm}" Margin="5" Padding="5"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="3" Grid.Column="3">
+            <TextBlock Text="Ukupno KN: " Margin="5" Padding="5"/>
+            <TextBlock Text="{Binding TotalCost, StringFormat=N2}" Margin="5" Padding="5"/>
+        </StackPanel>
+        
         <DataGrid
             ItemsSource="{Binding LocoOrdersList}"
             AutoGenerateColumns="False" CanUserAddRows="False"

@@ -21,6 +21,7 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -55,7 +56,7 @@
 
         <TextBlock Text="Vozilo:" Margin="5" Padding="5"
                    Grid.Row="0" Grid.Column="2"/>
-        <TextBox Text="{Binding VehicleName}" Margin="5" Padding="5"
+        <TextBox Text="{Binding VehicleMake}" Margin="5" Padding="5"
                  MinWidth="150"
                  Grid.Row="0" Grid.Column="3"/>
 
@@ -98,7 +99,7 @@
         </DatePicker>
 
         <Button Content="Generiraj" Margin="5" Padding="5" Width="85"
-                Command="{Binding GenerateList}"
+                Command="{Binding GenerateListCommand}"
                 Grid.Row="3" Grid.Column="0"/>
 
         <StackPanel Orientation="Horizontal"
@@ -111,12 +112,15 @@
             <TextBlock Text="Ukupno KN: " Margin="5" Padding="5"/>
             <TextBlock Text="{Binding TotalCost, StringFormat=N2}" Margin="5" Padding="5"/>
         </StackPanel>
+
+        <Button Content="Spremi" Margin="5" Padding="5" Width="85"
+                Command="{Binding SaveOrderCommand}"
+                Grid.Row="4" Grid.Column="0"/>
         
-        <DataGrid
-            ItemsSource="{Binding LocoOrdersList}"
-            AutoGenerateColumns="False" CanUserAddRows="False"
-            CanUserDeleteRows="False" Grid.ColumnSpan="5"
-            Grid.Row="4" Grid.Column="0">
+        <DataGrid ItemsSource="{Binding LocoOrdersList}"
+                  AutoGenerateColumns="False" CanUserAddRows="False"
+                  CanUserDeleteRows="False" Grid.ColumnSpan="5"
+                  Grid.Row="5" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum" 
                                     Binding="{Binding Datum, 

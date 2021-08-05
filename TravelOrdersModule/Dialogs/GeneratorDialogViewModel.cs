@@ -12,19 +12,24 @@ namespace TravelOrdersModule.Dialogs
     public class GeneratorDialogViewModel : BindableBase, IDialogAware
     {
         private readonly IEmployeeEndpoint _employeeEndpoint;
+        private readonly IDialogService _showDialog;
 
-        public GeneratorDialogViewModel(IEmployeeEndpoint employeeEndpoint)
+        public GeneratorDialogViewModel(IEmployeeEndpoint employeeEndpoint,
+                                        IDialogService showDialog)
         {
             _employeeEndpoint = employeeEndpoint;
+            _showDialog = showDialog;
 
-            GenerateList = new DelegateCommand(GenerateOrders, CanGenerate);
+            GenerateListCommand = new DelegateCommand(GenerateOrders, CanGenerate);
+            SaveOrderCommand = new DelegateCommand(SaveOrder, CanSave);
         }
 
         public string Title => "Generiranje naloga";
 
         public event Action<IDialogResult> RequestClose;
 
-        public DelegateCommand GenerateList { get; private set; }
+        public DelegateCommand GenerateListCommand { get; private set; }
+        public DelegateCommand SaveOrderCommand { get; private set; }
 
         private ObservableCollection<LocoOrderModel> _locoOrdersList;
         public ObservableCollection<LocoOrderModel> LocoOrdersList
@@ -47,18 +52,18 @@ namespace TravelOrdersModule.Dialogs
             set
             {
                 SetProperty(ref _selectedEmployee, value);
-                GenerateList.RaiseCanExecuteChanged();
+                GenerateListCommand.RaiseCanExecuteChanged();
             }
         }
 
-        private string _vehicleName;
-        public string VehicleName
+        private string _vehicleMake;
+        public string VehicleMake
         {
-            get { return _vehicleName; }
+            get { return _vehicleMake; }
             set
             {
-                SetProperty(ref _vehicleName, value);
-                GenerateList.RaiseCanExecuteChanged();
+                SetProperty(ref _vehicleMake, value);
+                GenerateListCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -69,7 +74,7 @@ namespace TravelOrdersModule.Dialogs
             set
             {
                 SetProperty(ref _vehicleRegistration, value);
-                GenerateList.RaiseCanExecuteChanged();
+                GenerateListCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -80,7 +85,7 @@ namespace TravelOrdersModule.Dialogs
             set
             {
                 SetProperty(ref _startDate, value);
-                GenerateList.RaiseCanExecuteChanged();
+                GenerateListCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -91,7 +96,7 @@ namespace TravelOrdersModule.Dialogs
             set
             {
                 SetProperty(ref _finishDate, value);
-                GenerateList.RaiseCanExecuteChanged();
+                GenerateListCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -102,7 +107,7 @@ namespace TravelOrdersModule.Dialogs
             set
             {
                 SetProperty(ref _startingKilometers, value);
-                GenerateList.RaiseCanExecuteChanged();
+                GenerateListCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -113,11 +118,11 @@ namespace TravelOrdersModule.Dialogs
             set { SetProperty(ref _totalKm, value); }
         }
 
-        private decimal _totalCost;
-        public decimal TotalCost
+        private LocoCalculationModel _calculation;
+        public LocoCalculationModel Calculation
         {
-            get { return _totalCost; }
-            set { SetProperty(ref _totalCost, value); }
+            get { return _calculation; }
+            set { SetProperty(ref _calculation, value); }
         }
 
         public bool CanCloseDialog()
@@ -144,9 +149,9 @@ namespace TravelOrdersModule.Dialogs
         {
             return SelectedEmployee != null
                 && VehicleRegistration != null
-                && VehicleName != null
+                && VehicleMake != null
                 && VehicleRegistration != ""
-                && VehicleName != ""
+                && VehicleMake != ""
                 && StartDate != null
                 && FinishDate != null
                 && StartingKilometers != 0;
@@ -155,7 +160,7 @@ namespace TravelOrdersModule.Dialogs
         private void GenerateOrders()
         {
             TotalKm = 0;
-            TotalCost = 0;
+            decimal totalCost = 0;
             DateTime futureDate = (DateTime)FinishDate;
             DateTime date = (DateTime)StartDate;
             int pocetno;
@@ -171,21 +176,46 @@ namespace TravelOrdersModule.Dialogs
                     _locoOrdersList.Add(
                         new LocoOrderModel
                         {
-                            ZaposlenikId = SelectedEmployee.Id,
-                            Datum = startDate,
-                            MarkaVozila = VehicleName,
-                            Registracija = VehicleRegistration,
-                            Opis = "Dostava",
-                            Relacija = "ZG-ZG-ZG",
-                            PocetnoStanje = pocetno,
-                            ZavrsnoStanje = zavrsno,
-                            PrijedeniKilometri = random
+                            Date = startDate,
+                            Description = "Dostava",
+                            Destination = "ZG-ZG-ZG",
+                            StartingKm = pocetno,
+                            FinishKm = zavrsno,
+                            TotalDistance = random
                         });
                     zavrsno += new Random().Next(10, 20);
                     TotalKm += random;
                 }
             }
-            TotalCost = TotalKm * 2.0m;
+            totalCost = TotalKm * 2.0m;
+
+            Calculation = new LocoCalculationModel
+            {
+                EmployeeId = SelectedEmployee.Id,
+                TotalCost = totalCost,
+                VehicleMake = _vehicleMake,
+                VehicleRegistration = _vehicleRegistration
+            };
+
+            SaveOrderCommand.RaiseCanExecuteChanged();
+        }
+
+        private bool CanSave()
+        {
+            return Calculation != null && LocoOrdersList.Count > 0;
+        }
+
+        private void SaveOrder()
+        {
+            DialogParameters param = new DialogParameters();
+            param.Add("calculation", Calculation);
+            _showDialog.ShowDialog("SaveLocoOrderDialog", param, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
         }
     }
 }

@@ -12,74 +12,53 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _id, value); }
         }
 
-        private int _zaposlenikId;
-        public int ZaposlenikId
+        private DateTime _date;
+        public DateTime Date
         {
-            get { return _zaposlenikId; }
-            set { SetProperty(ref _zaposlenikId, value); }
+            get { return _date; }
+            set { SetProperty(ref _date, value); }
         }
 
-        private DateTime _datum;
-        public DateTime Datum
+        private int _startingKm;
+        public int StartingKm
         {
-            get { return _datum; }
-            set { SetProperty(ref _datum, value); }
+            get { return _startingKm; }
+            set { SetProperty(ref _startingKm, value); }
         }
 
-        private string _markaVozila;
-        public string MarkaVozila
+        private int _finishKm;
+        public int FinishKm
         {
-            get { return _markaVozila; }
-            set { SetProperty(ref _markaVozila, value); }
+            get { return _finishKm; }
+            set { SetProperty(ref _finishKm, value); }
         }
 
-        private string _registracija;
-        public string Registracija
+        private string _destination;
+        public string Destination
         {
-            get { return _registracija; }
-            set { SetProperty(ref _registracija, value); }
+            get { return _destination; }
+            set { SetProperty(ref _destination, value); }
         }
 
-        private int _pocetnoStanje;
-        public int PocetnoStanje
+        private int _totalDistance;
+        public int TotalDistance
         {
-            get { return _pocetnoStanje; }
-            set { SetProperty(ref _pocetnoStanje, value); }
+            get { return _totalDistance; }
+            set { SetProperty(ref _totalDistance, value); }
         }
 
-        private int _zavrsnoStanje;
-        public int ZavrsnoStanje
+        private string _description;
+        public string Description
         {
-            get { return _zavrsnoStanje; }
-            set { SetProperty(ref _zavrsnoStanje, value); }
+            get { return _description; }
+            set { SetProperty(ref _description, value); }
         }
 
-        private string _relacija;
-        public string Relacija
+        private int _calculationId;
+        public int CalculationId
         {
-            get { return _relacija; }
-            set { SetProperty(ref _relacija, value); }
-        }
-
-        private int _prijedeniKilometri;
-        public int PrijedeniKilometri
-        {
-            get { return _prijedeniKilometri; }
-            set { SetProperty(ref _prijedeniKilometri, value); }
-        }
-
-        private string _opis;
-        public string Opis
-        {
-            get { return _opis; }
-            set { SetProperty(ref _opis, value); }
-        }
-
-        private int _obracunId;
-        public int ObracunId
-        {
-            get { return _obracunId; }
-            set { SetProperty(ref _obracunId, value); }
+            get { return _calculationId; }
+            set { SetProperty(ref _calculationId, value); }
         }
     }
 }

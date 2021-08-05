@@ -15,6 +15,7 @@ namespace TravelOrdersModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterDialog<GeneratorDialog>();
+            containerRegistry.RegisterDialog<SaveLocoOrderDialog>();
 
             containerRegistry.RegisterForNavigation<TravelOrdersView>();
             containerRegistry.RegisterForNavigation<LocoOrdersView>();

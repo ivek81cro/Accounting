@@ -6,24 +6,18 @@ namespace Accounting.DataManager.Models
     {
         public int Id { get; set; }
 
-        public int ZaposlenikId { get; set; }
+        public DateTime Date { get; set; }
 
-        public DateTime Datum { get; set; }
+        public int StartingKm { get; set; }
 
-        public string MarkaVozila { get; set; }
+        public int FinishKm { get; set; }
 
-        public string Registracija { get; set; }
+        public string Destination { get; set; }
 
-        public int PocetnoStanje { get; set; }
+        public int TotalDistance { get; set; }
 
-        public int ZavrsnoStanje { get; set; }
+        public string Description { get; set; }
 
-        public string Relacija { get; set; }
-
-        public int PrijedeniKilometri { get; set; }
-
-        public string Opis { get; set; }
-
-        public int ObracunId { get; set; }
+        public int CalculationId { get; set; }
     }
 }

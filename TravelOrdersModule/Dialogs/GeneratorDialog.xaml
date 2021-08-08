@@ -110,7 +110,8 @@
         <StackPanel Orientation="Horizontal"
                     Grid.Row="3" Grid.Column="3">
             <TextBlock Text="Ukupno KN: " Margin="5" Padding="5"/>
-            <TextBlock Text="{Binding TotalCost, StringFormat=N2}" Margin="5" Padding="5"/>
+            <TextBlock Text="{Binding Calculation.TotalCost, StringFormat=N2}" 
+                       Margin="5" Padding="5"/>
         </StackPanel>
 
         <Button Content="Spremi" Margin="5" Padding="5" Width="85"
@@ -123,22 +124,18 @@
                   Grid.Row="5" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum" 
-                                    Binding="{Binding Datum, 
+                                    Binding="{Binding Date, 
                                               StringFormat=\{0:dd.MM.yyyy\}}"/>
-                <DataGridTextColumn Header="Marka vozila" 
-                                    Binding="{Binding MarkaVozila}"/>
-                <DataGridTextColumn Header="Registracija" 
-                                    Binding="{Binding Registracija}"/>
                 <DataGridTextColumn Header="Početno stanje" 
-                                    Binding="{Binding PocetnoStanje}"/>
+                                    Binding="{Binding StartingKm}"/>
                 <DataGridTextColumn Header="Završno stanje" 
-                                    Binding="{Binding ZavrsnoStanje}"/>
+                                    Binding="{Binding FinishKm}"/>
                 <DataGridTextColumn Header="Relacija" 
-                                    Binding="{Binding Relacija}"/>
+                                    Binding="{Binding Destination}"/>
                 <DataGridTextColumn Header="Prijeđeni kilometri" 
-                                    Binding="{Binding PrijedeniKilometri}"/>
+                                    Binding="{Binding TotalDistance}"/>
                 <DataGridTextColumn Header="Opis"                                  
-                                    Binding="{Binding Opis}"/>
+                                    Binding="{Binding Description}"/>
             </DataGrid.Columns>
         </DataGrid>
 

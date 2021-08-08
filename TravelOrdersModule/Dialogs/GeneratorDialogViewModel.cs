@@ -6,6 +6,7 @@ using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace TravelOrdersModule.Dialogs
 {
@@ -209,6 +210,7 @@ namespace TravelOrdersModule.Dialogs
         {
             DialogParameters param = new DialogParameters();
             param.Add("calculation", Calculation);
+            param.Add("orders", LocoOrdersList.ToList());
             _showDialog.ShowDialog("SaveLocoOrderDialog", param, result =>
             {
                 if (result.Result == ButtonResult.OK)

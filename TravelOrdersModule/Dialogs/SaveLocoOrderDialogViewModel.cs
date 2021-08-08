@@ -1,15 +1,22 @@
 ﻿using AccountingUI.Core.Models;
+using AccountingUI.Core.Services;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TravelOrdersModule.Dialogs
 {
     public class SaveLocoOrderDialogViewModel : BindableBase, IDialogAware
     {
-        public SaveLocoOrderDialogViewModel()
+        private readonly ITravelOrdersEndpoint _travelOrdersEndpoint;
+
+        public SaveLocoOrderDialogViewModel(ITravelOrdersEndpoint travelOrdersEndpoint)
         {
+            _travelOrdersEndpoint = travelOrdersEndpoint;
+
             SaveOrderCommand = new DelegateCommand(SaveOrder, CanSave);
         }
 
@@ -41,6 +48,13 @@ namespace TravelOrdersModule.Dialogs
             }
         }
 
+        private List<LocoOrderModel> _locoOrders;
+        public List<LocoOrderModel> LocoOrders
+        {
+            get { return _locoOrders; }
+            set { SetProperty(ref _locoOrders, value); }
+        }
+
         private LocoCalculationModel _locoCalculation;
         public LocoCalculationModel LocoCalculation
         {
@@ -61,6 +75,8 @@ namespace TravelOrdersModule.Dialogs
         public void OnDialogOpened(IDialogParameters parameters)
         {
             LocoCalculation = parameters.GetValue<LocoCalculationModel>("calculation");
+            LocoOrders = new();
+            LocoOrders = parameters.GetValue<List<LocoOrderModel>>("orders");
         }
 
         private bool CanSave()
@@ -68,10 +84,23 @@ namespace TravelOrdersModule.Dialogs
             return PaymentDate != null && CalculationDate != null;
         }
 
-        private void SaveOrder()
+        private async void SaveOrder()
         {
-            //Save to database
-            //Close dialog
+            LocoCalculation.DateOfCalculation = CalculationDate;
+            LocoCalculation.DateOfPayment = PaymentDate;
+            TravelOrdersLocoModel order = new TravelOrdersLocoModel
+            {
+                LocoCalculation = LocoCalculation,
+                LocoOrders = LocoOrders
+            };
+
+            bool isPosted = await _travelOrdersEndpoint.PostLocoTravel(order);
+            if (isPosted)
+            {
+                var result = ButtonResult.OK;
+                var p = new DialogParameters();
+                RequestClose?.Invoke(new DialogResult(result, p));
+            }
         }
     }
 }

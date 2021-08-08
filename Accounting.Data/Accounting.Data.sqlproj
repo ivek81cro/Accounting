@@ -222,6 +222,10 @@
     <Build Include="dbo\Stored Procedures\Payroll\spPayrollSupplementEmployee_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Payroll\spSuppEmp_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\VatArchive\spVatArchive_CalculateForPeriod.sql" />
+    <Build Include="dbo\Tables\LocoOrder.sql" />
+    <Build Include="dbo\Tables\LocoCalculation.sql" />
+    <Build Include="dbo\Stored Procedures\spLocoTravelCalc_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\spLocoTravelOrders_Insert.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

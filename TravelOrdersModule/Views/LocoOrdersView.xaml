@@ -17,11 +17,22 @@
                 Margin="5" Padding="5" Width="85"
                 Grid.Row="0" Grid.Column="0"/>
         <DataGrid
-            ItemsSource="{Binding }"
+            ItemsSource="{Binding LocoCalculationsList}"
             AutoGenerateColumns="False" CanUserAddRows="False"
-            CanUserDeleteRows="False"
+            CanUserDeleteRows="False" IsReadOnly="True"
             Grid.Row="1" Grid.Column="0">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Broj obračuna" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="OIB" Binding="{Binding EmployeeOib}"/>
+                <DataGridTextColumn Header="Ime i prezime" Binding="{Binding EmployeeName}"/>
+                <DataGridTextColumn Header="Marka vozila" Binding="{Binding VehicleMake}"/>
+                <DataGridTextColumn Header="Registracija vozila" Binding="{Binding VehicleRegistration}"/>
+                <DataGridTextColumn Header="Iznos" Binding="{Binding TotalCost, StringFormat=N2}"/>
+                <DataGridTextColumn Header="Datum obračuna" Binding="{Binding DateOfCalculation, 
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridTextColumn Header="Datum isplate" Binding="{Binding DateOfPayment, 
+                                    StringFormat=\{0:dd.MM.yyyy\}}"/>
+                <DataGridCheckBoxColumn Header="Knjiženo" Binding="{Binding Processed}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -45,5 +45,21 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public List<LocoCalculationModel> GetLocoCalculations()
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+                var output = _sql.LoadDataInTransaction<LocoCalculationModel, dynamic>("dbo.spLocoTravelOrders_GetAll", new { });
+
+                return output;
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

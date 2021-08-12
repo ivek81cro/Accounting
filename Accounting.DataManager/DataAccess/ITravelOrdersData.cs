@@ -7,5 +7,6 @@ namespace Accounting.DataManager.DataAccess
     {
         int InsertLocoCalculation(LocoCalculationModel locoCalculation);
         void InsertLocoOrders(List<LocoOrderModel> locoOrders);
+        List<LocoCalculationModel> GetLocoCalculations();
     }
 }

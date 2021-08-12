@@ -53,5 +53,12 @@ namespace AccountingUI.Core.Models
             get { return _totalCost; }
             set { SetProperty(ref _totalCost, value); }
         }
+
+        private bool _processed;
+        public bool Processed
+        {
+            get { return _processed; }
+            set { SetProperty(ref _processed, value); }
+        }
     }
 }

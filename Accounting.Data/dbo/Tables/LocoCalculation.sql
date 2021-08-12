@@ -6,5 +6,6 @@
     [VehicleRegistration] NVARCHAR(255) NOT NULL,
     [DateOfCalculation] DATETIME2(7) NOT NULL,
     [DateOfPayment] DATETIME2(7) NOT NULL,
-    [TotalCost] DECIMAL(9,2) NOT NULL
+    [TotalCost] DECIMAL(9,2) NOT NULL, 
+    [Processed] BIT NOT NULL
 )

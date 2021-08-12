@@ -17,5 +17,7 @@ namespace Accounting.DataManager.Models
         public DateTime? DateOfPayment { get; set; }
 
         public decimal TotalCost { get; set; }
+
+        public bool Processed { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Service;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -27,6 +28,22 @@ namespace AccountingUI.Core.Services
                 {
                     var error = response.ReasonPhrase;
                     return false;
+                }
+            }
+        }
+
+        public async Task<List<LocoCalculationModel>> GetLocoCalculations()
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync("/api/TravelOrders/LocoTravel"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<LocoCalculationModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
                 }
             }
         }

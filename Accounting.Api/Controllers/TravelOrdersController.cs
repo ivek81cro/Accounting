@@ -2,6 +2,7 @@
 using Accounting.DataManager.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Accounting.Api.Controllers
 {
@@ -30,6 +31,12 @@ namespace Accounting.Api.Controllers
                 }
                 _data.InsertLocoOrders(locoTravel.LocoOrders);
             }
+        }
+
+        [HttpGet("LocoTravel/")]
+        public List<LocoCalculationModel> Get()
+        {
+            return _data.GetLocoCalculations();
         }
     }
 }

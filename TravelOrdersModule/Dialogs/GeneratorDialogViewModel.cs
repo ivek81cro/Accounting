@@ -23,6 +23,7 @@ namespace TravelOrdersModule.Dialogs
 
             GenerateListCommand = new DelegateCommand(GenerateOrders, CanGenerate);
             SaveOrderCommand = new DelegateCommand(SaveOrder, CanSave);
+            CellValueChanged = new DelegateCommand(CellChanged);
         }
 
         public string Title => "Generiranje naloga";
@@ -31,8 +32,9 @@ namespace TravelOrdersModule.Dialogs
 
         public DelegateCommand GenerateListCommand { get; private set; }
         public DelegateCommand SaveOrderCommand { get; private set; }
+        public DelegateCommand CellValueChanged { get; private set; }
 
-        private ObservableCollection<LocoOrderModel> _locoOrdersList;
+        private ObservableCollection<LocoOrderModel> _locoOrdersList = new();
         public ObservableCollection<LocoOrderModel> LocoOrdersList
         {
             get { return _locoOrdersList; }
@@ -146,6 +148,18 @@ namespace TravelOrdersModule.Dialogs
             Employees = await _employeeEndpoint.GetAll();
         }
 
+        private void CellChanged()
+        {
+            SumTotal();
+            GenerateListCommand.RaiseCanExecuteChanged();
+        }
+
+        private void SumTotal()
+        {
+            TotalKm = LocoOrdersList.Sum(x => x.TotalDistance);
+            Calculation.TotalCost = TotalKm * 2.0m;
+        }
+
         private bool CanGenerate()
         {
             return SelectedEmployee != null
@@ -155,13 +169,13 @@ namespace TravelOrdersModule.Dialogs
                 && VehicleMake != ""
                 && StartDate != null
                 && FinishDate != null
-                && StartingKilometers != 0;
+                && StartingKilometers != 0
+                && LocoOrdersList.Count == 0;
         }
 
         private void GenerateOrders()
         {
             TotalKm = 0;
-            decimal totalCost = 0;
             DateTime futureDate = (DateTime)FinishDate;
             DateTime date = (DateTime)StartDate;
             int pocetno;
@@ -188,7 +202,7 @@ namespace TravelOrdersModule.Dialogs
                     TotalKm += random;
                 }
             }
-            totalCost = TotalKm * 2.0m;
+            decimal totalCost = TotalKm * 2.0m;
 
             Calculation = new LocoCalculationModel
             {

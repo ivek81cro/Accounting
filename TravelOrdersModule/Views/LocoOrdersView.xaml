@@ -7,20 +7,48 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <StackPanel Orientation="Horizontal" Margin="0"
+                    Grid.Row="0" Grid.Column="0">
+            <Button Height="60" Width="60" Margin="10 5 5 5" Command="{Binding NewOrderCommand}">
+                <StackPanel>
+                    <Image Source="pack://application:,,,/Images/add.png" Height="30"/>
+                    <TextBlock Text="Novi"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Command="{Binding EditOrderCommand}"
+                    Margin="5">
+                <StackPanel>
+                    <Image Source="pack://application:,,,/Images/edit.png" Height="30"/>
+                    <TextBlock Text="Uredi"/>
+                </StackPanel>
+            </Button>
+            <Button Height="60" Width="60" Command="{Binding DeleteOrderCommand}"
+                    Margin="5">
+                <StackPanel>
+                    <Image Source="pack://application:,,,/Images/delete.png" Height="30"/>
+                    <TextBlock Text="Briši"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
         <Button Content="Generiraj" Command="{Binding GenerateList}"
-                Margin="5" Padding="5" Width="85"
-                Grid.Row="0" Grid.Column="0"/>
+                Margin="5" Padding="5" Width="85" HorizontalAlignment="Left"
+                Grid.Row="1" Grid.Column="0"/>
         <DataGrid
             ItemsSource="{Binding LocoCalculationsList}"
+            SelectedItem="{Binding SelectedCalculation}"
             AutoGenerateColumns="False" CanUserAddRows="False"
             CanUserDeleteRows="False" IsReadOnly="True"
-            Grid.Row="1" Grid.Column="0">
+            Grid.Row="4" Grid.Column="0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Broj obračuna" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="OIB" Binding="{Binding EmployeeOib}"/>

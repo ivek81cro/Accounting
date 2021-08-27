@@ -4,6 +4,7 @@
              xmlns:h="clr-namespace:AccountingUI.Core.Helpers;assembly=AccountingUI.Core"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:TravelOrdersModule.Dialogs"
              xmlns:prism="http://prismlibrary.com/">
     <prism:Dialog.WindowStyle>
@@ -17,6 +18,7 @@
     </prism:Dialog.WindowStyle>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
@@ -117,11 +119,16 @@
         <Button Content="Spremi" Margin="5" Padding="5" Width="85"
                 Command="{Binding SaveOrderCommand}"
                 Grid.Row="4" Grid.Column="0"/>
-        
+
         <DataGrid ItemsSource="{Binding LocoOrdersList}"
-                  AutoGenerateColumns="False" CanUserAddRows="False"
-                  CanUserDeleteRows="False" Grid.ColumnSpan="5"
-                  Grid.Row="5" Grid.Column="0">
+                  AutoGenerateColumns="False" CanUserAddRows="True"
+                  CanUserDeleteRows="True" Grid.ColumnSpan="5"
+                  Grid.Row="6" Grid.Column="0">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CellEditEnding">
+                    <i:InvokeCommandAction Command="{Binding CellValueChanged}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Datum" 
                                     Binding="{Binding Date, 
@@ -133,7 +140,8 @@
                 <DataGridTextColumn Header="Relacija" 
                                     Binding="{Binding Destination}"/>
                 <DataGridTextColumn Header="Prijeđeni kilometri" 
-                                    Binding="{Binding TotalDistance}"/>
+                                    Binding="{Binding TotalDistance, 
+                                              UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Opis"                                  
                                     Binding="{Binding Description}"/>
             </DataGrid.Columns>

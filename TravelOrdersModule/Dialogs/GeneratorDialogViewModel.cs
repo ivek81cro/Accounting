@@ -155,6 +155,13 @@ namespace TravelOrdersModule.Dialogs
         {
             var list = await _travelOrdersEndpoint.GetLocoOrders(Calculation.Id);
             LocoOrdersList = new ObservableCollection<LocoOrderModel>(list);
+            VehicleMake = Calculation.VehicleMake;
+            VehicleRegistration = Calculation.VehicleRegistration;
+            SelectedEmployee = Employees.FirstOrDefault(x => x.Id == Calculation.EmployeeId);
+            StartingKilometers = list.FirstOrDefault().StartingKm;
+            StartDate = list.FirstOrDefault().Date;
+            FinishDate = list[^1].Date;
+            CellChanged();
         }
 
         private async void LoadEmployees()

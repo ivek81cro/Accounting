@@ -12,14 +12,17 @@ namespace TravelOrdersModule.Dialogs
 {
     public class GeneratorDialogViewModel : BindableBase, IDialogAware
     {
-        private readonly IEmployeeEndpoint _employeeEndpoint;
+        private readonly IEmployeeEndpoint _employeeEndpoint; 
+        private readonly ITravelOrdersEndpoint _travelOrdersEndpoint;
         private readonly IDialogService _showDialog;
 
         public GeneratorDialogViewModel(IEmployeeEndpoint employeeEndpoint,
-                                        IDialogService showDialog)
+                                        IDialogService showDialog,
+                                        ITravelOrdersEndpoint travelOrdersEndpoint)
         {
             _employeeEndpoint = employeeEndpoint;
             _showDialog = showDialog;
+            _travelOrdersEndpoint = travelOrdersEndpoint;
 
             GenerateListCommand = new DelegateCommand(GenerateOrders, CanGenerate);
             SaveOrderCommand = new DelegateCommand(SaveOrder, CanSave);
@@ -140,7 +143,18 @@ namespace TravelOrdersModule.Dialogs
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+            if (parameters.Count != 0)
+            {
+                Calculation = parameters.GetValue<LocoCalculationModel>("orderCalc");
+                GetLocoOrders();
+            }
             LoadEmployees();
+        }
+
+        private async void GetLocoOrders()
+        {
+            var list = await _travelOrdersEndpoint.GetLocoOrders(Calculation.Id);
+            LocoOrdersList = new ObservableCollection<LocoOrderModel>(list);
         }
 
         private async void LoadEmployees()

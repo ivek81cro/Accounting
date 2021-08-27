@@ -26,7 +26,7 @@ namespace TravelOrdersModule.ViewModels
             _employeeEndpoint = employeeEndpoint;
 
             GenerateList = new DelegateCommand(GenerateOrders);
-            GenerateList = new DelegateCommand(EditOrder, CanEditOrder);
+            EditOrderCommand = new DelegateCommand(EditOrder, CanEditOrder);
 
             InitialDataLoad();
         }
@@ -52,7 +52,11 @@ namespace TravelOrdersModule.ViewModels
         public LocoCalculationModel SelectedCalculation
         {
             get { return _selectedCalculation; }
-            set { SetProperty(ref _selectedCalculation, value); }
+            set 
+            { 
+                SetProperty(ref _selectedCalculation, value);
+                EditOrderCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private async void InitialDataLoad()
@@ -81,7 +85,13 @@ namespace TravelOrdersModule.ViewModels
 
         private void GenerateOrders()
         {
-            _showDialog.ShowDialog("GeneratorDialog", null, result =>
+            DialogParameters param = new DialogParameters();
+            if (SelectedCalculation != null)
+            {
+                param.Add("orderCalc", SelectedCalculation);
+            }
+
+            _showDialog.ShowDialog("GeneratorDialog", param, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {
@@ -97,7 +107,7 @@ namespace TravelOrdersModule.ViewModels
 
         private void EditOrder()
         {
-
+            GenerateOrders();
         }
     }
 }

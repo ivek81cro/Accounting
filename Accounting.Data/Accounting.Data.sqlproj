@@ -227,6 +227,7 @@
     <Build Include="dbo\Stored Procedures\spLocoTravelCalc_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spLocoTravelOrders_Insert.sql" />
     <Build Include="dbo\Stored Procedures\spLocoTravelOrders_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\spLocoOrders_GetAll.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

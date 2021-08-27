@@ -47,5 +47,21 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<List<LocoOrderModel>> GetLocoOrders(int id)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/TravelOrders/LocoOrders/{id}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<LocoOrderModel>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

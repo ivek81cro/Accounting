@@ -38,5 +38,12 @@ namespace Accounting.Api.Controllers
         {
             return _data.GetLocoCalculations();
         }
+
+        [HttpGet("LocoOrders/{Id}")]
+        public List<LocoOrderModel> Get(int id)
+        {
+            return _data.GetLocoOrders(id);
+        }
+
     }
 }

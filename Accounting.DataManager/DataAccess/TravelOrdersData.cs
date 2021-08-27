@@ -61,5 +61,21 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public List<LocoOrderModel> GetLocoOrders(int id)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+                var output = _sql.LoadDataInTransaction<LocoOrderModel, dynamic>("dbo.spLocoOrders_GetAll", new { Id = id });
+
+                return output;
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

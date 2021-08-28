@@ -143,7 +143,7 @@ namespace PayrollModule.ViewModels
                 Filter = "XML file|*.xml",
                 Title = "Spremi XML datoteku"
             };
-            Nullable<bool> result = sfd.ShowDialog();
+            bool? result = sfd.ShowDialog();
             string path;
             if (result != null && result == true)
             {

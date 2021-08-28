@@ -63,5 +63,20 @@ namespace AccountingUI.Core.Services
                 }
             }
         }
+
+        public async Task<bool> DeleteOrder(int id)
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.DeleteAsync($"/api/TravelOrders/LocoOrders/{id}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
     }
 }

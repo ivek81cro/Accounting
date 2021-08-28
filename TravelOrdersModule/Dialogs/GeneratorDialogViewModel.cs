@@ -143,12 +143,12 @@ namespace TravelOrdersModule.Dialogs
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+            LoadEmployees();
             if (parameters.Count != 0)
             {
                 Calculation = parameters.GetValue<LocoCalculationModel>("orderCalc");
                 GetLocoOrders();
             }
-            LoadEmployees();
         }
 
         private async void GetLocoOrders()
@@ -157,7 +157,7 @@ namespace TravelOrdersModule.Dialogs
             LocoOrdersList = new ObservableCollection<LocoOrderModel>(list);
             VehicleMake = Calculation.VehicleMake;
             VehicleRegistration = Calculation.VehicleRegistration;
-            SelectedEmployee = Employees.FirstOrDefault(x => x.Id == Calculation.EmployeeId);
+            SelectedEmployee = Employees.FirstOrDefault(x => x.Oib == Calculation.EmployeeOib);
             StartingKilometers = list.FirstOrDefault().StartingKm;
             StartDate = list.FirstOrDefault().Date;
             FinishDate = list[^1].Date;
@@ -227,7 +227,8 @@ namespace TravelOrdersModule.Dialogs
 
             Calculation = new LocoCalculationModel
             {
-                EmployeeId = SelectedEmployee.Id,
+                EmployeeName = SelectedEmployee.Ime,
+                EmployeeOib = SelectedEmployee.Oib,
                 TotalCost = totalCost,
                 VehicleMake = _vehicleMake,
                 VehicleRegistration = _vehicleRegistration
@@ -238,6 +239,7 @@ namespace TravelOrdersModule.Dialogs
 
         private bool CanSave()
         {
+            //TODO: Resolve update calculation
             return Calculation != null && LocoOrdersList.Count > 0;
         }
 

@@ -6,7 +6,9 @@ namespace Accounting.DataManager.Models
     {
         public int Id { get; set; }
 
-        public int EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        
+        public string EmployeeOib { get; set; }
 
         public string VehicleMake { get; set; }
 

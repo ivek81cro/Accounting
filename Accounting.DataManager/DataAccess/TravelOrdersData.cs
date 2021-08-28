@@ -77,5 +77,20 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void DeleteLocoOrders(int id)
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                _sql.LoadDataInTransaction<LocoCalculationModel, dynamic>("dbo.spLocoOrders_Delete", new { Id = id });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

@@ -3,6 +3,6 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT Id, EmployeeId, VehicleMake, VehicleRegistration, DateOfCalculation, DateOfPayment, TotalCost, Processed
+	SELECT Id, EmployeeName, EmployeeOib, VehicleMake, VehicleRegistration, DateOfCalculation, DateOfPayment, TotalCost, Processed
 	FROM LocoCalculation;
 END

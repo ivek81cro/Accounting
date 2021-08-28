@@ -1,7 +1,8 @@
 ﻿CREATE TABLE [dbo].[LocoCalculation]
 (
 	[Id] INT NOT NULL IDENTITY,
-    [EmployeeId] INT NOT NULL,
+    [EmployeeName] NVARCHAR(255) NOT NULL,
+    [EmployeeOib] NVARCHAR(11) NOT NULL,
     [VehicleMake] NVARCHAR(255) NOT NULL,
     [VehicleRegistration] NVARCHAR(255) NOT NULL,
     [DateOfCalculation] DATETIME2(7) NOT NULL,

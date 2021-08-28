@@ -9,5 +9,6 @@ namespace Accounting.DataManager.DataAccess
         void InsertLocoOrders(List<LocoOrderModel> locoOrders);
         List<LocoCalculationModel> GetLocoCalculations();
         List<LocoOrderModel> GetLocoOrders(int id);
+        void DeleteLocoOrders(int id);
     }
 }

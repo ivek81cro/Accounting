@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[spLocoTravelCalc_Insert]
 @Id INT,
-@EmployeeId INT,
+@EmployeeName NVARCHAR(255),
+@EmployeeOib NVARCHAR(255),
 @VehicleMake NVARCHAR(255),
 @VehicleRegistration NVARCHAR(255),
 @DateOfCalculation DATETIME2(7),
@@ -11,8 +12,8 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO LocoCalculation (EmployeeId, VehicleMake, VehicleRegistration, DateOfCalculation, DateOfPayment, TotalCost, Processed)
-	VALUES (@EmployeeId, @VehicleMake, @VehicleRegistration, @DateOfCalculation, @DateOfPayment, @TotalCost, @Processed);
+	INSERT INTO LocoCalculation (EmployeeName, EmployeeOib, VehicleMake, VehicleRegistration, DateOfCalculation, DateOfPayment, TotalCost, Processed)
+	VALUES (@EmployeeName, @EmployeeOib, @VehicleMake, @VehicleRegistration, @DateOfCalculation, @DateOfPayment, @TotalCost, @Processed);
 
 	SELECT TOP 1 Id FROM LocoCalculation ORDER BY Id DESC;
 END

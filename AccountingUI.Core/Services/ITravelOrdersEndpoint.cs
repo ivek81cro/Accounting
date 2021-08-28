@@ -9,5 +9,6 @@ namespace AccountingUI.Core.Services
         Task<bool> PostLocoTravel(TravelOrdersLocoModel locoTravelOrder);
         Task<List<LocoCalculationModel>> GetLocoCalculations();
         Task<List<LocoOrderModel>> GetLocoOrders(int id);
+        Task<bool> DeleteOrder(int id);
     }
 }

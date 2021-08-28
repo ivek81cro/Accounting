@@ -12,11 +12,18 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _id, value); }
         }
 
-        private int _employeeId;
-        public int EmployeeId
+        private string _employeeName;
+        public string EmployeeName
         {
-            get { return _employeeId; }
-            set { SetProperty(ref _employeeId, value); }
+            get { return _employeeName; }
+            set { SetProperty(ref _employeeName, value); }
+        }
+
+        private string _employeeOib;
+        public string EmployeeOib
+        {
+            get { return _employeeOib; }
+            set { SetProperty(ref _employeeOib, value); }
         }
 
         private string _vehicleMake;

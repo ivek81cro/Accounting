@@ -3,11 +3,7 @@ using AccountingUI.Core.Services;
 using AccountingUI.Core.TabControlRegion;
 using Prism.Commands;
 using Prism.Services.Dialogs;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using TravelOrdersModule.LocalModel;
 
 namespace TravelOrdersModule.ViewModels
 {
@@ -27,12 +23,14 @@ namespace TravelOrdersModule.ViewModels
 
             GenerateList = new DelegateCommand(GenerateOrders);
             EditOrderCommand = new DelegateCommand(EditOrder, CanEditOrder);
+            DeleteOrderCommand = new DelegateCommand(DeleteOrder, CanDeleteOrder);
 
             InitialDataLoad();
         }
 
         public DelegateCommand GenerateList { get; private set; }
         public DelegateCommand EditOrderCommand { get; private set; }
+        public DelegateCommand DeleteOrderCommand { get; private set; }
 
         private List<LocoCalculationModel> _locoCalculation;
         public List<LocoCalculationModel> LocoCalculation
@@ -41,46 +39,21 @@ namespace TravelOrdersModule.ViewModels
             set { SetProperty(ref _locoCalculation, value); }
         }
 
-        private ObservableCollection<LocoCalculationListModel> _locoCalculationsList = new();
-        public ObservableCollection<LocoCalculationListModel> LocoCalculationsList
-        {
-            get { return _locoCalculationsList; }
-            set { SetProperty(ref _locoCalculationsList, value); }
-        }
-
         private LocoCalculationModel _selectedCalculation;
         public LocoCalculationModel SelectedCalculation
         {
             get { return _selectedCalculation; }
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _selectedCalculation, value);
                 EditOrderCommand.RaiseCanExecuteChanged();
+                DeleteOrderCommand.RaiseCanExecuteChanged();
             }
         }
 
         private async void InitialDataLoad()
         {
             LocoCalculation = await _travelOrdersEndpoint.GetLocoCalculations();
-            var employees = await _employeeEndpoint.GetAll();
-            foreach(var item in LocoCalculation)
-            {
-                var employee = employees.Where(x => x.Id == item.EmployeeId).FirstOrDefault();
-                LocoCalculationsList.Add(
-                    new LocoCalculationListModel
-                    {
-                        EmployeeName = employee.Ime + " " + employee.Prezime,
-                        EmployeeOib = employee.Oib,
-                        EmployeeId = item.EmployeeId,
-                        DateOfCalculation = item.DateOfCalculation,
-                        DateOfPayment = item.DateOfPayment,
-                        Id = item.Id,
-                        Processed = item.Processed,
-                        TotalCost = item.TotalCost,
-                        VehicleMake = item.VehicleMake,
-                        VehicleRegistration = item.VehicleRegistration
-                    });
-            }
         }
 
         private void GenerateOrders()
@@ -95,7 +68,7 @@ namespace TravelOrdersModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-
+                    InitialDataLoad();
                 }
             });
         }
@@ -108,6 +81,20 @@ namespace TravelOrdersModule.ViewModels
         private void EditOrder()
         {
             GenerateOrders();
+        }
+
+        private async void DeleteOrder()
+        {
+            bool result = await _travelOrdersEndpoint.DeleteOrder(SelectedCalculation.Id);
+            if (result)
+            {
+                InitialDataLoad();
+            }
+        }
+
+        private bool CanDeleteOrder()
+        {
+            return SelectedCalculation != null;
         }
     }
 }

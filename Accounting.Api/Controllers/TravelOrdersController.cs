@@ -45,5 +45,11 @@ namespace Accounting.Api.Controllers
             return _data.GetLocoOrders(id);
         }
 
+        [HttpDelete("LocoOrders/{Id}")]
+        public void Delete(int id)
+        {
+            _data.DeleteLocoOrders(id);
+        }
+
     }
 }

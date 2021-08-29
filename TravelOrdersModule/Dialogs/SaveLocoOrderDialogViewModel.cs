@@ -77,6 +77,8 @@ namespace TravelOrdersModule.Dialogs
             LocoCalculation = parameters.GetValue<LocoCalculationModel>("calculation");
             LocoOrders = new();
             LocoOrders = parameters.GetValue<List<LocoOrderModel>>("orders");
+            CalculationDate = LocoCalculation.DateOfCalculation;
+            PaymentDate = LocoCalculation.DateOfPayment;
         }
 
         private bool CanSave()
@@ -88,7 +90,7 @@ namespace TravelOrdersModule.Dialogs
         {
             LocoCalculation.DateOfCalculation = CalculationDate;
             LocoCalculation.DateOfPayment = PaymentDate;
-            TravelOrdersLocoModel order = new TravelOrdersLocoModel
+            TravelOrdersLocoModel order = new()
             {
                 LocoCalculation = LocoCalculation,
                 LocoOrders = LocoOrders

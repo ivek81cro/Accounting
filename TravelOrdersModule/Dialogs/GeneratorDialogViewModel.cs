@@ -41,7 +41,11 @@ namespace TravelOrdersModule.Dialogs
         public ObservableCollection<LocoOrderModel> LocoOrdersList
         {
             get { return _locoOrdersList; }
-            set { SetProperty(ref _locoOrdersList, value); }
+            set
+            {
+                SetProperty(ref _locoOrdersList, value);
+                SaveOrderCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private List<EmployeeModel> _employees = new();

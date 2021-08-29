@@ -11,15 +11,12 @@ namespace TravelOrdersModule.ViewModels
     {
         private readonly IDialogService _showDialog;
         private readonly ITravelOrdersEndpoint _travelOrdersEndpoint;
-        private readonly IEmployeeEndpoint _employeeEndpoint;
 
         public LocoOrdersViewModel(IDialogService showDialog,
-                                   ITravelOrdersEndpoint travelOrdersEndpoint,
-                                   IEmployeeEndpoint employeeEndpoint)
+                                   ITravelOrdersEndpoint travelOrdersEndpoint)
         {
             _showDialog = showDialog;
             _travelOrdersEndpoint = travelOrdersEndpoint;
-            _employeeEndpoint = employeeEndpoint;
 
             GenerateList = new DelegateCommand(GenerateOrders);
             EditOrderCommand = new DelegateCommand(EditOrder, CanEditOrder);
@@ -68,9 +65,10 @@ namespace TravelOrdersModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    InitialDataLoad();
                 }
             });
+            
+            InitialDataLoad();
         }
 
         private bool CanEditOrder()

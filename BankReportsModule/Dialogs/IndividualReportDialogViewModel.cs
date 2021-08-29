@@ -18,6 +18,7 @@ namespace BankkStatementsModule.Dialogs
         private readonly IBankReportEndpoint _bankReportEndpoint;
 
         private readonly string _bookName = "Izvodi";
+        private bool _ifExists = false;
 
         public IndividualReportDialogViewModel(IDialogService showDialog,
                                                IAccountPairsEndpoint accoutPairsEndpoint,
@@ -89,6 +90,13 @@ namespace BankkStatementsModule.Dialogs
             get { return _controlFlag; }
             set { SetProperty(ref _controlFlag, value); }
         }
+
+        private string _message;
+        public string Message
+        {
+            get { return _message; }
+            set { SetProperty(ref _message, value); }
+        }
         #endregion
 
         public bool CanCloseDialog()
@@ -103,6 +111,7 @@ namespace BankkStatementsModule.Dialogs
 
         public void OnDialogOpened(IDialogParameters parameters)
         {
+            _ifExists = parameters.GetValue<bool>("exists");
             ReportHeader = parameters.GetValue<BankReportModel>("header");
             var list =parameters.GetValue<List<BankReportItemModel>>("itemsList");
             ReportItems = new ObservableCollection<BankReportItemModel>(list);
@@ -200,6 +209,16 @@ namespace BankkStatementsModule.Dialogs
 
         private async void SaveReportToDatabase()
         {
+            if (_ifExists) 
+            {
+                Message = "Izvod sa tim rednim brojem već postoji, obrišite postojeći prije učitavanja novog.";
+                return;
+            }
+            else
+            {
+                Message = null;
+            }
+
             bool result = await _bankReportEndpoint.PostHeader(ReportHeader);
             int headerId = 0;
             if (result)
@@ -207,9 +226,9 @@ namespace BankkStatementsModule.Dialogs
                 headerId = await _bankReportEndpoint.GetHeaderId(ReportHeader.RedniBroj);
             }
             //TODO: If report exists, update? replace?
-            if(headerId != 0)
+            if (headerId != 0)
             {
-                foreach(var item in ReportItems)
+                foreach (var item in ReportItems)
                 {
                     item.IdIzvod = headerId;
                 }

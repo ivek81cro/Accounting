@@ -18,7 +18,8 @@
 
         <StackPanel Orientation="Horizontal" Margin="0"
                     Grid.Row="0" Grid.Column="0">
-            <Button Height="60" Width="60" Margin="10 5 5 5" Command="{Binding NewOrderCommand}">
+            <Button Height="60" Width="60" Margin="10 5 5 5" 
+                    Command="{Binding GenerateList}">
                 <StackPanel>
                     <Image Source="pack://application:,,,/Images/add.png" Height="30"/>
                     <TextBlock Text="Novi"/>
@@ -39,10 +40,7 @@
                 </StackPanel>
             </Button>
         </StackPanel>
-
-        <Button Content="Generiraj" Command="{Binding GenerateList}"
-                Margin="5" Padding="5" Width="85" HorizontalAlignment="Left"
-                Grid.Row="1" Grid.Column="0"/>
+        
         <DataGrid
             ItemsSource="{Binding LocoCalculation}"
             SelectedItem="{Binding SelectedCalculation}"

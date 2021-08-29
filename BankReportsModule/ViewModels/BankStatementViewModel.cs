@@ -12,7 +12,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace BankkStatementsModule.ViewModels
@@ -172,9 +171,11 @@ namespace BankkStatementsModule.ViewModels
 
         private void OpenIndividualReportDialog()
         {
+            bool exists = AllHeaders.Where(x => x.RedniBroj == ReportHeader.RedniBroj).Count() > 0;
             var param = new DialogParameters();
             param.Add("header", ReportHeader);
             param.Add("itemsList", ReportItems);
+            param.Add("exists", exists);
             _showDialog.ShowDialog("IndividualReportDialog", param, result =>
             {
                 if (result.Result == ButtonResult.OK)
@@ -255,12 +256,21 @@ namespace BankkStatementsModule.ViewModels
         #region Delete report
         private bool CanDelete()
         {
-            return ReportHeader != null && !ReportHeader.Knjizen;
+            return ReportHeader != null;
         }
 
         private void DeleteReport()
         {
-            _bankReportEndpoint.Delete(ReportHeader.Id);
+            var parameters = new DialogParameters();
+            parameters.Add("message", "Brisanjem izvoda podaci knjiženi na temeljnicu ostaju, napravite ispravak i na temeljnici.\n" +
+                "Želite li svejedno brisati odabrani izvod?");
+            _showDialog.Show("AreYouSureView", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+                    _bankReportEndpoint.Delete(ReportHeader.Id);
+                }
+            });
         }
         #endregion
 

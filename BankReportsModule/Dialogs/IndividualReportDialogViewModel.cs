@@ -225,7 +225,7 @@ namespace BankkStatementsModule.Dialogs
             {
                 headerId = await _bankReportEndpoint.GetHeaderId(ReportHeader.RedniBroj);
             }
-            //TODO: If report exists, update? replace?
+
             if (headerId != 0)
             {
                 foreach (var item in ReportItems)

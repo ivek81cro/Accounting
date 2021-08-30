@@ -23,6 +23,8 @@ namespace BankkStatementsModule.ViewModels
 
         private string _path;
         private string _bookName = "Izvodi";
+        private bool _isDelete = false;
+
         private BankStatementXml _fileXml = new();
 
         public BankStatementViewModel(IDialogService showDialog,
@@ -205,10 +207,11 @@ namespace BankkStatementsModule.ViewModels
         private List<AccountingJournalModel> CreateJournalEntries()
         {
             var entries = new List<AccountingJournalModel>();
+            string isStorno = _isDelete ? "STORNO " : "";
             entries.Add(new AccountingJournalModel
             {
                 Broj = ReportHeader.RedniBroj,
-                Dokument = "Izvod br.:" + ReportHeader.RedniBroj,
+                Dokument = $"{isStorno}Izvod br.:" + ReportHeader.RedniBroj,
                 Datum = ReportHeader.DatumIzvoda,
                 Opis = "Žiro račun: Izvod br. " + ReportHeader.RedniBroj,
                 Konto = "1000",
@@ -222,7 +225,7 @@ namespace BankkStatementsModule.ViewModels
                 entries.Add(new AccountingJournalModel
                 {
                     Broj = ReportHeader.RedniBroj,
-                    Dokument = "Izvod br.:" + ReportHeader.RedniBroj,
+                    Dokument = $"{isStorno}Izvod br.:" + ReportHeader.RedniBroj,
                     Datum = ReportHeader.DatumIzvoda,
                     Opis = entry.Opis,
                     Konto = entry.Konto,
@@ -230,7 +233,7 @@ namespace BankkStatementsModule.ViewModels
                     Potrazna = entry.Potrazna,
                     Valuta = "HRK",
                     VrstaTemeljnice = _bookName
-                });                
+                });
             }
             return entries;
         }
@@ -250,6 +253,7 @@ namespace BankkStatementsModule.ViewModels
                     await _bankReportEndpoint.UpdateHeader(ReportHeader);
                 }
             });
+            LoadReports();
         }
         #endregion
 
@@ -268,6 +272,15 @@ namespace BankkStatementsModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
+                    ReportHeader.SumaDugovna *= -1;
+                    ReportHeader.SumaPotrazna *= -1;
+                    foreach (var entry in ReportItems)
+                    {
+                        entry.Dugovna *= -1.0m;
+                        entry.Potrazna *= -1.0m;
+                    }
+                    _isDelete = true;
+                    ProcessItem();
                     _bankReportEndpoint.Delete(ReportHeader.Id);
                 }
             });

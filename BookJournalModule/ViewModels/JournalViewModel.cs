@@ -216,7 +216,7 @@ namespace BookJournalModule.ViewModels
         #region Processing to main ledger
         private bool CanProcess() => 
             JournalDetails != null && SelectedJournal != null && SelectedJournal.BrojTemeljnice == 0;
-        //TODO: Revise what happens to journal with number 0 when it get's processed (separate table?? delete??) 
+        //TODO: Revise what happens to journal with number 0 when it get's processed (separate table?? delete??)
         private void ProcessJournal()
         {
             _showDialog.ShowDialog(nameof(EnterDateDialog), null, result =>

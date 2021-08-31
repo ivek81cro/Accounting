@@ -54,17 +54,17 @@ namespace BankkStatementsModule.ViewModels
 
         #region Properties
         private BankReportModel _reportHeader;
-        public BankReportModel ReportHeader
+        public BankReportModel SelectedReportHeader
         {
             get { return _reportHeader; }
             set { SetProperty(ref _reportHeader, value); }
         }
 
-        private ObservableCollection<BankReportModel> _allHeaders;
-        public ObservableCollection<BankReportModel> AllHeaders
+        private ObservableCollection<BankReportModel> _reportHeaders;
+        public ObservableCollection<BankReportModel> ReportHeaders
         {
-            get { return _allHeaders; }
-            set { SetProperty(ref _allHeaders, value); }
+            get { return _reportHeaders; }
+            set { SetProperty(ref _reportHeaders, value); }
         }
 
         private List<BankReportItemModel> _reportItems;
@@ -100,7 +100,7 @@ namespace BankkStatementsModule.ViewModels
         public async void LoadReports()
         {
             var list = await _bankReportEndpoint.GetAllHeaders();
-            AllHeaders = new ObservableCollection<BankReportModel>(list);
+            ReportHeaders = new ObservableCollection<BankReportModel>(list);
         }
         #endregion
 
@@ -139,7 +139,7 @@ namespace BankkStatementsModule.ViewModels
 
         private void CreateStatementHeader()
         {
-            ReportHeader = new BankReportModel
+            SelectedReportHeader = new BankReportModel
             {
                 DatumIzvoda = DateTime.ParseExact(_fileXml.Izvod.DatumIzvoda, "yyyyMMdd", CultureInfo.InvariantCulture),
                 RedniBroj = int.Parse(_fileXml.Izvod.RedniBroj),
@@ -173,9 +173,9 @@ namespace BankkStatementsModule.ViewModels
 
         private void OpenIndividualReportDialog()
         {
-            bool exists = AllHeaders.Where(x => x.RedniBroj == ReportHeader.RedniBroj).Count() > 0;
+            bool exists = ReportHeaders.Where(x => x.RedniBroj == SelectedReportHeader.RedniBroj).Count() > 0;
             var param = new DialogParameters();
-            param.Add("header", ReportHeader);
+            param.Add("header", SelectedReportHeader);
             param.Add("itemsList", ReportItems);
             param.Add("exists", exists);
             _showDialog.ShowDialog("IndividualReportDialog", param, result =>
@@ -183,7 +183,7 @@ namespace BankkStatementsModule.ViewModels
                 if (result.Result == ButtonResult.OK)
                 {
                     LoadReports();
-                    ReportHeader = null;
+                    SelectedReportHeader = null;
                     ReportItems = null;
                 }
             });
@@ -193,9 +193,9 @@ namespace BankkStatementsModule.ViewModels
         #region Load selected report details
         private async void LoadReport()
         {
-            if (ReportHeader != null && ReportHeader.Id > 0)
+            if (SelectedReportHeader != null && SelectedReportHeader.Id > 0)
             {
-                ReportItems = await _bankReportEndpoint.GetItems(ReportHeader.Id);
+                ReportItems = await _bankReportEndpoint.GetItems(SelectedReportHeader.Id);
                 SumSides();
                 ProcessItemCommand.RaiseCanExecuteChanged();
                 DeleteReportCommand.RaiseCanExecuteChanged();
@@ -210,13 +210,13 @@ namespace BankkStatementsModule.ViewModels
             string isStorno = _isDelete ? "STORNO " : "";
             entries.Add(new AccountingJournalModel
             {
-                Broj = ReportHeader.RedniBroj,
-                Dokument = $"{isStorno}Izvod br.:" + ReportHeader.RedniBroj,
-                Datum = ReportHeader.DatumIzvoda,
-                Opis = "Žiro račun: Izvod br. " + ReportHeader.RedniBroj,
+                Broj = SelectedReportHeader.RedniBroj,
+                Dokument = $"{isStorno}Izvod br.:" + SelectedReportHeader.RedniBroj,
+                Datum = SelectedReportHeader.DatumIzvoda,
+                Opis = "Žiro račun: Izvod br. " + SelectedReportHeader.RedniBroj,
                 Konto = "1000",
-                Dugovna = ReportHeader.SumaPotrazna,
-                Potrazna = ReportHeader.SumaDugovna,
+                Dugovna = SelectedReportHeader.SumaPotrazna,
+                Potrazna = SelectedReportHeader.SumaDugovna,
                 Valuta = "HRK",
                 VrstaTemeljnice = _bookName
             });
@@ -224,9 +224,9 @@ namespace BankkStatementsModule.ViewModels
             {
                 entries.Add(new AccountingJournalModel
                 {
-                    Broj = ReportHeader.RedniBroj,
-                    Dokument = $"{isStorno}Izvod br.:" + ReportHeader.RedniBroj,
-                    Datum = ReportHeader.DatumIzvoda,
+                    Broj = SelectedReportHeader.RedniBroj,
+                    Dokument = $"{isStorno}Izvod br.:" + SelectedReportHeader.RedniBroj,
+                    Datum = SelectedReportHeader.DatumIzvoda,
                     Opis = entry.Opis,
                     Konto = entry.Konto,
                     Dugovna = entry.Dugovna,
@@ -238,7 +238,7 @@ namespace BankkStatementsModule.ViewModels
             return entries;
         }
 
-        private bool CanProcess() => ReportHeader != null && !ReportHeader.Knjizen && ReportItems != null;
+        private bool CanProcess() => SelectedReportHeader != null && !SelectedReportHeader.Knjizen && ReportItems != null;
 
         private void ProcessItem()
         {
@@ -249,39 +249,58 @@ namespace BankkStatementsModule.ViewModels
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    ReportHeader.Knjizen = true;
-                    await _bankReportEndpoint.UpdateHeader(ReportHeader);
+                    SelectedReportHeader.Knjizen = true;
+                    await _bankReportEndpoint.UpdateHeader(SelectedReportHeader);
+                    if (!_isDelete)
+                    {
+                        SelectedReportItem = null;
+                        ReportItems = null;
+                    }
                 }
             });
-            LoadReports();
+            if(!_isDelete)
+            {
+                LoadReports();
+                ReportItems = null;
+            }
+            _isDelete = false;
         }
         #endregion
 
         #region Delete report
         private bool CanDelete()
         {
-            return ReportHeader != null;
+            return SelectedReportHeader != null;
         }
 
         private void DeleteReport()
         {
             var parameters = new DialogParameters();
-            parameters.Add("message", "Brisanjem izvoda podaci knjiženi na temeljnicu ostaju, napravite ispravak i na temeljnici.\n" +
-                "Želite li svejedno brisati odabrani izvod?");
+            string messageParam = SelectedReportHeader.Knjizen ? 
+                "Brisanjem KNJIŽENOG izvoda podaci knjiženi na temeljnicu ostaju, " +
+                "napravit će se ispravak i na temeljnici storniranjem ovog izvoda.\n\n" +
+                "Želite li svejedno brisati odabrani izvod?" : 
+                "Jeste li sigurni da želite brisati odabrani izvod?";
+            parameters.Add("message", messageParam);
             _showDialog.Show("AreYouSureView", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)
                 {
-                    ReportHeader.SumaDugovna *= -1;
-                    ReportHeader.SumaPotrazna *= -1;
-                    foreach (var entry in ReportItems)
+                    if (SelectedReportHeader.Knjizen)
                     {
-                        entry.Dugovna *= -1.0m;
-                        entry.Potrazna *= -1.0m;
+                        SelectedReportHeader.SumaDugovna *= -1;
+                        SelectedReportHeader.SumaPotrazna *= -1;
+                        foreach (var entry in ReportItems)
+                        {
+                            entry.Dugovna *= -1.0m;
+                            entry.Potrazna *= -1.0m;
+                        }
+                        _isDelete = true;
+                        ProcessItem();
                     }
-                    _isDelete = true;
-                    ProcessItem();
-                    _bankReportEndpoint.Delete(ReportHeader.Id);
+                    _bankReportEndpoint.Delete(SelectedReportHeader.Id);
+                    ReportHeaders.Remove(SelectedReportHeader);
+                    ReportItems = null;
                 }
             });
         }
@@ -308,7 +327,7 @@ namespace BankkStatementsModule.ViewModels
 
         private void ChangeData()
         {
-            if (ReportHeader != null && ReportHeader.Id > 0 && ReportItems != null)
+            if (SelectedReportHeader != null && SelectedReportHeader.Id > 0 && ReportItems != null)
             {
                 OpenIndividualReportDialog();
             }

@@ -165,8 +165,8 @@
                                     Width="90"/>
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid ItemsSource="{Binding AllHeaders}" AutoGenerateColumns="False"
-                  SelectedItem="{Binding ReportHeader}"
+        <DataGrid ItemsSource="{Binding ReportHeaders}" AutoGenerateColumns="False"
+                  SelectedItem="{Binding SelectedReportHeader}"
                   CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True"
                   Margin="10 0 0 0"
                   Grid.Row="3" Grid.Column="1">

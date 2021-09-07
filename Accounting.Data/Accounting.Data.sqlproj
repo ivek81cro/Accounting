@@ -229,6 +229,7 @@
     <Build Include="dbo\Stored Procedures\spLocoTravelOrders_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spLocoOrders_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spLocoOrders_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\spBackupDatabase_Full.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

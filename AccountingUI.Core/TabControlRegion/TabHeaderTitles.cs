@@ -30,7 +30,8 @@ namespace AccountingUI.Core.TabControlRegion
             BalanceView,
             MainLedger,
             TravelOrdersView,
-            LocoOrdersView
+            LocoOrdersView,
+            BackupView
         }
         public static string GetHeaderTitle(string viewName)
         {
@@ -86,6 +87,8 @@ namespace AccountingUI.Core.TabControlRegion
                     return "Putni nalozi";
                 case ViewNames.LocoOrdersView:
                     return "Loko vožnja";
+                case ViewNames.BackupView:
+                    return "Sigurnosna kopija";
                 default:
                     return "";
             }

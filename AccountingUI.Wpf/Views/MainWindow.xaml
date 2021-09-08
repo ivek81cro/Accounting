@@ -124,6 +124,10 @@
                 <MenuItem Header="Loko vožnja" Command="{Binding ShowMenuSelectedViewCommand}"
                           CommandParameter="LocoOrdersView"/>
             </MenuItem>
+            <MenuItem Header="Backup" Margin="5">
+                <MenuItem Header="Spremi kopiju" Command="{Binding ShowMenuSelectedViewCommand}"
+                          CommandParameter="BackupView"/>
+            </MenuItem>
         </Menu>
 
         <TabControl DockPanel.Dock="Top" Margin="5"

@@ -11,6 +11,7 @@ using AccountingUI.Wpf.Dialogs.PrintingDataGrid;
 using AccountingUI.Wpf.Views;
 using AssetsModule;
 using AutoMapper;
+using BackupModule;
 using BalanceSheetModule;
 using BankkStatementsModule;
 using BookAccountsModule;
@@ -108,6 +109,7 @@ namespace AccountingUI.WPF
             moduleCatalog.AddModule<ModuleBookJournal>();
             moduleCatalog.AddModule<ModuleBalanceSheet>();
             moduleCatalog.AddModule<ModuleTravelOrders>();
+            moduleCatalog.AddModule<ModuleBackup>();
         }
 
         private IConfiguration AddConfiguration()

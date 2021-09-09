@@ -26,5 +26,19 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public void CreateBackup()
+        {
+            try
+            {
+                _sql.BackupRestoreData("dbo.spBackupDatabase_Full", "AccountingConnStr");
+            }
+            catch (System.Exception e)
+            {
+                var mes = e.Message;
+                throw;
+            }
+        }
+
     }
 }

@@ -13,5 +13,6 @@ namespace Accounting.DataManager.DataAccess
         void SaveData<T>(string storedProcedure, T parameters, string conectionStringName);
         void SaveDataInTransaction<T>(string storedProcedure, T parameters);
         void StartTransaction(string connectionStringName);
+        void BackupRestoreData(string storedProcedure, string conectionStringName);
     }
 }

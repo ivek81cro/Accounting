@@ -6,5 +6,6 @@ namespace Accounting.DataManager.DataAccess
     public interface IDatabaseBackupData
     {
         List<DatabaseBackupModel> GetAllBackups();
+        void CreateBackup();
     }
 }

@@ -7,5 +7,6 @@ namespace AccountingUI.Core.Services
     public interface IDatabaseBackupEndpoint
     {
         Task<List<DatabaseBackupModel>> GetAll();
+        Task CreateBackup();
     }
 }

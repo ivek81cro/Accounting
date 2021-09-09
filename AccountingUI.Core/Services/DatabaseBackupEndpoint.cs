@@ -16,6 +16,21 @@ namespace AccountingUI.Core.Services
             _apiService = apiService;
         }
 
+        public async Task CreateBackup()
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync("/api/DbBackup/Create"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task<List<DatabaseBackupModel>> GetAll()
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync("/api/DbBackup"))

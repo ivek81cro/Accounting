@@ -24,5 +24,11 @@ namespace Accounting.Api.Controllers
             var result = _data.GetAllBackups();
             return result;
         }
+
+        [HttpGet("Create/")]
+        public void CreateBackup()
+        {
+            _data.CreateBackup();
+        }
     }
 }

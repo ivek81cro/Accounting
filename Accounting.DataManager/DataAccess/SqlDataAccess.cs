@@ -109,5 +109,14 @@ namespace Accounting.DataManager.DataAccess
             _transaction = null;
             _connection = null;
         }
+
+        public void BackupRestoreData(string storedProcedure, string conectionStringName)
+        {
+            string connString = GetConnectionString(conectionStringName);
+            using (IDbConnection conn = new SqlConnection(connString))
+            {
+                conn.Execute(storedProcedure, commandType: CommandType.StoredProcedure);
+            }
+        }
     }
 }

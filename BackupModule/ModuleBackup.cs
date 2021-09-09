@@ -1,4 +1,5 @@
-﻿using BackupModule.Views;
+﻿using AccountingUI.Core.Services;
+using BackupModule.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 
@@ -14,6 +15,8 @@ namespace BackupModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<BackupView>();
+
+            containerRegistry.RegisterScoped<IDatabaseBackupEndpoint, DatabaseBackupEndpoint>();
         }
     }
 }

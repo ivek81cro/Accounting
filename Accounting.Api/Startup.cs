@@ -111,6 +111,7 @@ namespace Accounting.Api
             services.AddTransient<IBalanceSheetData, BalanceSheetData>();
             services.AddTransient<IBookIraHzzoData, BookIraHzzoData>();
             services.AddTransient<ITravelOrdersData, TravelOrdersData>();
+            services.AddTransient<IDatabaseBackupData, DatabaseBackupData>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

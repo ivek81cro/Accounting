@@ -78,6 +78,7 @@
     <Folder Include="dbo\Stored Procedures\Partners" />
     <Folder Include="dbo\Stored Procedures\Payroll" />
     <Folder Include="dbo\Stored Procedures\VatArchive" />
+    <Folder Include="dbo\Stored Procedures\DatabaseBackup" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\Accounting.Data.publish.xml" />
@@ -229,7 +230,8 @@
     <Build Include="dbo\Stored Procedures\spLocoTravelOrders_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spLocoOrders_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\spLocoOrders_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\spBackupDatabase_Full.sql" />
+    <Build Include="dbo\Stored Procedures\DatabaseBackup\spBackupDatabase_Full.sql" />
+    <Build Include="dbo\Stored Procedures\DatabaseBackup\spBackupDatabase_GetAll.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

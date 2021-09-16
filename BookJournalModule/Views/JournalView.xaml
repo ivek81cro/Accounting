@@ -118,7 +118,7 @@
                                FontSize="14" FontWeight="Bold"
                                Grid.Row="0" Grid.Column="0"/>
                     <TextBlock Text="{Binding SumDugovna, StringFormat=N2,
-                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               UpdateSourceTrigger=PropertyChanged}"
                                Style="{StaticResource controlSidesSum}"
                                Margin="5" Padding="5"
                                FontSize="14" FontWeight="Bold"
@@ -128,7 +128,7 @@
                                FontSize="14" FontWeight="Bold"
                                Grid.Row="0" Grid.Column="2"/>
                     <TextBlock Text="{Binding SumPotrazna, StringFormat=N2,
-                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               UpdateSourceTrigger=PropertyChanged}"
                                Style="{StaticResource controlSidesSum}"
                                FontSize="14" FontWeight="Bold"
                                Margin="5" Padding="5"
@@ -138,7 +138,7 @@
                                FontSize="14" FontWeight="Bold"
                                Grid.Row="0" Grid.Column="4"/>
                     <TextBlock Text="{Binding SumStanje, StringFormat=N2,
-                               Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                               UpdateSourceTrigger=PropertyChanged}"
                                Style="{StaticResource controlSidesSum}"
                                Margin="5" Padding="5"
                                FontSize="14" FontWeight="Bold"
@@ -160,15 +160,19 @@
         </StackPanel>
 
         <DataGrid x:Name="dataGrid"
-                  AutoGenerateColumns="False" CanUserAddRows="True"
-                  CanUserDeleteRows="True" SelectedItem="{Binding SelectedJournalDetail}"
-                  ItemsSource="{Binding JournalDetails, IsAsync=True}" Width="auto"
-                  EnableRowVirtualization="False" EnableColumnVirtualization="False"
+                  AutoGenerateColumns="False" CanUserAddRows="True" CanUserDeleteRows="True" 
+                  SelectedItem="{Binding SelectedJournalDetail}"
+                  ItemsSource="{Binding JournalDetails, IsAsync=True}" 
+                  Width="auto" EnableRowVirtualization="False" 
+                  EnableColumnVirtualization="False"
                   Grid.Row="3" Grid.Column="0">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:CallMethodAction TargetObject="{Binding}" 
                                         MethodName="OpenAccountsDialog"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="CellEditEnding">
+                    <i:InvokeCommandAction Command="{Binding CellValueChanged}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             <DataGrid.Resources>
@@ -203,9 +207,11 @@
                 <DataGridTextColumn Header="Valuta" Width="80"
                                     Binding="{Binding Valuta}"/>
                 <DataGridTextColumn Header="Dugovna" Width="80"
-                                    Binding="{Binding Dugovna, StringFormat=N2}"/>
+                                    Binding="{Binding Dugovna, StringFormat=N2,
+                                    UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="Potražna" Width="80"
-                                    Binding="{Binding Potrazna, StringFormat=N2}"/>
+                                    Binding="{Binding Potrazna, StringFormat=N2,
+                                    UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
 

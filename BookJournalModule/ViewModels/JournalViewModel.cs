@@ -33,7 +33,8 @@ namespace BookJournalModule.ViewModels
             SaveChangesCommand = new DelegateCommand(SaveChanges, CanSaveChanges);
             OpenCardCommand = new DelegateCommand(OpenAccountBalance);
             NewJournalCommand = new DelegateCommand(OpenNewJournal);
-            PrintCommand = new DelegateCommand<Visual>(ShowPreview);
+            PrintCommand = new DelegateCommand<Visual>(ShowPreview); 
+            CellValueChanged = new DelegateCommand(SumColumns);
 
             LoadHeaders();
         }
@@ -48,6 +49,7 @@ namespace BookJournalModule.ViewModels
         public DelegateCommand OpenCardCommand { get; private set; }
         public DelegateCommand NewJournalCommand { get; private set; }
         public DelegateCommand<Visual> PrintCommand { get; private set; }
+        public DelegateCommand CellValueChanged { get; private set; }
         #endregion
 
         #region Properties
@@ -74,8 +76,8 @@ namespace BookJournalModule.ViewModels
         public ObservableCollection<AccountingJournalModel> JournalDetails
         {
             get { return _journalDetails; }
-            set 
-            {                 
+            set
+            {
                 SetProperty(ref _journalDetails, value);
                 ProcessItemCommand.RaiseCanExecuteChanged();
                 SaveChangesCommand.RaiseCanExecuteChanged();
@@ -210,6 +212,7 @@ namespace BookJournalModule.ViewModels
             SumPotrazna = JournalDetails.Sum(x => x.Potrazna);
             SumStanje = SumDugovna - SumPotrazna;
             SidesEqual = SumStanje == 0;
+            SaveChangesCommand.RaiseCanExecuteChanged();
         }
         #endregion
 
@@ -275,7 +278,7 @@ namespace BookJournalModule.ViewModels
         #endregion
 
         #region Save changes to journal
-        private bool CanSaveChanges() => SelectedJournal != null;
+        private bool CanSaveChanges() => SelectedJournal != null && SidesEqual;
         private async void SaveChanges()
         {
             IsLoading = true;

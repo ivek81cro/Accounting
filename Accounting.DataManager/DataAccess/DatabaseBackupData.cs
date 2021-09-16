@@ -31,7 +31,7 @@ namespace Accounting.DataManager.DataAccess
         {
             try
             {
-                _sql.BackupRestoreData("dbo.spBackupDatabase_Full", "AccountingConnStr");
+                _sql.BackupData("dbo.spBackupDatabase_Full", "AccountingConnStr");
             }
             catch (System.Exception e)
             {
@@ -39,6 +39,5 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
-
     }
 }

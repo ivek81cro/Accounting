@@ -9,11 +9,11 @@ namespace Accounting.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class DbBackup : ControllerBase
+    public class DbBackupController : ControllerBase
     {
         private readonly IDatabaseBackupData _data;
 
-        public DbBackup(IDatabaseBackupData data)
+        public DbBackupController(IDatabaseBackupData data)
         {
             _data = data;
         }

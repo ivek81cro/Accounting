@@ -914,7 +914,7 @@ namespace PayrollModule.PrintFlow
             Border tBorder = AddRowToMainGrid(grid, rowIndex);
 
             Grid tGrid = new();
-            for (int i = 0; i < 7; i++)
+            for (int i = 0; i < 8; i++)
             {
                 tGrid.RowDefinitions.Add(new RowDefinition());
             }
@@ -962,6 +962,12 @@ namespace PayrollModule.PrintFlow
             AddDataToRowCell(tGrid, $"10. UKUPNO POREZ I PRIREZ (VIII.6. - VIII.7. + VIII.8. + VIII.9.)",
                 6, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
             AddDataToRowCell(tGrid, $"{_selectedPayroll.UkupnoPorezPrirez}", 6, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
+            #endregion
+
+            #region ROW 7
+            AddDataToRowCell(tGrid, $"11. NETO IZNOS",
+                7, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
+            AddDataToRowCell(tGrid, $"{_selectedPayroll.Neto}", 7, 1, new Thickness(0, 1, 0, 0), TextAlignment.Right);
             #endregion
             #endregion
 

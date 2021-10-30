@@ -7,5 +7,6 @@ BEGIN
 		PoreznaOsnovica5, Pdv5, PoreznaOsnovica10, Pdv10, PoreznaOsnovica13, Pdv13, PoreznaOsnovica23, Pdv23, PoreznaOsnovica25, 
 		Pdv25, UkupniPdv, UkupnoUplaceno, PreostaloZaUplatit, NapomenaORacunu, ZaprimljenUHzzo, DanaOdZaprimanja, DanaNeplacanja, Knjizen,
 		TemeljnicaId
-	FROM BookIra;
+	FROM BookIra
+	ORDER BY RedniBroj DESC;
 END

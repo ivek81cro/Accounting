@@ -32,7 +32,7 @@ namespace AccountingUI.Core.Services
             }
         }
 
-        public async Task<bool> Insert(AssetModel asset)
+        public async Task<bool> PostAsset(AssetModel asset)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.PostAsJsonAsync("/api/Assets", asset))
             {

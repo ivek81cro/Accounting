@@ -100,13 +100,13 @@
                 <DataGridTextColumn Header="Stopa otp." Binding="{Binding StopaOtpisa}"/>                
                 <DataGridTextColumn Header="Sintetički konto" Binding="{Binding SintetickiKonto}"/>                
                 <DataGridTextColumn Header="Konto otpisa" Binding="{Binding KontoOtpisa}"/>                
-                <DataGridTextColumn Header="Iznos otpisa" 
+                <DataGridTextColumn Header="Amortizirano" 
                                     CellStyle="{StaticResource Currency}"
                                     Binding="{Binding IznosOtpisa, StringFormat=N2}"/>                
                 <DataGridTextColumn Header="Sadašnja vrijednost" 
                                     CellStyle="{StaticResource Currency}"
                                     Binding="{Binding SadasnjaVrijednost, StringFormat=N2}"/>                
-                <DataGridTextColumn Header="Datum otpisa" Binding="{Binding DatumOtpisa,
+                <DataGridTextColumn Header="Datum rashodovanja" Binding="{Binding DatumRashodovanja,
                                     StringFormat=\{0:dd.MM.yyyy\}}"/>                
             </DataGrid.Columns>
         </DataGrid>

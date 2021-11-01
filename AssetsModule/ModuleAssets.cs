@@ -16,6 +16,7 @@ namespace AssetsModule
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterDialog<AssetDetailDialog>();
+            containerRegistry.RegisterDialog<AssetCalculationDialog>();
 
             containerRegistry.RegisterScoped<IAssetsEndpoint, AssetsEndpoint>();
 

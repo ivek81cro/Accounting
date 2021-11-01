@@ -83,7 +83,7 @@ namespace AssetsModule.Dialogs
                 {
                     Asset.SadasnjaVrijednost = Asset.NabavnaVrijednost;
                 }
-                await _assetsEndpoint.Insert(Asset);
+                await _assetsEndpoint.PostAsset(Asset);
                 RequestClose?.Invoke(new DialogResult(ButtonResult.OK));
             }
         }

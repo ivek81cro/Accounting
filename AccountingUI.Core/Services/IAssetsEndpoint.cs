@@ -7,6 +7,6 @@ namespace AccountingUI.Core.Services
     public interface IAssetsEndpoint
     {
         Task<List<AssetModel>> GetAssets(string vrstaImovine);
-        Task<bool> Insert(AssetModel asset);
+        Task<bool> PostAsset(AssetModel asset);
     }
 }

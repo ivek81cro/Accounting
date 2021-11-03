@@ -177,7 +177,7 @@ namespace BookIraModule.ViewModels
             {
                 IsLoading = true;
                 FilePath = ofd.FileName;
-                var data = _xlsFileReader.Convert(FilePath, "REKAPITULACIJA POREZA");
+                var data = _xlsFileReader.Convert(FilePath, "REKAPITULACIJA POREZA SVEUKUPNO");
                 if (data != null)
                 {
                     FromStringToList(data);

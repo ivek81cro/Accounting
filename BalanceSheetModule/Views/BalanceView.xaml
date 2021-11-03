@@ -62,7 +62,7 @@
                     </StackPanel>
                 </Border>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Filter razdoblja po datumu knjiženja:" Margin="5" Padding="5"/>
+                    <TextBlock Text="Filter razdoblja po datumu knjiženja temeljnice:" Margin="5" Padding="5"/>
                     <DatePicker Margin="5" h:DatePickerHelper.Watermark="Odaberite datum"
                         MinWidth="150">
                         <DatePicker.SelectedDate>

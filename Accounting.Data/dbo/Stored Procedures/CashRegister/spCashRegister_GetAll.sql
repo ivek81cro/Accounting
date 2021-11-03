@@ -6,4 +6,5 @@ BEGIN
 
 	SELECT Id, RedniBroj, Datum, Gotovina, KreditneKartice, Sveukupno, IznosSudjelovanja, Knjizen, TemeljnicaId
 	FROM CashRegisterJournal
+	ORDER BY RedniBroj
 END

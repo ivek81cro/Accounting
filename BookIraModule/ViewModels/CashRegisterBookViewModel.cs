@@ -240,7 +240,7 @@ namespace BookIraModule.ViewModels
         #region Load data from file
         private async void LoadDataFromFile()
         {
-            _maxRedniBroj = BookItems.Count > 0 ? BookItems.Max(y => y.Id) : 0;
+            _maxRedniBroj = BookItems.Count > 0 ? BookItems.Max(y => y.RedniBroj) : 0;
 
             OpenFileDialog ofd = new OpenFileDialog
             {

@@ -23,7 +23,7 @@ namespace BankkStatementsModule.ViewModels
 
         private string _path;
         private string _bookName = "Izvodi";
-        private bool _isDelete = false;
+        private bool _isDelete;
 
         private BankStatementXml _fileXml = new();
 
@@ -251,18 +251,10 @@ namespace BankkStatementsModule.ViewModels
                 {
                     SelectedReportHeader.Knjizen = true;
                     await _bankReportEndpoint.UpdateHeader(SelectedReportHeader);
-                    if (!_isDelete)
-                    {
-                        SelectedReportItem = null;
-                        ReportItems = null;
-                    }
+                    SelectedReportItem = null;
+                    ReportItems = null;
                 }
             });
-            if(!_isDelete)
-            {
-                LoadReports();
-                ReportItems = null;
-            }
             _isDelete = false;
         }
         #endregion

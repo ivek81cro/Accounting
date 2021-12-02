@@ -51,7 +51,9 @@ namespace BookIraModule.Dialogs
                 Pdv13 = list.Sum(x => x.Pdv13),
                 Pdv23 = list.Sum(x => x.Pdv23),
                 Pdv25 = list.Sum(x => x.Pdv25),
-                UkupniPdv = list.Sum(x => x.UkupniPdv)
+                UkupniPdv = list.Sum(x => x.UkupniPdv),
+                PreostaloZaUplatu = list.Sum(x => x.IznosSPdv) - list.Where(x => x.IzRacuna == 0).Sum(y => y.UkupnoUplaceno)
+
             };
             Calculation.OsnovicaUkupno = Calculation.PoreznaOsnovica5
                 + Calculation.PoreznaOsnovica13

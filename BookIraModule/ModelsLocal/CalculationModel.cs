@@ -19,5 +19,7 @@
         public decimal Pdv25 { get; set; }
         public decimal UkupniPdv { get; set; }
         public decimal OsnovicaUkupno { get; set; }
+        public decimal PreostaloZaUplatu { get; set; }
+        public decimal UkupnoUplaceno { get; set; }
     }
 }

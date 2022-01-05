@@ -59,6 +59,10 @@
                         <TextBox Margin="5" Padding="5"
                          Text="{Binding FilterKonto, UpdateSourceTrigger=PropertyChanged}"
                          MinWidth="250"/>
+                        <TextBlock Text="Filter Opis" Margin="5" Padding="5"/>
+                        <TextBox Margin="5" Padding="5"
+                         Text="{Binding FilterName, UpdateSourceTrigger=PropertyChanged}"
+                         MinWidth="250"/>
                     </StackPanel>
                 </Border>
                 <StackPanel Orientation="Horizontal">

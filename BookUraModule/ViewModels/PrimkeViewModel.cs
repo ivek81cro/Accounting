@@ -130,7 +130,9 @@ namespace BookUraModule.ViewModels
         {
             get { return _filterName; }
             set 
-            { SetProperty(ref _filterName, value); }
+            { 
+                SetProperty(ref _filterName, value);
+            }
         }
 
         private bool _automaticProcess;

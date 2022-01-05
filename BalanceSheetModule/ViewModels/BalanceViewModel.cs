@@ -23,7 +23,7 @@ namespace BalanceSheetModule.ViewModels
         private string _title;
 
         public BalanceViewModel(IBalanceSheetEndpoint balanceSheetEndpoint,
-                                IDialogService showDialog, 
+                                IDialogService showDialog,
                                 IBookAccountsEndpoint bookAccountsEndpoint)
         {
             _balanceSheetEndpoint = balanceSheetEndpoint;
@@ -77,7 +77,7 @@ namespace BalanceSheetModule.ViewModels
             set { SetProperty(ref _sumStanje, value); }
         }
 
-        private ICollectionView _filterView;
+        private ICollectionView _filterDataGrid;
         private string _filterKonto;
         public string FilterKonto
         {
@@ -85,7 +85,19 @@ namespace BalanceSheetModule.ViewModels
             set
             {
                 SetProperty(ref _filterKonto, value);
-                _filterView.Refresh();
+                FilterDataGridView();
+                SumColumns();
+            }
+        }
+
+        private string _filterName;
+        public string FilterName
+        {
+            get { return _filterName; }
+            set
+            {
+                SetProperty(ref _filterName, value);
+                FilterDataGridView();
                 SumColumns();
             }
         }
@@ -108,7 +120,7 @@ namespace BalanceSheetModule.ViewModels
         #region Loading and filtering data
         private async void LoadBalanceSheet()
         {
-            if(DateFrom== null && DateTo == null)
+            if (DateFrom == null && DateTo == null)
             {
                 await LoadAllData();
             }
@@ -122,7 +134,7 @@ namespace BalanceSheetModule.ViewModels
         {
             var list = await _balanceSheetEndpoint.LoadFullBalanceSheet();
             BalanceList = new ObservableCollection<BalanceSheetModel>(list);
-            FilterData();
+            FilterDataGridView();
             _title = "Bilanca - sve";
         }
 
@@ -135,22 +147,44 @@ namespace BalanceSheetModule.ViewModels
                 dates.Add((DateTime)DateTo);
                 var list = await _balanceSheetEndpoint.LoadPeriodBalanceSheet(dates);
                 BalanceList = new ObservableCollection<BalanceSheetModel>(list);
-                FilterData();
+                FilterDataGridView();
                 _title = $"Bilanca za razdoblje {DateFrom.Value.Date.ToShortDateString()} do {DateTo.Value.Date.ToShortDateString()}";
             }
         }
 
-        private void FilterData()
+        private void FilterDataGridView()
         {
-            _filterView = CollectionViewSource.GetDefaultView(BalanceList);
-            _filterView.Filter = o => string.IsNullOrEmpty(FilterKonto) ?
-                true : ((BalanceSheetModel)o).Konto.StartsWith(FilterKonto);
+            _filterDataGrid = CollectionViewSource.GetDefaultView(BalanceList);
+            if (FilterKonto != null)
+            {
+                _filterDataGrid.Filter = o => FilterData((BalanceSheetModel)o);
+            }
             SumColumns();
+        }
+
+        private bool FilterData(BalanceSheetModel o)
+        {
+            if(FilterKonto != null && FilterName == null)
+            {
+                return o.Konto.StartsWith(FilterKonto);
+            }
+            else if(FilterKonto == null && FilterName != null)
+            {
+                return o.Opis.StartsWith(FilterName);
+            }
+            else if(FilterKonto !=null && FilterName != null)
+            {
+                return o.Opis.StartsWith(FilterName) && o.Konto.StartsWith(FilterKonto);
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private void SumColumns()
         {
-            IEnumerable<BalanceSheetModel> list = _filterView.Cast<BalanceSheetModel>();
+            IEnumerable<BalanceSheetModel> list = _filterDataGrid.Cast<BalanceSheetModel>();
             SumDugovna = list.Sum(x => x.Dugovna);
             SumPotrazna = list.Sum(x => x.Potrazna);
             SumStanje = SumDugovna - SumPotrazna;
@@ -191,11 +225,11 @@ namespace BalanceSheetModule.ViewModels
 
         private async void InsertGroupAccountSumRows()
         {
-            List<BalanceSheetModel> list = _filterView.Cast<BalanceSheetModel>().ToList();
+            List<BalanceSheetModel> list = _filterDataGrid.Cast<BalanceSheetModel>().ToList();
             BalanceList = new ObservableCollection<BalanceSheetModel>();
             var accounts = await _bookAccountsEndpoint.GetAll();
 
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 string par = i.ToString();
                 decimal potrazna = list.Where(x => x.Konto.StartsWith(par)).Sum(y => y.Potrazna);
@@ -227,7 +261,7 @@ namespace BalanceSheetModule.ViewModels
 
                         BalanceList.AddRange(list.Where(x => x.Konto.StartsWith(param) && x.Konto.Length > 3));
 
-                        if(dugovna == 0 && potrazna == 0)
+                        if (dugovna == 0 && potrazna == 0)
                         {
                             continue;
                         }
@@ -245,7 +279,7 @@ namespace BalanceSheetModule.ViewModels
                     }
                 }
             }
-            FilterData();
+            FilterDataGridView();
         }
         #endregion
     }

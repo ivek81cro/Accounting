@@ -33,6 +33,7 @@ namespace BalanceSheetModule.ViewModels
             OpenCardCommand = new DelegateCommand(OpenBalanceCard);
             PrintCommand = new DelegateCommand<Visual>(ShowPreview);
             SelectPeriodCommand = new DelegateCommand(LoadBalanceSheet);
+            TransferToNextYearCommand = new DelegateCommand(TransferBalanceToNextYearAsync);
 
             LoadBalanceSheet();
         }
@@ -40,6 +41,7 @@ namespace BalanceSheetModule.ViewModels
         public DelegateCommand OpenCardCommand { get; private set; }
         public DelegateCommand<Visual> PrintCommand { get; private set; }
         public DelegateCommand SelectPeriodCommand { get; private set; }
+        public DelegateCommand TransferToNextYearCommand { get; private set; }
 
         #region Properties
         private ObservableCollection<BalanceSheetModel> _balanceList;
@@ -155,10 +157,7 @@ namespace BalanceSheetModule.ViewModels
         private void FilterDataGridView()
         {
             _filterDataGrid = CollectionViewSource.GetDefaultView(BalanceList);
-            if (FilterKonto != null)
-            {
-                _filterDataGrid.Filter = o => FilterData((BalanceSheetModel)o);
-            }
+            _filterDataGrid.Filter = o => FilterData((BalanceSheetModel)o);
             SumColumns();
         }
 
@@ -170,11 +169,11 @@ namespace BalanceSheetModule.ViewModels
             }
             else if(FilterKonto == null && FilterName != null)
             {
-                return o.Opis.StartsWith(FilterName);
+                return o.Opis.ToUpper().Contains(FilterName.ToUpper());
             }
             else if(FilterKonto !=null && FilterName != null)
             {
-                return o.Opis.StartsWith(FilterName) && o.Konto.StartsWith(FilterKonto);
+                return o.Opis.ToUpper().Contains(FilterName.ToUpper()) && o.Konto.StartsWith(FilterKonto);
             }
             else
             {
@@ -194,7 +193,7 @@ namespace BalanceSheetModule.ViewModels
         #region Open Balance card
         private void OpenBalanceCard()
         {
-            DialogParameters parameters = new DialogParameters();
+            DialogParameters parameters = new();
             parameters.Add("accountNumber", SelectedBalanceItem.Konto);
             _showDialog.Show("BalanceCardDialog", parameters, result =>
             {
@@ -210,7 +209,7 @@ namespace BalanceSheetModule.ViewModels
         private void ShowPreview(Visual v)
         {
             InsertGroupAccountSumRows();
-            DialogParameters parameters = new DialogParameters();
+            DialogParameters parameters = new();
             parameters.Add("datagrid", v);
             parameters.Add("title", _title);
             _showDialog.Show("PrintDialogView", parameters, result =>
@@ -282,5 +281,49 @@ namespace BalanceSheetModule.ViewModels
             FilterDataGridView();
         }
         #endregion
+
+        private async void TransferBalanceToNextYearAsync()
+        {
+            List<AccountingJournalModel> startJournal = new();
+            foreach (var item in BalanceList)
+            {
+                if (item.Stanje != 0
+                    && !item.Konto.StartsWith('3')
+                    && !item.Konto.StartsWith('4')
+                    && !item.Konto.StartsWith('5')
+                    && !item.Konto.StartsWith('7')
+                    && !item.Konto.StartsWith('8'))
+                {                    
+                    startJournal.Add(new AccountingJournalModel
+                    {
+                        Opis = item.Opis,
+                        Dokument = "Početno stanje",
+                        Broj=0,
+                        Konto=item.Konto,
+                        Datum=new DateTime(DateTime.Today.Year, 01,01),
+                        Valuta="HRK",
+                        Dugovna = item.Stanje > 0?item.Stanje:0,
+                        Potrazna = item.Stanje < 0?item.Stanje*(-1):0,
+                    });
+                }
+            }
+
+            SendToProcessingDialog(startJournal);
+        }
+
+        private void SendToProcessingDialog(List<AccountingJournalModel> startJournal)
+        {
+            var parameters = new DialogParameters
+            {
+                { "entries", startJournal }
+            };
+            _showDialog.ShowDialog("ProcessToJournal", parameters, result =>
+            {
+                if (result.Result == ButtonResult.OK)
+                {
+
+                }
+            });
+        }
     }
 }

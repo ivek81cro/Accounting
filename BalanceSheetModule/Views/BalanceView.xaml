@@ -48,6 +48,14 @@
                     <TextBlock Text="Ispis"/>
                 </StackPanel>
             </Button>
+            <Button Height="60" Width="60" Margin="10 5 0 5" Padding="5" 
+                        Command="{Binding TransferToNextYearCommand, Mode=OneWay}"
+                        CommandParameter="{Binding ElementName=dataGrid, Mode=OneWay}"
+                        Background="Transparent" BorderBrush="Gray">
+                <StackPanel>
+                    <TextBlock Text="Prijenos-početno stanje" TextWrapping="Wrap"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <Border BorderBrush="Black" BorderThickness="1"

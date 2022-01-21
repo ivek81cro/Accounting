@@ -29,7 +29,7 @@
             <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
             <Setter Property="ShowInTaskbar" Value="False"/>
             <Setter Property="Height" Value="700"/>
-            <Setter Property="Width" Value="700"/>
+            <Setter Property="Width" Value="1100"/>
         </Style>
     </prism:Dialog.WindowStyle>
     <Grid>
@@ -60,7 +60,7 @@
                   Width="200"
                   Grid.Row="2"/>
 
-        <Button Content="Otvori" Command="{Binding OpenCommand}" Margin="5" Padding="5"
+        <Button Content="Otvori" Command="{Binding OpenNewJournalCommand}" Margin="5" Padding="5"
                 Width="85" Height="25"
                 Grid.Row="3"/>
 
@@ -192,7 +192,7 @@
                      Margin="5" Padding="5"
                      Grid.Row="7" Grid.Column="1"/>
 
-            <Button Content="Dodaj red" Command="{Binding AddDetailCommand}" 
+            <Button Content="Dodaj red" Command="{Binding AddRowCommand}" 
                     Margin="5" Padding="5"
                     Width="85" Height="28" Grid.ColumnSpan="2"
                     Grid.Row="8"/>

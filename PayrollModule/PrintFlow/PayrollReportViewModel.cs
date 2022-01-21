@@ -69,6 +69,13 @@ namespace PayrollModule.PrintFlow
             set { SetProperty(ref _payroll, value); }
         }
 
+        private PayrollArchivePayrollModel _payrollSingle;
+        public PayrollArchivePayrollModel PayrollSingle
+        {
+            get { return _payrollSingle; }
+            set { SetProperty(ref _payrollSingle, value); }
+        }
+
         private FixedDocumentSequence _printDocument;
         public FixedDocumentSequence PrintDocument
         {
@@ -149,9 +156,9 @@ namespace PayrollModule.PrintFlow
         {
             if (SelectedEmployee != null && SelectedEmployee.Ime != null)
             {
-                Payroll = Payroll.Where(x => x.Oib == SelectedEmployee.Oib).ToList();
+                PayrollSingle = Payroll.Where(x => x.Oib == SelectedEmployee.Oib).FirstOrDefault();
+                CreateReportPreview();
             }
-            CreateReportPreview();
         }
 
         private async void CreateReportPreview()
@@ -163,18 +170,29 @@ namespace PayrollModule.PrintFlow
             FixedDocument doc = new FixedDocument();
 
             #region Document Pages
-
-            foreach (var payroll in _payroll)
+            if (PayrollSingle != null)
             {
-                _selectedPayroll = payroll;
+                _selectedPayroll = PayrollSingle;
                 //Page 1
                 await AddPage1(pd, doc);
 
                 //Page 2
                 await AddPage2(pd, doc);
             }
-            #endregion
+            else
+            {
+                foreach (var payroll in _payroll)
+                {
+                    _selectedPayroll = payroll;
+                    //Page 1
+                    await AddPage1(pd, doc);
 
+                    //Page 2
+                    await AddPage2(pd, doc);
+                }
+            }
+            #endregion
+            PayrollSingle = null;
             CreateDocument(doc.DocumentPaginator);
         }
 

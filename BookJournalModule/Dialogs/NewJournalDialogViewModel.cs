@@ -25,14 +25,14 @@ namespace BookJournalModule.Dialogs
             _showDialog = showDialog;
             _accountingJournalEndpoint = accountingJournalEndpoint;
 
-            OpenCommand = new DelegateCommand(OpenJournal);
-            AddDetailCommand = new DelegateCommand(AddNewDetail);
+            OpenNewJournalCommand = new DelegateCommand(OpenJournal);
+            AddRowCommand = new DelegateCommand(AddNewRow, CanAddNewRow);
             OpenCardCommand = new DelegateCommand(OpenAccountBalance);
-            SaveJournalCommand = new DelegateCommand(SaveJournal);
+            SaveJournalCommand = new DelegateCommand(SaveJournal, CanSaveJournal);
         }
 
-        public DelegateCommand OpenCommand { get; private set; }
-        public DelegateCommand AddDetailCommand { get; private set; }
+        public DelegateCommand OpenNewJournalCommand { get; private set; }
+        public DelegateCommand AddRowCommand { get; private set; }
         public DelegateCommand OpenCardCommand { get; private set; }
         public DelegateCommand SaveJournalCommand { get; private set; }
 
@@ -52,7 +52,11 @@ namespace BookJournalModule.Dialogs
         public string SelectedJournalName
         {
             get { return _selectedJournalName; }
-            set { SetProperty(ref _selectedJournalName, value); }
+            set 
+            { 
+                SetProperty(ref _selectedJournalName, value);
+                SaveJournalCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private ObservableCollection<AccountingJournalModel> _journalDetails;
@@ -69,7 +73,11 @@ namespace BookJournalModule.Dialogs
         public AccountingJournalModel SelectedJournalDetail
         {
             get { return _selectedJournalDetail; }
-            set { SetProperty(ref _selectedJournalDetail, value); }
+            set 
+            { 
+                SetProperty(ref _selectedJournalDetail, value);
+                AddRowCommand.RaiseCanExecuteChanged();
+            }
         }
 
         private decimal _sumDugovna;
@@ -129,7 +137,12 @@ namespace BookJournalModule.Dialogs
             };
         }
 
-        private void AddNewDetail()
+        private bool CanAddNewRow()
+        {
+            return SelectedJournalDetail != null;
+        }
+
+        private void AddNewRow()
         {
             if(JournalDetails == null)
             {
@@ -180,6 +193,11 @@ namespace BookJournalModule.Dialogs
         private async void SaveJournal()
         {
             await _accountingJournalEndpoint.Post(JournalDetails.ToList());
+        }
+
+        private bool CanSaveJournal()
+        {
+            return SelectedJournalName != null;
         }
     }
 }

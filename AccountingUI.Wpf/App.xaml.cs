@@ -124,5 +124,12 @@ namespace AccountingUI.WPF
 #endif        
             return builder.Build();
         }
+
+        private void PrismApplication_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("Unhandeled error: " + Environment.NewLine + e.Exception.Message
+                + Environment.NewLine + "Please inform Administrator", "Unexpected error");
+            e.Handled = true;
+        }
     }
 }

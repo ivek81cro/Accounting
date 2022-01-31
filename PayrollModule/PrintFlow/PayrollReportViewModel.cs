@@ -127,7 +127,7 @@ namespace PayrollModule.PrintFlow
         private async Task LoadDataFromDatabase(int idArchive)
         {
             var payroll = await _archiveEndpoint.GetArchivePayrolls(idArchive);
-            _payroll = payroll.Payrolls;
+            _payroll = payroll.Payrolls.ToList();
             foreach (var emp in Payroll)
             {
                 Employees.Add(new EmployeeModel

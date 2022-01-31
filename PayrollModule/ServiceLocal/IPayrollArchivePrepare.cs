@@ -7,8 +7,8 @@ namespace PayrollModule.ServiceLocal
     public interface IPayrollArchivePrepare
     {
         PayrollArchiveModel Process(List<PayrollArchivePayrollModel> payrollCalculations,
-                                    List<PayrollArchiveSupplementModel> supplementCalculations,
-                                    PayrollArchiveHeaderModel payrollAccounting);
+                                           List<PayrollArchiveSupplementModel> supplementCalculations,
+                                           PayrollArchiveHeaderModel payrollAccounting);
 
         Task<bool> SaveToDatabase(PayrollArchiveModel archive);
 

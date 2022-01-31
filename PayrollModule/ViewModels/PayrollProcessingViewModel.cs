@@ -32,7 +32,7 @@ namespace PayrollModule.ViewModels
             IPayrollArchivePrepare processPayroll,
             IPayrollCalculation payrollCalculation,
             IEmployeeEndpoint employeeEndpoint,
-            ICityEndpoint cityEndpoint, 
+            ICityEndpoint cityEndpoint,
             IDialogService showDialog)
         {
             _mapper = mapper;
@@ -53,11 +53,11 @@ namespace PayrollModule.ViewModels
         public DelegateCommand SaveToArchiveCommand { get; private set; }
         public DelegateCommand ChangeSelectedCalculationCommand { get; private set; }
 
-        private string _saveStatusMessage; 
+        private string _saveStatusMessage;
         public string SaveStatusMessage
         {
-            get { return  _saveStatusMessage; }
-            set { SetProperty(ref  _saveStatusMessage, value); }
+            get { return _saveStatusMessage; }
+            set { SetProperty(ref _saveStatusMessage, value); }
         }
 
         private bool _ifPayrolls;
@@ -87,13 +87,13 @@ namespace PayrollModule.ViewModels
             get { return _payrollCalculations; }
             set { SetProperty(ref _payrollCalculations, value); }
         }
-        
+
         private bool _selectAllPayrolls;
         public bool SelectAllPayrolls
         {
             get { return _selectAllPayrolls; }
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _selectAllPayrolls, value);
                 if (PayrollCalculations != null)
                 {
@@ -149,8 +149,8 @@ namespace PayrollModule.ViewModels
         public bool SelectAllSupplements
         {
             get { return _selectAllSupplements; }
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _selectAllSupplements, value);
                 if (SupplementSelectDisplay != null)
                 {
@@ -192,8 +192,8 @@ namespace PayrollModule.ViewModels
         public PayrollArchiveHeaderModel Accounting
         {
             get { return _accounting; }
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _accounting, value);
             }
         }
@@ -216,8 +216,8 @@ namespace PayrollModule.ViewModels
         public PayrollArchivePayrollModel SelectedPayroll
         {
             get { return _selectedPayroll; }
-            set 
-            { 
+            set
+            {
                 SetProperty(ref _selectedPayroll, value);
                 if (value != null)
                 {
@@ -235,11 +235,11 @@ namespace PayrollModule.ViewModels
                 return false;
             }
 
-            if(Accounting != null)
+            if (Accounting != null)
             {
-                if(Accounting.DatumDo == null 
-                    || Accounting.DatumOd==null 
-                    || Accounting.DatumObracuna==null)
+                if (Accounting.DatumDo == null
+                    || Accounting.DatumOd == null
+                    || Accounting.DatumObracuna == null)
                 {
                     return false;
                 }
@@ -257,9 +257,9 @@ namespace PayrollModule.ViewModels
             SaveStatusMessage = null;
             SelectSupplementsForProcessing();
 
-            if(OnlySupplements)
+            if (OnlySupplements)
             {
-                foreach(var pay in PayrollCalculations)
+                foreach (var pay in PayrollCalculations)
                 {
                     pay.ResetMoneyValues();
                 }
@@ -276,7 +276,7 @@ namespace PayrollModule.ViewModels
         private void InitializeHoursList()
         {
             _archive.WorkedHours = new();
-            foreach(var pay in PayrollCalculations)
+            foreach (var pay in PayrollCalculations)
             {
                 _archive.WorkedHours.Add(new PayrollHours
                 {
@@ -292,33 +292,33 @@ namespace PayrollModule.ViewModels
         private bool CanSave()
         {
             var result = CanCalculate();
-            if(Accounting.Opis == null || Accounting.Opis == "")
+            if (Accounting.Opis == null || Accounting.Opis == "")
             {
                 result = false;
             }
 
-            if(_archive == null)
+            if (_archive == null)
             {
                 result = false;
             }
             else
             {
-                if(_archive.Payrolls.Count == 0)
+                if (_archive.Payrolls.Count == 0)
                 {
                     result = false;
                 }
-                if(_archive.Header==null)
+                if (_archive.Header == null)
                 {
                     result = false;
                 }
-            }            
+            }
 
             return result;
         }
 
         private async void SaveToArchive()
         {
-            if(await _processPayroll.SaveToDatabase(_archive))
+            if (await _processPayroll.SaveToDatabase(_archive))
             {
                 SaveStatusMessage = "Uspješno spremljeno u arhivu";
                 SelectAllPayrolls = false;
@@ -399,7 +399,7 @@ namespace PayrollModule.ViewModels
         private void InitializeArchivePreparationDatagrid()
         {
             PayrollArchive = new ObservableCollection<PayrollArchivePayrollModel>(_archive.Payrolls);
-            
+
             if (_archive.Supplements != null)
             {
                 SupplementsArchive = new ObservableCollection<PayrollSupplementEmployeeModel>(_archive.Supplements);
@@ -415,7 +415,7 @@ namespace PayrollModule.ViewModels
         {
             DialogParameters parameters = new DialogParameters();
             parameters.Add("paramPayroll", SelectedPayroll);
-            parameters.Add("paramHours", _archive.WorkedHours.Where(x=>x.Oib == SelectedPayroll.Oib).FirstOrDefault());
+            parameters.Add("paramHours", _archive.WorkedHours.Where(x => x.Oib == SelectedPayroll.Oib).FirstOrDefault());
             _showDialog.ShowDialog("RecalculateDialog", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)

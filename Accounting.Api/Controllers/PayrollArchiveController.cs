@@ -44,17 +44,13 @@ namespace Accounting.Api.Controllers
 
             return archive;
         }
-        
+
+        [HttpGet("Supplementss/{Id}")]
         public List<PayrollArchiveSupplementModel> GetSupplements(int accountingId)
         {
             return _payrollArchive.GetArchiveSupplements(accountingId);
         }
-
-        public List<PayrollArchiveSupplementModel> GetHours(int accountingId)
-        {
-            return _payrollArchive.GetArchiveSupplements(accountingId);
-        }
-
+        
         // POST api/<PayrollArchiveController>
         [HttpPost]
         public void Post([FromBody] PayrollArchiveModel archive)

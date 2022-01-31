@@ -46,7 +46,7 @@ namespace PayrollModule.ServiceLocal
             }
 
             payrollAccounting.CreateUniqueIdentifier();
-            _archive.Calculation = payrollAccounting;
+            _archive.Header = payrollAccounting;
 
             return _archive;
         }
@@ -95,7 +95,7 @@ namespace PayrollModule.ServiceLocal
         public async Task<bool> SaveToDatabase(PayrollArchiveModel archive)
         {
             _archive = archive;
-            bool result = await _archiveEndpoint.IfIdentifierExists(_archive.Calculation.UniqueId);
+            bool result = await _archiveEndpoint.IfIdentifierExists(_archive.Header.UniqueId);
             if (!result)
             {
                 await _archiveEndpoint.PostToArchive(_archive);

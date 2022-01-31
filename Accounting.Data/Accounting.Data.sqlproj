@@ -16,12 +16,13 @@
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -79,6 +80,10 @@
     <Folder Include="dbo\Stored Procedures\Payroll" />
     <Folder Include="dbo\Stored Procedures\VatArchive" />
     <Folder Include="dbo\Stored Procedures\DatabaseBackup" />
+    <Folder Include="dbo\Stored Procedures\Payroll\Payrolls" />
+    <Folder Include="dbo\Stored Procedures\Payroll\Archive" />
+    <Folder Include="dbo\Stored Procedures\Payroll\Supplements" />
+    <Folder Include="dbo\Stored Procedures\TravelOrders" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublishLocations\Accounting.Data.publish.xml" />
@@ -200,38 +205,42 @@
     <Build Include="dbo\Stored Procedures\Partners\spPartners_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\Partners\spPartners_GetByOib.sql" />
     <Build Include="dbo\Stored Procedures\Partners\spPartners_Update.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayroll_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayroll_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayroll_GetByOib.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayroll_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayroll_Update.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchive_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchive_GetHeaders_1.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchive_GetLatestId.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchive_GetPayrolls.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchive_GetSupplements.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchive_IfExists.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchive_SetProcessed.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchiveHeader_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchivePayroll_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollArchiveSupplement_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollSupplement_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollSupplementEmployee_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollSupplementEmployee_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollSupplementEmployee_GetByOib.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollSupplementEmployee_GetDistinct.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spPayrollSupplementEmployee_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Payroll\spSuppEmp_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\VatArchive\spVatArchive_CalculateForPeriod.sql" />
     <Build Include="dbo\Tables\LocoOrder.sql" />
     <Build Include="dbo\Tables\LocoCalculation.sql" />
-    <Build Include="dbo\Stored Procedures\spLocoTravelCalc_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\spLocoTravelOrders_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\spLocoTravelOrders_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\spLocoOrders_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\spLocoOrders_Delete.sql" />
     <Build Include="dbo\Stored Procedures\DatabaseBackup\spBackupDatabase_Full.sql" />
     <Build Include="dbo\Stored Procedures\DatabaseBackup\spBackupDatabase_GetAll.sql" />
+    <Build Include="dbo\Tables\PayrollHours.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Payrolls\spPayroll_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Payrolls\spPayroll_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Payrolls\spPayroll_GetByOib.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Payrolls\spPayroll_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Payrolls\spPayroll_Update.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_GetHeaders_1.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_GetHours.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_GetLatestId.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_GetPayrolls.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_GetSupplements.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_IfExists.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_SetProcessed.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchiveHeader_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchivePayroll_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchivePayrollHours_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchiveSupplement_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Supplements\spPayrollSupplement_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Supplements\spPayrollSupplementEmployee_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Supplements\spPayrollSupplementEmployee_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Supplements\spPayrollSupplementEmployee_GetByOib.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Supplements\spPayrollSupplementEmployee_GetDistinct.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Supplements\spPayrollSupplementEmployee_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Supplements\spSuppEmp_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\TravelOrders\spLocoTravelOrders_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\TravelOrders\spLocoOrders_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\TravelOrders\spLocoOrders_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\TravelOrders\spLocoTravelCalc_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\TravelOrders\spLocoTravelOrders_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_GetHeader.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

@@ -27,7 +27,7 @@ namespace PayrollModule.PrintFlow
         private readonly ICityEndpoint _cityEndpoint;
 
         private CompanyModel _company;
-        private PayrollArchiveHeaderModel _header;
+        private PayrollArchiveModel _header;
         private PayrollArchivePayrollModel _selectedPayroll;
         private List<PayrollArchiveSupplementModel> _supplement;
         private EmployeeModel _employee;
@@ -118,20 +118,16 @@ namespace PayrollModule.PrintFlow
 
         }
 
-        public void OnDialogOpened(IDialogParameters parameters)
+        public async void OnDialogOpened(IDialogParameters parameters)
         {
-            _header = parameters.GetValue<PayrollArchiveHeaderModel>("archiveHeader");
-            LoadInitData();
-        }
-
-        private async void LoadInitData()
-        {
-            await LoadDataFromDatabase(_header.Id);
+            _header = parameters.GetValue<PayrollArchiveModel>("archiveModel");
+            await LoadDataFromDatabase(_header.Header.Id);
         }
 
         private async Task LoadDataFromDatabase(int idArchive)
         {
-            _payroll = await _archiveEndpoint.GetArchivePayrolls(idArchive);
+            var payroll = await _archiveEndpoint.GetArchivePayrolls(idArchive);
+            _payroll = payroll.Payrolls;
             foreach (var emp in Payroll)
             {
                 Employees.Add(new EmployeeModel
@@ -147,7 +143,7 @@ namespace PayrollModule.PrintFlow
         {
             if(_payroll.Count <= 1)
             {
-                await LoadDataFromDatabase(_header.Id);
+                await LoadDataFromDatabase(_header.Header.Id);
             }
             CreateReportPreview();
         }
@@ -513,7 +509,7 @@ namespace PayrollModule.PrintFlow
             #region ROW 1
             AddDataToRowCell(tGrid, "1.1. Datum isplate plaće/naknade plaće u cijelosti",
                 1, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, $"{_header.DatumObracuna.Value.ToShortDateString()}",
+            AddDataToRowCell(tGrid, $"{_header.Header.DatumObracuna.Value.ToShortDateString()}",
                 1, 1, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
@@ -543,8 +539,8 @@ namespace PayrollModule.PrintFlow
 
             TextBlock tText = new TextBlock
             {
-                Text = $"V. RAZDOBLJE NA KOJE SE PLAĆA ODNOSI: {_header.DatumOd.Value.ToShortDateString()} - " +
-                $"{_header.DatumDo.Value.ToShortDateString()}"
+                Text = $"V. RAZDOBLJE NA KOJE SE PLAĆA ODNOSI: {_header.Header.DatumOd.Value.ToShortDateString()} - " +
+                $"{_header.Header.DatumDo.Value.ToShortDateString()}"
             };
             tText.SetCurrentValue(Grid.RowProperty, 0);
             tText.SetCurrentValue(Grid.ColumnProperty, 0);
@@ -559,6 +555,7 @@ namespace PayrollModule.PrintFlow
 
         private void AddWorkHoursSection(Grid grid, int rowIndex)
         {
+            PayrollHours hours = _header.WorkedHours.Where(x => x.Oib == _selectedPayroll.Oib).FirstOrDefault();
             Border tBorder = AddRowToMainGrid(grid, rowIndex);
 
             Grid tGrid = new();
@@ -598,7 +595,7 @@ namespace PayrollModule.PrintFlow
 
             #region ROW 3
             AddDataToRowCell(tGrid, "REDOVNI MJESEČNI FOND SATI", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, $"{_header.SatiRada}", 3, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{_header.Header.SatiRada}", 3, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 3, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 3, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
@@ -614,14 +611,14 @@ namespace PayrollModule.PrintFlow
 
             #region ROW 5
             AddDataToRowCell(tGrid, "1.1. redoviti rad prema rasporedu dnevnog vremena", 5, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, $"{_header.SatiRada}", 5, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.RegularHours}", 5, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 5, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 5, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 6
             AddDataToRowCell(tGrid, "1.2. redoviti rad nedjeljom", 6, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 6, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.SundayHours}", 6, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 6, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 6, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
@@ -630,28 +627,28 @@ namespace PayrollModule.PrintFlow
             AddDataToRowCell(tGrid,
                 "1.3. redoviti rad blagdanom i neradnim danom utvrđenim posebnim zakonom",
                 7, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 7, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.HolidayHours}", 7, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 7, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 7, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 8
             AddDataToRowCell(tGrid, "1.4. redoviti rad noću", 8, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 8, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.NightHours}", 8, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 8, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 8, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 9
             AddDataToRowCell(tGrid, "1.5. prekovremeni rad", 9, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 9, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.Overtime}", 9, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 9, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 9, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 10
             AddDataToRowCell(tGrid, "1.6. prekovremeni rad nedjeljom", 10, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 10, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.OvertimeSundayHours}", 10, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 10, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 10, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
@@ -660,28 +657,28 @@ namespace PayrollModule.PrintFlow
             AddDataToRowCell(tGrid,
                 "1.7. prekovremeni rad blagdanom i neradnim danom utvrđenim posebnim zakonom",
                 11, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 11, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.OvertimeHolidayHours}", 11, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 11, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 11, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 12
             AddDataToRowCell(tGrid, "1.8. prekovremeni rad noću", 12, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 12, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.OvertimeNightHours}", 12, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 12, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 12, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 13
             AddDataToRowCell(tGrid, "1.9. propravnost", 13, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 13, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.StandBy}", 13, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 13, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 13, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 14
             AddDataToRowCell(tGrid, "2.1. naknada za godišnji odmor", 14, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 14, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.VacationCompensation}", 14, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 14, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 14, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
@@ -690,7 +687,7 @@ namespace PayrollModule.PrintFlow
             AddDataToRowCell(tGrid,
                 "2.2. naknada za vrijeme privremene nesposobnosti za rad zbog bolesti na teret poslodavca",
                 15, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 15, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.SickDays}", 15, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 15, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 15, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
@@ -699,7 +696,7 @@ namespace PayrollModule.PrintFlow
             AddDataToRowCell(tGrid,
                 "2.3. naknada za vrijeme privremene nesposobnosti za rad zbog bolesti na teret HZZO",
                 16, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 16, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.SickDaysState}", 16, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 16, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 16, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
@@ -708,7 +705,7 @@ namespace PayrollModule.PrintFlow
             AddDataToRowCell(tGrid,
                 "2.4. naknada za dane blagdana i neradne dane utvrđene posebnim zakonom",
                 17, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, "", 17, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.SpecialHolidayCompensation}", 17, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 17, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 17, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
@@ -996,8 +993,7 @@ namespace PayrollModule.PrintFlow
 
         private async Task AddSupplementsSection(Grid grid, int rowIndex)
         {
-            _supplement = await _archiveEndpoint.GetArchiveSupplements(_header.Id);
-            var supp = _supplement.Where(x => x.Oib == _selectedPayroll.Oib).ToList();
+            var supp = _header.Supplements.Where(x => x.Oib == _selectedPayroll.Oib).ToList();
             Border tBorder = AddRowToMainGrid(grid, rowIndex);
 
             Grid tGrid = new();
@@ -1097,7 +1093,7 @@ namespace PayrollModule.PrintFlow
             bottom.Child = tText;
             tGrid.Children.Add(bottom);
 
-            var sumSupp = _supplement.Where(x => x.Oib == _selectedPayroll.Oib).Sum(y => y.Iznos);
+            var sumSupp = _header.Supplements.Where(x => x.Oib == _selectedPayroll.Oib).Sum(y => y.Iznos);
             var ammount = _selectedPayroll.Neto + sumSupp;
             AddDataToRowCell(tGrid, $"{ammount}", 0, 1, new Thickness(0, 0, 0, 0), TextAlignment.Right);
             #endregion

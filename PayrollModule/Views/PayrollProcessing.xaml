@@ -182,9 +182,28 @@
 
                 <!--Accounting display-->
                 <DockPanel DockPanel.Dock="Left">
-                    <TextBlock Text="Obračun plaće i dodataka" DockPanel.Dock="Top"
+                    <Grid DockPanel.Dock="Top">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Obračun plaće i dodataka" Grid.Row="0" Grid.Column="0"
                                Margin="5" FontSize="18"/>
-                    <DataGrid ItemsSource="{Binding PayrollArchive}" DockPanel.Dock="Top"
+                        <Button Width="150" Height="35" Margin="10 5 0 5" Padding="0"
+                            Command="{Binding ChangeSelectedCalculationCommand}" Grid.Row="0" Grid.Column="1"
+                            Background="Transparent" BorderBrush="Gray">
+                            <StackPanel>
+                                <TextBlock Text="Promjeni odabrani" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>                        
+                    <DataGrid ItemsSource="{Binding PayrollArchive}" 
+                              SelectedItem="{Binding SelectedPayroll, UpdateSourceTrigger=PropertyChanged}"
+                              DockPanel.Dock="Top"
                               Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top"
                               AutoGenerateColumns="False" CanUserAddRows="False">
                         <DataGrid.Columns>

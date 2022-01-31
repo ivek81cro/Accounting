@@ -47,13 +47,13 @@ namespace AccountingUI.Core.Services
             }
         }
 
-        public async Task<List<PayrollArchivePayrollModel>> GetArchivePayrolls(int accountingId)
+        public async Task<PayrollArchiveModel> GetArchivePayrolls(int id)
         {
-            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/PayrollArchive/Payrolls/{accountingId}"))
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/PayrollArchive/Payrolls/{id}"))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsAsync<List<PayrollArchivePayrollModel>>();
+                    var result = await response.Content.ReadAsAsync<PayrollArchiveModel>();
                     return result;
                 }
                 else

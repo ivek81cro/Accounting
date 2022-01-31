@@ -32,7 +32,7 @@ namespace Accounting.Api.Controllers
         }
 
         // GET api/<PayrollController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{oib}")]
         public PayrollModel Get(string oib)
         {
             return _payrollData.GetByOib(oib);
@@ -53,7 +53,7 @@ namespace Accounting.Api.Controllers
         }
 
         // DELETE api/<PayrollController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{oib}")]
         public void Delete(string oib)
         {
             _payrollData.DeletePayroll(oib);

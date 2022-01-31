@@ -252,12 +252,12 @@ namespace PayrollModule.ServiceLocal
                     P8 = (tOznakaMjesec)Enum.Parse(typeof(tOznakaMjesec), "Item" + e.PrviZadnjiMjesec),
                     P9 = (tOznakaRadnoVrijeme)Enum.Parse(typeof(tOznakaRadnoVrijeme), "Item" + e.PunoNepunoRadnoVrijeme),
                     P10 = IsPoslodavac(e) ?
-                        int.Parse((Convert.ToDateTime(_archive.Calculation.DatumDo) -
-                            Convert.ToDateTime(_archive.Calculation.DatumOd)).Days.ToString()) + 1 :
-                        _archive.Calculation.SatiRada,
-                    P100 = IsPoslodavac(e) ? 0 : _archive.Calculation.SatiPraznika,
-                    P101 = Convert.ToDateTime(_archive.Calculation.DatumOd),
-                    P102 = Convert.ToDateTime(_archive.Calculation.DatumDo),
+                        int.Parse((Convert.ToDateTime(_archive.Header.DatumDo) -
+                            Convert.ToDateTime(_archive.Header.DatumOd)).Days.ToString()) + 1 :
+                        _archive.Header.SatiRada,
+                    P100 = IsPoslodavac(e) ? 0 : _archive.Header.SatiPraznika,
+                    P101 = Convert.ToDateTime(_archive.Header.DatumOd),
+                    P102 = Convert.ToDateTime(_archive.Header.DatumDo),
                     P11 = p.Bruto,
                     P12 = p.Bruto,
                     P121 = p.Mio1,
@@ -319,8 +319,8 @@ namespace PayrollModule.ServiceLocal
                         P9 = 0,
                         P10 = 0,
                         P100 = 0,
-                        P101 = Convert.ToDateTime(_archive.Calculation.DatumOd),
-                        P102 = Convert.ToDateTime(_archive.Calculation.DatumDo),
+                        P101 = Convert.ToDateTime(_archive.Header.DatumOd),
+                        P102 = Convert.ToDateTime(_archive.Header.DatumDo),
                         P11 = 0,
                         P12 = 0,
                         P121 = 0,

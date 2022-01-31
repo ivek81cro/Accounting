@@ -9,7 +9,7 @@ namespace AccountingUI.Core.Services
         Task<bool> PostToArchive(PayrollArchiveModel archive);
         Task<bool> IfIdentifierExists(string identifier);
         Task<List<PayrollArchiveHeaderModel>> GetArchiveHeaders();
-        Task<List<PayrollArchivePayrollModel>> GetArchivePayrolls(int accountingId);
+        Task<PayrollArchiveModel> GetArchivePayrolls(int id);
         Task<List<PayrollArchiveSupplementModel>> GetArchiveSupplements(int accountingId);
         Task DeleteRecord(int accountingId);
         Task MarkAsProcessed(int id);

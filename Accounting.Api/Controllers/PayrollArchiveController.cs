@@ -33,14 +33,24 @@ namespace Accounting.Api.Controllers
             return _payrollArchive.IfExists(identifier);
         }
 
-        [HttpGet("Payrolls/{accountingId}")]
-        public List<PayrollArchivePayrollModel> GetPayrolls(int accountingId)
+        [HttpGet("Payrolls/{Id}")]
+        public PayrollArchiveModel GetPayrolls(int id)
         {
-            return _payrollArchive.GetArchivePayrolls(accountingId);
+            PayrollArchiveModel archive = new();
+            archive.Header = _payrollArchive.GetHeader(id);
+            archive.Payrolls = _payrollArchive.GetArchivePayrolls(id);
+            archive.Supplements = _payrollArchive.GetArchiveSupplements(id);
+            archive.WorkedHours = _payrollArchive.GetArchiveHours(id);
+
+            return archive;
         }
         
-        [HttpGet("Supplements/{accountingId}")]
         public List<PayrollArchiveSupplementModel> GetSupplements(int accountingId)
+        {
+            return _payrollArchive.GetArchiveSupplements(accountingId);
+        }
+
+        public List<PayrollArchiveSupplementModel> GetHours(int accountingId)
         {
             return _payrollArchive.GetArchiveSupplements(accountingId);
         }

@@ -29,34 +29,80 @@ namespace Accounting.DataManager.DataAccess
             }
         }
 
-        public List<PayrollArchivePayrollModel> GetArchivePayrolls(int accountingId)
+        public PayrollArchiveHeaderModel GetHeader(int id)
         {
+            PayrollArchiveHeaderModel result;
             try
             {
                 _sql.StartTransaction("AccountingConnStr");
 
-                return _sql.LoadDataInTransaction<PayrollArchivePayrollModel, dynamic>("spPayrollArchive_GetPayrolls", new { AccountingId = accountingId });
+                result = _sql.LoadDataInTransaction<PayrollArchiveHeaderModel, dynamic>("spPayrollArchive_GetHeader", new { Id = id }).FirstOrDefault();
+
             }
             catch (Exception)
             {
                 _sql.RollBackTransaction();
                 throw;
             }
+            _sql.Dispose();
+            return result;
+        }
+
+        public List<PayrollArchivePayrollModel> GetArchivePayrolls(int accountingId)
+        {
+            List<PayrollArchivePayrollModel> result;
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                result = _sql.LoadDataInTransaction<PayrollArchivePayrollModel, dynamic>("spPayrollArchive_GetPayrolls", new { AccountingId = accountingId });
+            }
+            catch (Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+            _sql.Dispose();
+
+            return result;
         }
 
         public List<PayrollArchiveSupplementModel> GetArchiveSupplements(int accountingId)
         {
+            List<PayrollArchiveSupplementModel> result;
             try
             {
                 _sql.StartTransaction("AccountingConnStr");
 
-                return _sql.LoadDataInTransaction<PayrollArchiveSupplementModel, dynamic>("spPayrollArchive_GetSupplements", new { AccountingId = accountingId });
+                result = _sql.LoadDataInTransaction<PayrollArchiveSupplementModel, dynamic>("spPayrollArchive_GetSupplements", new { AccountingId = accountingId });
             }
             catch (Exception)
             {
                 _sql.RollBackTransaction();
                 throw;
             }
+            _sql.Dispose();
+
+            return result;
+        }
+
+        public List<PayrollHours> GetArchiveHours(int accountingId)
+        {
+            List<PayrollHours> result;
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                result = _sql.LoadDataInTransaction<PayrollHours, dynamic>("spPayrollArchive_GetHours", new { Id = accountingId });
+            }
+            catch (Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+            _sql.Dispose();
+
+            return result;
         }
 
         public bool IfExists(string identifier)
@@ -80,11 +126,12 @@ namespace Accounting.DataManager.DataAccess
 
         public void Insert(PayrollArchiveModel archive)
         {
-            InsertAccountingHeader(archive.Calculation);
+            InsertAccountingHeader(archive.Header);
 
             int id = GetLatestId();
 
             InsertPayrollArchive(archive.Payrolls, id);
+            InsertHoursArchive(archive.WorkedHours, id);
 
             if (archive.Supplements != null)
             {
@@ -142,6 +189,7 @@ namespace Accounting.DataManager.DataAccess
                 catch (Exception)
                 {
                     _sql.RollBackTransaction();
+                    DeleteRecord(id);
                     throw;
                 }
                 _sql.Dispose();
@@ -162,6 +210,28 @@ namespace Accounting.DataManager.DataAccess
                 catch (System.Exception)
                 {
                     _sql.RollBackTransaction();
+                    DeleteRecord(id);
+                    throw;
+                }
+                _sql.Dispose();
+            }
+        }
+
+        private void InsertHoursArchive(List<PayrollHours> hours, int id)
+        {
+            foreach (var s in hours)
+            {
+                s.PayrollId = id;
+                try
+                {
+                    _sql.StartTransaction("AccountingConnStr");
+
+                    _sql.SaveDataInTransaction("dbo.spPayrollArchivePayrollHours_Insert", s);
+                }
+                catch (System.Exception)
+                {
+                    _sql.RollBackTransaction();
+                    DeleteRecord(id);
                     throw;
                 }
                 _sql.Dispose();

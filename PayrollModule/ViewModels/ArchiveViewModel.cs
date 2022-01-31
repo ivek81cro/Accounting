@@ -22,10 +22,6 @@ namespace PayrollModule.ViewModels
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
         private readonly IPayrollArchivePrepare _payrollArchivePrepare;
 
-        private List<PayrollArchiveHeaderModel> _archiveHeaders;
-        private List<PayrollArchivePayrollModel> _archivePayrolls;
-        private List<PayrollArchiveSupplementModel> _archiveSupplements;
-
         private readonly string _bookName;
 
         public ArchiveViewModel(IPayrollArchiveEndpoint archiveEndpoint,
@@ -61,6 +57,18 @@ namespace PayrollModule.ViewModels
         #endregion
 
         #region Properties
+
+        private PayrollArchiveModel _archivePayrolls;
+        public PayrollArchiveModel ArchivePayrolls
+        {
+            get => _archivePayrolls;
+            set
+            {
+                SetProperty(ref _archivePayrolls, value);
+                PrintPayrollCommand.RaiseCanExecuteChanged();
+            }
+        }
+
         private ObservableCollection<PayrollArchiveHeaderModel> _accountingHeaders;
         public ObservableCollection<PayrollArchiveHeaderModel> AccountingHeaders
         {
@@ -139,9 +147,8 @@ namespace PayrollModule.ViewModels
         #region Load Archive, details, sum values
         public async void LoadArchive()
         {
-            _archiveHeaders = new();
-            _archiveHeaders = await _archiveEndpoint.GetArchiveHeaders();
-            AccountingHeaders = new ObservableCollection<PayrollArchiveHeaderModel>(_archiveHeaders);
+            var archiveHeaders = await _archiveEndpoint.GetArchiveHeaders();
+            AccountingHeaders = new ObservableCollection<PayrollArchiveHeaderModel>(archiveHeaders);
 
             LoadAccountingSettings();
         }
@@ -153,37 +160,34 @@ namespace PayrollModule.ViewModels
             SupplementsSum = 0;
             PayrollExpense = 0;
 
-            _archivePayrolls = new();
-            _archivePayrolls = await _archiveEndpoint.GetArchivePayrolls(SelectedArchive.Id);
+            ArchivePayrolls = await _archiveEndpoint.GetArchivePayrolls(SelectedArchive.Id);
             SetPayrollSum();
-            Payrolls = new ObservableCollection<PayrollArchivePayrollModel>(_archivePayrolls);
+            Payrolls = new ObservableCollection<PayrollArchivePayrollModel>(ArchivePayrolls.Payrolls);
 
-            _archiveSupplements = new();
-            _archiveSupplements = await _archiveEndpoint.GetArchiveSupplements(SelectedArchive.Id);
-            Supplements = new ObservableCollection<PayrollArchiveSupplementModel>(_archiveSupplements);
+            Supplements = new ObservableCollection<PayrollArchiveSupplementModel>(ArchivePayrolls.Supplements);
 
             SetSums();
         }
 
         private void SetPayrollSum()
         {
-            _archivePayrolls.Add(
+            ArchivePayrolls.Payrolls.Add(
                 new PayrollArchivePayrollModel
                 {
                     Prezime ="UKUPNO",
-                    Mio1 = _archivePayrolls.Sum(x=> x.Mio1),
-                    Mio2 = _archivePayrolls.Sum(x=> x.Mio2),
-                    Bruto = _archivePayrolls.Sum(x=> x.Bruto),
-                    Neto = _archivePayrolls.Sum(x=> x.Neto),
-                    Dohodak = _archivePayrolls.Sum(x=> x.Dohodak),
-                    DoprinosZdravstvo = _archivePayrolls.Sum(x=> x.DoprinosZdravstvo),
-                    PoreznaOsnovica = _archivePayrolls.Sum(x=> x.PoreznaOsnovica),
-                    PoreznaStopa1 = _archivePayrolls.Sum(x=> x.PoreznaStopa1),
-                    PoreznaStopa2 = _archivePayrolls.Sum(x=> x.PoreznaStopa2),
-                    Prirez = _archivePayrolls.Sum(x=> x.Prirez),
-                    Odbitak = _archivePayrolls.Sum(x=> x.Odbitak),
-                    UkupnoPorez = _archivePayrolls.Sum(x=> x.UkupnoPorez),
-                    UkupnoPorezPrirez = _archivePayrolls.Sum(x=> x.UkupnoPorezPrirez),
+                    Mio1 = ArchivePayrolls.Payrolls.Sum(x=> x.Mio1),
+                    Mio2 = ArchivePayrolls.Payrolls.Sum(x=> x.Mio2),
+                    Bruto = ArchivePayrolls.Payrolls.Sum(x=> x.Bruto),
+                    Neto = ArchivePayrolls.Payrolls.Sum(x=> x.Neto),
+                    Dohodak = ArchivePayrolls.Payrolls.Sum(x=> x.Dohodak),
+                    DoprinosZdravstvo = ArchivePayrolls.Payrolls.Sum(x=> x.DoprinosZdravstvo),
+                    PoreznaOsnovica = ArchivePayrolls.Payrolls.Sum(x=> x.PoreznaOsnovica),
+                    PoreznaStopa1 = ArchivePayrolls.Payrolls.Sum(x=> x.PoreznaStopa1),
+                    PoreznaStopa2 = ArchivePayrolls.Payrolls.Sum(x=> x.PoreznaStopa2),
+                    Prirez = ArchivePayrolls.Payrolls.Sum(x=> x.Prirez),
+                    Odbitak = ArchivePayrolls.Payrolls.Sum(x=> x.Odbitak),
+                    UkupnoPorez = ArchivePayrolls.Payrolls.Sum(x=> x.UkupnoPorez),
+                    UkupnoPorezPrirez = ArchivePayrolls.Payrolls.Sum(x=> x.UkupnoPorezPrirez),
                 });
         }
 
@@ -236,16 +240,10 @@ namespace PayrollModule.ViewModels
         #region Create JOPPD XML document
         private void CreateJoppdDialog()
         {
-            PayrollArchiveModel archive = new PayrollArchiveModel
-            {
-                Calculation = SelectedArchive,
-                Payrolls = _archivePayrolls.Where(x => x.Oib != null).ToList(),
-                Supplements = _archiveSupplements
-            };
 
             var p = new NavigationParameters();
             string tabTitle = TabHeaderTitles.GetHeaderTitle("JoppdView");
-            p.Add("archive", archive);
+            p.Add("archive", ArchivePayrolls);
             p.Add("title", tabTitle);
             _regionManager.RequestNavigate("ContentRegion", "JoppdView", p);
         }
@@ -338,12 +336,12 @@ namespace PayrollModule.ViewModels
         #endregion
 
         #region Payroll print
-        private bool CanPrint() => SelectedArchive != null;
+        private bool CanPrint() => ArchivePayrolls != null;
 
         private void PrintPayroll()
         {
             DialogParameters parameters = new DialogParameters();
-            parameters.Add("archiveHeader", SelectedArchive);
+            parameters.Add("archiveModel", ArchivePayrolls);
             _showDialog.ShowDialog("PayrollReport", parameters, result =>
             {
                 if (result.Result == ButtonResult.OK)

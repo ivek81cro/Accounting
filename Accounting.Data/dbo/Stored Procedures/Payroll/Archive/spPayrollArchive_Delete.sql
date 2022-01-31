@@ -9,4 +9,7 @@ BEGIN
 	DELETE FROM PayrollArchivePayroll WHERE AccountingId=@Id;
 
 	DELETE FROM PayrollArchiveHeader WHERE Id=@Id;
+	
+	DELETE FROM PayrollHours WHERE PayrollId=@Id;
+
 END

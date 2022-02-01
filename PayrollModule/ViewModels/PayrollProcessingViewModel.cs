@@ -280,7 +280,8 @@ namespace PayrollModule.ViewModels
             {
                 _archive.WorkedHours.Add(new PayrollHours
                 {
-                    RegularHours = _archive.Header.SatiRada,
+                    TotalHours = _archive.Header.SatiRada,
+                    RegularHours= _archive.Header.SatiRada - _archive.Header.SatiPraznika,
                     Oib = pay.Oib,
                     HolidayHours = _archive.Header.SatiPraznika
                 });

@@ -71,7 +71,7 @@ namespace PayrollModule.Dialogs
         {
             if (Hours.SickDays > 0) 
             { 
-                _amountDeduct += Payroll.Bruto / (Hours.RegularHours + Hours.HolidayHours) * _config.GetValue<decimal>("OdbitakBolovanje1") * Hours.SickDays;
+                _amountDeduct += Payroll.Bruto / Hours.TotalHours * _config.GetValue<decimal>("OdbitakBolovanje1") * Hours.SickDays;
                 Hours.RegularHours -= Hours.SickDays;
             }
 

@@ -2,6 +2,7 @@
 @Id int,
 @Oib nvarchar(11),
 @PayrollId int,
+@TotalHours int,
 @RegularHours int,
 @SundayHours int,
 @HolidayHours int,
@@ -17,10 +18,10 @@
 @SpecialHolidayCompensation int
 AS
 BEGIN
-	INSERT INTO PayrollHours (Oib, PayrollId, RegularHours, SundayHours, HolidayHours, NightHours, Overtime,
+	INSERT INTO PayrollHours (Oib, PayrollId, TotalHours, RegularHours, SundayHours, HolidayHours, NightHours, Overtime,
 	OvertimeSundayHours, OvertimeHolidayHours, OvertimeNightHours, StandBy, VacationCompensation, SickDays,
 	SickDaysState, SpecialHolidayCompensation)
-	VALUES (@Oib, @PayrollId, @RegularHours, @SundayHours, @HolidayHours, @NightHours, @Overtime,
+	VALUES (@Oib, @PayrollId, @TotalHours, @RegularHours, @SundayHours, @HolidayHours, @NightHours, @Overtime,
 	@OvertimeSundayHours, @OvertimeHolidayHours, @OvertimeNightHours, @StandBy, @VacationCompensation, @SickDays,
 	@SickDaysState, @SpecialHolidayCompensation)
 END

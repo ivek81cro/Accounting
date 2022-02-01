@@ -595,7 +595,7 @@ namespace PayrollModule.PrintFlow
 
             #region ROW 3
             AddDataToRowCell(tGrid, "REDOVNI MJESEČNI FOND SATI", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, $"{_header.Header.SatiRada}", 3, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hours.TotalHours}", 3, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 3, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 3, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion

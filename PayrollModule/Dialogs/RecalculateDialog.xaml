@@ -42,75 +42,87 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Redoviti rad" Margin="5"
+        <TextBlock Text="Naziv" Margin="5"
                    Grid.Row="0" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.RegularHours}" Margin="5"
-                 Grid.Row="0" Grid.Column="1"/>
-
-        <TextBlock Text="Sati nedjeljom" Margin="5"
+        <TextBlock Width="100" Text="Sati" Margin="5"
+                   Grid.Row="0" Grid.Column="1"/>
+        
+        <TextBlock Text="Ukupno sati" Margin="5"
                    Grid.Row="1" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.SundayHours}" Margin="5"
+        <TextBox Width="100" Text="{Binding Hours.TotalHours}" Margin="5"
                  Grid.Row="1" Grid.Column="1"/>
-
-        <TextBlock Text="Sati praznika" Margin="5"
+        
+        <TextBlock Text="Redoviti rad" Margin="5"
                    Grid.Row="2" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.HolidayHours}" Margin="5"
+        <TextBox Width="100" Text="{Binding Hours.RegularHours}" Margin="5"
                  Grid.Row="2" Grid.Column="1"/>
 
-        <TextBlock Text="Sati noću" Margin="5"
+        <TextBlock Text="Sati nedjeljom" Margin="5"
                    Grid.Row="3" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.NightHours}" Margin="5"
+        <TextBox Width="100" Text="{Binding Hours.SundayHours}" Margin="5"
                  Grid.Row="3" Grid.Column="1"/>
 
-        <TextBlock Text="Prekovremeno" Margin="5"
+        <TextBlock Text="Sati praznika" Margin="5"
                    Grid.Row="4" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.Overtime}" Margin="5"
+        <TextBox Width="100" Text="{Binding Hours.HolidayHours}" Margin="5"
                  Grid.Row="4" Grid.Column="1"/>
 
-        <TextBlock Text="Prekovremeno nedjelja" Margin="5"
+        <TextBlock Text="Sati noću" Margin="5"
                    Grid.Row="5" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.OvertimeSundayHours}" Margin="5"
+        <TextBox Width="100" Text="{Binding Hours.NightHours}" Margin="5"
                  Grid.Row="5" Grid.Column="1"/>
-        
-        <TextBlock Text="Prekovremeno praznik" Margin="5"
+
+        <TextBlock Text="Prekovremeno" Margin="5"
                    Grid.Row="6" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.OvertimeHolidayHours}" Margin="5"
+        <TextBox Width="100" Text="{Binding Hours.Overtime}" Margin="5"
                  Grid.Row="6" Grid.Column="1"/>
 
-        <TextBlock Text="Prekovremeno noću" Margin="5"
+        <TextBlock Text="Prekovremeno nedjelja" Margin="5"
                    Grid.Row="7" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.OvertimeNightHours}" Margin="5"
-                 Grid.Row="7" Grid.Column="1"/>
+        <TextBox Width="100" Text="{Binding Hours.OvertimeSundayHours}" 
+                 Margin="5" Grid.Row="7" Grid.Column="1"/>
+        
+        <TextBlock Text="Prekovremeno praznik" Margin="5"
+                   Grid.Row="8" Grid.Column="0"/>
+        <TextBox Width="100" Text="{Binding Hours.OvertimeHolidayHours}" 
+                 Margin="5" Grid.Row="8" Grid.Column="1"/>
+
+        <TextBlock Text="Prekovremeno noću" Margin="5"
+                   Grid.Row="9" Grid.Column="0"/>
+        <TextBox Width="100" Text="{Binding Hours.OvertimeNightHours}" 
+                 Margin="5" Grid.Row="9" Grid.Column="1"/>
 
         <TextBlock Text="Pripravnost" Margin="5"
-                   Grid.Row="8" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.StandBy}" Margin="5"
-                 Grid.Row="8" Grid.Column="1"/>
-
-        <TextBlock Text="Naknada za dane godišnjeg" Margin="5"
-                   Grid.Row="9" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.VacationCompensation}" Margin="5"
-                 Grid.Row="9" Grid.Column="1"/>
-
-        <TextBlock Text="Bolovanje" Margin="5"
                    Grid.Row="10" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.SickDays}" Margin="5"
+        <TextBox Width="100" Text="{Binding Hours.StandBy}" Margin="5"
                  Grid.Row="10" Grid.Column="1"/>
 
-        <TextBlock Text="Bolovanje HZZO" Margin="5"
+        <TextBlock Text="Naknada za dane godišnjeg" Margin="5"
                    Grid.Row="11" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.SickDaysState}" Margin="5"
-                 Grid.Row="11" Grid.Column="1"/>
+        <TextBox Width="100" Text="{Binding Hours.VacationCompensation}" 
+                 Margin="5" Grid.Row="11" Grid.Column="1"/>
 
-        <TextBlock Text="Blagdani - poseban zakon" Margin="5"
+        <TextBlock Text="Bolovanje" Margin="5"
                    Grid.Row="12" Grid.Column="0"/>
-        <TextBox Width="100" Text="{Binding Hours.SpecialHolidayCompensation}" Margin="5"
+        <TextBox Width="100" Text="{Binding Hours.SickDays}" Margin="5"
                  Grid.Row="12" Grid.Column="1"/>
 
-        <Button Grid.Row="13" Grid.Column="0" Height="30" Width="100"
+        <TextBlock Text="Bolovanje HZZO" Margin="5"
+                   Grid.Row="13" Grid.Column="0"/>
+        <TextBox Width="100" Text="{Binding Hours.SickDaysState}" Margin="5"
+                 Grid.Row="13" Grid.Column="1"/>
+
+        <TextBlock Text="Blagdani - poseban zakon" Margin="5"
+                   Grid.Row="14" Grid.Column="0"/>
+        <TextBox Width="100" Text="{Binding Hours.SpecialHolidayCompensation}" 
+                 Margin="5" Grid.Row="14" Grid.Column="1"/>
+
+        <Button Grid.Row="15" Grid.Column="0" Height="30" Width="100"
                 Command="{Binding CalculateCommand}" Content="Obračunaj"
                 Margin="5">            
         </Button>

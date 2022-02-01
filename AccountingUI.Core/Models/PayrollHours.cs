@@ -26,6 +26,13 @@ namespace AccountingUI.Core.Models
             set => SetProperty(ref _payrollId, value);
         }
 
+        private int _totalHours;
+        public int TotalHours
+        {
+            get => _totalHours;
+            set => SetProperty(ref _totalHours, value);
+        }
+
         private int _regularHours = 0;
         public int RegularHours
         {

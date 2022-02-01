@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string Oib { get; set; }
         public int PayrollId { get; set; }
+        public int TotalHours { get; set; }
         public int RegularHours { get; set; }
         public int SundayHours { get; set; }
         public int HolidayHours { get; set; }

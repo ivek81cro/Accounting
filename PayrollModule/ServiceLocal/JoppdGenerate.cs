@@ -234,7 +234,7 @@ namespace PayrollModule.ServiceLocal
         private void AddRecipients(List<JoppdEmployeeModel> joppdEmployee)
         {
             _pArr = new List<sPrimateljiP>();
-            for (int i = 0; i < _archive.Payrolls.Count; i++)
+            for (int i = 0; i < _archive.Payrolls.Count-1; i++)
             {
                 var p = _archive.Payrolls[i];
                 var e = joppdEmployee.Where(j => j.Oib == p.Oib).FirstOrDefault();

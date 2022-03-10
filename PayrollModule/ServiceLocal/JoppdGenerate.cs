@@ -24,6 +24,8 @@ namespace PayrollModule.ServiceLocal
         {
             _archive = archive;
 
+            var payrolls = _archive.Payrolls.Where(x => x.Oib != null);
+
             AddRecipients(joppdEmployee);
 
             CompanyModel c = await _companyEndpoint.Get();
@@ -51,12 +53,12 @@ namespace PayrollModule.ServiceLocal
                     OIB = c.Oib,
                     Oznaka = tOznakaPodnositelja.Item2
                 },
-                BrojOsoba = archive.Payrolls.Select(x => x.Oib).Distinct().Count().ToString(),
+                BrojOsoba = payrolls.Distinct().Count().ToString(),
                 BrojRedaka = _pArr.Count.ToString(),
                 PredujamPoreza = new sPredujamPoreza()
                 {
-                    P1 = archive.Payrolls.Sum(x => x.UkupnoPorezPrirez),
-                    P11 = archive.Payrolls.Sum(x => x.UkupnoPorezPrirez),
+                    P1 = payrolls.Sum(x => x.UkupnoPorezPrirez),
+                    P11 = payrolls.Sum(x => x.UkupnoPorezPrirez),
                     P12 = 0,
                     P2 = 0,
                     P3 = 0,
@@ -234,7 +236,7 @@ namespace PayrollModule.ServiceLocal
         private void AddRecipients(List<JoppdEmployeeModel> joppdEmployee)
         {
             _pArr = new List<sPrimateljiP>();
-            for (int i = 0; i < _archive.Payrolls.Count-1; i++)
+            for (int i = 0; i < _archive.Payrolls.Where(x => x.Oib != null).Count(); i++)
             {
                 var p = _archive.Payrolls[i];
                 var e = joppdEmployee.Where(j => j.Oib == p.Oib).FirstOrDefault();

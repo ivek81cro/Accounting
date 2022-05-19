@@ -304,6 +304,7 @@ namespace BalanceSheetModule.ViewModels
                         Valuta="HRK",
                         Dugovna = item.Stanje > 0?item.Stanje:0,
                         Potrazna = item.Stanje < 0?item.Stanje*(-1):0,
+                        VrstaTemeljnice="Pocetno stanje"
                     });
                 }
             }

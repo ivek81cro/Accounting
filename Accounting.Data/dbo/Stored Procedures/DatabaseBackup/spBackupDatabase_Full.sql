@@ -11,7 +11,7 @@ BEGIN
 	SELECT @fileDate = CONVERT(NVARCHAR(20),GETDATE(),112);
 	
 	SET @savePath = '/var/opt/mssql/data/';
-	SET @name = 'Accounting';
+	SET @name = (SELECT DB_NAME());
 	
 	SET @fileName = @savePath + @name + '_' + @fileDate + '.BAK';
 	BACKUP DATABASE @name TO DISK = @fileName;

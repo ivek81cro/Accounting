@@ -26,7 +26,7 @@ namespace AccountingUI.Core.Models
             set => SetProperty(ref _payrollId, value);
         }
 
-        private int _totalHours;
+        private int _totalHours = 0;
         public int TotalHours
         {
             get => _totalHours;

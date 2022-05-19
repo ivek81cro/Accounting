@@ -1,5 +1,6 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
+using Microsoft.Extensions.Configuration;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
@@ -25,17 +26,20 @@ namespace PayrollModule.PrintFlow
         private readonly IPayrollArchiveEndpoint _archiveEndpoint;
         private readonly IEmployeeEndpoint _employeeEndpoint;
         private readonly ICityEndpoint _cityEndpoint;
+        private readonly IPayrollEndpoint _payrollEndpoint;
+        private readonly IConfiguration _config;
 
         private CompanyModel _company;
         private PayrollArchiveModel _header;
         private PayrollArchivePayrollModel _selectedPayroll;
-        private List<PayrollArchiveSupplementModel> _supplement;
         private EmployeeModel _employee;
 
         public PayrollReportViewModel(ICompanyEndpoint companyEndpoint,
                                       IPayrollArchiveEndpoint archiveEndpoint,
                                       IEmployeeEndpoint employeeEndpoint,
-                                      ICityEndpoint cityEndpoint)
+                                      ICityEndpoint cityEndpoint,
+                                      IPayrollEndpoint payrollEndpoint, 
+                                      IConfiguration config)
         {
             _companyEndpoint = companyEndpoint;
             _archiveEndpoint = archiveEndpoint;
@@ -47,6 +51,8 @@ namespace PayrollModule.PrintFlow
             SelectAllCommand = new DelegateCommand(AllEmployeesReport);
 
             ReadStyles();
+            _payrollEndpoint = payrollEndpoint;
+            _config = config;
         }
 
         public DelegateCommand PrintCommand { get; private set; }
@@ -553,10 +559,16 @@ namespace PayrollModule.PrintFlow
             grid.Children.Add(tBorder);
         }
 
-        private void AddWorkHoursSection(Grid grid, int rowIndex)
+        private async void AddWorkHoursSection(Grid grid, int rowIndex)
         {
             PayrollHours hours = _header.WorkedHours.Where(x => x.Oib == _selectedPayroll.Oib).FirstOrDefault();
+            if (hours == null)
+            {
+                hours = new() { TotalHours = 160, RegularHours = 160 };
+            }
             Border tBorder = AddRowToMainGrid(grid, rowIndex);
+            PayrollModel payrollRegular = await _payrollEndpoint.GetByOib(_selectedPayroll.Oib);
+            decimal hourValue = Math.Round(payrollRegular.Bruto / hours.TotalHours, 4);
 
             Grid tGrid = new();
             for (int i = 0; i < 21; i++)
@@ -596,7 +608,7 @@ namespace PayrollModule.PrintFlow
             #region ROW 3
             AddDataToRowCell(tGrid, "REDOVNI MJESEČNI FOND SATI", 3, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
             AddDataToRowCell(tGrid, $"{hours.TotalHours}", 3, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddDataToRowCell(tGrid, "", 3, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hourValue}", 3, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 3, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
@@ -612,8 +624,8 @@ namespace PayrollModule.PrintFlow
             #region ROW 5
             AddDataToRowCell(tGrid, "1.1. redoviti rad prema rasporedu dnevnog vremena", 5, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
             AddDataToRowCell(tGrid, $"{hours.RegularHours}", 5, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddDataToRowCell(tGrid, "", 5, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddDataToRowCell(tGrid, "", 5, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hourValue}", 5, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{Math.Round(hours.RegularHours * hourValue,2)}", 5, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 6
@@ -627,7 +639,7 @@ namespace PayrollModule.PrintFlow
             AddDataToRowCell(tGrid,
                 "1.3. redoviti rad blagdanom i neradnim danom utvrđenim posebnim zakonom",
                 7, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
-            AddDataToRowCell(tGrid, $"{hours.HolidayHours}", 7, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, "", 7, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 7, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
             AddDataToRowCell(tGrid, "", 7, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
@@ -684,12 +696,13 @@ namespace PayrollModule.PrintFlow
             #endregion
 
             #region ROW 15
+            decimal sickdayHour = Math.Round(hourValue * (1 - _config.GetValue<decimal>("OdbitakBolovanje1")), 4);
             AddDataToRowCell(tGrid,
                 "2.2. naknada za vrijeme privremene nesposobnosti za rad zbog bolesti na teret poslodavca",
                 15, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
             AddDataToRowCell(tGrid, $"{hours.SickDays}", 15, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddDataToRowCell(tGrid, "", 15, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddDataToRowCell(tGrid, "", 15, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{sickdayHour}", 15, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{Math.Round(sickdayHour * hours.SickDays,2)}", 15, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 16
@@ -706,8 +719,8 @@ namespace PayrollModule.PrintFlow
                 "2.4. naknada za dane blagdana i neradne dane utvrđene posebnim zakonom",
                 17, 0, new Thickness(0, 1, 1, 0), TextAlignment.Left);
             AddDataToRowCell(tGrid, $"{hours.SpecialHolidayCompensation}", 17, 1, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddDataToRowCell(tGrid, "", 17, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
-            AddDataToRowCell(tGrid, "", 17, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{hourValue}", 17, 2, new Thickness(0, 1, 1, 0), TextAlignment.Center);
+            AddDataToRowCell(tGrid, $"{Math.Round(hourValue * hours.SpecialHolidayCompensation, 2)}", 17, 3, new Thickness(0, 1, 0, 0), TextAlignment.Center);
             #endregion
 
             #region ROW 18
@@ -1060,8 +1073,9 @@ namespace PayrollModule.PrintFlow
 
             AddDataToRowCell(tGrid, "", 0, 1, new Thickness(0, 0, 0, 0), TextAlignment.Right);
             #endregion
-
+            #region Data Rows
             //No data rows
+            #endregion
 
             tBorder.Child = tGrid;
 
@@ -1213,6 +1227,7 @@ namespace PayrollModule.PrintFlow
             grid.Children.Add(tGrid);
         }
 
+        #region AddDataToCell
         private static void AddDataToRowCell(Grid tGrid, string data, int rowIndex, int colIndex, Thickness thickness, TextAlignment alignment)
         {
             Border rBorder = new Border { BorderThickness = thickness, BorderBrush = Brushes.Black };
@@ -1229,7 +1244,9 @@ namespace PayrollModule.PrintFlow
 
             tGrid.Children.Add(rBorder);
         }
+        #endregion
 
+        #region AddRow
         private Border AddRowToMainGrid(Grid grid, int rowIndex)
         {
             grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
@@ -1239,6 +1256,8 @@ namespace PayrollModule.PrintFlow
             tBorder.SetCurrentValue(Grid.RowProperty, rowIndex);
             return tBorder;
         }
+        #endregion
+
         #endregion
 
         #region Create page

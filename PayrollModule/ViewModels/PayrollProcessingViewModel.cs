@@ -283,7 +283,7 @@ namespace PayrollModule.ViewModels
                     TotalHours = _archive.Header.SatiRada,
                     RegularHours= _archive.Header.SatiRada - _archive.Header.SatiPraznika,
                     Oib = pay.Oib,
-                    HolidayHours = _archive.Header.SatiPraznika
+                    SpecialHolidayCompensation = _archive.Header.SatiPraznika
                 });
             }
         }

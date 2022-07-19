@@ -241,6 +241,7 @@
     <Build Include="dbo\Stored Procedures\TravelOrders\spLocoTravelCalc_Insert.sql" />
     <Build Include="dbo\Stored Procedures\TravelOrders\spLocoTravelOrders_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\Payroll\Archive\spPayrollArchive_GetHeader.sql" />
+    <Build Include="dbo\Stored Procedures\BankReports\spProcessedBankReports_Get.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="Accounting.Data.refactorlog" />

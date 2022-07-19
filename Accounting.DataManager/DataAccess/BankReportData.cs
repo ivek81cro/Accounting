@@ -134,5 +134,20 @@ namespace Accounting.DataManager.DataAccess
                 throw;
             }
         }
+
+        public List<int> GetProcessedReports()
+        {
+            try
+            {
+                _sql.StartTransaction("AccountingConnStr");
+
+                return _sql.LoadDataInTransaction<int, dynamic>("dbo.spProcessedBankReports_Get", new { });
+            }
+            catch (System.Exception)
+            {
+                _sql.RollBackTransaction();
+                throw;
+            }
+        }
     }
 }

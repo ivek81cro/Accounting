@@ -32,6 +32,22 @@ namespace AccountingUI.Core.Services
             }
         }
 
+        public async Task<List<int>> GetProcessed()
+        {
+            using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/BankReport/GetProcessed"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsAsync<List<int>>();
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public async Task<BankReportModel> GetHeader(int id)
         {
             using (HttpResponseMessage response = await _apiService.ApiClient.GetAsync($"/api/BankReport/GetHeader/{id}"))

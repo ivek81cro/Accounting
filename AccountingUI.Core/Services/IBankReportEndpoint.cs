@@ -7,6 +7,7 @@ namespace AccountingUI.Core.Services
     public interface IBankReportEndpoint
     {
         Task<int> GetHeaderId(int reportNumber);
+        Task<List<int>> GetProcessed();
         Task<bool> PostHeader(BankReportModel header);
         Task<bool> PostItems(List<BankReportItemModel> items);
         Task<BankReportModel> GetHeader(int id);

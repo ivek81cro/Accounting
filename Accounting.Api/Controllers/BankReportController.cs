@@ -39,6 +39,12 @@ namespace Accounting.Api.Controllers
             return _data.GetItems(HeaderId);
         }
 
+        [HttpGet("GetProcessed/")]
+        public List<int> GetProcessed()
+        {
+            return _data.GetProcessedReports();
+        }
+
         [HttpGet("GetHeader/{id}")]
         public BankReportItemModel GetHeader(int id)
         {

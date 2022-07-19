@@ -12,6 +12,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Xml.Serialization;
 
 namespace BankkStatementsModule.ViewModels
@@ -240,22 +242,39 @@ namespace BankkStatementsModule.ViewModels
 
         private bool CanProcess() => SelectedReportHeader != null && !SelectedReportHeader.Knjizen && ReportItems != null;
 
-        private void ProcessItem()
+        private async void ProcessItem()
         {
-            var entries = CreateJournalEntries();
-            var parameters = new DialogParameters();
-            parameters.Add("entries", entries);
-            _showDialog.ShowDialog("ProcessToJournal", parameters, async result =>
+            bool isProcessed = await CheckIfProcessedAsync();
+            if (!isProcessed)
             {
-                if (result.Result == ButtonResult.OK)
+                var entries = CreateJournalEntries();
+                var parameters = new DialogParameters();
+                parameters.Add("entries", entries);
+                _showDialog.ShowDialog("ProcessToJournal", parameters, async result =>
                 {
-                    SelectedReportHeader.Knjizen = true;
-                    await _bankReportEndpoint.UpdateHeader(SelectedReportHeader);
-                    SelectedReportItem = null;
-                    ReportItems = null;
-                }
-            });
+                    if (result.Result == ButtonResult.OK)
+                    {
+                        SelectedReportHeader.Knjizen = true;
+                        await _bankReportEndpoint.UpdateHeader(SelectedReportHeader);
+                        SelectedReportItem = null;
+                        ReportItems = null;
+                    }
+                });
+            }
+
+            else
+            {
+                MessageBox.Show("Izvod već postoji u dnevniku knjiženja");
+            }
+
             _isDelete = false;
+        }
+
+        private async Task<bool> CheckIfProcessedAsync()
+        {
+            List<int> processed = await _bankReportEndpoint.GetProcessed();
+            return processed.Exists(x => x == _reportHeader.RedniBroj);
+
         }
         #endregion
 

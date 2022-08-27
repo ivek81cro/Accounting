@@ -282,8 +282,8 @@ namespace BookUraModule.ViewModels
                 CassaSconto = decimal.Parse(val[19].ToString()),
                 NettoRuc = decimal.Parse(val[20].ToString()),
                 PovratnaNaknada = decimal.Parse(val[21].ToString()),
-                PorezniBroj = val[22].ToString(),
-                BrojUKnjiziUra = int.Parse(val[23].ToString())
+                PorezniBroj = val[25].ToString(),
+                BrojUKnjiziUra = int.Parse(val[26].ToString())
             });
         }
         #endregion

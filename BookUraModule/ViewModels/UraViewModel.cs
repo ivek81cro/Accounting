@@ -20,7 +20,7 @@ namespace BookUraModule.ViewModels
     public class UraViewModel : ViewModelBase
     {
         private readonly IXlsFileReader _xlsFileReader;
-        private readonly IBookUraRestEndpoint _bookUraEndpoint;
+        private readonly IBookUraRestEndpoint _bookUraRestEndpoint;
         private readonly IDialogService _showDialog;
         private readonly IBookAccountSettingsEndpoint _settingsEndpoint;
         private readonly IAccountPairsEndpoint _accoutPairsEndpoint;
@@ -29,17 +29,17 @@ namespace BookUraModule.ViewModels
         private readonly string _bookName;
 
         private bool _loaded = false;
-        private int _maxPrimka;
+        private int _maxUraRedniBroj;
 
         public UraViewModel(IXlsFileReader xlsFileReader,
-                             IBookUraRestEndpoint bookUraEndpoint,
+                             IBookUraRestEndpoint bookUraRestEndpoint,
                              IDialogService showDialog,
                              IBookAccountSettingsEndpoint settingsEndpoint,
                              IAccountPairsEndpoint accoutPairsEndpoint,
                              IProcessToJournalService processToJournalService)
         {
             _xlsFileReader = xlsFileReader;
-            _bookUraEndpoint = bookUraEndpoint;
+            _bookUraRestEndpoint = bookUraRestEndpoint;
             _showDialog = showDialog;
             _settingsEndpoint = settingsEndpoint;
             _accoutPairsEndpoint = accoutPairsEndpoint;
@@ -174,8 +174,8 @@ namespace BookUraModule.ViewModels
 
         private async Task LoadInitialData()
         {
-            var primke = await _bookUraEndpoint.GetAll();
-            UraRestInvoices = new ObservableCollection<BookUraRestModel>(primke);
+            var ulazniRacuni = await _bookUraRestEndpoint.GetAll();
+            UraRestInvoices = new ObservableCollection<BookUraRestModel>(ulazniRacuni);
         }
 
         private void DatagridLoaded() => IsLoading = false;
@@ -262,7 +262,7 @@ namespace BookUraModule.ViewModels
         #region Load data from file
         private async void LoadDataFromFile()
         {
-            _maxPrimka = UraRestInvoices.Count > 0 ? UraRestInvoices.Max(y => y.RedniBroj) : 0;
+            _maxUraRedniBroj = UraRestInvoices.Count > 0 ? UraRestInvoices.Max(y => y.RedniBroj) : 0;
 
             OpenFileDialog ofd = new OpenFileDialog
             {
@@ -360,11 +360,11 @@ namespace BookUraModule.ViewModels
 
         private async void SaveToDatabase()
         {
-            IEnumerable<BookUraRestModel> primke = UraRestInvoices.Where(x => x.RedniBroj > _maxPrimka);
+            IEnumerable<BookUraRestModel> primke = UraRestInvoices.Where(x => x.RedniBroj > _maxUraRedniBroj);
             var list = new List<BookUraRestModel>(primke);
             
             IsLoading = true;
-            await _bookUraEndpoint.PostPrimke(list);
+            await _bookUraRestEndpoint.PostPrimke(list);
 
             _loaded = false;
             LoadPrimke();
@@ -501,7 +501,7 @@ namespace BookUraModule.ViewModels
                 else
                 {
                     SelectedUraPrimke.Knjizen = true;
-                    await _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.RedniBroj);
+                    await _bookUraRestEndpoint.MarkAsProcessed(SelectedUraPrimke.RedniBroj);
                 }
             }
         }
@@ -516,7 +516,7 @@ namespace BookUraModule.ViewModels
                 if (result.Result == ButtonResult.OK)
                 {
                     SelectedUraPrimke.Knjizen = true;
-                    _bookUraEndpoint.MarkAsProcessed(SelectedUraPrimke.RedniBroj);
+                    _bookUraRestEndpoint.MarkAsProcessed(SelectedUraPrimke.RedniBroj);
                 }
             });
         }
@@ -580,7 +580,7 @@ namespace BookUraModule.ViewModels
         #region Row editing
         private async void EditSelectedRow()
         {
-            await _bookUraEndpoint.PostRow(SelectedUraPrimke);
+            await _bookUraRestEndpoint.PostRow(SelectedUraPrimke);
         }
 
         private bool CanEditRow() => SelectedUraPrimke != null;

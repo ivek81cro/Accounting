@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>0fd9c107-e7a3-47fa-a46b-df41a02f1dc5</UserSecretsId>
   </PropertyGroup>
 
@@ -27,5 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Accounting.DataManager\Accounting.DataManager.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1development_1json__JsonSchema="https://appsemble.app/api.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

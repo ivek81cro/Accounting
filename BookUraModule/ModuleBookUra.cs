@@ -18,7 +18,7 @@ namespace BookUraModule
         {
             containerRegistry.RegisterForNavigation<PrimkeView>();
             containerRegistry.RegisterForNavigation<PrimkeRepro>();
-            containerRegistry.RegisterForNavigation<RestView>();
+            containerRegistry.RegisterForNavigation<UraView>();
             containerRegistry.RegisterForNavigation<PrimkeDiscounts>();
 
             containerRegistry.RegisterDialog<CalculationDialog>("UraCalculation");

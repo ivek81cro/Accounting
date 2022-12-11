@@ -59,7 +59,7 @@
                 <MenuItem Header="URA">
                     <MenuItem Header="Svi ulazni računi" 
                               Command="{Binding ShowMenuSelectedViewCommand}"
-                              CommandParameter="RestView"/>
+                              CommandParameter="UraView"/>
                     <MenuItem Header="Primke robe" 
                               Command="{Binding ShowMenuSelectedViewCommand}"
                               CommandParameter="PrimkeView"/>

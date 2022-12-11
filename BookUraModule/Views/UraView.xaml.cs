@@ -18,9 +18,9 @@ namespace BookUraModule.Views
     /// <summary>
     /// Interaction logic for RestView.xaml
     /// </summary>
-    public partial class RestView : UserControl
+    public partial class UraView : UserControl
     {
-        public RestView()
+        public UraView()
         {
             InitializeComponent();
         }

@@ -17,7 +17,7 @@ using System.Windows.Threading;
 
 namespace BookUraModule.ViewModels
 {
-    public class RestViewModel : ViewModelBase
+    public class UraViewModel : ViewModelBase
     {
         private readonly IXlsFileReader _xlsFileReader;
         private readonly IBookUraRestEndpoint _bookUraEndpoint;
@@ -31,7 +31,7 @@ namespace BookUraModule.ViewModels
         private bool _loaded = false;
         private int _maxPrimka;
 
-        public RestViewModel(IXlsFileReader xlsFileReader,
+        public UraViewModel(IXlsFileReader xlsFileReader,
                              IBookUraRestEndpoint bookUraEndpoint,
                              IDialogService showDialog,
                              IBookAccountSettingsEndpoint settingsEndpoint,

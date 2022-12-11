@@ -17,7 +17,7 @@ namespace AccountingUI.Core.TabControlRegion
             PrimkeView,
             AccountsView,
             PrimkeRepro,
-            RestView,
+            UraView,
             IraView,
             CashRegisterBookView,
             PrimkeDiscounts,
@@ -61,7 +61,7 @@ namespace AccountingUI.Core.TabControlRegion
                     return "URA-Repromaterijal";
                 case ViewNames.PrimkeDiscounts:
                     return "URA-Odobrenja";
-                case ViewNames.RestView:
+                case ViewNames.UraView:
                     return "URA-sve";
                 case ViewNames.IraView:
                     return "IRA-sve";

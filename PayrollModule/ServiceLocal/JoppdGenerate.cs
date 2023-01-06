@@ -4,6 +4,7 @@ using PayrollModule.ServiceLocal.EporeznaModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Pkcs;
 using System.Threading.Tasks;
 
 namespace PayrollModule.ServiceLocal
@@ -27,6 +28,8 @@ namespace PayrollModule.ServiceLocal
             var payrolls = _archive.Payrolls.Where(x => x.Oib != null);
 
             AddRecipients(joppdEmployee);
+
+            decimal zbrojPorezPrirez = SumPorezPrirez(_pArr);
 
             CompanyModel c = await _companyEndpoint.Get();
             sStranaA strA = new sStranaA()
@@ -57,8 +60,8 @@ namespace PayrollModule.ServiceLocal
                 BrojRedaka = _pArr.Count.ToString(),
                 PredujamPoreza = new sPredujamPoreza()
                 {
-                    P1 = payrolls.Sum(x => x.UkupnoPorezPrirez),
-                    P11 = payrolls.Sum(x => x.UkupnoPorezPrirez),
+                    P1 = zbrojPorezPrirez,
+                    P11 = zbrojPorezPrirez,
                     P12 = 0,
                     P2 = 0,
                     P3 = 0,
@@ -147,6 +150,17 @@ namespace PayrollModule.ServiceLocal
             sJoppd.Metapodaci = meta;
 
             return sJoppd;
+        }
+
+        private decimal SumPorezPrirez(List<sPrimateljiP> pArr)
+        {
+            decimal sum = 0;
+            foreach (var p in pArr)
+            {
+                sum += p.P141 + p.P142;
+            }
+
+            return sum;
         }
 
         private decimal SumHealthcareEmployee(List<sPrimateljiP> pArr)

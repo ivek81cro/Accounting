@@ -91,6 +91,7 @@ namespace BookUraModule.ServiceLocal
                     Racuni = GeneratBody(),
                     Ukupno = new sRacuniUkupno
                     {
+                        U19 = uraList.Sum(x => x.NeMozeSeOdbiti), 
                         U8 = uraList.Sum(x => x.PoreznaOsnovica5),
                         U9 = uraList.Sum(x => x.PoreznaOsnovica13),
                         U10 = uraList.Sum(x => x.PoreznaOsnovica25),
@@ -101,7 +102,7 @@ namespace BookUraModule.ServiceLocal
                         U15 = uraList.Sum(x => x.PretporezT13),
                         U16 = 0,
                         U17 = uraList.Sum(x => x.PretporezT25),
-                        U18 = 0
+                        U18 = 0,
                     }
                 }
             };
@@ -125,6 +126,7 @@ namespace BookUraModule.ServiceLocal
                         R5 = item.SjedisteDobavljaca,
                         R6 = 1,
                         R7 = item.OIB,
+                        R19 = item.NeMozeSeOdbiti,
                         R8 = item.PoreznaOsnovica5,
                         R9 = item.PoreznaOsnovica13,
                         R10 = item.PoreznaOsnovica25,

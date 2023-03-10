@@ -29,7 +29,7 @@ namespace BookUraModule.ServiceLocal
                 {
                     Naslov = new sNaslovTemeljni()
                     {
-                        Value = "Knjiga primljenih (ulaznih) računa"
+                        Value = "Obrazac U-RA"
                     },
                     Autor = new sAutorTemeljni { Value = autor },
                     Datum = new sDatumTemeljni { Value = DateTime.Now },
@@ -47,7 +47,7 @@ namespace BookUraModule.ServiceLocal
                     },
                     Uskladjenost = new sUskladjenost()
                     {
-                        Value = "ObrazacURA-v1-0"
+                        Value = "ObrazacURA-v2-0"
                     },
                     Tip = new sTipTemeljni()
                     {

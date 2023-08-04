@@ -171,7 +171,7 @@ namespace AssetsModule.Dialogs
                 Konto = konto,
                 Dugovna = side == "Dugovna" ? IznosAmortizacije : 0,
                 Potrazna = side == "Potražna" ? IznosAmortizacije : 0,
-                Valuta = "HRK",
+                Valuta = "EUR",
                 VrstaTemeljnice = _bookName
             };
         }

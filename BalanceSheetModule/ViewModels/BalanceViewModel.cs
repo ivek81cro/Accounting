@@ -301,7 +301,7 @@ namespace BalanceSheetModule.ViewModels
                         Broj=0,
                         Konto=item.Konto,
                         Datum=new DateTime(DateTime.Today.Year, 01,01),
-                        Valuta="HRK",
+                        Valuta="EUR",
                         Dugovna = item.Stanje > 0?item.Stanje:0,
                         Potrazna = item.Stanje < 0?item.Stanje*(-1):0,
                         VrstaTemeljnice="Pocetno stanje"

@@ -8,5 +8,5 @@ BEGIN
 	DatumKnjizenja
 	FROM AccountingJournal
 	WHERE BrojTemeljnice = @BrojTemeljnice
-	ORDER BY Broj ASC;
+	ORDER BY Konto ASC;
 END

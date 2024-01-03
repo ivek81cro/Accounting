@@ -8,6 +8,8 @@
         public string Zupanija { get; set; }
         public string Drzava { get; set; }
         public decimal Prirez { get; set; }
+        public decimal Porez1 { get; set; }
+        public decimal Porez2 { get; set; }
         public string Sifra { get; set; }
     }
 }

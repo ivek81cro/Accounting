@@ -12,9 +12,10 @@ namespace PayrollModule.ServiceLocal
             _config = config;
         }
 
-        public void Calculate(PayrollModel p, decimal prirez, decimal osobniOdbitak)
+        public void Calculate(PayrollModel p, CityModel grad, decimal osobniOdbitak)
         {
             decimal iznos = p.Bruto;
+            iznos = iznos < 1300 ? iznos-((1300 - iznos) * 0.5m) : iznos;
             if (p.SamoPrviStupMio)
             {
                 iznos -= p.Mio1 = iznos * (_config.GetValue<decimal>("Mio1") + _config.GetValue<decimal>("Mio2"));
@@ -23,12 +24,14 @@ namespace PayrollModule.ServiceLocal
             else
             {
                 p.Mio1 = iznos * _config.GetValue<decimal>("Mio1");
-                p.Mio2 = iznos * _config.GetValue<decimal>("Mio2");
-                iznos -= p.Mio1 + p.Mio2;
+                p.Mio2 = p.Bruto * _config.GetValue<decimal>("Mio2");
+                iznos = p.Bruto - (p.Mio1 + p.Mio2);
             }
             p.Dohodak = iznos;
-            iznos -= p.Odbitak = (_config.GetValue<decimal>("Odbitak") * _config.GetValue<decimal>("KoefOdbitka")) + 
-                osobniOdbitak * _config.GetValue<decimal>("Odbitak");
+            decimal odbitakLoc = _config.GetValue<decimal>("Odbitak");
+            decimal koefOdbitkaLoc = _config.GetValue<decimal>("KoefOdbitka");
+            decimal odbitakZaposlenika = odbitakLoc + (osobniOdbitak * odbitakLoc * koefOdbitkaLoc);
+            iznos -= p.Odbitak = odbitakZaposlenika;
             if (iznos < 0)
             {
                 iznos = 0;
@@ -36,18 +39,21 @@ namespace PayrollModule.ServiceLocal
             }
             p.PoreznaOsnovica = iznos;
 
-            if (p.PoreznaOsnovica > 30000)
+            if (p.PoreznaOsnovica > 4200)
             {
-                iznos -= p.PoreznaStopa1 = 30000.0m * _config.GetValue<decimal>("PorezDohodak1");
-                iznos -= p.PoreznaStopa1 = (p.PoreznaOsnovica - 30000) * _config.GetValue<decimal>("PorezDohodak2");
+                iznos -= p.PoreznaStopa1 = 4200 * grad.Porez1;
+                iznos -= p.PoreznaStopa2 = (p.PoreznaOsnovica - 4200) * grad.Porez2;
+                p.UkupnoPorez = p.PoreznaStopa1 + p.PoreznaStopa2;
             }
             else
             {
-                iznos -= p.PoreznaStopa1 = p.PoreznaOsnovica * _config.GetValue<decimal>("PorezDohodak1");
+                p.PoreznaStopa1 = (p.PoreznaOsnovica * grad.Porez1/100m);
                 p.PoreznaStopa2 = 0;
+
+                iznos -= p.PoreznaStopa1 - p.PoreznaStopa2;
+                p.UkupnoPorez = p.PoreznaStopa1 + p.PoreznaStopa2;
             }
-            iznos -= p.Prirez = (p.UkupnoPorez = p.PoreznaStopa1 + p.PoreznaStopa2) * prirez / 100;
-            p.UkupnoPorezPrirez = p.UkupnoPorez + p.Prirez;
+            p.UkupnoPorezPrirez = p.UkupnoPorez;
             p.Neto = iznos + p.Odbitak;
 
             p.DoprinosZdravstvo = p.Bruto * _config.GetValue<decimal>("DoprinosZdravstvo");

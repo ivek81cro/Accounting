@@ -1,11 +1,15 @@
 ﻿using AccountingUI.Core.Models;
 using AccountingUI.Core.Services;
+using ImTools;
 using PayrollModule.ServiceLocal.EporeznaModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Runtime.Intrinsics.X86;
 using System.Security.Cryptography.Pkcs;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PayrollModule.ServiceLocal
 {
@@ -253,6 +257,7 @@ namespace PayrollModule.ServiceLocal
             for (int i = 0; i < _archive.Payrolls.Where(x => x.Oib != null).Count(); i++)
             {
                 var p = _archive.Payrolls[i];
+                bool odbitakMIO1 = p.Bruto < 1300;
                 var e = joppdEmployee.Where(j => j.Oib == p.Oib).FirstOrDefault();
                 _pArr.Add(new sPrimateljiP()
                 {
@@ -264,12 +269,18 @@ namespace PayrollModule.ServiceLocal
                     P61 = (tOznakaStjecatelja)Enum.Parse(typeof(tOznakaStjecatelja), "Item" + e.OznakaStjecatelja),
                     P62 = (tOznakaPrimici)Enum.Parse(typeof(tOznakaPrimici), "Item" + e.OznakaPrimitka),
                     P71 = (tOznakaMO)Enum.Parse(typeof(tOznakaMO), e.DodatniMio),
+                    //TODO: Polje B 7.2 Oznaka načina umanjenja mjesečne osnovice za obračun doprinosa za MO I na temelju generacijske solidarnosti 
+                    //0 - stjecatelj nema pravo na umanjenje
+                    //1 – stjecatelj ima jednog poslodavca
+                    //2 - za stjecatelja se koriste podaci Porezne uprave o svoti umanjenja mjesečne osnovice
+                    //3 - stjecatelj ima više poslodavaca i dostavlja izjavu o iznosima mjesečnih bruto plaća
+                    //!!!**privremeno rješenje, korištenje starog šifrarnika u bazi podataka za nove vrijednosti obrasca !!!****
                     P72 = (tOznakaInvaliditet)Enum.Parse(typeof(tOznakaInvaliditet), "Item" + e.ObvezaInvaliditet),
                     P8 = (tOznakaMjesec)Enum.Parse(typeof(tOznakaMjesec), "Item" + e.PrviZadnjiMjesec),
                     P9 = (tOznakaRadnoVrijeme)Enum.Parse(typeof(tOznakaRadnoVrijeme), "Item" + e.PunoNepunoRadnoVrijeme),
                     P10 = IsPoslodavac(e) ?
-                        int.Parse((Convert.ToDateTime(_archive.Header.DatumDo) -
-                            Convert.ToDateTime(_archive.Header.DatumOd)).Days.ToString()) + 1 :
+                    int.Parse((Convert.ToDateTime(_archive.Header.DatumDo) -
+                    Convert.ToDateTime(_archive.Header.DatumOd)).Days.ToString()) + 1 :
                         _archive.Header.SatiRada,
                     P100 = IsPoslodavac(e) ? 0 : _archive.Header.SatiPraznika,
                     P101 = Convert.ToDateTime(_archive.Header.DatumOd),
@@ -283,7 +294,9 @@ namespace PayrollModule.ServiceLocal
                     P125 = 0,
                     P126 = 0,
                     P127 = 0,
-                    P129 = 0,
+                    // TODO: Polje B 12.9 Svota umanjenja mjesečne osnovice za obračun doprinosa za MO na temelju generacijske solidarnosti 
+                    //!!!!!Privremeno rješenje, direktan izračun!!!!!***
+                    P129 = odbitakMIO1?(1300-p.Bruto)*0.5m:0,
                     P131 = 0,
                     P132 = p.Mio1 + p.Mio2,
                     P133 = p.Dohodak,
@@ -294,7 +307,7 @@ namespace PayrollModule.ServiceLocal
                     P161 = (tOznakaNacinaIsplate)Enum.Parse(typeof(tOznakaNacinaIsplate), e.NacinIsplate),
                     P162 = p.Neto,
                     P17 = IsPoslodavac(e) ? 0 : p.Bruto
-                });
+                }) ;
                 
 
                 var supplements = _archive.Supplements.Where(x => x.Oib == p.Oib);

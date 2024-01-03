@@ -4,6 +4,6 @@ namespace PayrollModule.ServiceLocal
 {
     public interface IPayrollCalculation
     {
-        void Calculate(PayrollModel p, decimal prirez, decimal olaksica);
+        void Calculate(PayrollModel p, CityModel grad, decimal olaksica);
     }
 }

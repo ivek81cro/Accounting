@@ -432,7 +432,7 @@ namespace PayrollModule.ViewModels
             payroll.Bruto = _selectedPayroll.Bruto;
             EmployeeModel employee = await _employeeEndpoint.GetByOib(_selectedPayroll.Oib);
             CityModel city = await _cityEndpoint.GetByName(employee.Mjesto);
-            _payrollCalculation.Calculate(payroll, city.Prirez, employee.Olaksica);
+            _payrollCalculation.Calculate(payroll, city, employee.Olaksica);
             _mapper.Map(payroll, SelectedPayroll);
         }
         #endregion

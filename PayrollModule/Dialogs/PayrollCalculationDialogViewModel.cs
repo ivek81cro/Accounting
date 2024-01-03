@@ -100,7 +100,7 @@ namespace PayrollModule.Dialogs
 
         private void CalculatePayroll()
         {
-            _payrollCalculation.Calculate(Payroll, City.Prirez, Employee.Olaksica);
+            _payrollCalculation.Calculate(Payroll, City, Employee.Olaksica);
         }
     }
 }

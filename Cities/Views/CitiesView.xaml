@@ -60,6 +60,8 @@
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}"/>
                 <DataGridTextColumn Header="Šifra" Binding="{Binding Sifra}"/>
                 <DataGridTextColumn Header="Prirez(%)" Binding="{Binding Prirez}"/>
+                <DataGridTextColumn Header="Porez 1(%)" Binding="{Binding Porez1}"/>
+                <DataGridTextColumn Header="Porez 2(%)" Binding="{Binding Porez2}"/>                
                 <DataGridTextColumn Header="Pošta" Binding="{Binding Posta}"/>
                 <DataGridTextColumn Header="Naziv" Binding="{Binding Mjesto}"/>
                 <DataGridTextColumn Header="Županija" Binding="{Binding Zupanija}"/>

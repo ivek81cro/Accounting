@@ -6,5 +6,7 @@
 	[Drzava] [nvarchar](75) NULL,
 	[Posta] [nvarchar](10) NULL,
 	[Prirez] [decimal](8, 2) NULL,
-	[Sifra] [nvarchar](10) NULL,
+	[Sifra] [nvarchar](10) NULL, 
+    [Porez1] DECIMAL(8, 2) NULL, 
+    [Porez2] DECIMAL(8, 2) NULL,
 )

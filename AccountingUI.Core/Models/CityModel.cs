@@ -34,6 +34,21 @@ namespace AccountingUI.Core.Models
             set { SetProperty(ref _prirez, value); }
         }
 
+        private decimal _porez1;
+        [Required]
+        public decimal Porez1
+        {
+            get { return _porez1; }
+            set { SetProperty(ref _porez1, value); }
+        }
+        private decimal _porez2;
+        [Required]
+        public decimal Porez2
+        {
+            get { return _porez2; }
+            set { SetProperty(ref _porez2, value); }
+        }
+
         public string Sifra { get; set; }
 
         public void Reset()

@@ -284,9 +284,9 @@ namespace BookIraModule.ViewModels
                 RedniBroj = int.Parse(val[0].ToString()),
                 Datum = DateTime.Parse(val[1].ToString()),
                 Gotovina = decimal.Parse(val[2].ToString()),
-                KreditneKartice = decimal.Parse(val[5].ToString()),
-                Sveukupno = decimal.Parse(val[8].ToString()),
-                IznosSudjelovanja = decimal.Parse(val[10].ToString()),
+                KreditneKartice = decimal.Parse(val[3].ToString()),
+                Sveukupno = decimal.Parse(val[6].ToString()),
+                IznosSudjelovanja = decimal.Parse(val[8].ToString()),
             });
         }
         #endregion

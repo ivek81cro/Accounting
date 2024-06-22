@@ -3,7 +3,8 @@
 AS
 BEGIN
 	SET NOCOUNT ON;
-	SELECT Id
+	SELECT TOP 1 Id
 	FROM BankReport
-	WHERE RedniBroj = @RedniBroj;
+	WHERE RedniBroj = @RedniBroj
+	ORDER BY Id DESC;
 END

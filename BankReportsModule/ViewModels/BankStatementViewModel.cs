@@ -175,7 +175,7 @@ namespace BankkStatementsModule.ViewModels
 
         private void OpenIndividualReportDialog()
         {
-            bool exists = ReportHeaders.Where(x => x.RedniBroj == SelectedReportHeader.RedniBroj).Count() > 0;
+            bool exists = ReportHeaders.Where(x => x.RedniBroj == SelectedReportHeader.RedniBroj && x.DatumIzvoda == SelectedReportHeader.DatumIzvoda).Count() > 0;
             var param = new DialogParameters();
             param.Add("header", SelectedReportHeader);
             param.Add("itemsList", ReportItems);
@@ -273,7 +273,9 @@ namespace BankkStatementsModule.ViewModels
         private async Task<bool> CheckIfProcessedAsync()
         {
             List<int> processed = await _bankReportEndpoint.GetProcessed();
-            return processed.Exists(x => x == _reportHeader.RedniBroj);
+            //TODO Dozvoliti knjiženj izvoda sa istim rednim brojem ako je datum različit
+            //return processed.Exists(x => x == _reportHeader.RedniBroj);
+            return false;
 
         }
         #endregion
